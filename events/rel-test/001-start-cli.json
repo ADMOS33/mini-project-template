@@ -1,0 +1,11 @@
+{
+  "seq": 1,
+  "received_at": "2026-11-17T08:01:43.678383+00:00",
+  "hook_event_name": "session_start",
+  "event": {
+    "hook_event_name": "session_start",
+    "session_id": "rel-test",
+    "cwd": "/Users/romainrobbes/projects/mini-project-template",
+    "source": "cli"
+  }
+}
