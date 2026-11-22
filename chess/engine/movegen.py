@@ -1,9 +1,9 @@
 """Move generation: attack detection, pseudo-legal moves, legal moves and
 move application.
 
-Basic moves (pawn pushes/double-push/captures/promotions, knight, bishop,
-rook, queen, king) are fully implemented and filtered for king safety.
-Castling and en-passant *moves* are generated in a later phase.
+Basic moves (pawn pushes/double-push/captures/en-passant/promotions, knight,
+bishop, rook, queen, king) and castling are fully implemented and filtered
+for king safety.
 """
 
 from __future__ import annotations
@@ -125,6 +125,46 @@ def _slide_moves(board: Board, sq: int, color: Color, dirs: tuple, moves: list[M
             nr += dr
 
 
+def _castling_moves(board: Board, sq: int, color: Color, moves: list[Move]) -> None:
+    """Castling moves for a king on its home square, with every condition checked:
+    right present, rook on its corner, intermediate squares empty, king not in
+    check and neither crossing nor landing on an attacked square."""
+    rank = 0 if color is Color.WHITE else 7
+    if sq != square(4, rank):
+        return
+    enemy = color.opposite
+    if is_square_attacked(board, sq, enemy):
+        return  # may not castle out of check
+    king_right, queen_right = ("K", "Q") if color is Color.WHITE else ("k", "q")
+    if king_right in board.castling:
+        f, g = square(5, rank), square(6, rank)
+        rook = board.squares[square(7, rank)]
+        if (
+            rook is not None
+            and rook.type is PieceType.ROOK
+            and rook.color is color
+            and board.squares[f] is None
+            and board.squares[g] is None
+            and not is_square_attacked(board, f, enemy)
+            and not is_square_attacked(board, g, enemy)
+        ):
+            moves.append(Move(sq, g))  # e1g1 / e8g8
+    if queen_right in board.castling:
+        b, c, d = square(1, rank), square(2, rank), square(3, rank)
+        rook = board.squares[square(0, rank)]
+        if (
+            rook is not None
+            and rook.type is PieceType.ROOK
+            and rook.color is color
+            and board.squares[b] is None
+            and board.squares[c] is None
+            and board.squares[d] is None
+            and not is_square_attacked(board, c, enemy)
+            and not is_square_attacked(board, d, enemy)
+        ):
+            moves.append(Move(sq, c))  # e1c1 / e8c8
+
+
 def pseudo_legal_moves(board: Board, color: Color) -> list[Move]:
     """All pseudo-legal moves for ``color`` (king safety not checked)."""
     moves: list[Move] = []
@@ -137,6 +177,7 @@ def pseudo_legal_moves(board: Board, color: Color) -> list[Move]:
             _jump_moves(board, sq, color, KNIGHT_OFFSETS, moves)
         elif piece.type is PieceType.KING:
             _jump_moves(board, sq, color, KING_OFFSETS, moves)
+            _castling_moves(board, sq, color, moves)
         elif piece.type is PieceType.BISHOP:
             _slide_moves(board, sq, color, BISHOP_DIRS, moves)
         elif piece.type is PieceType.ROOK:
@@ -164,6 +205,15 @@ def apply_move(board: Board, move: Move) -> Board:
         Piece(move.promotion, piece.color) if move.promotion is not None else piece
     )
     new.squares[move.from_sq] = None
+    if piece.type is PieceType.KING and abs(move.to_sq - move.from_sq) == 2:
+        # Castling: the rook jumps to the other side of the king.
+        rank = square_rank(move.from_sq)
+        if square_file(move.to_sq) == 6:  # kingside
+            new.squares[square(5, rank)] = new.squares[square(7, rank)]
+            new.squares[square(7, rank)] = None
+        else:  # queenside
+            new.squares[square(3, rank)] = new.squares[square(0, rank)]
+            new.squares[square(0, rank)] = None
     if piece.type is PieceType.KING:
         new.castling.discard("K" if piece.color is Color.WHITE else "k")
         new.castling.discard("Q" if piece.color is Color.WHITE else "q")
