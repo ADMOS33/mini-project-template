@@ -54,6 +54,15 @@
           <div id="board" class="board" role="grid" aria-label="Échiquier"></div>
           <div id="promo-overlay" class="promo-overlay hidden" role="dialog" aria-label="Promotion"></div>
         </div>
+        <div id="review-banner" class="review-banner hidden">Position passée — lecture seule</div>
+        <div id="review-bar" class="review-bar hidden">
+          <button class="btn-icon" data-review="first" title="Début (Début)" aria-label="Début">⏮</button>
+          <button class="btn-icon" data-review="prev" title="Coup précédent (←)" aria-label="Précédent">◀</button>
+          <span id="review-label"></span>
+          <button class="btn-icon" data-review="next" title="Coup suivant (→)" aria-label="Suivant">▶</button>
+          <button class="btn-icon" data-review="last" title="Position actuelle (Fin)" aria-label="Dernier">⏭</button>
+          <button id="btn-exit-review" class="btn-secondary">▶ Jouer</button>
+        </div>
         <div id="status" class="status" role="status">chargement…</div>
       </section>
 

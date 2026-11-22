@@ -320,6 +320,9 @@ function renderAll() {
       }
     }
     state.symbols = symbols;
+    state.lastMove = entry.uci
+      ? { from: entry.uci.slice(0, 2), to: entry.uci.slice(2, 4), uci: entry.uci }
+      : null;
     render();
     setStatus(`Position passée — après ${state.reviewPly} demi-coup${state.reviewPly > 1 ? "s" : ""}`);
   } else if (state.boardData) {
@@ -328,7 +331,57 @@ function renderAll() {
   }
   renderPlayers();
   renderMovesTable();
+  renderReviewBar();
 }
+
+// --- Navigation dans l'historique (boutons + clavier) ---------------------------
+
+function renderReviewBar() {
+  const bar = document.getElementById("review-bar");
+  const banner = document.getElementById("review-banner");
+  if (state.reviewPly === null) {
+    bar.classList.add("hidden");
+    banner.classList.add("hidden");
+    return;
+  }
+  bar.classList.remove("hidden");
+  banner.classList.remove("hidden");
+  const lastPly = state.history.length - 1;
+  document.getElementById("review-label").textContent =
+    `coup ${state.reviewPly}/${lastPly}`;
+}
+
+function reviewStep(which) {
+  const lastPly = state.history.length - 1;
+  const cur = state.reviewPly === null ? lastPly : state.reviewPly;
+  const next = {
+    first: 0,
+    prev: Math.max(0, cur - 1),
+    next: Math.min(lastPly, cur + 1),
+    last: lastPly,
+  }[which];
+  state.reviewPly = next;
+  state.selected = null;
+  renderAll();
+}
+
+document.querySelectorAll("#review-bar [data-review]").forEach((btn) => {
+  btn.addEventListener("click", () => reviewStep(btn.dataset.review));
+});
+document.getElementById("btn-exit-review").addEventListener("click", () => {
+  state.reviewPly = null;
+  state.selected = null;
+  renderAll();
+  refresh();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+  if (e.key === "ArrowLeft") reviewStep("prev");
+  else if (e.key === "ArrowRight") reviewStep("next");
+  else if (e.key === "Home") reviewStep("first");
+  else if (e.key === "End") reviewStep("last");
+});
 
 // --- Boutons de base -------------------------------------------------------------
 

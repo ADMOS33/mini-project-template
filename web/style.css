@@ -539,3 +539,42 @@ input {
 }
 
 #moves-body tr { display: table; width: 100%; table-layout: fixed; }
+
+/* ==========================================================================
+   Navigation dans l'historique : bandeau + barre de revue.
+   ========================================================================== */
+
+.review-banner {
+  background: var(--elevated);
+  border: 1px solid var(--accent);
+  color: var(--accent-hover);
+  border-radius: var(--r8);
+  padding: var(--s1) var(--s3);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.review-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r12);
+  padding: var(--s1) var(--s2);
+}
+
+.review-bar .btn-icon {
+  width: 32px;
+  height: 32px;
+  font-size: 0.9rem;
+}
+
+#review-label {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  min-width: 7rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
