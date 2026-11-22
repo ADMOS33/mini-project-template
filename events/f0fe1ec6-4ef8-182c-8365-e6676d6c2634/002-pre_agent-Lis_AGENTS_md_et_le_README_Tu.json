@@ -1,0 +1,32 @@
+{
+  "seq": 2,
+  "received_at": "2026-11-22T20:07:48.136372+00:00",
+  "hook_event_name": "pre_agent",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_agent",
+    "agent_name": "default",
+    "turn_id": "turn-67adcb083207c8b82d393c44bf5afe85",
+    "prompt": [
+      "Lis AGENTS.md et le README. Tu vas exécuter le plan ci-dessous PHASE PAR PHASE, dans l'ordre, sans en sauter. Règles absolues pendant tout le travail :",
+      "- Un commit par étape numérotée (Conventional Commits). Jamais de commit avec un test rouge ; pour une cible pas encore atteinte, pytest.mark.xfail(strict=True, reason=...).",
+      "- Test d'abord : écrire le test, le voir échouer, corriger, committer test + code ensemble.",
+      "- Ne lance JAMAIS de process bloquant (uvicorn, serveur) : c'est moi qui le lance.",
+      "- N'implémente pas ce qui n'est pas demandé. Aucune règle d'échecs en JS ou dans l'API : tout vit dans le moteur.",
+      "- Ne touche jamais au dossier events/ ni à la config du hook, sauf pour le committer. Pas de nouvelle dépendance (pas de python-chess, pas de httpx).",
+      "- À la fin de CHAQUE phase : mets à jour le tableau « État d'avancement » d'AGENTS.md, puis git add events/ && git commit -m \"chore: add vibe session logs\". Si ta session est interrompue, la prochaine reprendra grâce à ce tableau.",
+      "",
+      "## Phase 1 — AGENTS.md et README",
+      "1. Ajoute à AGENTS.md : section « Ne jamais faire » (les règles ci-dessus), workflow test d'abord, Definition of Done (test de régression, pytest vert, README à jour si le comportement visible change), tableau « État d'avancement » par module (fait / à faire). Dans le README, marque chaque fonctionnalité ✅ ou 🚧 selon l'état RÉEL du code (vérifie dans le code). Commit docs:.",
+      "",
+      "## Phase 2 — Bugs",
+      "2. Game.undo() annule un coup de trop (après e2e4 e7e5 puis undo, l'historique vaut [e2e4] mais le plateau est revenu à la position initiale : play_uci empile une position déjà présente dans _positions). Test : FEN correcte après UN seul undo. Commit fix:.",
+      "3. chess load \"8/8/8/8/8/8/8/8 w - - 0 1\" affiche une traceback. board_from_fen lève une ValueError claire si un camp n'a pas exactement un roi, s'il y a des pions en 1re/8e rangée, ou si le camp qui n'a pas le trait est en échec. CLI : code retour 1, message \"invalid FEN\". Commit fix:.",
+      "4. Remplace l'assertion tautologique de tests/test_movegen.py (x == x) et l'assertion faible avec or de tests/test_cli.py. Commit test:.",
+      "5. chess/api/server.py _load() : un état corrompu (JSONDecodeError compris) donne une erreur claire, pas une nouvelle partie silencieuse. Commit fix:."
+    ]
+  }
+}

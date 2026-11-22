@@ -1,0 +1,30 @@
+{
+  "seq": 101,
+  "received_at": "2026-11-22T20:18:41.604374+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "8UoJXxSYX",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "old_string": [
+        "- Slice moteur actuel (démo locale) : coups normaux de toutes les pièces,",
+        "  promotion, filtre « roi pas en échec », échec/mat/pat, règle des 50 coups.",
+        "  **Roque, prise en passant, SAN, PGN, triple répétition et matériel",
+        "  insuffisant arrivent en phase 2** (perft compris)."
+      ],
+      "new_string": [
+        "- Slice moteur actuel : coups normaux de toutes les pièces, promotion, filtre",
+        "  « roi pas en échec », échec/mat/pat, règle des 50 coups, FEN, persistance JSON.",
+        "  **Roque, prise en passant, triple répétition et matériel insuffisant ne sont",
+        "  pas encore implémentés** (perft compris). SAN et PGN vivent pour l'instant dans",
+        "  la couche API (`chess/api/notation.py`), pas dans `chess/engine/`."
+      ]
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "seq": 46,
+  "received_at": "2026-11-22T20:11:09.256678+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "WTU9nd7Hx",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && python3 -m pytest -q 2>&1 | tail -15"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && python3 -m pytest -q 2>&1 | tail -15",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "==================================== ERRORS ====================================",
+        "______________________ ERROR collecting tests/test_api.py ______________________",
+        "ImportError while importing test module '/home/dilos/A3/agentic/mini-project-template/tests/test_api.py'.",
+        "Hint: make sure your test modules/packages have valid Python names.",
+        "Traceback:",
+        "/usr/lib/python3.14/importlib/__init__.py:88: in import_module",
+        "    return _bootstrap._gcd_import(name[level:], package, level)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "tests/test_api.py:5: in <module>",
+        "    from fastapi import HTTPException",
+        "E   ModuleNotFoundError: No module named 'fastapi'",
+        "=========================== short test summary info ============================",
+        "ERROR tests/test_api.py",
+        "!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!",
+        "1 error in 0.08s",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 521
+  }
+}

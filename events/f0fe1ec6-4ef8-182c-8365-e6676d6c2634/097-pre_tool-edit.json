@@ -1,0 +1,42 @@
+{
+  "seq": 97,
+  "received_at": "2026-11-22T20:18:35.775820+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "6blBKS6lL",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "old_string": [
+        "```bash",
+        "python3 -m chess new                 # nouvelle partie (persistée dans .chess_game.json)",
+        "python3 -m chess board               # échiquier ASCII",
+        "python3 -m chess moves               # coups légaux (UCI + SAN)",
+        "python3 -m chess move e2e4           # joue un coup (UCI ou SAN accepté)",
+        "python3 -m chess ai-move --depth 3   # coup de l'IA",
+        "python3 -m chess status              # au trait, échec, mat, nulle...",
+        "python3 -m chess undo / fen / load <fen> / pgn / history",
+        "python3 -m chess <commande> --json   # sortie structurée pour un agent",
+        "```"
+      ],
+      "new_string": [
+        "```bash",
+        "python3 -m chess new                 # nouvelle partie (persistée dans .chess_game.json) ✅",
+        "python3 -m chess board               # échiquier ASCII ✅",
+        "python3 -m chess moves               # coups légaux (UCI) ✅",
+        "python3 -m chess move e2e4           # joue un coup (UCI) ✅",
+        "python3 -m chess status              # au trait, échec, mat, nulle... ✅",
+        "python3 -m chess undo / fen / load <fen> / history   # ✅",
+        "python3 -m chess ai-move --depth 3   # 🚧 pas encore implémenté côté CLI (dispo via l'API)",
+        "python3 -m chess pgn                 # 🚧 idem (export PGN dispo via l'API)",
+        "python3 -m chess <commande> --json   # sortie structurée pour un agent ✅",
+        "```"
+      ]
+    }
+  }
+}

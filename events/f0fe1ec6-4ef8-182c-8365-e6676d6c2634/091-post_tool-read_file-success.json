@@ -1,0 +1,40 @@
+{
+  "seq": 91,
+  "received_at": "2026-11-22T20:16:05.368417+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.read_file",
+    "tool_call_id": "kgUmQiHhx",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/tests/test_smoke.py"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "content": [
+        "\"\"\"Smoke test: the package skeleton imports cleanly.\"\"\"",
+        "",
+        "import chess",
+        "",
+        "",
+        "def test_package_exposes_version() -> None:",
+        "    assert chess.__version__ == \"0.1.0\"",
+        ""
+      ],
+      "file_size_bytes": 156,
+      "lines_read": 7,
+      "next_offset": null,
+      "offset": 0,
+      "path": "/home/dilos/A3/agentic/mini-project-template/tests/test_smoke.py",
+      "returned_bytes": 156,
+      "total_lines": 7,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 144
+  }
+}

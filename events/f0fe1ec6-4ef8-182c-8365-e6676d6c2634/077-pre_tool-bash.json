@@ -1,0 +1,53 @@
+{
+  "seq": 77,
+  "received_at": "2026-11-22T20:13:28.151073+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "6yEdD5fl3",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python - <<'EOF'",
+        "import random, tempfile, os",
+        "from chess.engine.game import Game",
+        "from chess.engine.fen import board_to_fen",
+        "",
+        "random.seed(42)",
+        "path = os.path.join(tempfile.mkdtemp(), \"s.json\")",
+        "fails = 0",
+        "for trial in range(300):",
+        "    g = Game(); g.save(path)",
+        "    played = []",
+        "    for step in range(random.randint(1, 12)):",
+        "        g = Game.load(path)",
+        "        moves = g.legal_moves()",
+        "        if not moves: break",
+        "        m = random.choice(moves)",
+        "        g.play_uci(m.to_uci()); g.save(path)",
+        "        played.append(m.to_uci())",
+        "    for k in range(len(played)):",
+        "        g = Game.load(path)",
+        "        g.undo(); g.save(path)",
+        "        fens = g.position_fens()",
+        "        cur = board_to_fen(g.board)",
+        "        if len(fens) != len(g.moves) + 1:",
+        "            print(f\"trial {trial} undo {k}: LEN MISMATCH moves={len(g.moves)} positions={len(fens)}\"); fails += 1",
+        "        if fens and fens[-1] != cur:",
+        "            print(f\"trial {trial} undo {k}: positions[-1] != current\\n  {fens[-1]}\\n  {cur}\"); fails += 1",
+        "        g2 = Game()",
+        "        for u in [m.to_uci() for m in g.moves]:",
+        "            g2.play_uci(u)",
+        "        if board_to_fen(g2.board) != cur:",
+        "            print(f\"trial {trial} undo {k}: REPLAY MISMATCH\\n  replay {board_to_fen(g2.board)}\\n  cur    {cur}\"); fails += 1",
+        "print(\"fails:\", fails)",
+        "EOF"
+      ]
+    }
+  }
+}

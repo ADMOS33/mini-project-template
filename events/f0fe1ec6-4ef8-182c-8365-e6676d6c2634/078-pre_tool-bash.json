@@ -1,0 +1,33 @@
+{
+  "seq": 78,
+  "received_at": "2026-11-22T20:13:28.155658+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "mzHnOg3b0",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python - <<'EOF'",
+        "# from_dict with legacy state (no \"positions\" key) — undo behavior?",
+        "from chess.engine.game import Game",
+        "d = {\"fen\": \"rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2\", \"moves\": [\"e2e4\", \"e7e5\"]}",
+        "g = Game.from_dict(d)",
+        "print(\"positions:\", g.position_fens())",
+        "try:",
+        "    g.undo()",
+        "    print(\"after undo:\", g.status()[\"fen\"], [m.to_uci() for m in g.moves])",
+        "    g.undo()",
+        "    print(\"after undo2:\", g.status()[\"fen\"], [m.to_uci() for m in g.moves])",
+        "except Exception as e:",
+        "    print(\"CRASH:\", type(e).__name__, e)",
+        "EOF"
+      ]
+    }
+  }
+}
