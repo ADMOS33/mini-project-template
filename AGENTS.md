@@ -118,7 +118,7 @@ Messages d'erreur clairs : coup illégal → liste des coups légaux.
 
 - **Rafiq** : moteur (`chess/engine/`)
 - **Adam** : CLI / API / IA (`chess/cli/`, `chess/api/`, `chess/ai/`)
-- **Hafsa** : interface web (`web/`)
+- **Agent (Vibe)** : interface web (`web/`)
 
 Le développement est réalisé principalement par l'agent ; les membres
 relacent/valident par revue.

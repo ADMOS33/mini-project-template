@@ -18,7 +18,7 @@ d'un **adversaire classique** (minimax + élagage alpha-beta, pas d'IA générat
 |--------|-----------|
 | **Rafiq** | Moteur d'échecs — `chess/engine/` |
 | **Adam**  | CLI, API HTTP, IA — `chess/cli/`, `chess/api/`, `chess/ai/` |
-| **Hafsa** | Interface web — `web/` |
+| **Agent (Vibe)** | Interface web — `web/` (développée par l'agent, relue par l'équipe) |
 
 ## Fonctionnalités
 
@@ -219,7 +219,7 @@ sous-commandes.
 4. **IA** (Adam) — évaluation statique + minimax alpha-beta, tests. ✅
 5. **API HTTP** (Adam) — FastAPI + schémas + tests (SAN, PGN import/export,
    `ai-move`). ✅
-6. **Web** (Hafsa) — échiquier jouable vanilla JS branché sur l'API. ✅
+6. **Web** (agent) — échiquier jouable vanilla JS branché sur l'API. ✅
 7. **Finitions** (tous) — ✅ règles complètes + perft au vert, ✅ skill agent
    `skills/chess-cli/` (avec `example_game.pgn` jouée via la CLI seule) ;
    🚧 `report.md` (retour d'expérience demandé par le cours).
