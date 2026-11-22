@@ -29,7 +29,12 @@
 
     <div class="layout">
       <aside class="panel panel-left" id="panel-left"></aside>
-      <section class="board-col" id="board-col"></section>
+      <section class="board-col" id="board-col">
+        <div class="board-wrap">
+          <div id="board" class="board" role="grid" aria-label="Échiquier"></div>
+        </div>
+        <div id="status" class="status" role="status">chargement…</div>
+      </section>
       <aside class="panel panel-right" id="panel-right"></aside>
     </div>
   </main>
