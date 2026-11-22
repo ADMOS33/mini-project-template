@@ -1,0 +1,19 @@
+{
+  "seq": 163,
+  "received_at": "2026-11-22T19:00:51.273729+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "XJAupUIhN",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_cli.py",
+      "old_string": "    assert \"rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2\" in out",
+      "new_string": "    assert \"rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2\" in out"
+    }
+  }
+}

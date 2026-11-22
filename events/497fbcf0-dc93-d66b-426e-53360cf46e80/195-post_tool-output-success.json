@@ -1,0 +1,41 @@
+{
+  "seq": 195,
+  "received_at": "2026-11-22T19:03:13.243930+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "process.output",
+    "tool_call_id": "typescript:128:8sAiB0tgN:0:tool:0",
+    "tool_input": {
+      "from": "end",
+      "processId": "process-255310fd016a-52a1a4fdbdc5b54c4a8b50b7",
+      "waitMs": 6000
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "bytesAvailable": 468,
+      "exitCode": null,
+      "hasMore": false,
+      "nextCursor": 468,
+      "output": [
+        "\u001b[32mINFO\u001b[0m:     Will watch for changes in these directories: ['/Users/rafiq/3A/projet-AI/mini-project-template']\r",
+        "\u001b[32mINFO\u001b[0m:     Uvicorn running on \u001b[1mhttp://127.0.0.1:8000\u001b[0m (Press CTRL+C to quit)\r",
+        "\u001b[32mINFO\u001b[0m:     Started reloader process [\u001b[36m\u001b[1m58334\u001b[0m] using \u001b[36m\u001b[1mStatReload\u001b[0m\r",
+        "\u001b[32mINFO\u001b[0m:     Started server process [\u001b[36m58338\u001b[0m]\r",
+        "\u001b[32mINFO\u001b[0m:     Waiting for application startup.\r",
+        "\u001b[32mINFO\u001b[0m:     Application startup complete.\r",
+        ""
+      ],
+      "outputStartCursor": 0,
+      "processId": "process-255310fd016a-52a1a4fdbdc5b54c4a8b50b7",
+      "status": "running",
+      "truncatedBefore": false
+    },
+    "tool_error": null,
+    "duration_ms": 17
+  }
+}

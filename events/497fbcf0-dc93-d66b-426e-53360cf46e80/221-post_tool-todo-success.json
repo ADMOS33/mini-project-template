@@ -1,0 +1,149 @@
+{
+  "seq": 221,
+  "received_at": "2026-11-22T19:07:23.047070+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "vibe.todo",
+    "tool_call_id": "Vhy7EPQpo",
+    "tool_input": {
+      "action": "write",
+      "todos": [
+        {
+          "content": "Installer les dépendances dans .venv (pip install -e '.[dev]')",
+          "id": "deps",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Slice moteur minimal (pieces, board, fen, move, movegen, game) pour que CLI/API fonctionnent + tests + commits",
+          "id": "slice",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "CLI fonctionnelle (new/board/move/status/moves/undo/fen/load/history + --json) + tests + commit",
+          "id": "cli",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Serveur FastAPI (routes /api/* + sert web/) + schémas + commit",
+          "id": "api",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Web UI minimale jouable (board.js, api.js, index.html, style.css) + commit",
+          "id": "web",
+          "priority": "medium",
+          "status": "completed"
+        },
+        {
+          "content": "Lancer tous les tests pytest et montrer le résultat",
+          "id": "pytest",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Démarrer uvicorn --reload sur :8000 en arrière-plan et vérifier avec curl (API + web + /docs)",
+          "id": "server",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Tester la CLI: chess new, board, move e2e4, status",
+          "id": "cli-check",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "README: section 'Lancer en local' + décisions + commit",
+          "id": "readme",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Résumé final: commandes + URL à ouvrir",
+          "id": "final",
+          "priority": "medium",
+          "status": "completed"
+        }
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "message": "Updated 10 todos",
+      "todos": [
+        {
+          "content": "Installer les dépendances dans .venv (pip install -e '.[dev]')",
+          "id": "deps",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Slice moteur minimal (pieces, board, fen, move, movegen, game) pour que CLI/API fonctionnent + tests + commits",
+          "id": "slice",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "CLI fonctionnelle (new/board/move/status/moves/undo/fen/load/history + --json) + tests + commit",
+          "id": "cli",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Serveur FastAPI (routes /api/* + sert web/) + schémas + commit",
+          "id": "api",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Web UI minimale jouable (board.js, api.js, index.html, style.css) + commit",
+          "id": "web",
+          "priority": "medium",
+          "status": "completed"
+        },
+        {
+          "content": "Lancer tous les tests pytest et montrer le résultat",
+          "id": "pytest",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Démarrer uvicorn --reload sur :8000 en arrière-plan et vérifier avec curl (API + web + /docs)",
+          "id": "server",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Tester la CLI: chess new, board, move e2e4, status",
+          "id": "cli-check",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "README: section 'Lancer en local' + décisions + commit",
+          "id": "readme",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Résumé final: commandes + URL à ouvrir",
+          "id": "final",
+          "priority": "medium",
+          "status": "completed"
+        }
+      ],
+      "total_count": 10,
+      "verb": "Updated"
+    },
+    "tool_error": null,
+    "duration_ms": 25
+  }
+}

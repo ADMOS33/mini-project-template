@@ -1,0 +1,54 @@
+{
+  "seq": 319,
+  "received_at": "2026-11-22T19:31:33.525848+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "PulsqNdtU",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/README.md",
+      "new_string": [
+        "## Interface web (`web/`)",
+        "",
+        "Servie par FastAPI à la racine (`http://localhost:8000/`), en HTML/CSS/JS",
+        "vanilla, branchée sur l'API JSON (`/api/*`) :",
+        "",
+        "- **Échiquier jouable** : clic-clic **et** glisser-déposer, pièces animées",
+        "  (~150 ms), coordonnées, cases a1 foncée / h1 claire, pièces noires",
+        "  lisibles (#1a1a1a liséré clair) et blanches (#fff liséré sombre).",
+        "- **Aide au jeu** : sélection → surbrillance + coups légaux de l'API (point",
+        "  sur case vide, anneau sur capture), dernier coup surligné, roi en échec",
+        "  en rouge, modale de promotion (D/T/F/C).",
+        "- **Historique en SAN** numéroté (1. e4 e5 2. Nf3…), cliquable pour revoir",
+        "  une position (mode lecture avec ⏮ ◀ ▶ ⏭).",
+        "- **Pièces capturées** par camp avec badge d'avantage matériel (+N).",
+        "- **Contre l'ordinateur** : choix de la couleur (Blancs/Noirs/aléatoire) et",
+        "  de la difficulté (profondeur 1–4, minimax alpha-beta), réponse",
+        "  automatique avec indicateur « réfléchit… ».",
+        "- **Retourner l'échiquier**, **horloge** optionnelle (5 min, 10 min, 3+2 s,",
+        "  perte au temps), préférences persistées en `localStorage`.",
+        "- **Fin de partie** : modale avec résultat et raison (mat, pat, 50 coups…).",
+        "- **Import/export** : coller une FEN ou un PGN pour charger une partie,",
+        "  copier la FEN / le PGN de la partie en cours.",
+        "- **Mise en page** : 3 colonnes sur grand écran (joueurs/échiquier/contrôles),",
+        "  empilée sur mobile ; thème sombre.",
+        "",
+        "## Lancer en local"
+      ],
+      "old_string": "## Lancer en local"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/README.md",
+      "lines_changed": 26,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 66
+  }
+}

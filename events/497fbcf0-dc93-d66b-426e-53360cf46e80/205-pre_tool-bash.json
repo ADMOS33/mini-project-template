@@ -1,0 +1,18 @@
+{
+  "seq": 205,
+  "received_at": "2026-11-22T19:04:58.467134+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "a7Avhn3Ek",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && echo '== chess status --json ==' && .venv/bin/chess status --json && echo '== chess moves --json (5 premiers) ==' && .venv/bin/chess moves --json | .venv/bin/python -c \"import json,sys; d=json.load(sys.stdin); print(len(d['moves']), 'coups:', d['moves'][:5])\" && echo '== chess move e7e7 (illégal, noir n a pas de pion en e7... si si) -> testons e2e5 ==' && .venv/bin/chess move e2e5; echo \"exit code: $?\" && echo '== l API voit le meme etat (partage .chess_game.json) ==' && curl -s http://localhost:8000/api/status | .venv/bin/python -c \"import json,sys; d=json.load(sys.stdin); print('turn:', d['turn'], '| fen:', d['fen'])\" && echo '== fichier d etat ==' && ls -la .chess_game.json && git check-ignore .chess_game.json && echo '(bien gitignore)'"
+    }
+  }
+}

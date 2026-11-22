@@ -1,0 +1,101 @@
+{
+  "seq": 107,
+  "received_at": "2026-11-22T18:50:38.036806+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "vibe.todo",
+    "tool_call_id": "fydxrvlL6",
+    "tool_input": {
+      "action": "write",
+      "todos": [
+        {
+          "content": "Explorer le dépôt et identifier les fichiers template à préserver (events/, .vibe/)",
+          "id": "explore",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Commiter les logs events/ (le template exige qu'ils soient versionnés)",
+          "id": "events-commit",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Rédiger AGENTS.md (contexte projet, règles, fichiers interdits, archi, CLI) + commit",
+          "id": "agents-md",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Rédiger README.md (présentation, équipe, features, archi, phases, décisions) + commit",
+          "id": "readme",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Squelette : pyproject.toml, .gitignore, arborescence + __init__.py, test trivial passant + commits",
+          "id": "skeleton",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Vérifier que les tests passent, résumer l'étape 1 et annoncer le plan étape 2",
+          "id": "summary",
+          "priority": "medium",
+          "status": "completed"
+        }
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "message": "Updated 6 todos",
+      "todos": [
+        {
+          "content": "Explorer le dépôt et identifier les fichiers template à préserver (events/, .vibe/)",
+          "id": "explore",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Commiter les logs events/ (le template exige qu'ils soient versionnés)",
+          "id": "events-commit",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Rédiger AGENTS.md (contexte projet, règles, fichiers interdits, archi, CLI) + commit",
+          "id": "agents-md",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Rédiger README.md (présentation, équipe, features, archi, phases, décisions) + commit",
+          "id": "readme",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Squelette : pyproject.toml, .gitignore, arborescence + __init__.py, test trivial passant + commits",
+          "id": "skeleton",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Vérifier que les tests passent, résumer l'étape 1 et annoncer le plan étape 2",
+          "id": "summary",
+          "priority": "medium",
+          "status": "completed"
+        }
+      ],
+      "total_count": 6,
+      "verb": "Updated"
+    },
+    "tool_error": null,
+    "duration_ms": 20
+  }
+}

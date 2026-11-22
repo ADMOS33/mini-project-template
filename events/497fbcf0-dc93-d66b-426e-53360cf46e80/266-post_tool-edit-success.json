@@ -1,0 +1,51 @@
+{
+  "seq": 266,
+  "received_at": "2026-11-22T19:22:22.266729+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "ylHBONxPg",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_game.py",
+      "new_string": [
+        "def test_undo_after_several_moves_restores_intermediate_position() -> None:",
+        "    game = Game()",
+        "    game.play_uci(\"e2e4\")",
+        "    fen_after_e4 = game.status()[\"fen\"]",
+        "    game.play_uci(\"e7e5\")",
+        "    game.undo()",
+        "    assert game.status()[\"fen\"] == fen_after_e4",
+        "    game.undo()",
+        "    assert game.status()[\"fen\"].startswith(\"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w\")",
+        "",
+        "",
+        "def test_position_fens_tracks_every_ply() -> None:",
+        "    game = Game()",
+        "    assert len(game.position_fens()) == 1",
+        "    game.play_uci(\"e2e4\")",
+        "    game.play_uci(\"c7c5\")",
+        "    fens = game.position_fens()",
+        "    assert len(fens) == 3",
+        "    assert fens[1].endswith(\"b KQkq e3 0 1\")",
+        "    assert fens[2] == game.status()[\"fen\"]",
+        "",
+        "",
+        "def test_fools_mate_is_checkmate() -> None:"
+      ],
+      "old_string": "def test_fools_mate_is_checkmate() -> None:"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_game.py",
+      "lines_changed": 23,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 28
+  }
+}

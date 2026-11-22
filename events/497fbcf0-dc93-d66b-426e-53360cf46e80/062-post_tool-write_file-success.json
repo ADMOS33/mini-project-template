@@ -1,0 +1,30 @@
+{
+  "seq": 62,
+  "received_at": "2026-11-22T18:48:14.302991+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.write_file",
+    "tool_call_id": "ue2OE65mW",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/move.py",
+      "content": [
+        "\"\"\"Move representation (origin, destination, promotion, flags for castling,",
+        "en passant, double push) plus UCI parsing/formatting helpers (skeleton).\"\"\"",
+        ""
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "bytes_written": 152,
+      "file_existed": false,
+      "path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/move.py"
+    },
+    "tool_error": null,
+    "duration_ms": 251
+  }
+}

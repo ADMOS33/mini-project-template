@@ -1,0 +1,18 @@
+{
+  "seq": 215,
+  "received_at": "2026-11-22T19:07:16.349589+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "nXZ6FOLSN",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && curl -s -X POST http://localhost:8000/api/new > /dev/null && echo 'nouvelle partie prete' && curl -s -o /dev/null -w 'GET / -> HTTP %{http_code}\\n' http://localhost:8000/ && curl -s http://localhost:8000/api/status | .venv/bin/python -c \"import json,sys; d=json.load(sys.stdin); print('API OK — turn:', d['turn'], '| legal moves:', d['legal_move_count'], '| fen:', d['fen'])\""
+    }
+  }
+}

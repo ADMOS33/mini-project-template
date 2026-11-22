@@ -1,0 +1,46 @@
+{
+  "seq": 190,
+  "received_at": "2026-11-22T19:02:59.301463+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "ZWpdquWxj",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -m pytest 2>&1 | tail -15"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -m pytest 2>&1 | tail -15",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "platform darwin -- Python 3.15.2, pytest-9.2.0, pluggy-1.7.0",
+        "rootdir: /Users/rafiq/3A/projet-AI/mini-project-template",
+        "configfile: pyproject.toml",
+        "testpaths: tests",
+        "plugins: anyio-4.16.0",
+        "collected 29 items",
+        "",
+        "tests/test_board.py .....                                                [ 17%]",
+        "tests/test_cli.py ......                                                 [ 37%]",
+        "tests/test_fen.py ....                                                   [ 51%]",
+        "tests/test_game.py ......                                                [ 72%]",
+        "tests/test_movegen.py .......                                            [ 96%]",
+        "tests/test_smoke.py .                                                    [100%]",
+        "",
+        "============================== 29 passed in 0.09s ==============================",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 8417
+  }
+}

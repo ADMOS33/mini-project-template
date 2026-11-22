@@ -1,0 +1,25 @@
+{
+  "seq": 110,
+  "received_at": "2026-11-22T18:51:55.560440+00:00",
+  "hook_event_name": "pre_agent",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_agent",
+    "agent_name": "default",
+    "turn_id": "turn-85c244a355935accbef107ef328e1859",
+    "prompt": [
+      "Lis AGENTS.md. Lance le projet en local et vérifie que tout fonctionne :",
+      "1. Crée un environnement virtuel (.venv) s'il n'existe pas et installe les dépendances.",
+      "2. Lance tous les tests avec pytest et montre le résultat.",
+      "3. Démarre le serveur FastAPI avec uvicorn sur http://localhost:8000 (avec --reload), en arrière-plan, et vérifie qu'il répond.",
+      "4. Vérifie que l'interface web est accessible depuis le navigateur (sers le dossier web/ via FastAPI si ce n'est pas déjà fait).",
+      "5. Teste la CLI : `chess new`, `chess board`, `chess move e2e4`, `chess status`.",
+      "6. Si quelque chose ne marche pas, corrige et commit le correctif.",
+      "7. Ajoute dans le README une section \"Lancer en local\" avec les commandes exactes, puis commit.",
+      "À la fin, donne-moi les commandes et l'URL à ouvrir."
+    ]
+  }
+}

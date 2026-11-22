@@ -1,0 +1,57 @@
+{
+  "seq": 204,
+  "received_at": "2026-11-22T19:04:50.844144+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "J7ef7kBwi",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && rm -f .chess_game.json && echo '== chess new ==' && .venv/bin/chess new && echo && echo '== chess board ==' && .venv/bin/chess board && echo && echo '== chess move e2e4 ==' && .venv/bin/chess move e2e4 && echo && echo '== chess status ==' && .venv/bin/chess status"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && rm -f .chess_game.json && echo '== chess new ==' && .venv/bin/chess new && echo && echo '== chess board ==' && .venv/bin/chess board && echo && echo '== chess move e2e4 ==' && .venv/bin/chess move e2e4 && echo && echo '== chess status ==' && .venv/bin/chess status",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "== chess new ==",
+        "New game started.",
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "",
+        "== chess board ==",
+        "8  r n b q k b n r",
+        "7  p p p p p p p p",
+        "6  . . . . . . . .",
+        "5  . . . . . . . .",
+        "4  . . . . . . . .",
+        "3  . . . . . . . .",
+        "2  P P P P P P P P",
+        "1  R N B Q K B N R",
+        "   a b c d e f g h",
+        "w to move",
+        "",
+        "== chess move e2e4 ==",
+        "Played e2e4.",
+        "Black to move (move 1)",
+        "result: ongoing",
+        "fen: rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
+        "",
+        "== chess status ==",
+        "Black to move (move 1)",
+        "result: ongoing",
+        "fen: rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 11120
+  }
+}

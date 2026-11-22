@@ -1,0 +1,49 @@
+{
+  "seq": 280,
+  "received_at": "2026-11-22T19:25:01.969466+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "jRtwftDzt",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/api/schemas.py",
+      "old_string": [
+        "class LoadRequest(BaseModel):",
+        "    \"\"\"Body of ``POST /api/load``.\"\"\"",
+        "",
+        "    fen: str = Field(",
+        "        ...,",
+        "        examples=[\"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\"],",
+        "        description=\"FEN of the position to load\",",
+        "    )"
+      ],
+      "new_string": [
+        "class LoadRequest(BaseModel):",
+        "    \"\"\"Body of ``POST /api/load``.\"\"\"",
+        "",
+        "    fen: str = Field(",
+        "        ...,",
+        "        examples=[\"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\"],",
+        "        description=\"FEN of the position to load\",",
+        "    )",
+        "",
+        "",
+        "class PgnRequest(BaseModel):",
+        "    \"\"\"Body of ``POST /api/load-pgn``.\"\"\"",
+        "",
+        "    pgn: str = Field(..., examples=['[Event \"Casual\"]\\n\\n1. e4 e5 2. Nf3 Nc6 *'])",
+        "",
+        "",
+        "class AiMoveRequest(BaseModel):",
+        "    \"\"\"Body of ``POST /api/ai-move``.\"\"\"",
+        "",
+        "    depth: int = Field(3, ge=1, le=6, description=\"Search depth (1-4 in the UI)\")"
+      ]
+    }
+  }
+}

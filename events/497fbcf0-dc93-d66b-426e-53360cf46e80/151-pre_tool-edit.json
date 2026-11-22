@@ -1,0 +1,19 @@
+{
+  "seq": 151,
+  "received_at": "2026-11-22T18:59:39.552308+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "fLoneCjgD",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_game.py",
+      "old_string": "    assert status[\"fen\"] == \"rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1\"",
+      "new_string": "    assert status[\"fen\"] == \"rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1\""
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "seq": 294,
+  "received_at": "2026-11-22T19:26:16.486019+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "FZK7YebCc",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -m pytest tests/test_api.py -q 2>&1 | head -25"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -m pytest tests/test_api.py -q 2>&1 | head -25",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "",
+        "==================================== ERRORS ====================================",
+        "______________________ ERROR collecting tests/test_api.py ______________________",
+        "ImportError while importing test module '/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_api.py'.",
+        "Hint: make sure your test modules/packages have valid Python names.",
+        "Traceback:",
+        "/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/importlib/__init__.py:88: in import_module",
+        "    return _bootstrap._gcd_import(name[level:], package, level)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "tests/test_api.py:7: in <module>",
+        "    import chess.api.server as server",
+        "chess/api/server.py:27: in <module>",
+        "    from chess.engine.board import board_from_fen, square_name",
+        "E   ImportError: cannot import name 'board_from_fen' from 'chess.engine.board' (/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/board.py)",
+        "=========================== short test summary info ============================",
+        "ERROR tests/test_api.py",
+        "!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!",
+        "1 error in 0.19s",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 2591
+  }
+}

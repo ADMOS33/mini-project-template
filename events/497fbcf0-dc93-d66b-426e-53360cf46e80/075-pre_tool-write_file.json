@@ -1,0 +1,39 @@
+{
+  "seq": 75,
+  "received_at": "2026-11-22T18:48:43.883157+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.write_file",
+    "tool_call_id": "9iwV004dm",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "content": [
+        "<!DOCTYPE html>",
+        "<html lang=\"en\">",
+        "<head>",
+        "  <meta charset=\"UTF-8\" />",
+        "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />",
+        "  <title>Chess</title>",
+        "  <link rel=\"stylesheet\" href=\"style.css\" />",
+        "</head>",
+        "<body>",
+        "  <main class=\"app\">",
+        "    <h1>♞ Chess</h1>",
+        "    <p class=\"subtitle\">Pure-Python chess engine — web interface (skeleton).</p>",
+        "    <div id=\"board\" class=\"board\" aria-label=\"Chess board\"></div>",
+        "    <div id=\"status\" class=\"status\"></div>",
+        "  </main>",
+        "  <script src=\"api.js\"></script>",
+        "  <script src=\"board.js\"></script>",
+        "</body>",
+        "</html>",
+        ""
+      ]
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "seq": 301,
+  "received_at": "2026-11-22T19:26:49.866802+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "hwZT9MnkY",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/api/notation.py",
+      "new_string": [
+        "    new = apply_move(board, move)",
+        "    # The attacker is the side that just moved (the original board.turn).",
+        "    if is_square_attacked(new, new.king_square(new.turn), board.turn):",
+        "        san += \"#\" if not legal_moves(new) else \"+\"",
+        "    return san"
+      ],
+      "old_string": [
+        "    new = apply_move(board, move)",
+        "    if is_square_attacked(new, new.king_square(new.turn), new.turn):",
+        "        san += \"#\" if not legal_moves(new) else \"+\"",
+        "    return san"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/api/notation.py",
+      "lines_changed": 5,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 39
+  }
+}

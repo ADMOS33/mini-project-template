@@ -1,0 +1,40 @@
+{
+  "seq": 313,
+  "received_at": "2026-11-22T19:30:17.697354+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "D4d9oA0dT",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/board.js",
+      "old_string": [
+        "      if (c[c.active] <= 0) {",
+        "        c.active = null;",
+        "        showGameOver(\"Temps écoulé\", `${c.active === \"w\" ? \"Blancs\" : \"Noirs\"}…`);",
+        "        const loser = c.lastTs != null ? state.turn : state.turn;",
+        "        showGameOver(",
+        "          \"Temps écoulé\",",
+        "          `${loser === \"w\" ? \"Les Blancs\" : \"Les Noirs\"} perdent au temps — ${loser === \"w\" ? \"les Noirs\" : \"les Blancs\"} gagnent.`",
+        "        );",
+        "      }"
+      ],
+      "new_string": [
+        "      if (c[c.active] <= 0) {",
+        "        const loser = c.active;",
+        "        c.active = null;",
+        "        c[loser] = 0;",
+        "        renderClocks();",
+        "        showGameOver(",
+        "          \"Temps écoulé\",",
+        "          `${loser === \"w\" ? \"Les Blancs\" : \"Les Noirs\"} perdent au temps — ${loser === \"w\" ? \"les Noirs\" : \"les Blancs\"} gagnent.`",
+        "        );",
+        "      }"
+      ]
+    }
+  }
+}

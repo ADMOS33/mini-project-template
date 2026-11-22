@@ -1,0 +1,29 @@
+{
+  "seq": 218,
+  "received_at": "2026-11-22T19:07:16.512839+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "process.list",
+    "tool_call_id": "typescript:142:9wQW9r549:0:tool:0",
+    "tool_input": {},
+    "tool_status": "success",
+    "tool_output": {
+      "processes": [
+        {
+          "command": ".venv/bin/python -m uvicorn chess.api.server:app --reload --host 127.0.0.1 --port 8000",
+          "exitCode": null,
+          "outputPath": null,
+          "processId": "process-255310fd016a-52a1a4fdbdc5b54c4a8b50b7",
+          "status": "running"
+        }
+      ]
+    },
+    "tool_error": null,
+    "duration_ms": 57
+  }
+}

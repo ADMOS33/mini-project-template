@@ -1,0 +1,51 @@
+{
+  "seq": 209,
+  "received_at": "2026-11-22T19:05:27.139317+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "qrC8C1nOW",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/README.md",
+      "old_string": "## Plan de développement (phases)",
+      "new_string": [
+        "## Lancer en local",
+        "",
+        "```bash",
+        "# 1. Environnement virtuel + dépendances (fastapi, uvicorn, pytest)",
+        "python3 -m venv .venv",
+        ".venv/bin/pip install -e '.[dev]'",
+        "",
+        "# 2. Tous les tests (pytest)",
+        ".venv/bin/python -m pytest",
+        "",
+        "# 3. Serveur API + interface web, en arrière-plan ou terminal dédié",
+        ".venv/bin/python -m uvicorn chess.api.server:app --reload --host 127.0.0.1 --port 8000",
+        "#   → interface web :  http://localhost:8000/",
+        "#   → docs API Swagger : http://localhost:8000/docs",
+        "#   → API JSON :        http://localhost:8000/api/status",
+        "",
+        "# 4. CLI (console script installé par pip ; sinon `python3 -m chess ...`)",
+        ".venv/bin/chess new                 # démarre une partie (persistée dans .chess_game.json)",
+        ".venv/bin/chess board               # échiquier ASCII",
+        ".venv/bin/chess move e2e4           # joue un coup (UCI)",
+        ".venv/bin/chess status              # au trait, échec, résultat, FEN",
+        ".venv/bin/chess moves --json        # coups légaux en JSON (pour un agent LLM)",
+        ".venv/bin/chess undo                # annule le dernier coup",
+        ".venv/bin/chess fen / load <fen> / history",
+        "```",
+        "",
+        "La CLI et l'API partagent le même fichier d'état `.chess_game.json` quand elles",
+        "tournent depuis la racine du projet (surcharger avec `--state PATH` côté CLI ou",
+        "`CHESS_STATE_FILE` côté serveur).",
+        "",
+        "## Plan de développement (phases)"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "seq": 200,
+  "received_at": "2026-11-22T19:03:34.559937+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "z45iGIlxY",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && echo '== POST /api/new ==' && curl -s -X POST http://localhost:8000/api/new | head -c 400 && echo && echo '== POST /api/move e2e4 ==' && curl -s -X POST -H 'Content-Type: application/json' -d '{\"move\":\"e2e4\"}' http://localhost:8000/api/move | head -c 400 && echo && echo '== GET /api/status ==' && curl -s http://localhost:8000/api/status && echo && echo '== GET /api/moves (extrait) ==' && curl -s http://localhost:8000/api/moves | head -c 200 && echo && echo '== POST /api/move illegal e2e5 ==' && curl -s -w '\\nHTTP %{http_code}\\n' -X POST -H 'Content-Type: application/json' -d '{\"move\":\"e2e5\"}' http://localhost:8000/api/move | head -c 300 && echo && echo '== GET /api/board (ascii) ==' && curl -s http://localhost:8000/api/board | .venv/bin/python -c \"import json,sys; print(json.load(sys.stdin)['ascii'])\" && echo '== POST /api/undo ==' && curl -s -X POST http://localhost:8000/api/undo | head -c 200"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && echo '== POST /api/new ==' && curl -s -X POST http://localhost:8000/api/new | head -c 400 && echo && echo '== POST /api/move e2e4 ==' && curl -s -X POST -H 'Content-Type: application/json' -d '{\"move\":\"e2e4\"}' http://localhost:8000/api/move | head -c 400 && echo && echo '== GET /api/status ==' && curl -s http://localhost:8000/api/status && echo && echo '== GET /api/moves (extrait) ==' && curl -s http://localhost:8000/api/moves | head -c 200 && echo && echo '== POST /api/move illegal e2e5 ==' && curl -s -w '\\nHTTP %{http_code}\\n' -X POST -H 'Content-Type: application/json' -d '{\"move\":\"e2e5\"}' http://localhost:8000/api/move | head -c 300 && echo && echo '== GET /api/board (ascii) ==' && curl -s http://localhost:8000/api/board | .venv/bin/python -c \"import json,sys; print(json.load(sys.stdin)['ascii'])\" && echo '== POST /api/undo ==' && curl -s -X POST http://localhost:8000/api/undo | head -c 200",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "== POST /api/new ==",
+        "{\"ok\":true,\"status\":{\"result\":\"ongoing\",\"turn\":\"w\",\"in_check\":false,\"legal_move_count\":20,\"halfmove_clock\":0,\"fullmove_number\":1,\"fen\":\"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\"}}",
+        "== POST /api/move e2e4 ==",
+        "{\"ok\":true,\"move\":\"e2e4\",\"status\":{\"result\":\"ongoing\",\"turn\":\"b\",\"in_check\":false,\"legal_move_count\":20,\"halfmove_clock\":0,\"fullmove_number\":1,\"fen\":\"rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1\"}}",
+        "== GET /api/status ==",
+        "{\"result\":\"ongoing\",\"turn\":\"b\",\"in_check\":false,\"legal_move_count\":20,\"halfmove_clock\":0,\"fullmove_number\":1,\"fen\":\"rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1\"}",
+        "== GET /api/moves (extrait) ==",
+        "{\"moves\":[\"a7a5\",\"a7a6\",\"b7b5\",\"b7b6\",\"b8a6\",\"b8c6\",\"c7c5\",\"c7c6\",\"d7d5\",\"d7d6\",\"e7e5\",\"e7e6\",\"f7f5\",\"f7f6\",\"g7g5\",\"g7g6\",\"g8f6\",\"g8h6\",\"h7h5\",\"h7h6\"]}",
+        "== POST /api/move illegal e2e5 ==",
+        "{\"detail\":\"illegal move 'e2e5'; legal moves: a7a5 a7a6 b7b5 b7b6 b8a6 b8c6 c7c5 c7c6 d7d5 d7d6 e7e5 e7e6 f7f5 f7f6 g7g5 g7g6 g8f6 g8h6 h7h5 h7h6\"}",
+        "HTTP 400",
+        "",
+        "== GET /api/board (ascii) ==",
+        "8  r n b q k b n r",
+        "7  p p p p p p p p",
+        "6  . . . . . . . .",
+        "5  . . . . . . . .",
+        "4  . . . . P . . .",
+        "3  . . . . . . . .",
+        "2  P P P P . P P P",
+        "1  R N B Q K B N R",
+        "   a b c d e f g h",
+        "== POST /api/undo ==",
+        "{\"ok\":true,\"undone\":\"e2e4\",\"status\":{\"result\":\"ongoing\",\"turn\":\"w\",\"in_check\":false,\"legal_move_count\":20,\"halfmove_clock\":0,\"fullmove_number\":1,\"fen\":\"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQ"
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 4325
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "seq": 331,
+  "received_at": "2026-11-22T19:31:58.920395+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "v1UoxomBZ",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && (curl -s -m 2 -o /dev/null -w '%{http_code}' http://localhost:8000/ 2>/dev/null || echo 'port 8000 libre') && echo && set -o pipefail && .venv/bin/python -m pytest -q 2>&1 | tail -2 && git log --oneline | wc -l"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && (curl -s -m 2 -o /dev/null -w '%{http_code}' http://localhost:8000/ 2>/dev/null || echo 'port 8000 libre') && echo && set -o pipefail && .venv/bin/python -m pytest -q 2>&1 | tail -2 && git log --oneline | wc -l",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "000port 8000 libre",
+        "",
+        "..............................................                           [100%]",
+        "46 passed in 0.34s",
+        "      33",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 2359
+  }
+}

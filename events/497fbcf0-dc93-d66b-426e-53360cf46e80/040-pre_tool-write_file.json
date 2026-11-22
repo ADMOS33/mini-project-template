@@ -1,0 +1,23 @@
+{
+  "seq": 40,
+  "received_at": "2026-11-22T18:48:13.738238+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.write_file",
+    "tool_call_id": "If1vMa6AX",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/__init__.py",
+      "content": [
+        "\"\"\"A complete chess game: pure-Python engine, CLI, HTTP API and web UI.\"\"\"",
+        "",
+        "__version__ = \"0.1.0\"",
+        ""
+      ]
+    }
+  }
+}

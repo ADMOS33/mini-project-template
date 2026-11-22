@@ -1,0 +1,18 @@
+{
+  "seq": 196,
+  "received_at": "2026-11-22T19:03:30.147809+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "z45iGIlxY",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && echo '== POST /api/new ==' && curl -s -X POST http://localhost:8000/api/new | head -c 400 && echo && echo '== POST /api/move e2e4 ==' && curl -s -X POST -H 'Content-Type: application/json' -d '{\"move\":\"e2e4\"}' http://localhost:8000/api/move | head -c 400 && echo && echo '== GET /api/status ==' && curl -s http://localhost:8000/api/status && echo && echo '== GET /api/moves (extrait) ==' && curl -s http://localhost:8000/api/moves | head -c 200 && echo && echo '== POST /api/move illegal e2e5 ==' && curl -s -w '\\nHTTP %{http_code}\\n' -X POST -H 'Content-Type: application/json' -d '{\"move\":\"e2e5\"}' http://localhost:8000/api/move | head -c 300 && echo && echo '== GET /api/board (ascii) ==' && curl -s http://localhost:8000/api/board | .venv/bin/python -c \"import json,sys; print(json.load(sys.stdin)['ascii'])\" && echo '== POST /api/undo ==' && curl -s -X POST http://localhost:8000/api/undo | head -c 200"
+    }
+  }
+}

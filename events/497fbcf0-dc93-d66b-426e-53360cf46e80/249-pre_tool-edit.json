@@ -1,0 +1,38 @@
+{
+  "seq": 249,
+  "received_at": "2026-11-22T19:21:19.643954+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "uLQOaj0Uj",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "old_string": [
+        "  <script src=\"api.js\"></script>",
+        "  <script src=\"board.js\"></script>",
+        "</body>",
+        "</html>"
+      ],
+      "new_string": [
+        "  <!-- Promotion picker -->",
+        "  <div id=\"promotion-modal\" class=\"modal hidden\">",
+        "    <div class=\"modal-box\">",
+        "      <h3>Promotion</h3>",
+        "      <div class=\"promo-choices\" id=\"promo-choices\"></div>",
+        "      <button class=\"secondary modal-cancel\">Annuler</button>",
+        "    </div>",
+        "  </div>",
+        "",
+        "  <script src=\"api.js\"></script>",
+        "  <script src=\"board.js\"></script>",
+        "</body>",
+        "</html>"
+      ]
+    }
+  }
+}

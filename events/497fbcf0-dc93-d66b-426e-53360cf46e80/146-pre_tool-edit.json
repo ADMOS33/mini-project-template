@@ -1,0 +1,29 @@
+{
+  "seq": 146,
+  "received_at": "2026-11-22T18:59:08.514016+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "acTl6cd00",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_game.py",
+      "old_string": [
+        "    loaded.undo()",
+        "    assert loaded.status()[\"fen\"] == game.status()[\"fen\"].replace(\" b \", \" b \") or True",
+        "    game.undo()",
+        "    assert loaded.status() == game.status()"
+      ],
+      "new_string": [
+        "    loaded.undo()",
+        "    game.undo()",
+        "    assert loaded.status() == game.status()",
+        "    assert [m.to_uci() for m in loaded.moves] == [\"e2e4\"]"
+      ]
+    }
+  }
+}

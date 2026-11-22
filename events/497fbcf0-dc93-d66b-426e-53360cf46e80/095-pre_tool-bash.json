@@ -1,0 +1,18 @@
+{
+  "seq": 95,
+  "received_at": "2026-11-22T18:49:14.071452+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "CoBtIljL7",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -m pytest -q 2>&1 | tail -5 && echo '--- compile check ---' && .venv/bin/python -m compileall -q chess && echo COMPILE_OK && echo '--- CLI entrypoint ---' && .venv/bin/python -m chess && echo '--- tree ---' && find chess web tests skills -type f | sort && git status --short | grep -v '^?? events/' "
+    }
+  }
+}

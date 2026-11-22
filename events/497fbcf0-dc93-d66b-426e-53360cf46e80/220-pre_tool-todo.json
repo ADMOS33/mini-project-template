@@ -1,0 +1,79 @@
+{
+  "seq": 220,
+  "received_at": "2026-11-22T19:07:22.942103+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "vibe.todo",
+    "tool_call_id": "Vhy7EPQpo",
+    "tool_input": {
+      "action": "write",
+      "todos": [
+        {
+          "id": "deps",
+          "content": "Installer les dépendances dans .venv (pip install -e '.[dev]')",
+          "status": "completed",
+          "priority": "high"
+        },
+        {
+          "id": "slice",
+          "content": "Slice moteur minimal (pieces, board, fen, move, movegen, game) pour que CLI/API fonctionnent + tests + commits",
+          "status": "completed",
+          "priority": "high"
+        },
+        {
+          "id": "cli",
+          "content": "CLI fonctionnelle (new/board/move/status/moves/undo/fen/load/history + --json) + tests + commit",
+          "status": "completed",
+          "priority": "high"
+        },
+        {
+          "id": "api",
+          "content": "Serveur FastAPI (routes /api/* + sert web/) + schémas + commit",
+          "status": "completed",
+          "priority": "high"
+        },
+        {
+          "id": "web",
+          "content": "Web UI minimale jouable (board.js, api.js, index.html, style.css) + commit",
+          "status": "completed",
+          "priority": "medium"
+        },
+        {
+          "id": "pytest",
+          "content": "Lancer tous les tests pytest et montrer le résultat",
+          "status": "completed",
+          "priority": "high"
+        },
+        {
+          "id": "server",
+          "content": "Démarrer uvicorn --reload sur :8000 en arrière-plan et vérifier avec curl (API + web + /docs)",
+          "status": "completed",
+          "priority": "high"
+        },
+        {
+          "id": "cli-check",
+          "content": "Tester la CLI: chess new, board, move e2e4, status",
+          "status": "completed",
+          "priority": "high"
+        },
+        {
+          "id": "readme",
+          "content": "README: section 'Lancer en local' + décisions + commit",
+          "status": "completed",
+          "priority": "high"
+        },
+        {
+          "id": "final",
+          "content": "Résumé final: commandes + URL à ouvrir",
+          "status": "completed",
+          "priority": "medium"
+        }
+      ]
+    }
+  }
+}

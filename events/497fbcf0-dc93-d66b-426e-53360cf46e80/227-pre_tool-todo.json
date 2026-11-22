@@ -1,0 +1,61 @@
+{
+  "seq": 227,
+  "received_at": "2026-11-22T19:18:16.467847+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "vibe.todo",
+    "tool_call_id": "wlTEpW8X8",
+    "tool_input": {
+      "action": "write",
+      "todos": [
+        {
+          "id": "p1",
+          "content": "Point 1: couleurs pièces (noir #1a1a1a/blanc #fff), a1 foncée, coordonnées a-h/1-8 + commit",
+          "status": "in_progress",
+          "priority": "high"
+        },
+        {
+          "id": "p2",
+          "content": "Point 2: refonte design (thème sombre, #EEEED2/#769656, coins arrondis, ombre, 3 colonnes responsive, pièces animées ~150ms) + commit",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "p3",
+          "content": "Point 3: surbrillance sélection + coups légaux (point/anneau), dernier coup, échec rouge, drag&drop, promotion + commit",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "bugfix",
+          "content": "Bug moteur avéré: undo restaure la mauvaise position après plusieurs coups (fix + test régression)",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "ai-api",
+          "content": "Support API point 4: AI minimax (chess/ai), notation SAN/PGN + endpoints history/pgn/ai-move + tests + commits",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "p4",
+          "content": "Point 4: historique SAN cliquable + review ⏮◀▶⏭, pièces capturées + avantage, vs ordinateur (couleur/profondeur, 'réfléchit…'), flip, modale fin de partie, import/export FEN/PGN, horloge + commit",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "p5",
+          "content": "Point 5: README section Interface web + commit; stop ancien serveur; résumé + ce qu'il faut tester",
+          "status": "pending",
+          "priority": "medium"
+        }
+      ]
+    }
+  }
+}

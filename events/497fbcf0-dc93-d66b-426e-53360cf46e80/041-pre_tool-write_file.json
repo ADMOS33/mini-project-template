@@ -1,0 +1,50 @@
+{
+  "seq": 41,
+  "received_at": "2026-11-22T18:48:13.747829+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.write_file",
+    "tool_call_id": "4LIUmoa4a",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/pyproject.toml",
+      "content": [
+        "[build-system]",
+        "requires = [\"setuptools>=68\"]",
+        "build-backend = \"setuptools.build_meta\"",
+        "",
+        "[project]",
+        "name = \"chess-engine\"",
+        "version = \"0.1.0\"",
+        "description = \"A complete chess game in pure Python: engine, agent-friendly CLI, FastAPI HTTP API, web UI and a classic minimax AI.\"",
+        "readme = \"README.md\"",
+        "requires-python = \">=3.11\"",
+        "license = { text = \"MIT\" }",
+        "dependencies = [",
+        "    \"fastapi>=0.110\",",
+        "    \"uvicorn>=0.29\",",
+        "]",
+        "",
+        "[project.optional-dependencies]",
+        "dev = [",
+        "    \"pytest>=8\",",
+        "]",
+        "",
+        "[project.scripts]",
+        "chess = \"chess.cli.main:main\"",
+        "",
+        "[tool.setuptools.packages.find]",
+        "include = [\"chess*\"]",
+        "",
+        "[tool.pytest.ini_options]",
+        "testpaths = [\"tests\"]",
+        "pythonpath = [\".\"]",
+        ""
+      ]
+    }
+  }
+}

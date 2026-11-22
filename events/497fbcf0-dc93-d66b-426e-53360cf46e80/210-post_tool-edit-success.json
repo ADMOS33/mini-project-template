@@ -1,0 +1,45 @@
+{
+  "seq": 210,
+  "received_at": "2026-11-22T19:05:27.254035+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "TgncIwGLb",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/README.md",
+      "new_string": [
+        "- Aucune bibliothèque d'échecs externe : tout le moteur est écrit à la main.",
+        "- Le fichier d'état `.chess_game.json` vit dans le **cwd** (racine du projet en",
+        "  pratique) et est partagé entre CLI et API ; `--state PATH` (option globale,",
+        "  avant la sous-commande) et `CHESS_STATE_FILE` (env var serveur) permettent de",
+        "  le déplacer.",
+        "- L'API est testée via le serveur live + `curl` (et non `TestClient`) car",
+        "  `httpx` ne fait pas partie des dépendances autorisées.",
+        "- Le serveur sert `web/` à la racine (`/`) ; les routes `/api/*` et `/docs`",
+        "  sont enregistrées avant le mount statique pour prendre la priorité.",
+        "- Slice moteur actuel (démo locale) : coups normaux de toutes les pièces,",
+        "  promotion, filtre « roi pas en échec », échec/mat/pat, règle des 50 coups.",
+        "  **Roque, prise en passant, SAN, PGN, triple répétition et matériel",
+        "  insuffisant arrivent en phase 2** (perft compris).",
+        "- Règle d'ambiguïté : choisir l'option la plus simple et l'ajouter ici."
+      ],
+      "old_string": [
+        "- Aucune bibliothèque d'échecs externe : tout le moteur est écrit à la main.",
+        "- Règle d'ambiguïté : choisir l'option la plus simple et l'ajouter ici."
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/README.md",
+      "lines_changed": 14,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 26
+  }
+}

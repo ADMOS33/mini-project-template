@@ -1,0 +1,40 @@
+{
+  "seq": 119,
+  "received_at": "2026-11-22T18:56:48.501409+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "S8JoE70GC",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/pip install -q -e '.[dev]' 2>&1 | tail -2; echo '---' && .venv/bin/pip list 2>/dev/null | grep -iE 'fastapi|uvicorn|pytest|chess' && .venv/bin/python -c \"import fastapi, uvicorn; print('fastapi', fastapi.__version__, '| uvicorn', uvicorn.__version__)\" && ls .venv/bin/chess"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/pip install -q -e '.[dev]' 2>&1 | tail -2; echo '---' && .venv/bin/pip list 2>/dev/null | grep -iE 'fastapi|uvicorn|pytest|chess' && .venv/bin/python -c \"import fastapi, uvicorn; print('fastapi', fastapi.__version__, '| uvicorn', uvicorn.__version__)\" && ls .venv/bin/chess",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "[notice] A new release of pip is available: 26.2.2 -> 26.3",
+        "[notice] To update, run: /Users/rafiq/3A/projet-AI/mini-project-template/.venv/bin/python3.15 -m pip install --upgrade pip",
+        "---",
+        "chess-engine      0.1.0   /Users/rafiq/3A/projet-AI/mini-project-template",
+        "fastapi           0.165.0",
+        "pytest            9.2.0",
+        "uvicorn           0.54.0",
+        "fastapi 0.165.0 | uvicorn 0.54.0",
+        ".venv/bin/chess",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 19819
+  }
+}

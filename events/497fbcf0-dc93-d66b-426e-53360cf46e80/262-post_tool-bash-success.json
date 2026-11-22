@@ -1,0 +1,60 @@
+{
+  "seq": 262,
+  "received_at": "2026-11-22T19:22:15.900168+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "P2ghW9oUN",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -c \"",
+        "from chess.engine.game import Game",
+        "g = Game()",
+        "g.play_uci('e2e4')",
+        "f1 = g.status()['fen']",
+        "g.play_uci('e7e5')",
+        "g.undo()",
+        "f_after_undo = g.status()['fen']",
+        "print('fen after 1.e4      :', f1)",
+        "print('fen after undo of e5 :', f_after_undo)",
+        "print('BUG' if f_after_undo != f1 else 'OK')",
+        "\""
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -c \"",
+        "from chess.engine.game import Game",
+        "g = Game()",
+        "g.play_uci('e2e4')",
+        "f1 = g.status()['fen']",
+        "g.play_uci('e7e5')",
+        "g.undo()",
+        "f_after_undo = g.status()['fen']",
+        "print('fen after 1.e4      :', f1)",
+        "print('fen after undo of e5 :', f_after_undo)",
+        "print('BUG' if f_after_undo != f1 else 'OK')",
+        "\""
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "fen after 1.e4      : rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
+        "fen after undo of e5 : rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "BUG",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 41865
+  }
+}
