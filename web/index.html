@@ -9,9 +9,13 @@
 <body>
   <main class="app">
     <h1>♞ Chess</h1>
-    <p class="subtitle">Pure-Python chess engine — web interface (skeleton).</p>
+    <p class="subtitle">Pure-Python chess engine — click a piece, then its destination.</p>
+    <div class="controls">
+      <button id="btn-new">New game</button>
+      <button id="btn-undo">Undo</button>
+    </div>
     <div id="board" class="board" aria-label="Chess board"></div>
-    <div id="status" class="status"></div>
+    <div id="status" class="status">loading…</div>
   </main>
   <script src="api.js"></script>
   <script src="board.js"></script>
