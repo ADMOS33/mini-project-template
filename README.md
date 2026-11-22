@@ -88,6 +88,36 @@ python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
 .venv/bin/python -m pytest          # tous les tests, y compris perft
 ```
 
+## Lancer en local
+
+```bash
+# 1. Environnement virtuel + dépendances (fastapi, uvicorn, pytest)
+python3 -m venv .venv
+.venv/bin/pip install -e '.[dev]'
+
+# 2. Tous les tests (pytest)
+.venv/bin/python -m pytest
+
+# 3. Serveur API + interface web, en arrière-plan ou terminal dédié
+.venv/bin/python -m uvicorn chess.api.server:app --reload --host 127.0.0.1 --port 8000
+#   → interface web :  http://localhost:8000/
+#   → docs API Swagger : http://localhost:8000/docs
+#   → API JSON :        http://localhost:8000/api/status
+
+# 4. CLI (console script installé par pip ; sinon `python3 -m chess ...`)
+.venv/bin/chess new                 # démarre une partie (persistée dans .chess_game.json)
+.venv/bin/chess board               # échiquier ASCII
+.venv/bin/chess move e2e4           # joue un coup (UCI)
+.venv/bin/chess status              # au trait, échec, résultat, FEN
+.venv/bin/chess moves --json        # coups légaux en JSON (pour un agent LLM)
+.venv/bin/chess undo                # annule le dernier coup
+.venv/bin/chess fen / load <fen> / history
+```
+
+La CLI et l'API partagent le même fichier d'état `.chess_game.json` quand elles
+tournent depuis la racine du projet (surcharger avec `--state PATH` côté CLI ou
+`CHESS_STATE_FILE` côté serveur).
+
 ## Plan de développement (phases)
 
 1. **Fondations** — `AGENTS.md`, `README.md`, squelette (`pyproject.toml`,
@@ -112,4 +142,16 @@ python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
 - venv local `.venv` gitignoré ; dépendances strictement limitées à
   `fastapi`, `uvicorn`, `pytest`.
 - Aucune bibliothèque d'échecs externe : tout le moteur est écrit à la main.
+- Le fichier d'état `.chess_game.json` vit dans le **cwd** (racine du projet en
+  pratique) et est partagé entre CLI et API ; `--state PATH` (option globale,
+  avant la sous-commande) et `CHESS_STATE_FILE` (env var serveur) permettent de
+  le déplacer.
+- L'API est testée via le serveur live + `curl` (et non `TestClient`) car
+  `httpx` ne fait pas partie des dépendances autorisées.
+- Le serveur sert `web/` à la racine (`/`) ; les routes `/api/*` et `/docs`
+  sont enregistrées avant le mount statique pour prendre la priorité.
+- Slice moteur actuel (démo locale) : coups normaux de toutes les pièces,
+  promotion, filtre « roi pas en échec », échec/mat/pat, règle des 50 coups.
+  **Roque, prise en passant, SAN, PGN, triple répétition et matériel
+  insuffisant arrivent en phase 2** (perft compris).
 - Règle d'ambiguïté : choisir l'option la plus simple et l'ajouter ici.
