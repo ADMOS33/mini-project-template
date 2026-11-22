@@ -166,8 +166,28 @@ def test_load_pgn_command(capsys, tmp_path) -> None:
     assert rc == 1 and "cannot read" in err
 
 
-def test_unimplemented_commands_report_clearly(capsys, tmp_path) -> None:
+def test_ai_move_plays_a_legal_move(capsys, tmp_path) -> None:
     state = str(tmp_path / ".chess_game.json")
     run_cli(capsys, "--state", state, "new")
+    rc, out, _ = run_cli(capsys, "--state", state, "ai-move", "--depth", "2")
+    assert rc == 0 and "AI played" in out
+    rc, out, _ = run_cli(capsys, "--state", state, "ai-move", "--json")
+    assert rc == 0
+    payload = json.loads(out)
+    assert payload["ok"] is True
+    assert set(payload) >= {"move", "san", "score", "nodes", "time_ms", "depth", "status"}
+    assert payload["depth"] == 3  # default depth
+    assert payload["status"]["turn"] == "w"  # AI played White, now Black to move
+    rc, out, _ = run_cli(capsys, "--state", state, "history", "--json")
+    history = json.loads(out)
+    assert history["moves"] == [payload["move"]]
+    assert history["details"][0]["san"] == payload["san"]
+
+
+def test_ai_move_on_finished_game_is_an_error(capsys, tmp_path) -> None:
+    state = str(tmp_path / ".chess_game.json")
+    run_cli(capsys, "--state", state, "new")
+    for uci in ("f2f3", "e7e5", "g2g4", "d8h4"):
+        run_cli(capsys, "--state", state, "move", uci)
     rc, _, err = run_cli(capsys, "--state", state, "ai-move")
-    assert rc == 1 and "not implemented yet" in err
+    assert rc == 1 and "game is over" in err

@@ -13,8 +13,10 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from pathlib import Path
 
+from chess.ai.search import best_move
 from chess.engine.fen import board_from_fen, board_to_fen
 from chess.engine.game import Game
 from chess.engine.move import Move
@@ -61,7 +63,7 @@ def _build_parser() -> argparse.ArgumentParser:
     add("pgn", "export the game as PGN")
     p_load_pgn = add("load-pgn", "load a game from a PGN file")
     p_load_pgn.add_argument("file", help="path to a .pgn file")
-    p_ai = add("ai-move", "let the computer play a move (not implemented yet)")
+    p_ai = add("ai-move", "let the computer play a move (minimax + alpha-beta)")
     p_ai.add_argument("--depth", type=int, default=3, help="search depth")
     add("history", "list the moves played so far")
     return parser
@@ -140,7 +142,31 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
         status = game.status()
         return {"ok": True, "status": status}, f"Loaded position.\n{status['fen']}"
     if cmd == "ai-move":
-        raise CliError("the AI opponent (ai-move) is not implemented yet — planned for a later phase")
+        game = _load_game(state_file)
+        if game.status()["result"] != "ongoing":
+            raise CliError("game is over — no AI move to play")
+        depth = max(1, min(args.depth, 6))
+        start = time.perf_counter()
+        move, score, nodes = best_move(game.board, depth)
+        time_ms = round((time.perf_counter() - start) * 1000, 1)
+        san = move_to_san(game.board, move)
+        game.play_uci(move.to_uci())
+        game.save(state_file)
+        status = game.status()
+        return (
+            {
+                "ok": True,
+                "move": move.to_uci(),
+                "san": san,
+                "score": score,
+                "nodes": nodes,
+                "time_ms": time_ms,
+                "depth": depth,
+                "status": status,
+            },
+            f"AI played {move.to_uci()} ({san}) — score {score}, {nodes} nodes "
+            f"in {time_ms} ms.\n{_status_text(status)}",
+        )
     if cmd == "pgn":
         game = _load_game(state_file)
         text = export_pgn(game)
