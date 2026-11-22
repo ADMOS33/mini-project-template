@@ -1,1 +1,19 @@
 .DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Tooling
+.pytest_cache/
+.venv/
+venv/
+
+# Local game state persisted by the CLI (runtime data, not source)
+.chess_game.json
+
+# NOTE: events/ is intentionally NOT ignored — the Vibe hook log output is
+# meant to be committed to git (see AGENTS.md).
