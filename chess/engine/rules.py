@@ -52,6 +52,29 @@ def position_key(board: Board) -> tuple[str, str, str, int | None]:
     return (placement, str(board.turn), castling, ep)
 
 
+def insufficient_material(board: Board) -> bool:
+    """True when neither side can possibly checkmate (automatic draw):
+    K vs K, K + single minor (B or N) vs K, or K+B vs K+B with both bishops
+    on the same color complex."""
+    minors = [
+        (sq, piece)
+        for sq, piece in enumerate(board.squares)
+        if piece is not None and piece.type is not PieceType.KING
+    ]
+    if any(piece.type not in (PieceType.BISHOP, PieceType.KNIGHT) for _, piece in minors):
+        return False  # a pawn, rook or queen is on the board
+    if len(minors) <= 1:
+        return True  # K-K, KB-K or KN-K
+    if (
+        len(minors) == 2
+        and all(piece.type is PieceType.BISHOP for _, piece in minors)
+        and {piece.color for _, piece in minors} == {Color.WHITE, Color.BLACK}
+        and len({(square_file(sq) + square_rank(sq)) % 2 for sq, _ in minors}) == 1
+    ):
+        return True  # KB vs KB, bishops on the same color complex
+    return False
+
+
 def game_result(board: Board, repetitions: Mapping | None = None) -> tuple[str, str | None]:
     """Return ``(result, winner)`` for ``board``.
 
@@ -68,6 +91,8 @@ def game_result(board: Board, repetitions: Mapping | None = None) -> tuple[str, 
         result = "draw_threefold"
     elif board.halfmove_clock >= 100:
         result = "draw_fifty_move"
+    elif insufficient_material(board):
+        result = "draw_insufficient_material"
     else:
         result = "ongoing"
     winner = board.turn.opposite.value if result == "checkmate" else None
