@@ -40,8 +40,10 @@ d'un **adversaire classique** (minimax + élagage alpha-beta, pas d'IA générat
   `e7e8q`), ✅ **SAN** (`Nf3`, `O-O`) — rendu *et* parsing dans
   `chess/engine/san.py` (`move_to_san` / `san_to_move`, désambiguïsation
   `Nbd2`/`R1e2`/`Qh4e1`, promotions `e8=Q`, `0-0` accepté, suffixes `+`/`#`) —
-  et ✅ **PGN** (import/export, côté API) ; 🚧 export PGN et commande `ai-move`
-  côté CLI.
+  et ✅ **PGN** (import/export dans `chess/engine/pgn.py` : Seven Tag Roster,
+  `[SetUp "1"]`/`[FEN]` si besoin, coups SAN numérotés, résultat, lignes ≤ 80
+  caractères ; import ignorant commentaires/variantes/NAG/numéros avec erreur
+  numérotée) ; 🚧 `ai-move` côté CLI (déjà dispo via l'API).
 - **CLI `chess`** pensée pour les humains *et* les agents LLM : `new`, `board`,
   `moves`, `move`, `status`, `undo`, `fen`, `load`, `history` ✅, sortie
   `--json` structurée sur chaque commande ✅, état de la partie persisté dans
@@ -89,7 +91,8 @@ python3 -m chess move e2e4           # joue un coup (UCI ou SAN : Nf3, O-O...) �
 python3 -m chess status              # au trait, échec, mat, nulle... ✅
 python3 -m chess undo / fen / load <fen> / history   # ✅
 python3 -m chess ai-move --depth 3   # 🚧 pas encore implémenté côté CLI (dispo via l'API)
-python3 -m chess pgn                 # 🚧 idem (export PGN dispo via l'API)
+python3 -m chess pgn                 # exporte la partie en PGN ✅
+python3 -m chess load-pgn partie.pgn # charge un fichier PGN ✅
 python3 -m chess <commande> --json   # sortie structurée pour un agent ✅
 ```
 
@@ -176,9 +179,9 @@ tournent depuis la racine du projet (surcharger avec `--state PATH` côté CLI o
    légaux, règles complètes (échec/mat/pat, promotion, roque, prise en
    passant, triple répétition, 50 coups, matériel insuffisant), FEN, UCI ✅ ;
    ✅ **perft** au vert (toutes les positions de référence) ; ✅ **SAN** dans
-   `chess/engine/san.py` ; 🚧 PGN dans `chess/engine/` (déjà dispo via l'API).
+   `chess/engine/san.py` ; ✅ **PGN** dans `chess/engine/pgn.py`.
 3. **CLI** (Adam) — persistance `.chess_game.json`, sous-commandes, `--json`,
-   tests CLI ✅ ; 🚧 `pgn`, `ai-move`.
+   tests CLI ✅ ; ✅ `pgn`, `load-pgn` ; 🚧 `ai-move`.
 4. **IA** (Adam) — évaluation statique + minimax alpha-beta, tests. ✅
 5. **API HTTP** (Adam) — FastAPI + schémas + tests (SAN, PGN import/export,
    `ai-move`). ✅
@@ -207,9 +210,9 @@ tournent depuis la racine du projet (surcharger avec `--state PATH` côté CLI o
   (petit/grand, toutes conditions), prise en passant, filtre « roi pas en
   échec », échec/mat/pat, triple répétition, règle des 50 coups, matériel
   insuffisant, FEN (+ validation), persistance JSON, perft au vert sur les 4
-  positions de référence. Le SAN vit dans `chess/engine/san.py` (l'API
-  délègue via `chess/api/notation.py`) ; le PGN reste pour l'instant dans la
-  couche API.
+  positions de référence. SAN (`chess/engine/san.py`) et PGN
+  (`chess/engine/pgn.py`) vivent dans le moteur ; la couche API ne contient
+  plus aucune logique d'échecs.
 - **Nulles automatiques** : triple répétition, règle des 50 coups et matériel
   insuffisant sont détectées automatiquement (pas de réclamation à la FIDE) —
   `result` vaut `draw_threefold` / `draw_fifty_move` /

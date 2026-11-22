@@ -1,0 +1,35 @@
+{
+  "seq": 491,
+  "received_at": "2026-11-22T21:08:44.251350+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "CgiIaRfWD",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/AGENTS.md",
+      "new_string": [
+        "détection de fin de partie dans **`rules.py`** (`result` + `winner`), `perft.py`, **SAN `move_to_san`/`san_to_move` ✅**, **PGN `export_pgn`/`import_pgn` ✅** | — (moteur complet) |",
+        "| CLI `chess/cli/` | `new`, `board`, `moves`, `move` (**UCI ou SAN** ✅), `status`, `undo`, `fen`, `load` (erreur « invalid FEN » propre, rc 1), `history`, `pgn`, `load-pgn <fichier>` ✅, `--json` ; `moves`/`history` affichent **UCI + SAN** (JSON : `moves` + `details`) ✅ | `ai-move` |",
+        "| API `chess/api/` | `status`, `board`, `moves`, `fen`, `new`, `move`, `load`, `undo`, `history` (SAN), `pgn`/`load-pgn` (via `engine/pgn.py`), `ai-move`, **`_load()` : état corrompu → erreur 500 claire** — aucune logique d'échecs dans l'API ✅ | — |"
+      ],
+      "old_string": [
+        "détection de fin de partie dans **`rules.py`** (`result` + `winner`), `perft.py`, **SAN `move_to_san`/`san_to_move` ✅** | PGN dans `chess/engine/` |",
+        "| CLI `chess/cli/` | `new`, `board`, `moves`, `move` (**UCI ou SAN** ✅), `status`, `undo`, `fen`, `load` (erreur « invalid FEN » propre, rc 1), `history`, `--json` ; `moves`/`history` affichent **UCI + SAN** (JSON : `moves` + `details`) ✅ | `pgn`, `ai-move` |",
+        "| API `chess/api/` | `status`, `board`, `moves`, `fen`, `new`, `move`, `load`, `undo`, `history` (SAN), export/import PGN, `ai-move`, **`_load()` : état corrompu → erreur 500 claire** | — |"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/AGENTS.md",
+      "lines_changed": 3,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 186
+  }
+}

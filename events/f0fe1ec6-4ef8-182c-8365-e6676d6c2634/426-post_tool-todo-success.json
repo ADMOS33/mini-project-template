@@ -1,0 +1,65 @@
+{
+  "seq": 426,
+  "received_at": "2026-11-22T21:01:42.483220+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "vibe.todo",
+    "tool_call_id": "P3hrQW24z",
+    "tool_input": {
+      "action": "write",
+      "todos": [
+        {
+          "content": "Phase 6.13 — engine/san.py move_to_san/san_to_move + test_san.py, notation délègue, commit feat: 61825e4",
+          "id": "phase6-13",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Phase 6.14 — CLI move UCI/SAN, moves/history double format + JSON details, commit feat: e1cee9c",
+          "id": "phase6-14",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Fin phase 6 : AGENTS.md/README + commit events 5716ef6",
+          "id": "phase6-end",
+          "priority": "high",
+          "status": "completed"
+        }
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "message": "Updated 3 todos",
+      "todos": [
+        {
+          "content": "Phase 6.13 — engine/san.py move_to_san/san_to_move + test_san.py, notation délègue, commit feat: 61825e4",
+          "id": "phase6-13",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Phase 6.14 — CLI move UCI/SAN, moves/history double format + JSON details, commit feat: e1cee9c",
+          "id": "phase6-14",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Fin phase 6 : AGENTS.md/README + commit events 5716ef6",
+          "id": "phase6-end",
+          "priority": "high",
+          "status": "completed"
+        }
+      ],
+      "total_count": 3,
+      "verb": "Updated"
+    },
+    "tool_error": null,
+    "duration_ms": 31
+  }
+}

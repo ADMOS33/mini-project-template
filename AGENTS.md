@@ -81,15 +81,15 @@ Si la session est interrompue, la prochaine reprendra grâce à ce tableau.
 
 | Module | Fait ✅ | À faire 🚧 |
 |--------|---------|-----------|
-| Moteur `chess/engine/` | plateau/pièces, déplacements de base, promotion, coups légaux (roi jamais en échec), échec/mat/pat, règle des 50 coups, FEN import/export **+ validation**, `Game` play/undo **robuste**, persistance JSON, **roque petit/grand 2 camps ✅**, **prise en passant ✅**, **triple répétition ✅** (clé = placement+trait+roques+EP si capturable), **matériel insuffisant ✅** (nulles automatiques), détection de fin de partie dans **`rules.py`** (`result` + `winner`), `perft.py`, **SAN `move_to_san`/`san_to_move` ✅** | PGN dans `chess/engine/` |
-| CLI `chess/cli/` | `new`, `board`, `moves`, `move` (**UCI ou SAN** ✅), `status`, `undo`, `fen`, `load` (erreur « invalid FEN » propre, rc 1), `history`, `--json` ; `moves`/`history` affichent **UCI + SAN** (JSON : `moves` + `details`) ✅ | `pgn`, `ai-move` |
-| API `chess/api/` | `status`, `board`, `moves`, `fen`, `new`, `move`, `load`, `undo`, `history` (SAN), export/import PGN, `ai-move`, **`_load()` : état corrompu → erreur 500 claire** | — |
+| Moteur `chess/engine/` | plateau/pièces, déplacements de base, promotion, coups légaux (roi jamais en échec), échec/mat/pat, règle des 50 coups, FEN import/export **+ validation**, `Game` play/undo **robuste**, persistance JSON, **roque petit/grand 2 camps ✅**, **prise en passant ✅**, **triple répétition ✅** (clé = placement+trait+roques+EP si capturable), **matériel insuffisant ✅** (nulles automatiques), détection de fin de partie dans **`rules.py`** (`result` + `winner`), `perft.py`, **SAN `move_to_san`/`san_to_move` ✅**, **PGN `export_pgn`/`import_pgn` ✅** | — (moteur complet) |
+| CLI `chess/cli/` | `new`, `board`, `moves`, `move` (**UCI ou SAN** ✅), `status`, `undo`, `fen`, `load` (erreur « invalid FEN » propre, rc 1), `history`, `pgn`, `load-pgn <fichier>` ✅, `--json` ; `moves`/`history` affichent **UCI + SAN** (JSON : `moves` + `details`) ✅ | `ai-move` |
+| API `chess/api/` | `status`, `board`, `moves`, `fen`, `new`, `move`, `load`, `undo`, `history` (SAN), `pgn`/`load-pgn` (via `engine/pgn.py`), `ai-move`, **`_load()` : état corrompu → erreur 500 claire** — aucune logique d'échecs dans l'API ✅ | — |
 | IA `chess/ai/` | évaluation statique (matériel + tables de pièces), minimax + alpha-beta | — |
 | Web `web/` | échiquier jouable complet (clic + drag&drop, surbrillance, promotion, historique SAN, captures, horloges, vs ordinateur, flip, modale fin de partie, import/export FEN/PGN) | — |
-| Tests | **131 tests** pytest verts, **0 xfail** ; assertions nettoyées ; **perft 100 % au vert** (`chess/engine/perft.py` + `tests/test_perft.py`) : initiale p1–p4 (20/400/8902/197281), Kiwipete p1–p3 (48/2039/97862), pos3 p1–p3 (14/191/2812), pos4 p1–p3 (6/264/9467) ; `tests/test_rules.py` (fins de partie), `tests/test_san.py` (SAN + roundtrip) | — |
+| Tests | **145 tests** pytest verts, **0 xfail** ; assertions nettoyées ; **perft 100 % au vert** (`chess/engine/perft.py` + `tests/test_perft.py`) : initiale p1–p4 (20/400/8902/197281), Kiwipete p1–p3 (48/2039/97862), pos3 p1–p3 (14/191/2812), pos4 p1–p3 (6/264/9467) ; `tests/test_rules.py` (fins de partie), `tests/test_san.py` (SAN + roundtrip), `tests/test_pgn.py` (roundtrip + Opéra de Morphy) | — |
 | Skills `skills/` | — | skill Vibe apprenant à jouer via la CLI |
 
-> Phases faites : 1 (docs) ✅ · 2 (bugs) ✅ · 3 (perft) ✅ · 4 (roque + EP, perft verts) ✅ · 5 (rules.py : fins de partie) ✅ · 6 (SAN moteur + CLI UCI/SAN) ✅
+> Phases faites : 1 (docs) ✅ · 2 (bugs) ✅ · 3 (perft) ✅ · 4 (roque + EP, perft verts) ✅ · 5 (rules.py : fins de partie) ✅ · 6 (SAN moteur + CLI UCI/SAN) ✅ · 7 (PGN moteur + CLI pgn/load-pgn + API réaiguillée) ✅
 
 ## Architecture cible
 

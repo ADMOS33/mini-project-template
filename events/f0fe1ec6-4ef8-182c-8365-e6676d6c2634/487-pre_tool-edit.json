@@ -1,0 +1,26 @@
+{
+  "seq": 487,
+  "received_at": "2026-11-22T21:08:43.894133+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "vqgNuCJ0L",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "old_string": [
+        "python3 -m chess ai-move --depth 3   # 🚧 pas encore implémenté côté CLI (dispo via l'API)",
+        "python3 -m chess pgn                 # 🚧 idem (export PGN dispo via l'API)"
+      ],
+      "new_string": [
+        "python3 -m chess ai-move --depth 3   # 🚧 pas encore implémenté côté CLI (dispo via l'API)",
+        "python3 -m chess pgn                 # exporte la partie en PGN ✅",
+        "python3 -m chess load-pgn partie.pgn # charge un fichier PGN ✅"
+      ]
+    }
+  }
+}

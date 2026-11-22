@@ -1,0 +1,27 @@
+{
+  "seq": 490,
+  "received_at": "2026-11-22T21:08:43.916999+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "35ejj0tBV",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "old_string": [
+        "  positions de référence. Le SAN vit dans `chess/engine/san.py` (l'API",
+        "  délègue via `chess/api/notation.py`) ; le PGN reste pour l'instant dans la",
+        "  couche API."
+      ],
+      "new_string": [
+        "  positions de référence. SAN (`chess/engine/san.py`) et PGN",
+        "  (`chess/engine/pgn.py`) vivent dans le moteur ; la couche API ne contient",
+        "  plus aucune logique d'échecs."
+      ]
+    }
+  }
+}

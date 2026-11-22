@@ -1,0 +1,20 @@
+{
+  "seq": 429,
+  "received_at": "2026-11-22T21:02:12.391975+00:00",
+  "hook_event_name": "pre_agent",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_agent",
+    "agent_name": "default",
+    "turn_id": "turn-63110c1241a1fb8ec5b918de8da12deb",
+    "prompt": [
+      "## Phase 7 — PGN",
+      "15. chess/engine/pgn.py : export (Seven Tag Roster, [SetUp \"1\"] + [FEN] si besoin, coups SAN numérotés, résultat, lignes ≤ 80 car.) et import (ignore {commentaires}, (variantes), $NAG, numéros ; erreur avec le numéro du coup fautif). Tests : aller-retour même FEN finale ; l'Opéra de Morphy (1858) finit en checkmate. Commit feat:.",
+      "16. CLI chess pgn et chess load-pgn <fichier>. Commit feat:.",
+      "17. API GET /api/pgn et POST /api/load-pgn. Commit feat:."
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "seq": 427,
+  "received_at": "2026-11-22T21:01:54.494721+00:00",
+  "hook_event_name": "post_agent",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_agent",
+    "agent_name": "default",
+    "turn_id": "turn-ae9be520a1af2631228adbd097d54f63",
+    "response_text": [
+      "La **Phase 6 est terminée** — **131 tests passed**, arbre git propre.",
+      "",
+      "## Phase 6 — SAN ✅",
+      "",
+      "| # | Commit | Contenu |",
+      "|---|--------|---------|",
+      "| 13 | `61825e4` feat: | **`chess/engine/san.py`** : `move_to_san(board, move)` — `Nf3`, `exd5` (y compris en passant `exd6`), désambiguïsation `Nbd2` / `R1e2` / `Qh1e1`, promotions `e8=Q` / `exd8=N`, `O-O` / `O-O-O`, suffixes `+`/`#` ; `san_to_move(board, san)` — parsing inverse tolérant aux `+ # ! ?` en entrée et aux spellings `0-0`/`0-0-0`, erreurs distinctes `unknown` / `illegal` / `ambiguous`. **Property test de roundtrip** : pour toutes les coups légaux de 3 positions de référence, `san_to_move(move_to_san(m)) == m`. `chess/api/notation.py` délègue désormais au moteur (plus de logique d'échecs dans l'API) ; `pgn_export` utilise `winner`. `tests/test_san.py` : 17 tests. |",
+      "| 14 | `e1cee9c` feat: | **CLI** : `chess move` accepte **UCI ou SAN** (`Nf3`, `0-0`…), erreur rc 1 avec liste des coups légaux si aucun des deux ; `moves` et `history` affichent `uci (san)` ; en JSON, `moves` reste la liste UCI et **`details: [{\"uci\", \"san\"}]`** est ajouté. Vérifié en live : `move Nf3` → `Played g1f3`, `moves` → `g1f3 (Nf3)`. |",
+      "",
+      "Fin de phase : AGENTS.md (SAN ✅ dans le moteur, CLI UCI/SAN ✅, 131 tests) et README (SAN dans `chess/engine/san.py`, CLI `move` UCI/SAN, `moves` UCI+SAN) mis à jour, logs `events/` commités (`5716ef6`).",
+      "",
+      "Reste au tableau : `pgn` et `ai-move` côté CLI (déjà disponibles via l'API), le PGN dans `chess/engine/`, et la skill Vibe dans `skills/`."
+    ]
+  }
+}

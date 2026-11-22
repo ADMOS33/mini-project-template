@@ -1,0 +1,35 @@
+{
+  "seq": 449,
+  "received_at": "2026-11-22T21:06:28.031420+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "NNPTZFVFy",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python -m pytest tests/test_pgn.py -q 2>&1 | tail -2 && .venv/bin/python -m pytest -q 2>&1 | tail -2"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python -m pytest tests/test_pgn.py -q 2>&1 | tail -2 && .venv/bin/python -m pytest -q 2>&1 | tail -2",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "FAILED tests/test_pgn.py::test_export_movetext_lines_at_most_80_chars - ValueError: illegal move 'c7c5'; legal moves: a6a5 a8a7 a8b8 b5b4 c6a5 c6a7 c6b4 c6b8 c6d4 c8b7 c8d7 c8e6 c8f5 c8g4 c8h3 d6d5 d8d7 d8e8 f6d5 f6d7 f6e4 f6e8 f6g4 f6h5 f8e8 g7g5 g7g6 g8h8 h7h5 h7h6",
+        "1 failed, 9 passed in 0.08s",
+        "FAILED tests/test_pgn.py::test_export_movetext_lines_at_most_80_chars - ValueError: illegal move 'c7c5'; legal moves: a6a5 a8a7 a8b8 b5b4 c6a5 c6a7 c6b4 c6b8 c6d4 c8b7 c8d7 c8e6 c8f5 c8g4 c8h3 d6d5 d8d7 d8e8 f6d5 f6d7 f6e4 f6e8 f6g4 f6h5 f8e8 g7g5 g7g6 g8h8 h7h5 h7h6",
+        "1 failed, 140 passed in 2.65s",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 3082
+  }
+}

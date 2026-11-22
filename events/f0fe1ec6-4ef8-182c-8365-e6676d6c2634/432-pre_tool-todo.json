@@ -1,0 +1,43 @@
+{
+  "seq": 432,
+  "received_at": "2026-11-22T21:04:11.517649+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "vibe.todo",
+    "tool_call_id": "Km7mez6wG",
+    "tool_input": {
+      "action": "write",
+      "todos": [
+        {
+          "id": "phase7-15",
+          "content": "Phase 7.15 — engine/pgn.py export (STR+SetUp/FEN, SAN numéroté, ≤80 car.) + import (ignore commentaires/variantes/NAG/numéros, erreur n° coup), test_pgn.py (roundtrip + Opéra Morphy), commit feat:",
+          "status": "in_progress",
+          "priority": "high"
+        },
+        {
+          "id": "phase7-16",
+          "content": "Phase 7.16 — CLI chess pgn + chess load-pgn <fichier>, commit feat:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "phase7-17",
+          "content": "Phase 7.17 — API /api/pgn + /api/load-pgn réaiguillées vers engine/pgn.py (notation.py supprimé), commit feat:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "phase7-end",
+          "content": "Fin phase 7 : AGENTS.md/README + commit events/",
+          "status": "pending",
+          "priority": "high"
+        }
+      ]
+    }
+  }
+}
