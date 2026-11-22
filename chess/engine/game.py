@@ -42,18 +42,24 @@ class Game:
             raise ValueError(
                 f"illegal move {move.to_uci()!r}; legal moves: {legal_uci}"
             )
-        self._positions.append(board_to_fen(self.board))
         self.board = apply_move(self.board, legal[move.to_uci()])
         self.moves.append(move)
+        # positions[i] = FEN after i plies, so undo is a simple pop.
+        self._positions.append(board_to_fen(self.board))
         return move
 
     def undo(self) -> Move | None:
         """Take back the last move; returns it, or None if history is empty."""
         if not self.moves:
             return None
+        move = self.moves.pop()
         self._positions.pop()
         self.board = board_from_fen(self._positions[-1])
-        return self.moves.pop()
+        return move
+
+    def position_fens(self) -> list[str]:
+        """FEN after each ply: index 0 is the starting position."""
+        return list(self._positions)
 
     def in_check(self) -> bool:
         """True if the side to move is in check."""
