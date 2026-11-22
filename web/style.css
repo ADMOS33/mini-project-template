@@ -762,3 +762,14 @@ textarea {
   font-size: 0.8rem;
   min-height: 4.5rem;
 }
+
+/* ==========================================================================
+   Horloge + bouton son.
+   ========================================================================== */
+
+#btn-sound[aria-pressed="false"] {
+  color: var(--muted);
+}
+#btn-sound[aria-pressed="false"] svg {
+  opacity: 0.45;
+}

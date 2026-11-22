@@ -24,6 +24,9 @@
         <span class="logo-name">Échecs</span>
       </a>
       <span class="spacer"></span>
+      <button id="btn-sound" class="btn-icon" title="Activer / couper le son" aria-label="Son" aria-pressed="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>
+      </button>
       <button id="btn-new" class="btn">Nouvelle partie</button>
     </header>
 
@@ -115,6 +118,15 @@
               <tr class="empty-row"><td colspan="3">Aucun coup pour l'instant</td></tr>
             </tbody>
           </table>
+        </section>
+        <section class="block">
+          <h2>Horloge</h2>
+          <select id="opt-clock" aria-label="Horloge">
+            <option value="none" selected>Sans horloge</option>
+            <option value="300">5 min</option>
+            <option value="600">10 min</option>
+            <option value="182">3 min + 2 s</option>
+          </select>
         </section>
         <details class="block io-block">
           <summary>FEN / PGN</summary>

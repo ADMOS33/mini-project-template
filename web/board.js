@@ -13,6 +13,7 @@ const state = {
   legalMoves: [],
   lastMove: null, // {from, to, uci}
   prevLastMoveUci: null,
+  prevSoundUci: null,
   flipped: false,
   selected: null,
   reviewPly: null, // null = position live
@@ -164,6 +165,7 @@ async function refresh() {
       ChessAPI.moves(),
       ChessAPI.history(),
     ]);
+    const prevTurn = state.turn;
     state.boardData = board;
     state.turn = status.turn;
     state.inCheck = status.in_check;
@@ -179,6 +181,18 @@ async function refresh() {
     renderPlayers();
     renderMovesTable();
     renderEval();
+    renderClocks();
+    // horloge : incrément pour le camp qui vient de jouer
+    if (prevTurn && prevTurn !== status.turn && state.clockMode !== "none") {
+      state.clock[prevTurn] += state.clock.inc;
+    }
+    state.clock.active = status.turn;
+    // son du dernier coup (SAN de l'historique)
+    const lastEntry = hist.entries[hist.entries.length - 1];
+    if (lastEntry && lastEntry.uci && lastEntry.uci !== (state.prevSoundUci || null)) {
+      state.prevSoundUci = lastEntry.uci;
+      if (state.reviewPly === null) playMoveSound(lastEntry.san, status.result);
+    }
     if (state.reviewPly === null) {
       setStatus(statusText(status));
     }
@@ -446,6 +460,7 @@ async function newGame() {
     reportError("Nouvelle partie", err);
   }
   await refresh();
+  resetClock();
   renderVsControls();
   renderPlayers();
   const st = await ChessAPI.status();
@@ -597,6 +612,132 @@ document.getElementById("btn-copy-fen").addEventListener("click", async () => {
 });
 document.getElementById("btn-copy-pgn").addEventListener("click", async () => {
   await copyText((await ChessAPI.pgn()).pgn, "PGN");
+});
+
+// --- Sons (Web Audio API, optionnels, bouton muet) --------------------------------
+
+state.sound = ls("chess.sound", "1") === "1";
+let audioCtx = null;
+
+function beep(freq, duration, type = "sine", gain = 0.08, when = 0) {
+  if (!state.sound) return;
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.value = freq;
+    g.gain.setValueAtTime(gain, audioCtx.currentTime + when);
+    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + when + duration);
+    osc.connect(g).connect(audioCtx.destination);
+    osc.start(audioCtx.currentTime + when);
+    osc.stop(audioCtx.currentTime + when + duration);
+  } catch { /* audio indisponible : on ignore */ }
+}
+
+function playMoveSound(san, result) {
+  if (!san) return;
+  if (result !== "ongoing") {
+    beep(220, 0.5, "triangle", 0.1);
+    beep(330, 0.4, "triangle", 0.08, 0.15);
+    return;
+  }
+  if (san.includes("#") || san.includes("+")) {
+    beep(880, 0.09, "square", 0.06);
+    beep(880, 0.09, "square", 0.06, 0.12);
+  } else if (san.includes("x")) {
+    beep(440, 0.08, "square", 0.07);
+  } else {
+    beep(620, 0.06, "sine", 0.07);
+  }
+}
+
+const btnSound = document.getElementById("btn-sound");
+function renderSoundBtn() {
+  btnSound.setAttribute("aria-pressed", String(state.sound));
+}
+btnSound.addEventListener("click", () => {
+  state.sound = !state.sound;
+  lsSet("chess.sound", state.sound ? "1" : "0");
+  renderSoundBtn();
+  if (state.sound) beep(620, 0.06);
+});
+renderSoundBtn();
+
+// --- Horloge optionnelle (5 min, 10 min, 3 min + 2 s) --------------------------------
+
+state.clockMode = ls("chess.clock", "none");
+state.clock = { w: 0, b: 0, inc: 0, active: null, lastTs: null };
+
+function clockBase() {
+  const m = state.clockMode;
+  if (m === "none") return null;
+  if (m === "182") return { base: 180, inc: 2 };
+  return { base: parseInt(m, 10), inc: 0 };
+}
+
+function resetClock() {
+  const c = clockBase();
+  state.clock = c
+    ? { w: c.base, b: c.base, inc: c.inc, active: state.turn, lastTs: null }
+    : { w: 0, b: 0, inc: 0, active: null, lastTs: null };
+  renderClocks();
+}
+
+function fmtClock(sec) {
+  const s = Math.max(0, Math.ceil(sec));
+  return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+}
+
+function renderClocks() {
+  const mode = state.clockMode;
+  for (const [elId, color] of [
+    ["clock-top", state.flipped ? "w" : "b"],
+    ["clock-bottom", state.flipped ? "b" : "w"],
+  ]) {
+    const el = document.getElementById(elId);
+    if (!el) continue;
+    if (mode === "none") {
+      el.textContent = "";
+      el.classList.remove("low");
+    } else {
+      el.textContent = fmtClock(state.clock[color]);
+      el.classList.toggle("low", state.clock[color] <= 30);
+    }
+  }
+}
+
+function tickClock() {
+  if (state.clockMode === "none" || state.reviewPly !== null) return;
+  const now = performance.now();
+  const c = state.clock;
+  if (c.active) {
+    if (c.lastTs != null) {
+      c[c.active] = Math.max(0, c[c.active] - (now - c.lastTs) / 1000);
+      if (c[c.active] <= 0) {
+        const loser = c.active;
+        c.active = null;
+        c[loser] = 0;
+        renderClocks();
+        showGameOver(
+          "Temps écoulé",
+          `${loser === "w" ? "Les Blancs" : "Les Noirs"} perdent au temps — ${loser === "w" ? "les Noirs" : "les Blancs"} gagnent.`
+        );
+        return;
+      }
+    }
+    c.lastTs = now;
+  }
+  renderClocks();
+}
+setInterval(tickClock, 200);
+
+const optClock = document.getElementById("opt-clock");
+optClock.value = state.clockMode;
+optClock.addEventListener("change", () => {
+  state.clockMode = optClock.value;
+  lsSet("chess.clock", state.clockMode);
+  resetClock();
 });
 
 // Appelé aussi dans refresh() : l'ordinateur répond quand c'est à lui de jouer.
