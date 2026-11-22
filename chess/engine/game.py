@@ -76,9 +76,14 @@ class Game:
         ``result`` is one of ``rules.RESULTS`` and ``winner`` is ``"w"``,
         ``"b"`` or ``None``.
         """
-        from chess.engine.rules import game_result
+        from collections import Counter
 
-        result, winner = game_result(self.board)
+        from chess.engine.rules import game_result, position_key
+
+        # _positions[i] is the FEN after ply i, so the last entry is the
+        # current position: counting all of them gives the repetition counts.
+        repetitions = Counter(position_key(board_from_fen(fen)) for fen in self._positions)
+        result, winner = game_result(self.board, repetitions)
         return {
             "result": result,
             "winner": winner,
