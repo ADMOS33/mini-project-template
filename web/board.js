@@ -32,6 +32,7 @@ function lsSet(key, val) {
   } catch { /* stockage indisponible : on ignore */ }
 }
 state.flipped = ls("chess.flip", "0") === "1";
+state.gameOverShownFor = null;
 
 function squareName(file, rank) {
   return FILES[file] + (rank + 1);
@@ -180,9 +181,28 @@ async function refresh() {
     if (state.reviewPly === null) {
       setStatus(statusText(status));
     }
+    maybeShowGameOver(status);
+    maybeAiMove(status);
   } catch (err) {
     setStatus("Erreur : " + err.message);
   }
+}
+
+// Fenêtre de fin de partie (détail à l'étape 30 : modale + raison exacte de l'API).
+function maybeShowGameOver(status) {
+  if (status.result === "ongoing") return;
+  if (state.gameOverShownFor === status.fen) return;
+  state.gameOverShownFor = status.fen;
+  showGameOver(
+    status.result === "checkmate" ? "Échec et mat !" : "Partie nulle",
+    statusText(status)
+  );
+}
+
+function showGameOver(title, reason) {
+  document.getElementById("gameover-title").textContent = title;
+  document.getElementById("gameover-reason").textContent = reason;
+  document.getElementById("gameover-modal").classList.remove("hidden");
 }
 
 // Barre de statut, 100 % en français.
@@ -228,10 +248,6 @@ function computeCaptured(symbols) {
     capturedByB: missingOf("w"),
     diff: material("w") - material("b"), // > 0 : les Blancs mènent
   };
-}
-
-function playerName(color) {
-  return color === "w" ? "Blancs" : "Noirs";
 }
 
 function renderPlayers() {
@@ -388,12 +404,19 @@ document.addEventListener("keydown", (e) => {
 async function newGame() {
   state.selected = null;
   state.reviewPly = null;
+  if (state.vs && state.colorChoice === "random") {
+    state.actualColor = Math.random() < 0.5 ? "w" : "b";
+  }
   try {
     await ChessAPI.newGame();
   } catch (err) {
     setStatus("Nouvelle partie : " + err.message);
   }
   await refresh();
+  renderVsControls();
+  renderPlayers();
+  const st = await ChessAPI.status();
+  maybeAiMove(st); // l'ordinateur ouvre si c'est à lui de jouer
 }
 
 document.getElementById("btn-new").addEventListener("click", newGame);
@@ -413,6 +436,79 @@ document.getElementById("btn-flip").addEventListener("click", () => {
   render();
   renderPlayers();
 });
+
+// --- Mode « Contre l'ordinateur » -----------------------------------------------
+
+state.vs = ls("chess.vs", "0") === "1";
+state.colorChoice = ls("chess.color", "w");
+state.actualColor = "w";
+state.depth = parseInt(ls("chess.depth", "3"), 10);
+state.thinking = false;
+
+function computerColor() {
+  if (!state.vs) return null;
+  return state.colorChoice === "random" ? state.actualColor : state.colorChoice;
+}
+
+function playerName(color) {
+  const cc = computerColor();
+  if (cc === "w") return color === "w" ? "Ordinateur" : "Vous";
+  if (cc === "b") return color === "b" ? "Ordinateur" : "Vous";
+  return color === "w" ? "Blancs" : "Noirs";
+}
+
+function renderVsControls() {
+  document.getElementById("seg-human").setAttribute("aria-selected", String(!state.vs));
+  document.getElementById("seg-computer").setAttribute("aria-selected", String(state.vs));
+  document.getElementById("vs-options").classList.toggle("hidden", !state.vs);
+  document.getElementById("opt-color").value = state.colorChoice;
+  document.getElementById("opt-depth").value = String(state.depth);
+}
+
+document.getElementById("seg-human").addEventListener("click", () => {
+  state.vs = false;
+  lsSet("chess.vs", "0");
+  renderVsControls();
+  renderPlayers();
+});
+document.getElementById("seg-computer").addEventListener("click", async () => {
+  state.vs = true;
+  lsSet("chess.vs", "1");
+  if (state.colorChoice === "random") state.actualColor = Math.random() < 0.5 ? "w" : "b";
+  renderVsControls();
+  renderPlayers();
+  const st = await ChessAPI.status();
+  maybeAiMove(st);
+});
+document.getElementById("opt-color").addEventListener("change", (e) => {
+  state.colorChoice = e.target.value;
+  lsSet("chess.color", state.colorChoice);
+  if (state.colorChoice === "random") state.actualColor = Math.random() < 0.5 ? "w" : "b";
+  renderPlayers();
+});
+document.getElementById("opt-depth").addEventListener("change", (e) => {
+  state.depth = parseInt(e.target.value, 10);
+  lsSet("chess.depth", e.target.value);
+});
+
+async function maybeAiMove(status) {
+  const cc = computerColor();
+  if (!cc || state.thinking || status.result !== "ongoing" || status.turn !== cc) return;
+  if (state.reviewPly !== null) return;
+  state.thinking = true;
+  document.getElementById("thinking").classList.remove("hidden");
+  try {
+    await ChessAPI.aiMove(state.depth);
+  } catch (err) {
+    setStatus("IA : " + err.message);
+  }
+  state.thinking = false;
+  document.getElementById("thinking").classList.add("hidden");
+  await refresh();
+}
+
+// Appelé aussi dans refresh() : l'ordinateur répond quand c'est à lui de jouer.
+renderVsControls();
 
 // --- Jouer un coup -----------------------------------------------------------
 

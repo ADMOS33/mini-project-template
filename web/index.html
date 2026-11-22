@@ -78,6 +78,29 @@
             </button>
           </div>
         </section>
+        <section class="block">
+          <h2>Adversaire</h2>
+          <div class="segmented" role="tablist" aria-label="Adversaire">
+            <button id="seg-human" class="seg" role="tab">Deux joueurs</button>
+            <button id="seg-computer" class="seg" role="tab">Contre l'ordinateur</button>
+          </div>
+          <div id="vs-options" class="hidden">
+            <select id="opt-color" aria-label="Votre couleur">
+              <option value="w">Je joue les Blancs</option>
+              <option value="b">Je joue les Noirs</option>
+              <option value="random">Couleur aléatoire</option>
+            </select>
+            <select id="opt-depth" aria-label="Difficulté">
+              <option value="1">Débutant (profondeur 1)</option>
+              <option value="2">Facile (profondeur 2)</option>
+              <option value="3" selected>Normal (profondeur 3)</option>
+              <option value="4">Difficile (profondeur 4)</option>
+            </select>
+            <span id="thinking" class="thinking hidden">
+              <span class="spinner" aria-hidden="true"></span> l'ordinateur réfléchit…
+            </span>
+          </div>
+        </section>
         <section class="block grow">
           <h2>Coups</h2>
           <table class="moves-table">
