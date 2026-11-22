@@ -1,0 +1,49 @@
+{
+  "seq": 160,
+  "received_at": "2026-11-22T20:25:17.534301+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "JoZRD2OWM",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/AGENTS.md",
+      "new_string": [
+        "| Module | Fait ✅ | À faire 🚧 |",
+        "|--------|---------|-----------|",
+        "| Moteur `chess/engine/` | plateau/pièces, déplacements de base, promotion, coups légaux (roi jamais en échec), échec/mat/pat, règle des 50 coups, FEN import/export **+ validation** (1 roi/camp, pas de pion en 1re/8e, camp sans le trait pas en échec), `Game` play/undo **robuste** (historique rejoué depuis la FEN de départ), persistance JSON | roque, prise en passant, triple répétition, matériel insuffisant, perft |",
+        "| CLI `chess/cli/` | `new`, `board`, `moves`, `move`, `status`, `undo`, `fen`, `load` (erreur « invalid FEN » propre, rc 1), `history`, `--json` | `pgn`, `ai-move` |",
+        "| API `chess/api/` | `status`, `board`, `moves`, `fen`, `new`, `move`, `load`, `undo`, `history` (SAN), export/import PGN, `ai-move`, **`_load()` : état corrompu → erreur 500 claire** | — |",
+        "| IA `chess/ai/` | évaluation statique (matériel + tables de pièces), minimax + alpha-beta | — |",
+        "| Web `web/` | échiquier jouable complet (clic + drag&drop, surbrillance, promotion, historique SAN, captures, horloges, vs ordinateur, flip, modale fin de partie, import/export FEN/PGN) | — |",
+        "| Tests | **56 tests** pytest verts ; assertions tautologiques/faibles nettoyées | perft (position initiale + Kiwipete) |",
+        "| Skills `skills/` | — | skill Vibe apprenant à jouer via la CLI |",
+        "",
+        "> Phases faites : 1 (docs/AGENTS+README) ✅ · 2 (bugs : undo, validation FEN, assertions, `_load()` corrompu) ✅"
+      ],
+      "old_string": [
+        "| Module | Fait ✅ | À faire 🚧 |",
+        "|--------|---------|-----------|",
+        "| Moteur `chess/engine/` | plateau/pièces, déplacements de base, promotion, coups légaux (roi jamais en échec), échec/mat/pat, règle des 50 coups, FEN import/export, `Game` (play/undo/status/persistance JSON) | roque, prise en passant, triple répétition, matériel insuffisant, perft, validation FEN (rois, pions 1re/8e, échec) |",
+        "| CLI `chess/cli/` | `new`, `board`, `moves`, `move`, `status`, `undo`, `fen`, `load`, `history`, `--json` | `pgn`, `ai-move` |",
+        "| API `chess/api/` | `status`, `board`, `moves`, `fen`, `new`, `move`, `load`, `undo`, `history` (SAN), export/import PGN, `ai-move` | — |",
+        "| IA `chess/ai/` | évaluation statique (matériel + tables de pièces), minimax + alpha-beta | — |",
+        "| Web `web/` | échiquier jouable complet (clic + drag&drop, surbrillance, promotion, historique SAN, captures, horloges, vs ordinateur, flip, modale fin de partie, import/export FEN/PGN) | — |",
+        "| Tests | 46 tests pytest verts | perft (position initiale + Kiwipete) |",
+        "| Skills `skills/` | — | skill Vibe apprenant à jouer via la CLI |"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/AGENTS.md",
+      "lines_changed": 11,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 35
+  }
+}

@@ -81,13 +81,15 @@ Si la session est interrompue, la prochaine reprendra grâce à ce tableau.
 
 | Module | Fait ✅ | À faire 🚧 |
 |--------|---------|-----------|
-| Moteur `chess/engine/` | plateau/pièces, déplacements de base, promotion, coups légaux (roi jamais en échec), échec/mat/pat, règle des 50 coups, FEN import/export, `Game` (play/undo/status/persistance JSON) | roque, prise en passant, triple répétition, matériel insuffisant, perft, validation FEN (rois, pions 1re/8e, échec) |
-| CLI `chess/cli/` | `new`, `board`, `moves`, `move`, `status`, `undo`, `fen`, `load`, `history`, `--json` | `pgn`, `ai-move` |
-| API `chess/api/` | `status`, `board`, `moves`, `fen`, `new`, `move`, `load`, `undo`, `history` (SAN), export/import PGN, `ai-move` | — |
+| Moteur `chess/engine/` | plateau/pièces, déplacements de base, promotion, coups légaux (roi jamais en échec), échec/mat/pat, règle des 50 coups, FEN import/export **+ validation** (1 roi/camp, pas de pion en 1re/8e, camp sans le trait pas en échec), `Game` play/undo **robuste** (historique rejoué depuis la FEN de départ), persistance JSON | roque, prise en passant, triple répétition, matériel insuffisant, perft |
+| CLI `chess/cli/` | `new`, `board`, `moves`, `move`, `status`, `undo`, `fen`, `load` (erreur « invalid FEN » propre, rc 1), `history`, `--json` | `pgn`, `ai-move` |
+| API `chess/api/` | `status`, `board`, `moves`, `fen`, `new`, `move`, `load`, `undo`, `history` (SAN), export/import PGN, `ai-move`, **`_load()` : état corrompu → erreur 500 claire** | — |
 | IA `chess/ai/` | évaluation statique (matériel + tables de pièces), minimax + alpha-beta | — |
 | Web `web/` | échiquier jouable complet (clic + drag&drop, surbrillance, promotion, historique SAN, captures, horloges, vs ordinateur, flip, modale fin de partie, import/export FEN/PGN) | — |
-| Tests | 46 tests pytest verts | perft (position initiale + Kiwipete) |
+| Tests | **56 tests** pytest verts ; assertions tautologiques/faibles nettoyées | perft (position initiale + Kiwipete) |
 | Skills `skills/` | — | skill Vibe apprenant à jouer via la CLI |
+
+> Phases faites : 1 (docs/AGENTS+README) ✅ · 2 (bugs : undo, validation FEN, assertions, `_load()` corrompu) ✅
 
 ## Architecture cible
 

@@ -1,0 +1,27 @@
+{
+  "seq": 145,
+  "received_at": "2026-11-22T20:23:33.764151+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "SCihUNRUj",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/tests/test_cli.py",
+      "old_string": [
+        "    rc, out, _ = run_cli(capsys, \"--state\", state, \"board\")",
+        "    assert \"4P3\" in out.replace(\" \", \"\") or \"P\" in out.splitlines()[4]"
+      ],
+      "new_string": [
+        "    rc, out, _ = run_cli(capsys, \"--state\", state, \"board\")",
+        "    assert rc == 0",
+        "    # rank 4 row of the ASCII board must show the pawn on e4 and nothing else",
+        "    assert out.splitlines()[4] == \"4  . . . . P . . .\""
+      ]
+    }
+  }
+}
