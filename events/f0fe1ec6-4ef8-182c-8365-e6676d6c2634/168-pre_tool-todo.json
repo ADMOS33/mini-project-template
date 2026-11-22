@@ -1,0 +1,25 @@
+{
+  "seq": 168,
+  "received_at": "2026-11-22T20:29:26.312004+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "vibe.todo",
+    "tool_call_id": "ZPEMcgvQz",
+    "tool_input": {
+      "action": "write",
+      "todos": [
+        {
+          "id": "phase3",
+          "content": "Phase 3 — perft.py + divide, tests/test_perft.py (4 positions), marqueur slow dans pyproject, xfail strict sur cas roque/EP, commit test: + fin de phase (tableau AGENTS.md + events)",
+          "status": "in_progress",
+          "priority": "high"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "seq": 167,
+  "received_at": "2026-11-22T20:26:51.457509+00:00",
+  "hook_event_name": "pre_agent",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_agent",
+    "agent_name": "default",
+    "turn_id": "turn-21e2b6bd4d89b690555ac2bc9fbddb8d",
+    "prompt": [
+      "## Phase 3 — Perft",
+      "6. chess/engine/perft.py avec perft(board, depth) et divide(board, depth). tests/test_perft.py : position initiale p1-4 = 20, 400, 8902, 197281 ; Kiwipete \"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1\" p1-3 = 48, 2039, 97862 ; \"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1\" p1-3 = 14, 191, 2812 ; \"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1\" p1-3 = 6, 264, 9467. Cas qui échouent en xfail strict ; cas longs @pytest.mark.slow (marqueur déclaré dans pyproject.toml). Commit test:."
+    ]
+  }
+}

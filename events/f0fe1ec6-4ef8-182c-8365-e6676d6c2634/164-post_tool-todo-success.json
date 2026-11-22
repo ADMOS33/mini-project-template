@@ -1,0 +1,101 @@
+{
+  "seq": 164,
+  "received_at": "2026-11-22T20:25:29.127234+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "vibe.todo",
+    "tool_call_id": "8u3H47qPE",
+    "tool_input": {
+      "action": "write",
+      "todos": [
+        {
+          "content": "Phase 1 — AGENTS.md + README états réels, commits docs:/chore: faits",
+          "id": "phase1",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Phase 2.2 — fix undo (from_dict rejoue l'historique), commit fix: 6865085",
+          "id": "phase2-2",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Phase 2.3 — validation FEN + CLI invalid FEN rc=1, commit fix: 270d5ee",
+          "id": "phase2-3",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Phase 2.4 — assertions exactes, commit test: 9099dbc",
+          "id": "phase2-4",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Phase 2.5 — _load() corrompu → 500 claire, commit fix: 529a0af",
+          "id": "phase2-5",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Fin phase 2 : tableau AGENTS.md à jour + commit events/ ca8138c",
+          "id": "phase-end",
+          "priority": "high",
+          "status": "completed"
+        }
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "message": "Updated 6 todos",
+      "todos": [
+        {
+          "content": "Phase 1 — AGENTS.md + README états réels, commits docs:/chore: faits",
+          "id": "phase1",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Phase 2.2 — fix undo (from_dict rejoue l'historique), commit fix: 6865085",
+          "id": "phase2-2",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Phase 2.3 — validation FEN + CLI invalid FEN rc=1, commit fix: 270d5ee",
+          "id": "phase2-3",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Phase 2.4 — assertions exactes, commit test: 9099dbc",
+          "id": "phase2-4",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Phase 2.5 — _load() corrompu → 500 claire, commit fix: 529a0af",
+          "id": "phase2-5",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Fin phase 2 : tableau AGENTS.md à jour + commit events/ ca8138c",
+          "id": "phase-end",
+          "priority": "high",
+          "status": "completed"
+        }
+      ],
+      "total_count": 6,
+      "verb": "Updated"
+    },
+    "tool_error": null,
+    "duration_ms": 26
+  }
+}

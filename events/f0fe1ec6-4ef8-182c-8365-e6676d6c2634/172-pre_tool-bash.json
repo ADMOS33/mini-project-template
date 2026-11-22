@@ -1,0 +1,39 @@
+{
+  "seq": 172,
+  "received_at": "2026-11-22T20:29:39.473505+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "ewA518Wk9",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python - <<'EOF'",
+        "import time",
+        "from chess.engine.fen import START_FEN, board_from_fen",
+        "from chess.engine.perft import perft, divide",
+        "",
+        "KIWIPETE = \"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1\"",
+        "POS3 = \"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1\"",
+        "POS4 = \"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1\"",
+        "",
+        "for name, fen, depths in [",
+        "    (\"initial\", START_FEN, [1, 2, 3]),",
+        "    (\"kiwipete\", KIWIPETE, [1, 2, 3]),",
+        "    (\"pos3\", POS3, [1, 2, 3]),",
+        "    (\"pos4\", POS4, [1, 2, 3]),",
+        "]:",
+        "    for d in depths:",
+        "        t = time.time()",
+        "        n = perft(board_from_fen(fen), d)",
+        "        print(f\"{name:9s} p{d} = {n:7d}  ({time.time()-t:.2f}s)\")",
+        "EOF"
+      ]
+    }
+  }
+}
