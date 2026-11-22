@@ -1,0 +1,51 @@
+{
+  "seq": 5,
+  "received_at": "2026-11-22T18:41:51.517570+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "TRAIUYjP4",
+    "tool_input": {
+      "timeout": 120,
+      "command": "find /Users/rafiq/3A/projet-AI/mini-project-template -type f -not -path '*/.git/*' | head -50 && echo '---' && ls -la /Users/rafiq/3A/projet-AI/mini-project-template"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "find /Users/rafiq/3A/projet-AI/mini-project-template -type f -not -path '*/.git/*' | head -50 && echo '---' && ls -la /Users/rafiq/3A/projet-AI/mini-project-template",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "/Users/rafiq/3A/projet-AI/mini-project-template/README.md",
+        "/Users/rafiq/3A/projet-AI/mini-project-template/.gitignore",
+        "/Users/rafiq/3A/projet-AI/mini-project-template/.vibe/hooks.toml",
+        "/Users/rafiq/3A/projet-AI/mini-project-template/.vibe/hooks/log_event.py",
+        "/Users/rafiq/3A/projet-AI/mini-project-template/AGENTS.md",
+        "/Users/rafiq/3A/projet-AI/mini-project-template/events/497fbcf0-dc93-d66b-426e-53360cf46e80/.lock",
+        "/Users/rafiq/3A/projet-AI/mini-project-template/events/497fbcf0-dc93-d66b-426e-53360cf46e80/001-start-startup.json",
+        "/Users/rafiq/3A/projet-AI/mini-project-template/events/497fbcf0-dc93-d66b-426e-53360cf46e80/004-pre_tool-bash.json",
+        "/Users/rafiq/3A/projet-AI/mini-project-template/events/497fbcf0-dc93-d66b-426e-53360cf46e80/002-pre_agent-Tu_es_l_agent_de.json",
+        "/Users/rafiq/3A/projet-AI/mini-project-template/events/497fbcf0-dc93-d66b-426e-53360cf46e80/003-pre_tool-bash.json",
+        "---",
+        "total 24",
+        "drwxr-xr-x@  8 rafiq  staff   256 Nov 22 19:41 .",
+        "drwxr-xr-x@  3 rafiq  staff    96 Nov 22 19:39 ..",
+        "drwxr-xr-x@ 13 rafiq  staff   416 Nov 22 19:39 .git",
+        "-rw-r--r--@  1 rafiq  staff    10 Nov 22 19:39 .gitignore",
+        "drwxr-xr-x@  4 rafiq  staff   128 Nov 22 19:39 .vibe",
+        "-rw-r--r--@  1 rafiq  staff  1152 Nov 22 19:39 AGENTS.md",
+        "drwxr-xr-x@  3 rafiq  staff    96 Nov 22 19:41 events",
+        "-rw-r--r--@  1 rafiq  staff  2915 Nov 22 19:39 README.md",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 122
+  }
+}

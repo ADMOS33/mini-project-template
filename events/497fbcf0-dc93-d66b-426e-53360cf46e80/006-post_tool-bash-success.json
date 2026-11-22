@@ -1,0 +1,36 @@
+{
+  "seq": 6,
+  "received_at": "2026-11-22T18:41:51.542485+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "bcIwfvf0U",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && git log --oneline | head -10 && git status --short"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && git log --oneline | head -10 && git status --short",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "a5851d0 Revise README for project guidelines and deadlines",
+        "ba9eb13 Add project requirements and timeline to README",
+        "0af93d6 Delete events/rel-test directory",
+        "e7f4460 Initial commit: event-logger hook template",
+        "?? events/",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 132
+  }
+}

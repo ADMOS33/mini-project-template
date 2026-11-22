@@ -1,0 +1,35 @@
+{
+  "seq": 20,
+  "received_at": "2026-11-22T18:43:32.206859+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "ycmn2T7aE",
+    "tool_input": {
+      "timeout": 120,
+      "command": "python3 --version && python3 -m pytest --version 2>&1 | head -2; python3 -c \"import fastapi\" 2>&1 | head -1; python3 -c \"import uvicorn\" 2>&1 | head -1"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "python3 --version && python3 -m pytest --version 2>&1 | head -2; python3 -c \"import fastapi\" 2>&1 | head -1; python3 -c \"import uvicorn\" 2>&1 | head -1",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "Python 3.15.2",
+        "/opt/homebrew/opt/python@3.15/bin/python3.15: No module named pytest",
+        "Traceback (most recent call last):",
+        "Traceback (most recent call last):",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 14966
+  }
+}
