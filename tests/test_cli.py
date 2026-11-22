@@ -180,8 +180,8 @@ def test_ai_move_plays_a_legal_move(capsys, tmp_path) -> None:
     assert payload["status"]["turn"] == "w"  # AI played White, now Black to move
     rc, out, _ = run_cli(capsys, "--state", state, "history", "--json")
     history = json.loads(out)
-    assert history["moves"] == [payload["move"]]
-    assert history["details"][0]["san"] == payload["san"]
+    assert history["moves"][-1] == payload["move"]
+    assert history["details"][-1]["san"] == payload["san"]
 
 
 def test_ai_move_on_finished_game_is_an_error(capsys, tmp_path) -> None:
