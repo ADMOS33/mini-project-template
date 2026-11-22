@@ -15,6 +15,7 @@ const ChessAPI = {
   board: () => ChessAPI._req("/api/board"),
   moves: () => ChessAPI._req("/api/moves"),
   fen: () => ChessAPI._req("/api/fen"),
+  eval: () => ChessAPI._req("/api/eval"),
   history: () => ChessAPI._req("/api/history"),
   pgn: () => ChessAPI._req("/api/pgn"),
   newGame: () => ChessAPI._req("/api/new", { method: "POST" }),

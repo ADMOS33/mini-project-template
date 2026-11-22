@@ -708,3 +708,57 @@ select, textarea {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ==========================================================================
+   Barre d'évaluation animée + section repliable FEN/PGN.
+   ========================================================================== */
+
+.evalbar-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.evalbar {
+  flex: 1;
+  height: 10px;
+  border-radius: 5px;
+  background: #111; /* côté noir */
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+#evalbar-fill {
+  height: 100%;
+  width: 50%;
+  background: #f5f3ee; /* côté blanc */
+  transition: width 300ms ease;
+}
+
+#evalbar-label {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  min-width: 3rem;
+  text-align: right;
+}
+
+/* Section repliable */
+details.io-block summary {
+  cursor: pointer;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+  font-weight: 600;
+  padding: var(--s1) 0;
+  border-radius: var(--r8);
+}
+
+details.io-block[open] summary { color: var(--text); margin-bottom: var(--s2); }
+
+textarea {
+  resize: vertical;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  min-height: 4.5rem;
+}

@@ -178,6 +178,7 @@ async function refresh() {
     render();
     renderPlayers();
     renderMovesTable();
+    renderEval();
     if (state.reviewPly === null) {
       setStatus(statusText(status));
     }
@@ -538,6 +539,65 @@ async function maybeAiMove(status) {
   document.getElementById("thinking").classList.add("hidden");
   await refresh();
 }
+
+// --- Barre d'évaluation animée (score /api/eval, perspective camp au trait) ----
+
+async function renderEval() {
+  try {
+    const ev = await ChessAPI.eval();
+    // score du point de vue du camp au trait -> pourcentage pour les Blancs
+    let s = ev.score;
+    if (ev.turn === "b") s = -s;
+    const pct = 50 + 50 * (2 / (1 + Math.exp(-s / 300)) - 1); // sigmoïde douce
+    document.getElementById("evalbar-fill").style.width = pct.toFixed(1) + "%";
+    document.getElementById("evalbar-label").textContent = (s / 100).toFixed(1);
+  } catch { /* la barre reste à sa valeur précédente */ }
+}
+
+// --- Section repliable FEN / PGN : importer + copier ---------------------------------
+
+const ioText = document.getElementById("io-text");
+
+document.getElementById("btn-load-fen").addEventListener("click", async () => {
+  const fen = ioText.value.trim();
+  if (!fen) return toast("Colle d'abord une FEN.", "info");
+  try {
+    await ChessAPI.load(fen);
+    state.reviewPly = null;
+    state.gameOverShownFor = null;
+    await refresh();
+    toast("FEN chargée.", "info");
+  } catch (err) {
+    reportError("FEN invalide", err);
+  }
+});
+document.getElementById("btn-load-pgn").addEventListener("click", async () => {
+  const pgn = ioText.value.trim();
+  if (!pgn) return toast("Colle d'abord un PGN.", "info");
+  try {
+    await ChessAPI.loadPgn(pgn);
+    state.reviewPly = null;
+    state.gameOverShownFor = null;
+    await refresh();
+    toast("PGN chargé.", "info");
+  } catch (err) {
+    reportError("PGN invalide", err);
+  }
+});
+async function copyText(text, what) {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast(what + " copié dans le presse-papiers.", "info");
+  } catch {
+    toast(what + " : " + text, "info");
+  }
+}
+document.getElementById("btn-copy-fen").addEventListener("click", async () => {
+  await copyText((await ChessAPI.fen()).fen, "FEN");
+});
+document.getElementById("btn-copy-pgn").addEventListener("click", async () => {
+  await copyText((await ChessAPI.pgn()).pgn, "PGN");
+});
 
 // Appelé aussi dans refresh() : l'ordinateur répond quand c'est à lui de jouer.
 renderVsControls();

@@ -46,6 +46,10 @@
           </span>
           <span class="clock" id="clock-bottom"></span>
         </div>
+        <div class="evalbar-wrap" title="Évaluation statique (centipions)">
+          <div class="evalbar"><div id="evalbar-fill"></div></div>
+          <span id="evalbar-label" class="muted">0.0</span>
+        </div>
       </aside>
 
       <!-- Colonne centrale : plateau + statut -->
@@ -112,6 +116,18 @@
             </tbody>
           </table>
         </section>
+        <details class="block io-block">
+          <summary>FEN / PGN</summary>
+          <textarea id="io-text" rows="4" placeholder="Colle une FEN ou un PGN ici…"></textarea>
+          <div class="btn-row">
+            <button id="btn-load-fen" class="btn-secondary">Charger la FEN</button>
+            <button id="btn-load-pgn" class="btn-secondary">Charger le PGN</button>
+          </div>
+          <div class="btn-row">
+            <button id="btn-copy-fen" class="btn-secondary">Copier la FEN</button>
+            <button id="btn-copy-pgn" class="btn-secondary">Copier le PGN</button>
+          </div>
+        </details>
       </aside>
     </div>
   </main>
