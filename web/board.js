@@ -43,6 +43,21 @@ function pieceSrc(sym) {
   return `pieces/${color}${sym.toUpperCase()}.svg`;
 }
 
+// Vrai si from->to est une prise en passant (case vide = case ep du FEN).
+function isEpCapture(from, to) {
+  const sym = state.symbols[from] || "";
+  if (sym.toLowerCase() !== "p") return false;
+  if (state.symbols[to]) return false;
+  const ep = state.boardData ? state.boardData.fen.split(" ")[3] : "-";
+  return ep !== "-" && ep === to;
+}
+
+function myPieceAt(name) {
+  const sym = state.symbols[name];
+  if (!sym) return false;
+  return state.turn === "w" ? sym === sym.toUpperCase() : sym === sym.toLowerCase();
+}
+
 function kingSquareOf(color) {
   for (const [name, sym] of Object.entries(state.symbols)) {
     if (sym && sym.toLowerCase() === "k" && (color === "w" ? sym === "K" : sym === "k")) {
@@ -61,6 +76,16 @@ function render() {
   const lastFrom = state.lastMove ? state.lastMove.from : null;
   const lastTo = state.lastMove ? state.lastMove.to : null;
   const checkSq = state.inCheck && state.reviewPly === null ? kingSquareOf(state.turn) : null;
+  // Coups légaux de la pièce sélectionnée : uci "e2e4" -> destination "e4"
+  const hintTargets = new Map();
+  if (state.selected && state.reviewPly === null) {
+    for (const uci of state.legalMoves) {
+      if (uci.startsWith(state.selected)) {
+        const to = uci.slice(2, 4);
+        hintTargets.set(to, hintTargets.get(to) || Boolean(state.symbols[to]) || isEpCapture(state.selected, to));
+      }
+    }
+  }
   for (const rank of ranks) {
     for (const file of files) {
       const name = squareName(file, rank);
@@ -86,6 +111,9 @@ function render() {
       if (name === lastFrom || name === lastTo) sq.classList.add("last-move");
       if (name === checkSq) sq.classList.add("in-check");
       if (name === state.selected) sq.classList.add("selected");
+      if (hintTargets.has(name)) {
+        sq.classList.add(hintTargets.get(name) ? "hint-capture" : "hint");
+      }
       const sym = state.symbols[name];
       if (sym) {
         const span = document.createElement("span");
@@ -156,6 +184,38 @@ async function refresh() {
   } catch (err) {
     setStatus("Erreur : " + err.message);
   }
+}
+
+// --- Sélection au clic (les coups légaux s'affichent en point/anneau) -------
+
+boardEl.addEventListener("pointerup", (e) => {
+  if (state.reviewPly !== null) return;
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  const sq = el && el.closest ? el.closest(".square") : null;
+  if (!sq) return;
+  const name = sq.dataset.square;
+  if (!state.selected) {
+    if (myPieceAt(name)) state.selected = name;
+  } else if (state.selected === name) {
+    state.selected = null;
+  } else {
+    tryMove(state.selected, name); // tryMove arrive à l'étape glisser-déposer
+    state.selected = null;
+  }
+  render();
+});
+
+async function tryMove(from, to) {
+  const candidates = state.legalMoves.filter((m) => m.startsWith(from + to));
+  if (candidates.length === 0) return;
+  const uci = candidates.length > 1 ? from + to + "q" : candidates[0]; // promo par défaut, affinée à l'étape 26
+  try {
+    await ChessAPI.move(uci);
+  } catch (err) {
+    setStatus("Coup refusé : " + err.message);
+  }
+  state.reviewPly = null;
+  await refresh();
 }
 
 refresh();
