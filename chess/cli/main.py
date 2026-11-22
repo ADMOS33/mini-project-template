@@ -101,17 +101,20 @@ def _play_notation(game: Game, text: str) -> Move:
     return game.play_uci(move.to_uci())
 
 
-def _move_details(game: Game) -> list[dict]:
-    """[{uci, san}] for the legal moves, or for the played history."""
-    fens = game.position_fens()
-    if game.moves:
-        return [
-            {"uci": m.to_uci(), "san": move_to_san(board_from_fen(fens[i]), m)}
-            for i, m in enumerate(game.moves)
-        ]
+def _legal_move_details(game: Game) -> list[dict]:
+    """[{uci, san}] for the legal moves of the side to move."""
     return [
         {"uci": m.to_uci(), "san": move_to_san(game.board, m)}
         for m in sorted(game.legal_moves(), key=lambda m: m.to_uci())
+    ]
+
+
+def _history_details(game: Game) -> list[dict]:
+    """[{uci, san}] for the moves played so far (SAN from each past position)."""
+    fens = game.position_fens()
+    return [
+        {"uci": m.to_uci(), "san": move_to_san(board_from_fen(fens[i]), m)}
+        for i, m in enumerate(game.moves)
     ]
 
 
@@ -194,7 +197,7 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
             game.board.ascii() + f"\n{game.status()['turn']} to move",
         )
     if cmd == "moves":
-        details = _move_details(game)
+        details = _legal_move_details(game)
         moves = [d["uci"] for d in details]
         text = "\n".join(f"{d['uci']} ({d['san']})" for d in details)
         return {"moves": moves, "details": details}, text
@@ -225,7 +228,7 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
         fen = board_to_fen(game.board)
         return {"fen": fen}, fen
     if cmd == "history":
-        details = _move_details(game)
+        details = _history_details(game)
         text = (
             "\n".join(f"{i + 1}. {d['uci']} ({d['san']})" for i, d in enumerate(details))
             or "no moves yet"

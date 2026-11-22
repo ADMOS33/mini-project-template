@@ -41,6 +41,25 @@ def test_moves_json_has_20_moves_initially(capsys, tmp_path) -> None:
     assert "e2e4" in moves
 
 
+def test_moves_still_lists_legal_moves_after_moves_played(capsys, tmp_path) -> None:
+    # Regression: `moves` must stay the LEGAL move list even once the history
+    # is non-empty (it used to silently fall back to the played history).
+    state = str(tmp_path / ".chess_game.json")
+    run_cli(capsys, "--state", state, "new")
+    run_cli(capsys, "--state", state, "move", "e2e4", "--json")
+    rc, out, _ = run_cli(capsys, "--state", state, "moves", "--json")
+    assert rc == 0
+    payload = json.loads(out)
+    moves = payload["moves"]
+    assert "e2e4" not in moves  # already played -> not legal anymore
+    assert "e7e5" in moves  # black to move now
+    assert len(moves) == 20
+    assert all(d["uci"] in moves for d in payload["details"])
+    # history is unaffected and still reports the played moves
+    _, hout, _ = run_cli(capsys, "--state", state, "history", "--json")
+    assert json.loads(hout)["moves"] == ["e2e4"]
+
+
 def test_illegal_move_error_lists_legal_moves(capsys, tmp_path) -> None:
     state = str(tmp_path / ".chess_game.json")
     run_cli(capsys, "--state", state, "new")
