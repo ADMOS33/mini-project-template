@@ -41,6 +41,28 @@ def test_undo_restores_position() -> None:
     assert game.undo() is None
 
 
+def test_undo_after_several_moves_restores_intermediate_position() -> None:
+    game = Game()
+    game.play_uci("e2e4")
+    fen_after_e4 = game.status()["fen"]
+    game.play_uci("e7e5")
+    game.undo()
+    assert game.status()["fen"] == fen_after_e4
+    game.undo()
+    assert game.status()["fen"].startswith("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w")
+
+
+def test_position_fens_tracks_every_ply() -> None:
+    game = Game()
+    assert len(game.position_fens()) == 1
+    game.play_uci("e2e4")
+    game.play_uci("c7c5")
+    fens = game.position_fens()
+    assert len(fens) == 3
+    assert fens[1].endswith("b KQkq e3 0 1")
+    assert fens[2] == game.status()["fen"]
+
+
 def test_fools_mate_is_checkmate() -> None:
     game = Game()
     for uci in ("f2f3", "e7e5", "g2g4", "d8h4"):
