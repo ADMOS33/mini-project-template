@@ -7,25 +7,38 @@ const FILES = "abcdefgh";
 
 let selected = null; // currently selected square name, e.g. "e2"
 let glyphs = {}; // square name -> unicode piece glyph
+let symbols = {}; // square name -> FEN symbol (uppercase = white)
 
 function squareName(file, rank) {
   return FILES[file] + (rank + 1);
 }
 
+function addCoord(sqEl, cls, text) {
+  const c = document.createElement("span");
+  c.className = cls;
+  c.textContent = text;
+  sqEl.appendChild(c);
+}
+
 function render(data) {
   boardEl.innerHTML = "";
   glyphs = data.glyphs || {};
+  symbols = data.squares || {};
   for (let rank = 7; rank >= 0; rank--) {
     for (let file = 0; file < 8; file++) {
       const name = squareName(file, rank);
       const sq = document.createElement("div");
-      sq.className = "square " + ((file + rank) % 2 === 0 ? "light" : "dark");
+      // a1 (file+rank even) is a DARK square; h1 is light.
+      sq.className = "square " + ((file + rank) % 2 === 0 ? "dark" : "light");
       sq.dataset.square = name;
+      if (file === 0) addCoord(sq, "coord rank", String(rank + 1));
+      if (rank === 0) addCoord(sq, "coord file", FILES[file]);
       if (name === selected) sq.classList.add("selected");
       const glyph = glyphs[name];
       if (glyph) {
         const span = document.createElement("span");
-        span.className = "piece";
+        const sym = symbols[name] || "";
+        span.className = "piece " + (sym === sym.toUpperCase() ? "white" : "black");
         span.textContent = glyph;
         sq.appendChild(span);
       }
@@ -44,10 +57,7 @@ async function refresh() {
     const [board, status] = await Promise.all([ChessAPI.board(), ChessAPI.status()]);
     render(board);
     const turn = status.turn === "w" ? "White" : "Black";
-    const check = status.in_check ? " — CHECK!" : "";
-    setStatus(
-      `${turn} to move${check} — result: ${status.result} — ${status.legal_move_count} legal moves`
-    );
+    setStatus(`${turn} to move — ${status.result}${status.in_check ? " — check!" : ""} — ${status.legal_move_count} legal moves`);
   } catch (err) {
     setStatus("Error: " + err.message);
   }
@@ -65,7 +75,6 @@ async function onSquareClick(name) {
     if ((glyph === "♙" && name.endsWith("8")) || (glyph === "♟" && name.endsWith("1"))) {
       uci += "q";
     }
-    const from = selected;
     selected = null;
     try {
       await ChessAPI.move(uci);

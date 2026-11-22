@@ -1,8 +1,8 @@
 /* Chess web UI — base styles. */
 
 :root {
-  --light-square: #f0d9b5;
-  --dark-square: #b58863;
+  --light-square: #eeeed2;
+  --dark-square: #769656;
 }
 
 * {
@@ -56,6 +56,7 @@ button:hover {
 }
 
 .square {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,6 +80,46 @@ button:hover {
   font-size: 44px;
   line-height: 1;
   user-select: none;
+}
+
+/* White pieces: white fill with a dark outline; black pieces: near-black
+   fill with a light outline, so both stay readable on either square color. */
+.piece.white {
+  color: #ffffff;
+  text-shadow: 0 0 2px #1a1a1a, 0 0 4px rgba(0, 0, 0, 0.55);
+}
+
+.piece.black {
+  color: #1a1a1a;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.8), 0 0 3px rgba(255, 255, 255, 0.45);
+}
+
+/* Discreet coordinates inside the edge squares. */
+.coord {
+  position: absolute;
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.8;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.coord.rank {
+  top: 2px;
+  left: 3px;
+}
+
+.coord.file {
+  bottom: 2px;
+  right: 3px;
+}
+
+.square.light .coord {
+  color: #769656;
+}
+
+.square.dark .coord {
+  color: #eeeed2;
 }
 
 .status {
