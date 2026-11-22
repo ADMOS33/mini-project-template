@@ -46,9 +46,11 @@ d'un **adversaire classique** (minimax + élagage alpha-beta, pas d'IA générat
   numérotée).
 - **CLI `chess`** pensée pour les humains *et* les agents LLM : `new`, `board`,
   `moves`, `move`, `status`, `undo`, `fen`, `load`, `history` ✅, sortie
+  `pgn`, `load-pgn <fichier>`, `ai-move [--depth N]` ✅, sortie
   `--json` structurée sur chaque commande ✅, état de la partie persisté dans
-  `.chess_game.json` ✅, erreurs explicites (coup illégal → liste des coups
-  légaux) ✅ ; 🚧 `pgn` et `ai-move`.
+  `.chess_game.json` ✅, erreurs explicites (coup illégal → rc 1 + liste des
+  coups légaux, FEN invalide → « invalid FEN ») ✅. `moves` et `history`
+  affichent UCI + SAN (JSON : `moves` + `details`).
 - **API HTTP** (FastAPI) exposant la même partie ✅ (`/api/status`, `/api/board`,
   `/api/moves`, `/api/fen`, `/api/eval`, `/api/new`, `/api/move`, `/api/load`,
   `/api/undo`, `/api/history`, `/api/pgn`, `/api/load-pgn`, `/api/ai-move`).
@@ -59,7 +61,7 @@ d'un **adversaire classique** (minimax + élagage alpha-beta, pas d'IA générat
   par la profondeur) + **negamax alpha-beta** avec tri des coups (captures
   MVV-LVA, promotions) renvoyant `(move, score, nodes)` ; dispo en CLI
   (`ai-move --depth N`) et via l'API (`/api/ai-move`, `/api/eval`).
-- **Tests pytest** par module ✅ (93 tests, 0 xfail) ; **perft** ✅ tous au vert
+- **Tests pytest** par module ✅ (**157 tests, 0 xfail**, + 3 tests `slow`) ; **perft** ✅ tous au vert
   (`chess/engine/perft.py`, `tests/test_perft.py`) : position initiale
   profondeurs 1 à 4 (20, 400, 8902, 197281), Kiwipete
   `r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1`
@@ -79,7 +81,8 @@ chess/
 web/       index.html style.css board.js api.js
 tests/     test_board.py test_movegen.py test_rules.py test_fen.py test_pgn.py
            test_san.py test_perft.py test_game.py test_cli.py test_api.py test_ai.py
-skills/    (plus tard) skill Vibe pour apprendre à un agent à jouer via la CLI
+skills/    chess-cli/SKILL.md  (skill Vibe : jouer via la CLI en --json)
+           chess-cli/example_game.pgn  (partie exemple jouée via la CLI seule)
 ```
 
 ## Utilisation prévue
@@ -110,8 +113,11 @@ uvicorn chess.api.server:app --reload   # endpoints REST + statut de la partie
 
 ### Web
 
-Ouvrir `web/index.html` (servi de préférence via l'API pour appeler les
-endpoints) : échiquier cliquable, coups joués contre l'IA.
+Lancer le serveur (section « Lancer en local » ci-dessous) puis ouvrir
+`http://localhost:8000/` : l'interface `web/` est servie par FastAPI à la
+racine et branche tous ses appels sur `/api/*` (voir la section détaillée
+« Interface web »). Capture du plateau initial (générée depuis les vrais SVG
+de `web/pieces/`) : [`docs/screenshots/board-initial.svg`](docs/screenshots/board-initial.svg).
 
 ### Tests
 
@@ -189,6 +195,16 @@ La CLI et l'API partagent le même fichier d'état `.chess_game.json` quand elle
 tournent depuis la racine du projet (surcharger avec `--state PATH` côté CLI ou
 `CHESS_STATE_FILE` côté serveur).
 
+### Skill pour agent LLM (`skills/chess-cli/`)
+
+`SKILL.md` apprend à un agent à jouer une partie complète via la CLI seule :
+boucle `status --json` → `moves --json` → `move <uci> --json` → `ai-move
+--depth 2 --json` pour l'adversaire, gestion des erreurs (rc 1 + liste des
+coups légaux), condition d'arrêt `result != "ongoing"`. `example_game.pgn`
+est une vraie partie jouée de cette façon (agent vs `ai-move --depth 2`,
+nulle par triple répétition). Voir `chess --help` pour la liste des
+sous-commandes.
+
 ## Plan de développement (phases)
 
 1. **Fondations** — `AGENTS.md`, `README.md`, squelette (`pyproject.toml`,
@@ -204,8 +220,9 @@ tournent depuis la racine du projet (surcharger avec `--state PATH` côté CLI o
 5. **API HTTP** (Adam) — FastAPI + schémas + tests (SAN, PGN import/export,
    `ai-move`). ✅
 6. **Web** (Hafsa) — échiquier jouable vanilla JS branché sur l'API. ✅
-7. **Finitions** (tous) — 🚧 règles manquantes du moteur + perft, skill agent
-   dans `skills/`, `report.md` (retour d'expérience demandé par le cours), polish.
+7. **Finitions** (tous) — ✅ règles complètes + perft au vert, ✅ skill agent
+   `skills/chess-cli/` (avec `example_game.pgn` jouée via la CLI seule) ;
+   🚧 `report.md` (retour d'expérience demandé par le cours).
 
 ## Décisions
 
