@@ -186,10 +186,17 @@ def post_ai_move(req: AiMoveRequest) -> dict:
     if game.status()["result"] != "ongoing":
         raise HTTPException(status_code=400, detail="game is over")
     depth = max(1, min(req.depth, 6))
-    move, score = best_move(game.board, depth)
+    move, score, nodes = best_move(game.board, depth)
     game.play_uci(move.to_uci())
     _save(game)
-    return {"ok": True, "move": move.to_uci(), "score": score, "depth": depth, "status": game.status()}
+    return {
+        "ok": True,
+        "move": move.to_uci(),
+        "score": score,
+        "nodes": nodes,
+        "depth": depth,
+        "status": game.status(),
+    }
 
 
 # Serve the web UI last so the /api/* routes above take precedence.
