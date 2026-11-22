@@ -1,0 +1,120 @@
+"""Tests for PGN import/export (chess/engine/pgn.py)."""
+
+import re
+
+import pytest
+
+from chess.engine.fen import board_to_fen
+from chess.engine.game import Game
+from chess.engine.pgn import export_pgn, import_pgn
+
+OPERA_GAME = """[Event "Paris Opera"]
+[Site "Paris FRA"]
+[Date "1858.11.02"]
+[Round "-"]
+[White "Morphy, Paul Charles"]
+[Black "Anderssen, Adolf"]
+[Result "1-0"]
+
+1. e4 e5 2. Nf3 d6 3. d4 Bg4 4. dxe5 Bxf3 5. Qxf3 dxe5 6. Bc4 Nf6
+7. Qb3 Qe7 8. Nc3 c6 9. Bg5 b5 10. Nxb5 cxb5 11. Bxb5+ Nbd7
+12. O-O-O Rd8 13. Rxd7 Rxd7 14. Rd1 Qe6 15. Bxd7+ Nxd7 16. Qb8+ Nxb8
+17. Rd8# 1-0
+"""
+
+
+def test_export_has_seven_tag_roster_and_result() -> None:
+    game = Game()
+    game.play_uci("e2e4")
+    text = export_pgn(game)
+    for tag in ("Event", "Site", "Date", "Round", "White", "Black", "Result"):
+        assert re.search(rf'^\[{tag} "[^"]*"\]$', text, re.MULTILINE), tag
+    assert '[Result "*"]' in text
+
+
+def test_export_movetext_is_numbered_san_with_result() -> None:
+    game = Game()
+    for uci in ("e2e4", "e7e5", "g1f3", "b8c6"):
+        game.play_uci(uci)
+    text = export_pgn(game)
+    movetext = text.split("\n\n", 1)[1]
+    assert "1. e4 e5 2. Nf3 Nc6 *" in movetext
+
+
+def test_export_movetext_lines_at_most_80_chars() -> None:
+    game = Game()
+    for uci in (
+        "e2e4", "e7e5", "g1f3", "b8c6", "f1b5", "a7a6", "b5a4", "g8f6",
+        "e1g1", "f8e7", "h2h3", "e8g8", "d2d3", "d7d6", "c2c3", "b7b5",
+        "a4c2", "c8e6", "d3d4", "e5d4", "c3d4", "f6d7", "b1d2", "d7b6",
+    ):
+        game.play_uci(uci)
+    text = export_pgn(game)
+    movetext = text.split("\n\n", 1)[1]
+    lines = movetext.splitlines()
+    assert len(lines) > 1  # actually wrapped
+    assert all(len(line) <= 80 for line in lines)
+
+
+def test_roundtrip_same_final_fen() -> None:
+    game = Game()
+    for uci in ("e2e4", "e7e5", "g1f3", "b8c6", "f1b5", "a7a6", "e1g1"):
+        game.play_uci(uci)
+    text = export_pgn(game)
+    reloaded = import_pgn(text)
+    assert board_to_fen(reloaded.board) == board_to_fen(game.board)
+    assert [m.to_uci() for m in reloaded.moves] == [m.to_uci() for m in game.moves]
+
+
+def test_roundtrip_from_custom_fen_writes_setup_and_fen_tags() -> None:
+    start = "r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1"
+    game = Game.from_fen(start)
+    game.play_uci("e1g1")
+    text = export_pgn(game)
+    assert '[SetUp "1"]' in text
+    assert f'[FEN "{start}"]' in text
+    reloaded = import_pgn(text)
+    assert board_to_fen(reloaded.board) == board_to_fen(game.board)
+
+
+def test_export_result_of_checkmate() -> None:
+    game = Game()
+    for uci in ("f2f3", "e7e5", "g2g4", "d8h4"):
+        game.play_uci(uci)
+    text = export_pgn(game)
+    assert '[Result "0-1"]' in text
+    assert "Qh4#" in text
+
+
+def test_import_ignores_comments_variations_nags_and_numbers() -> None:
+    pgn = (
+        '[Event "t"]\n[Result "*"]\n\n'
+        "1. e4 {best by test} e5 (1... c5 2. Nf3) 2. Nf3 $1 d6 3. d4 *"
+    )
+    game = import_pgn(pgn)
+    assert [m.to_uci() for m in game.moves] == ["e2e4", "e7e5", "g1f3", "d7d6", "d2d4"]
+
+
+def test_import_error_reports_the_move_number() -> None:
+    with pytest.raises(ValueError, match=r"move 4.*nonsense"):
+        import_pgn("1. e4 e5 2. Nf3 nonsense")
+
+
+def test_import_uses_fen_tag_as_start_position() -> None:
+    pgn = '[FEN "8/8/8/4k3/8/8/8/4K3 w - - 0 1"]\n\n1. Kd2 *'
+    game = import_pgn(pgn)
+    assert board_to_fen(game.board).startswith("8/8/8/4k3/8/8/3K4/8 b")
+
+
+def test_morphy_opera_game_ends_in_checkmate() -> None:
+    game = import_pgn(OPERA_GAME)
+    assert len(game.moves) == 33  # 17 full moves, Morphy's 17th is the mate
+    status = game.status()
+    assert status["result"] == "checkmate"
+    assert status["winner"] == "w"
+    assert status["in_check"] is True
+    # the last move is Rd8#
+    assert game.moves[-1].to_uci() == "d1d8"
+    # roundtrip of the opera game keeps the same final position
+    reloaded = import_pgn(export_pgn(game))
+    assert board_to_fen(reloaded.board) == board_to_fen(game.board)

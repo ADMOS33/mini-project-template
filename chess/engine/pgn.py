@@ -1,1 +1,102 @@
-"""PGN (Portable Game Notation) import and export (skeleton)."""
+"""PGN (Portable Game Notation) import and export.
+
+``export_pgn(game)`` writes the Seven Tag Roster (+ ``[SetUp "1"]`` and
+``[FEN "..."]`` when the game does not start from the initial position),
+then the movetext: numbered SAN moves and the result, wrapped at 80 columns.
+``import_pgn(text)`` parses a PGN back into a :class:`Game`, ignoring
+``{comments}``, ``(variations)``, ``$NAG``s and move numbers, and raising a
+ValueError naming the offending move number on a bad SAN token.
+"""
+
+from __future__ import annotations
+
+import re
+from datetime import datetime, timezone
+
+from chess.engine.fen import START_FEN, board_from_fen
+from chess.engine.game import Game
+from chess.engine.san import move_to_san, san_to_move
+
+#: The Seven Tag Roster, in order.
+SEVEN_TAG_ROSTER = ("Event", "Site", "Date", "Round", "White", "Black", "Result")
+
+_RESULT_TOKENS = ("1-0", "0-1", "1/2-1/2", "*")
+_MAX_LINE = 80
+
+
+def _pgn_result(status: dict) -> str:
+    if status["result"] == "checkmate":
+        return "1-0" if status["winner"] == "w" else "0-1"
+    if status["result"] == "ongoing":
+        return "*"
+    return "1/2-1/2"
+
+
+def export_pgn(game: Game, headers: dict[str, str] | None = None) -> str:
+    """Export ``game`` as a PGN string (Seven Tag Roster + wrapped movetext)."""
+    status = game.status()
+    result = _pgn_result(status)
+    tags = {
+        "Event": "Casual game",
+        "Site": "?",
+        "Date": datetime.now(timezone.utc).strftime("%Y.%m.%d"),
+        "Round": "-",
+        "White": "?",
+        "Black": "?",
+        "Result": result,
+    }
+    if headers:
+        tags.update(headers)
+    tag_lines = [f'[{tag} "{tags[tag]}"]' for tag in SEVEN_TAG_ROSTER]
+    start_fen = game.position_fens()[0]
+    if start_fen != START_FEN:
+        tag_lines.append('[SetUp "1"]')
+        tag_lines.append(f'[FEN "{start_fen}"]')
+
+    fens = game.position_fens()
+    sans = [move_to_san(board_from_fen(fens[i]), move) for i, move in enumerate(game.moves)]
+    tokens: list[str] = []
+    for i, san in enumerate(sans):
+        if i % 2 == 0:
+            tokens.append(f"{i // 2 + 1}.")
+        tokens.append(san)
+    tokens.append(result)
+    movetext_lines: list[str] = []
+    line = ""
+    for token in tokens:
+        if line and len(line) + 1 + len(token) > _MAX_LINE:
+            movetext_lines.append(line)
+            line = token
+        else:
+            line = f"{line} {token}" if line else token
+    if line:
+        movetext_lines.append(line)
+    return "\n".join(tag_lines) + "\n\n" + "\n".join(movetext_lines) + "\n"
+
+
+def import_pgn(text: str) -> Game:
+    """Parse a PGN string into a :class:`Game`.
+
+    ``{comments}``, ``(variations)`` (non-nested), ``$NAG``s, move numbers and
+    result tokens are ignored. Raises ValueError with the move number of the
+    first SAN token that is unknown or illegal.
+    """
+    fen_match = re.search(r'\[FEN\s+"([^"]+)"\]', text)
+    start_fen = fen_match.group(1) if fen_match else None
+    game = Game.from_fen(start_fen) if start_fen else Game()
+    body = re.sub(r"\[[^\]]*\]", " ", text)  # tag pairs
+    body = re.sub(r"\{[^}]*\}", " ", body)  # comments
+    body = re.sub(r"\([^)]*\)", " ", body)  # variations (non-nested)
+    body = re.sub(r"\$\d+", " ", body)  # NAGs
+    move_number = 0
+    for raw in body.split():
+        token = raw.strip()
+        if not token or re.fullmatch(r"\d+\.", token) or token in _RESULT_TOKENS:
+            continue
+        move_number += 1
+        try:
+            move = san_to_move(game.board, token)
+        except ValueError as exc:
+            raise ValueError(f"invalid PGN: move {move_number} ({token!r}): {exc}") from exc
+        game.play_uci(move.to_uci())
+    return game
