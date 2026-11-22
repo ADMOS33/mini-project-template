@@ -1,22 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chess</title>
+  <title>Chess — moteur Python pur</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="app">
-    <h1>♞ Chess</h1>
-    <p class="subtitle">Pure-Python chess engine — click a piece, then its destination.</p>
-    <div class="controls">
-      <button id="btn-new">New game</button>
-      <button id="btn-undo">Undo</button>
+    <header class="topbar">
+      <h1>♞ Chess</h1>
+      <span class="subtitle">Moteur d'échecs écrit à la main en Python — API FastAPI</span>
+    </header>
+
+    <div class="layout">
+      <!-- Left panel: players -->
+      <aside class="panel panel-left">
+        <div class="player-card" id="player-top"></div>
+        <div class="captured" id="captured-top"></div>
+        <div class="player-card" id="player-bottom"></div>
+        <div class="captured" id="captured-bottom"></div>
+      </aside>
+
+      <!-- Center: board -->
+      <section class="board-area">
+        <div id="board" class="board" aria-label="Échiquier"></div>
+        <div id="status" class="status">chargement…</div>
+      </section>
+
+      <!-- Right panel: controls + move history -->
+      <aside class="panel panel-right">
+        <section class="block">
+          <h2>Partie</h2>
+          <div class="btn-row">
+            <button id="btn-new">Nouvelle partie</button>
+            <button id="btn-undo">Annuler</button>
+          </div>
+        </section>
+        <section class="block">
+          <h2>Coups</h2>
+          <ol id="history" class="history"><li class="empty">aucun coup</li></ol>
+        </section>
+      </aside>
     </div>
-    <div id="board" class="board" aria-label="Chess board"></div>
-    <div id="status" class="status">loading…</div>
   </main>
+
   <script src="api.js"></script>
   <script src="board.js"></script>
 </body>
