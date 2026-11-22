@@ -45,6 +45,50 @@ perft passent.
 - Si une décision est ambiguë : choisir **l'option la plus simple** et la noter
   dans le README (section « Décisions »).
 
+## Ne jamais faire (règles absolues)
+
+- **Ne jamais lancer de process bloquant** (uvicorn, serveur, watcher, ...) :
+  c'est l'humain qui le lance.
+- **Ne jamais modifier `events/`** ni `.vibe/hooks.toml` /
+  `.vibe/hooks.log_event.py` — sauf pour committer `events/`.
+- **Ne jamais ajouter de dépendance** (pas de python-chess, pas de httpx) :
+  uniquement `fastapi`, `uvicorn`, `pytest`.
+- **Ne jamais implémenter de règle d'échecs en JS ou dans l'API** : tout vit
+  dans le moteur (`chess/engine/`).
+- **Ne jamais committer un état où les tests échouent** ; pour une cible pas
+  encore atteinte, utiliser `pytest.mark.xfail(strict=True, reason=...)`.
+- **N'implémenter que ce qui est demandé**, rien de plus.
+
+## Workflow — test d'abord
+
+1. Écrire le test de régression et le voir **échouer**.
+2. Corriger/implementer jusqu'au **vert**.
+3. Un seul commit (test + code ensemble), message Conventional Commits.
+
+## Definition of Done
+
+Une étape est terminée quand :
+
+1. le test de régression existe et passe ;
+2. `pytest` est entièrement vert ;
+3. le README est à jour si le comportement visible a changé.
+
+À la fin de **chaque phase** : mettre à jour le tableau « État d'avancement"
+ci-dessous, puis `git add events/ && git commit -m "chore: add vibe session logs"`.
+Si la session est interrompue, la prochaine reprendra grâce à ce tableau.
+
+## État d'avancement
+
+| Module | Fait ✅ | À faire 🚧 |
+|--------|---------|-----------|
+| Moteur `chess/engine/` | plateau/pièces, déplacements de base, promotion, coups légaux (roi jamais en échec), échec/mat/pat, règle des 50 coups, FEN import/export, `Game` (play/undo/status/persistance JSON) | roque, prise en passant, triple répétition, matériel insuffisant, perft, validation FEN (rois, pions 1re/8e, échec) |
+| CLI `chess/cli/` | `new`, `board`, `moves`, `move`, `status`, `undo`, `fen`, `load`, `history`, `--json` | `pgn`, `ai-move` |
+| API `chess/api/` | `status`, `board`, `moves`, `fen`, `new`, `move`, `load`, `undo`, `history` (SAN), export/import PGN, `ai-move` | — |
+| IA `chess/ai/` | évaluation statique (matériel + tables de pièces), minimax + alpha-beta | — |
+| Web `web/` | échiquier jouable complet (clic + drag&drop, surbrillance, promotion, historique SAN, captures, horloges, vs ordinateur, flip, modale fin de partie, import/export FEN/PGN) | — |
+| Tests | 46 tests pytest verts | perft (position initiale + Kiwipete) |
+| Skills `skills/` | — | skill Vibe apprenant à jouer via la CLI |
+
 ## Architecture cible
 
 ```

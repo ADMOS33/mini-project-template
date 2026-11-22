@@ -22,20 +22,31 @@ d'un **adversaire classique** (minimax + élagage alpha-beta, pas d'IA générat
 
 ## Fonctionnalités
 
-- **Règles complètes** : déplacements de toutes les pièces, coups légaux (le roi
-  ne peut jamais rester en échec), échec, échec et mat, pat, petit et grand roque
-  (avec toutes les conditions), prise en passant, promotion avec choix de la
-  pièce, nulle par triple répétition, règle des 50 coups, matériel insuffisant.
-- **Import/export FEN et PGN** ; notations **UCI** (`e2e4`, `e7e8q`) et **SAN**
-  (`Nf3`, `O-O`).
-- **CLI `chess`** pensée pour les humains *et* les agents LLM : sortie `--json`
-  structurée sur chaque commande, état de la partie persisté dans
-  `.chess_game.json`, erreurs explicites (coup illégal → liste des coups légaux).
-- **API HTTP** (FastAPI) exposant la même partie.
-- **Interface web** avec échiquier jouable en HTML/CSS/JS vanilla.
-- **IA classique** : minimax avec élagage alpha-beta + évaluation statique.
-- **Tests pytest** par module + **perft** sur positions standard (position
-  initiale, profondeurs 1 à 4 : 20, 400, 8902, 197281 ; Kiwipete
+> Légende : ✅ implémenté et testé · 🚧 prévu mais pas encore fait.
+
+- **Règles du moteur** (`chess/engine/`) :
+  - ✅ déplacements de toutes les pièces, coups légaux (le roi ne peut jamais
+    rester en échec), échec, échec et mat, pat, promotion avec choix de la
+    pièce, règle des 50 coups ;
+  - 🚧 petit et grand roque (avec toutes les conditions), prise en passant,
+    nulle par triple répétition, matériel insuffisant.
+- **Notations et formats** : ✅ **FEN** (import/export), ✅ **UCI** (`e2e4`,
+  `e7e8q`), ✅ **SAN** (`Nf3`, `O-O`) et ✅ **PGN** (import/export) côté API ;
+  🚧 export PGN et commande `ai-move` côté CLI.
+- **CLI `chess`** pensée pour les humains *et* les agents LLM : `new`, `board`,
+  `moves`, `move`, `status`, `undo`, `fen`, `load`, `history` ✅, sortie
+  `--json` structurée sur chaque commande ✅, état de la partie persisté dans
+  `.chess_game.json` ✅, erreurs explicites (coup illégal → liste des coups
+  légaux) ✅ ; 🚧 `pgn` et `ai-move`.
+- **API HTTP** (FastAPI) exposant la même partie ✅ (`/api/status`, `/api/board`,
+  `/api/moves`, `/api/fen`, `/api/new`, `/api/move`, `/api/load`, `/api/undo`,
+  `/api/history`, `/api/pgn`, `/api/load-pgn`, `/api/ai-move`).
+- **Interface web** ✅ avec échiquier jouable en HTML/CSS/JS vanilla (voir
+  ci-dessous).
+- **IA classique** ✅ : minimax avec élagage alpha-beta + évaluation statique
+  (matériel + tables de pièces).
+- **Tests pytest** par module ✅ (46 tests) ; 🚧 **perft** sur positions standard
+  (position initiale, profondeurs 1 à 4 : 20, 400, 8902, 197281 ; Kiwipete
   `r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1`,
   profondeurs 1 à 3 : 48, 2039, 97862).
 
@@ -58,14 +69,15 @@ skills/    (plus tard) skill Vibe pour apprendre à un agent à jouer via la CLI
 ### CLI (humain ou agent)
 
 ```bash
-python3 -m chess new                 # nouvelle partie (persistée dans .chess_game.json)
-python3 -m chess board               # échiquier ASCII
-python3 -m chess moves               # coups légaux (UCI + SAN)
-python3 -m chess move e2e4           # joue un coup (UCI ou SAN accepté)
-python3 -m chess ai-move --depth 3   # coup de l'IA
-python3 -m chess status              # au trait, échec, mat, nulle...
-python3 -m chess undo / fen / load <fen> / pgn / history
-python3 -m chess <commande> --json   # sortie structurée pour un agent
+python3 -m chess new                 # nouvelle partie (persistée dans .chess_game.json) ✅
+python3 -m chess board               # échiquier ASCII ✅
+python3 -m chess moves               # coups légaux (UCI) ✅
+python3 -m chess move e2e4           # joue un coup (UCI) ✅
+python3 -m chess status              # au trait, échec, mat, nulle... ✅
+python3 -m chess undo / fen / load <fen> / history   # ✅
+python3 -m chess ai-move --depth 3   # 🚧 pas encore implémenté côté CLI (dispo via l'API)
+python3 -m chess pgn                 # 🚧 idem (export PGN dispo via l'API)
+python3 -m chess <commande> --json   # sortie structurée pour un agent ✅
 ```
 
 Après `pip install -e .`, la commande `chess` est aussi disponible directement.
@@ -148,15 +160,17 @@ tournent depuis la racine du projet (surcharger avec `--state PATH` côté CLI o
 1. **Fondations** — `AGENTS.md`, `README.md`, squelette (`pyproject.toml`,
    arborescence, test trivial qui passe). ✅
 2. **Moteur** (Rafiq) — plateau, pièces, génération de coups pseudo-légaux puis
-   légaux, règles (échec/mat/pat, roques, prise en passant, promotion, nulles),
-   FEN, UCI/SAN, puis **perft** jusqu'au vert.
+   légaux, règles de base (échec/mat/pat, promotion, 50 coups), FEN, UCI ✅ ;
+   🚧 roques, prise en passant, triple répétition, matériel insuffisant, SAN/PGN
+   dans `chess/engine/`, **perft** jusqu'au vert.
 3. **CLI** (Adam) — persistance `.chess_game.json`, sous-commandes, `--json`,
-   tests CLI.
-4. **IA** (Adam) — évaluation statique + minimax alpha-beta, tests.
-5. **API HTTP** (Adam) — FastAPI + schémas + tests.
-6. **Web** (Hafsa) — échiquier jouable vanilla JS branché sur l'API.
-7. **Finitions** (tous) — import/export PGN, skill agent dans `skills/`,
-   `report.md` (retour d'expérience demandé par le cours), polish.
+   tests CLI ✅ ; 🚧 `pgn`, `ai-move`.
+4. **IA** (Adam) — évaluation statique + minimax alpha-beta, tests. ✅
+5. **API HTTP** (Adam) — FastAPI + schémas + tests (SAN, PGN import/export,
+   `ai-move`). ✅
+6. **Web** (Hafsa) — échiquier jouable vanilla JS branché sur l'API. ✅
+7. **Finitions** (tous) — 🚧 règles manquantes du moteur + perft, skill agent
+   dans `skills/`, `report.md` (retour d'expérience demandé par le cours), polish.
 
 ## Décisions
 
@@ -175,8 +189,9 @@ tournent depuis la racine du projet (surcharger avec `--state PATH` côté CLI o
   `httpx` ne fait pas partie des dépendances autorisées.
 - Le serveur sert `web/` à la racine (`/`) ; les routes `/api/*` et `/docs`
   sont enregistrées avant le mount statique pour prendre la priorité.
-- Slice moteur actuel (démo locale) : coups normaux de toutes les pièces,
-  promotion, filtre « roi pas en échec », échec/mat/pat, règle des 50 coups.
-  **Roque, prise en passant, SAN, PGN, triple répétition et matériel
-  insuffisant arrivent en phase 2** (perft compris).
+- Slice moteur actuel : coups normaux de toutes les pièces, promotion, filtre
+  « roi pas en échec », échec/mat/pat, règle des 50 coups, FEN, persistance JSON.
+  **Roque, prise en passant, triple répétition et matériel insuffisant ne sont
+  pas encore implémentés** (perft compris). SAN et PGN vivent pour l'instant dans
+  la couche API (`chess/api/notation.py`), pas dans `chess/engine/`.
 - Règle d'ambiguïté : choisir l'option la plus simple et l'ajouter ici.
