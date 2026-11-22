@@ -66,6 +66,35 @@ def test_load_pgn_rejects_unknown_move(state) -> None:
         server.post_load_pgn(PgnRequest(pgn="1. e4 e5 2. Nf3 Nc6 3. nonsense"))
     assert exc.value.status_code == 400
     assert "nonsense" in exc.value.detail
+    assert "move 5" in exc.value.detail
+
+
+OPERA_PGN = """[Event "Paris Opera"]
+[Result "1-0"]
+
+1. e4 e5 2. Nf3 d6 3. d4 Bg4 4. dxe5 Bxf3 5. Qxf3 dxe5 6. Bc4 Nf6
+7. Qb3 Qe7 8. Nc3 c6 9. Bg5 b5 10. Nxb5 cxb5 11. Bxb5+ Nbd7
+12. O-O-O Rd8 13. Rxd7 Rxd7 14. Rd1 Qe6 15. Bxd7+ Nxd7 16. Qb8+ Nxb8
+17. Rd8# 1-0
+"""
+
+
+def test_load_pgn_morphy_opera_is_checkmate(state) -> None:
+    r = server.post_load_pgn(PgnRequest(pgn=OPERA_PGN))
+    assert r["ok"] and len(r["moves"]) == 33
+    assert r["status"]["result"] == "checkmate"
+    assert r["status"]["winner"] == "w"
+    pgn = server.get_pgn()["pgn"]
+    assert "17. Rd8#" in pgn and '[Result "1-0"]' in pgn
+
+
+def test_get_pgn_writes_setup_and_fen_for_custom_start(state) -> None:
+    server.post_load(LoadRequest(fen="r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1"))
+    server.post_move(MoveRequest(move="e1g1"))
+    pgn = server.get_pgn()["pgn"]
+    assert '[SetUp "1"]' in pgn
+    assert '[FEN "r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1"]' in pgn
+    assert "1. O-O" in pgn
 
 
 def test_load_fen_endpoint(state) -> None:

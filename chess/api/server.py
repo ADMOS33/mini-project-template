@@ -22,11 +22,12 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 
 from chess.ai.search import best_move
-from chess.api.notation import pgn_export, pgn_import, to_san
 from chess.api.schemas import AiMoveRequest, LoadRequest, MoveRequest, PgnRequest
 from chess.engine.board import square_name
 from chess.engine.fen import board_from_fen, board_to_fen
 from chess.engine.game import Game
+from chess.engine.pgn import export_pgn, import_pgn
+from chess.engine.san import move_to_san
 
 STATE_FILE = Path(os.environ.get("CHESS_STATE_FILE", ".chess_game.json"))
 WEB_DIR = Path(__file__).resolve().parents[2] / "web"
@@ -150,7 +151,7 @@ def get_history() -> dict:
             {
                 "ply": i + 1,
                 "uci": move.to_uci(),
-                "san": to_san(board_from_fen(fens[i]), move),
+                "san": move_to_san(board_from_fen(fens[i]), move),
                 "fen": fens[i + 1],
             }
         )
@@ -159,22 +160,23 @@ def get_history() -> dict:
 
 @app.get("/api/pgn")
 def get_pgn() -> dict:
-    """Current game exported as PGN (SAN movetext)."""
-    return {"pgn": pgn_export(_load())}
+    """Current game exported as PGN (Seven Tag Roster + SAN movetext)."""
+    return {"pgn": export_pgn(_load())}
 
 
 @app.post("/api/load-pgn")
 def post_load_pgn(req: PgnRequest) -> dict:
-    """Load a game from a PGN string (SAN movetext)."""
+    """Load a game from a PGN string. 400 naming the move number if invalid."""
     try:
-        start_fen, uci_moves = pgn_import(req.pgn)
+        game = import_pgn(req.pgn)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
-    game = Game.from_fen(start_fen) if start_fen else Game()
-    for uci in uci_moves:
-        game.play_uci(uci)
     _save(game)
-    return {"ok": True, "moves": uci_moves, "status": game.status()}
+    return {
+        "ok": True,
+        "moves": [m.to_uci() for m in game.moves],
+        "status": game.status(),
+    }
 
 
 @app.post("/api/ai-move")
