@@ -99,11 +99,25 @@ class Game:
 
     @classmethod
     def from_dict(cls, data: dict) -> Game:
-        """Rebuild a game from :meth:`to_dict` output."""
-        game = cls.from_fen(data["fen"])
-        game.moves = [Move.from_uci(u) for u in data.get("moves", [])]
-        positions = data.get("positions")
-        game._positions = list(positions) if positions else [data["fen"]]
+        """Rebuild a game from :meth:`to_dict` output.
+
+        The position history is rebuilt by replaying the stored moves from the
+        starting FEN, so ``undo`` always restores exactly one ply — even if the
+        persisted ``positions`` list is missing or stale (legacy state files).
+        Raises ValueError on a corrupted state.
+        """
+        moves = [Move.from_uci(u) for u in data.get("moves", [])]
+        positions = data.get("positions") or []
+        if positions:
+            game = cls.from_fen(positions[0])
+        elif moves:
+            raise ValueError("corrupted game state: moves without a starting position")
+        else:
+            game = cls.from_fen(data["fen"])
+        for move in moves:
+            game.play_uci(move.to_uci())
+        if board_to_fen(game.board) != data["fen"]:
+            raise ValueError("corrupted game state: FEN does not match the move list")
         return game
 
     def save(self, path: str | Path) -> None:

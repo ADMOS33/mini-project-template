@@ -73,6 +73,53 @@ def test_fools_mate_is_checkmate() -> None:
     assert status["legal_move_count"] == 0
 
 
+def test_single_undo_after_two_plies_restores_exact_position(tmp_path) -> None:
+    """Regression: ONE undo must take back exactly one ply, even when the game
+    is reloaded from disk between commands (like the CLI does)."""
+    path = tmp_path / "game.json"
+    game = Game()
+    game.save(path)
+    for uci in ("e2e4", "e7e5"):
+        game = Game.load(path)
+        game.play_uci(uci)
+        game.save(path)
+    game = Game.load(path)
+    undone = game.undo()
+    assert undone is not None and undone.to_uci() == "e7e5"
+    assert [m.to_uci() for m in game.moves] == ["e2e4"]
+    assert game.status()["fen"] == (
+        "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1"
+    )
+    assert game.position_fens() == [
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
+    ]
+
+
+def test_from_dict_with_stale_positions_still_undoes_one_ply() -> None:
+    """A persisted state whose positions list misses the current FEN (legacy
+    format) must not make undo jump back two plies."""
+    f0 = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+    f1 = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1"
+    f2 = "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2"
+    data = {"fen": f2, "moves": ["e2e4", "e7e5"], "positions": [f0, f1]}
+    game = Game.from_dict(data)
+    game.undo()
+    assert [m.to_uci() for m in game.moves] == ["e2e4"]
+    assert game.status()["fen"] == f1
+
+
+def test_from_dict_without_positions_but_with_moves_is_rejected() -> None:
+    """A state with moves but no position history is corrupted: refuse it
+    clearly instead of letting undo crash later."""
+    data = {
+        "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2",
+        "moves": ["e2e4", "e7e5"],
+    }
+    with pytest.raises(ValueError, match="corrupted game state"):
+        Game.from_dict(data)
+
+
 def test_persistence_roundtrip(tmp_path) -> None:
     game = Game()
     game.play_uci("e2e4")
