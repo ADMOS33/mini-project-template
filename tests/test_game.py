@@ -18,7 +18,7 @@ def test_play_uci_updates_state() -> None:
     game.play_uci("e2e4")
     status = game.status()
     assert status["turn"] == "b"
-    assert status["fen"] == "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1"
+    assert status["fen"] == "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1"
 
 
 def test_illegal_move_raises_with_legal_list() -> None:
