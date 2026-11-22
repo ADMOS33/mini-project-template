@@ -6,7 +6,7 @@ from chess.engine.board import parse_square
 from chess.engine.fen import START_FEN, board_from_fen
 from chess.engine.move import Move
 from chess.engine.movegen import apply_move, is_square_attacked, legal_moves
-from chess.engine.pieces import Color, PieceType
+from chess.engine.pieces import Color, Piece, PieceType
 
 
 def test_move_uci_roundtrip() -> None:
@@ -31,8 +31,8 @@ def test_initial_position_has_20_legal_moves() -> None:
 def test_apply_move_e2e4() -> None:
     board = board_from_fen(START_FEN)
     new = apply_move(board, Move.from_uci("e2e4"))
-    assert new.piece_at(parse_square("e4")) == new.piece_at(parse_square("e4"))
-    assert new.piece_at(parse_square("e4")).type is PieceType.PAWN
+    assert new.piece_at(parse_square("e4")) == Piece(PieceType.PAWN, Color.WHITE)
+    assert new.piece_at(parse_square("e2")) is None
     assert new.piece_at(parse_square("e2")) is None
     assert new.turn is Color.BLACK
     assert new.ep_square == parse_square("e3")

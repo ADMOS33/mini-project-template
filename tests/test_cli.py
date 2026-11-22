@@ -20,7 +20,9 @@ def test_new_board_move_status(capsys, tmp_path) -> None:
     rc, out, _ = run_cli(capsys, "--state", state, "move", "e2e4")
     assert rc == 0 and "Played e2e4" in out
     rc, out, _ = run_cli(capsys, "--state", state, "board")
-    assert "4P3" in out.replace(" ", "") or "P" in out.splitlines()[4]
+    assert rc == 0
+    # rank 4 row of the ASCII board must show the pawn on e4 and nothing else
+    assert out.splitlines()[4] == "4  . . . . P . . ."
     rc, out, _ = run_cli(capsys, "--state", state, "status", "--json")
     assert rc == 0
     payload = json.loads(out)
