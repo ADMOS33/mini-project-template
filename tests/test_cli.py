@@ -75,6 +75,16 @@ def test_undo_fen_history_load(capsys, tmp_path) -> None:
     assert rc == 1 and "invalid FEN" in err
 
 
+def test_load_empty_board_is_a_clean_invalid_fen_error(capsys, tmp_path) -> None:
+    state = str(tmp_path / ".chess_game.json")
+    rc, _, err = run_cli(capsys, "--state", state, "load", "8/8/8/8/8/8/8/8 w - - 0 1")
+    assert rc == 1
+    assert "invalid FEN" in err
+    assert "Traceback" not in err
+    rc, out, _ = run_cli(capsys, "--state", state, "load", "8/8/8/8/8/8/8/8 w - - 0 1", "--json")
+    assert rc == 1 and "invalid FEN" in json.loads(out)["error"]
+
+
 def test_unimplemented_commands_report_clearly(capsys, tmp_path) -> None:
     state = str(tmp_path / ".chess_game.json")
     run_cli(capsys, "--state", state, "new")

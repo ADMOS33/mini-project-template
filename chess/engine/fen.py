@@ -2,12 +2,42 @@
 
 from __future__ import annotations
 
-from chess.engine.board import Board, parse_square, square, square_name
-from chess.engine.pieces import Color, Piece
+from chess.engine.board import Board, parse_square, square, square_name, square_rank
+from chess.engine.movegen import is_square_attacked
+from chess.engine.pieces import Color, Piece, PieceType
 
 START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
 _CASTLING_CHARS = "KQkq"
+
+
+def _validate_position(board: Board, fen: str) -> None:
+    """Reject impossible positions with a clear ValueError.
+
+    Each side must have exactly one king, no pawn may sit on the first or
+    last rank, and the side that is NOT to move may not be in check.
+    """
+    king_counts = {Color.WHITE: 0, Color.BLACK: 0}
+    for sq, piece in enumerate(board.squares):
+        if piece is None:
+            continue
+        if piece.type is PieceType.KING:
+            king_counts[piece.color] += 1
+        elif piece.type is PieceType.PAWN and square_rank(sq) in (0, 7):
+            raise ValueError(
+                f"pawn on back rank {square_name(sq)}: {fen!r}"
+            )
+    for color, count in king_counts.items():
+        if count != 1:
+            raise ValueError(
+                f"{color.value} must have exactly one king, got {count}: {fen!r}"
+            )
+    # The side that just moved (not to move) may not be left in check.
+    idle = board.turn.opposite
+    if is_square_attacked(board, board.king_square(idle), board.turn):
+        raise ValueError(
+            f"{idle.value} king is in check but it is {board.turn.value}'s move: {fen!r}"
+        )
 
 
 def board_from_fen(fen: str) -> Board:
@@ -59,6 +89,7 @@ def board_from_fen(fen: str) -> Board:
         raise ValueError(f"FEN counters must be integers: {halfmove!r} {fullmove!r}") from exc
     if board.halfmove_clock < 0 or board.fullmove_number < 1:
         raise ValueError(f"FEN counters out of range: {halfmove!r} {fullmove!r}")
+    _validate_position(board, fen)
     return board
 
 

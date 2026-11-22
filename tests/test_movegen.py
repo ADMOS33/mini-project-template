@@ -40,19 +40,19 @@ def test_apply_move_e2e4() -> None:
 
 
 def test_is_square_attacked_by_rook() -> None:
-    board = board_from_fen("4r3/8/8/8/8/8/8/4K3 w - - 0 1")
+    board = board_from_fen("4r1k1/8/8/8/8/8/8/4K3 w - - 0 1")
     assert is_square_attacked(board, parse_square("e1"), Color.BLACK)
     assert not is_square_attacked(board, parse_square("a1"), Color.BLACK)
 
 
 def test_pinned_knight_has_no_legal_moves() -> None:
-    board = board_from_fen("4r3/8/8/8/8/8/4N3/4K3 w - - 0 1")
+    board = board_from_fen("4r1k1/8/8/8/8/8/4N3/4K3 w - - 0 1")
     knight_moves = [m for m in legal_moves(board) if m.from_sq == parse_square("e2")]
     assert knight_moves == []
 
 
 def test_king_cannot_stay_on_attacked_file() -> None:
-    board = board_from_fen("4r3/8/8/8/8/8/8/4K3 w - - 0 1")
+    board = board_from_fen("4r1k1/8/8/8/8/8/8/4K3 w - - 0 1")
     moves = {m.to_uci() for m in legal_moves(board)}
     assert "e1e2" not in moves  # e-file is attacked by the rook
     assert "e1d1" in moves
@@ -60,7 +60,7 @@ def test_king_cannot_stay_on_attacked_file() -> None:
 
 
 def test_capture_removes_piece() -> None:
-    board = board_from_fen("4r3/8/8/8/8/8/4P3/4K3 w - - 0 1")
+    board = board_from_fen("4r1k1/8/8/8/8/8/4P3/4K3 w - - 0 1")
     new = apply_move(board, Move(parse_square("e2"), parse_square("e3")))
     assert new.piece_at(parse_square("e3")).type is PieceType.PAWN
     assert new.halfmove_clock == 0
