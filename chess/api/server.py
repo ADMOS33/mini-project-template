@@ -21,9 +21,11 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 
-from chess.api.schemas import LoadRequest, MoveRequest
+from chess.ai.search import best_move
+from chess.api.notation import pgn_export, pgn_import, to_san
+from chess.api.schemas import AiMoveRequest, LoadRequest, MoveRequest, PgnRequest
 from chess.engine.board import square_name
-from chess.engine.fen import board_to_fen
+from chess.engine.fen import board_from_fen, board_to_fen
 from chess.engine.game import Game
 
 STATE_FILE = Path(os.environ.get("CHESS_STATE_FILE", ".chess_game.json"))
@@ -127,6 +129,57 @@ def post_undo() -> dict:
         raise HTTPException(status_code=400, detail="no moves to undo")
     _save(game)
     return {"ok": True, "undone": move.to_uci(), "status": game.status()}
+
+
+@app.get("/api/history")
+def get_history() -> dict:
+    """Move history: one entry per ply with UCI, SAN and resulting FEN."""
+    game = _load()
+    fens = game.position_fens()
+    entries = [{"ply": 0, "uci": None, "san": None, "fen": fens[0]}]
+    for i, move in enumerate(game.moves):
+        entries.append(
+            {
+                "ply": i + 1,
+                "uci": move.to_uci(),
+                "san": to_san(board_from_fen(fens[i]), move),
+                "fen": fens[i + 1],
+            }
+        )
+    return {"entries": entries, "result": game.status()["result"]}
+
+
+@app.get("/api/pgn")
+def get_pgn() -> dict:
+    """Current game exported as PGN (SAN movetext)."""
+    return {"pgn": pgn_export(_load())}
+
+
+@app.post("/api/load-pgn")
+def post_load_pgn(req: PgnRequest) -> dict:
+    """Load a game from a PGN string (SAN movetext)."""
+    try:
+        start_fen, uci_moves = pgn_import(req.pgn)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    game = Game.from_fen(start_fen) if start_fen else Game()
+    for uci in uci_moves:
+        game.play_uci(uci)
+    _save(game)
+    return {"ok": True, "moves": uci_moves, "status": game.status()}
+
+
+@app.post("/api/ai-move")
+def post_ai_move(req: AiMoveRequest) -> dict:
+    """Let the computer (minimax + alpha-beta) play the side to move."""
+    game = _load()
+    if game.status()["result"] != "ongoing":
+        raise HTTPException(status_code=400, detail="game is over")
+    depth = max(1, min(req.depth, 6))
+    move, score = best_move(game.board, depth)
+    game.play_uci(move.to_uci())
+    _save(game)
+    return {"ok": True, "move": move.to_uci(), "score": score, "depth": depth, "status": game.status()}
 
 
 # Serve the web UI last so the /api/* routes above take precedence.

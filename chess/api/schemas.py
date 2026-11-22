@@ -19,3 +19,15 @@ class LoadRequest(BaseModel):
         examples=["rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"],
         description="FEN of the position to load",
     )
+
+
+class PgnRequest(BaseModel):
+    """Body of ``POST /api/load-pgn``."""
+
+    pgn: str = Field(..., examples=['[Event "Casual"]\n\n1. e4 e5 2. Nf3 Nc6 *'])
+
+
+class AiMoveRequest(BaseModel):
+    """Body of ``POST /api/ai-move``."""
+
+    depth: int = Field(3, ge=1, le=6, description="Search depth (1-4 in the UI)")

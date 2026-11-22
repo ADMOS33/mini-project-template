@@ -1,0 +1,131 @@
+"""SAN rendering and PGN import/export.
+
+This lives in the API layer (not chess/engine/san.py) for the current
+phase: it only *uses* the engine's public move generation, it does not
+modify the engine.
+"""
+
+from __future__ import annotations
+
+import re
+from datetime import datetime, timezone
+
+from chess.engine.board import FILES, RANKS, Board, square_file, square_name, square_rank
+from chess.engine.fen import board_from_fen
+from chess.engine.game import Game
+from chess.engine.move import Move
+from chess.engine.movegen import apply_move, is_square_attacked, legal_moves
+from chess.engine.pieces import PieceType
+
+_PIECE_LETTERS = {
+    PieceType.KNIGHT: "N",
+    PieceType.BISHOP: "B",
+    PieceType.ROOK: "R",
+    PieceType.QUEEN: "Q",
+    PieceType.KING: "K",
+}
+
+
+def to_san(board: Board, move: Move) -> str:
+    """SAN of ``move`` in position ``board`` (e.g. 'Nf3', 'exd5', 'O-O', 'e8=Q#')."""
+    piece = board.piece_at(move.from_sq)
+    if piece is None:
+        raise ValueError("no piece on the origin square")
+    is_capture = board.piece_at(move.to_sq) is not None
+    if piece.type is PieceType.KING and abs(move.to_sq - move.from_sq) == 2:
+        san = "O-O" if square_file(move.to_sq) == 6 else "O-O-O"
+    elif piece.type is PieceType.PAWN:
+        san = ""
+        if is_capture:
+            san += FILES[square_file(move.from_sq)] + "x"
+        san += square_name(move.to_sq)
+        if move.promotion is not None:
+            san += "=" + move.promotion.value.upper()
+    else:
+        san = _PIECE_LETTERS[piece.type]
+        others = [
+            m
+            for m in legal_moves(board)
+            if m.to_sq == move.to_sq
+            and m.from_sq != move.from_sq
+            and (p := board.piece_at(m.from_sq)) is not None
+            and p.type is piece.type
+        ]
+        if others:
+            same_file = any(square_file(m.from_sq) == square_file(move.from_sq) for m in others)
+            same_rank = any(square_rank(m.from_sq) == square_rank(move.from_sq) for m in others)
+            if not same_file:
+                san += FILES[square_file(move.from_sq)]
+            elif not same_rank:
+                san += RANKS[square_rank(move.from_sq)]
+            else:
+                san += square_name(move.from_sq)
+        if is_capture:
+            san += "x"
+        san += square_name(move.to_sq)
+    new = apply_move(board, move)
+    # The attacker is the side that just moved (the original board.turn).
+    if is_square_attacked(new, new.king_square(new.turn), board.turn):
+        san += "#" if not legal_moves(new) else "+"
+    return san
+
+
+def pgn_export(game: Game) -> str:
+    """Export a game as a PGN string (headers + movetext in SAN)."""
+    fens = game.position_fens()
+    sans = [to_san(board_from_fen(fens[i]), move) for i, move in enumerate(game.moves)]
+    status = game.status()
+    if status["result"] == "checkmate":
+        result = "1-0" if status["turn"] == "b" else "0-1"
+    elif status["result"] == "ongoing":
+        result = "*"
+    else:
+        result = "1/2-1/2"
+    pairs = []
+    for i in range(0, len(sans), 2):
+        num = i // 2 + 1
+        pair = f"{num}. {sans[i]}"
+        if i + 1 < len(sans):
+            pair += f" {sans[i + 1]}"
+        pairs.append(pair)
+    movetext = " ".join(pairs) + (" " if pairs else "") + result
+    date = datetime.now(timezone.utc).strftime("%Y.%m.%d")
+    headers = [
+        '[Event "Chess web game"]',
+        '[Site "http://localhost:8000/"]',
+        f'[Date "{date}"]',
+        '[Round "-"]',
+        '[White "Blancs"]',
+        '[Black "Noirs"]',
+        f'[Result "{result}"]',
+    ]
+    return "\n".join(headers) + "\n\n" + movetext + "\n"
+
+
+def pgn_import(text: str) -> tuple[str | None, list[str]]:
+    """Parse a PGN string into (start FEN or None, list of UCI moves).
+
+    Raises ValueError on an unknown or illegal SAN move.
+    """
+    match = re.search(r'\[FEN\s+"([^"]+)"\]', text)
+    start_fen = match.group(1) if match else None
+    body = re.sub(r"\[[^\]]*\]", " ", text)  # header lines
+    body = re.sub(r"\{[^}]*\}", " ", body)  # comments
+    body = re.sub(r"\([^)]*\)", " ", body)  # variations (non-nested)
+    body = re.sub(r"\$\d+", " ", body)  # NAGs
+    game = Game.from_fen(start_fen) if start_fen else Game()
+    uci_moves: list[str] = []
+    for raw in body.split():
+        token = raw.strip()
+        if not token or re.fullmatch(r"\d+\.", token) or token in ("1-0", "0-1", "1/2-1/2", "*"):
+            continue
+        san = token.rstrip("!?").rstrip("+#")
+        matches = [
+            m for m in game.legal_moves() if to_san(game.board, m).rstrip("+#") == san
+        ]
+        if not matches:
+            raise ValueError(f"coup SAN inconnu ou illégal dans le PGN: {token!r}")
+        uci = matches[0].to_uci()
+        game.play_uci(uci)
+        uci_moves.append(uci)
+    return start_fen, uci_moves
