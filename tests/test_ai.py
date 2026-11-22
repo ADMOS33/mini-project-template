@@ -13,9 +13,25 @@ def test_evaluation_initial_position_is_balanced() -> None:
 
 
 def test_evaluation_material_advantage() -> None:
-    # White is up a queen.
+    # White is up a queen, White to move: positive for the side to move.
     board = board_from_fen("rnb1kbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
     assert evaluate(board) > 800
+    # Same position with Black to move: negative for the side to move.
+    board_b = board_from_fen("rnb1kbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1")
+    assert evaluate(board_b) < -800
+
+
+def test_evaluation_piece_square_tables() -> None:
+    # A knight on e4 is much better than a knight on a1 (same kings).
+    e4 = board_from_fen("4k3/8/8/8/4N3/8/8/4K3 w - - 0 1")
+    a1 = board_from_fen("4k3/8/8/8/8/8/8/N3K3 w - - 0 1")
+    assert evaluate(e4) > evaluate(a1) + 50
+
+
+def test_mate_score_is_100000() -> None:
+    from chess.ai.evaluation import MATE_SCORE
+
+    assert MATE_SCORE == 100_000
 
 
 def test_best_move_returns_a_legal_move() -> None:

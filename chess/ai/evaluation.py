@@ -1,14 +1,20 @@
 """Static position evaluation: material + piece-square tables.
 
-Scores are in centipawns from White's point of view (positive = White
-is better). Piece-square tables are indexed like Board.squares
-(0 = a1 ... 63 = h8) and given here rank 1 first.
+Scores are in centipawns from the **side to move's** point of view
+(positive = the side to move is better). Piece-square tables are indexed
+like Board.squares (0 = a1 ... 63 = h8) and given here rank 1 first;
+Black's squares are mirrored vertically (``sq ^ 56``). Mate scores
+(±MATE_SCORE, adjusted by remaining depth) are produced by the search.
 """
 
 from __future__ import annotations
 
 from chess.engine.board import Board
 from chess.engine.pieces import Color, PieceType
+
+#: Mate score in centipawns; the search adds/subtracts the remaining depth
+#: so that faster mates score higher.
+MATE_SCORE = 100_000
 
 VALUES = {
     PieceType.PAWN: 100,
@@ -102,15 +108,19 @@ PSQT = {
 
 
 def evaluate(board: Board) -> int:
-    """Static evaluation in centipawns, from White's perspective."""
+    """Static evaluation in centipawns, from the side to move's perspective."""
     score = 0
     for sq, piece in enumerate(board.squares):
         if piece is None:
             continue
-        value = VALUES[piece.type] + PSQT[piece.type][sq]
-        if piece.color is Color.WHITE:
-            score += value
+        if piece.color is board.turn:
+            # Own piece: table as-is (tables are written for White).
+            score += VALUES[piece.type] + PSQT[piece.type][
+                sq if piece.color is Color.WHITE else sq ^ 56
+            ]
         else:
-            # Mirror the square vertically for Black (rank flip: sq ^ 56).
-            score -= VALUES[piece.type] + PSQT[piece.type][sq ^ 56]
+            # Opponent piece: mirror the square vertically (rank flip).
+            score -= VALUES[piece.type] + PSQT[piece.type][
+                sq if piece.color is Color.WHITE else sq ^ 56
+            ]
     return score
