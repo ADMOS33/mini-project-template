@@ -1,0 +1,22 @@
+{
+  "seq": 832,
+  "received_at": "2026-11-22T21:41:17.632779+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "FQ66vXHmI",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "old_string": "skills/    (plus tard) skill Vibe pour apprendre à un agent à jouer via la CLI",
+      "new_string": [
+        "skills/    chess-cli/SKILL.md  (skill Vibe : jouer via la CLI en --json)",
+        "           chess-cli/example_game.pgn  (partie exemple jouée via la CLI seule)"
+      ]
+    }
+  }
+}

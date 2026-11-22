@@ -1,0 +1,45 @@
+{
+  "seq": 843,
+  "received_at": "2026-11-22T21:41:21.364896+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "gLKMiRzqH",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && ls web/pieces/ && head -c 300 web/pieces/wP.svg; echo"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && ls web/pieces/ && head -c 300 web/pieces/wP.svg; echo",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "bB.svg",
+        "bK.svg",
+        "bN.svg",
+        "bP.svg",
+        "bQ.svg",
+        "bR.svg",
+        "wB.svg",
+        "wK.svg",
+        "wN.svg",
+        "wP.svg",
+        "wQ.svg",
+        "wR.svg",
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 45 45\">",
+        "  <path d=\"M22.5 7.2c-3 0-5.4 2.4-5.4 5.4 0 1.9 1 3.6 2.6 4.6-3.7 1.6-6.4 5.3-6.4 9.8 0 1.4.3 2.7.8 3.8-2 .8-3.5 2.3-3.5 4.2h23.8c0-1.9-1.5-3.4-3.5-4.2.5-1.1.8-2.4.8-3.8 0-4.5-2.7-8.2-6.4-9.8 1.6-1 2.6-2.7 2.6-4.6 0-3-2.4-5.4-5.4-5.4zM13.5",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 51
+  }
+}

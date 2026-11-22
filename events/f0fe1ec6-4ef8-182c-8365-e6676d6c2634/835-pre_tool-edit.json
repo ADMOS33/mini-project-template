@@ -1,0 +1,37 @@
+{
+  "seq": 835,
+  "received_at": "2026-11-22T21:41:17.686476+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "80dCPYwqw",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "old_string": [
+        "La CLI et l'API partagent le même fichier d'état `.chess_game.json` quand elles",
+        "tournent depuis la racine du projet (surcharger avec `--state PATH` côté CLI ou",
+        "`CHESS_STATE_FILE` côté serveur)."
+      ],
+      "new_string": [
+        "La CLI et l'API partagent le même fichier d'état `.chess_game.json` quand elles",
+        "tournent depuis la racine du projet (surcharger avec `--state PATH` côté CLI ou",
+        "`CHESS_STATE_FILE` côté serveur).",
+        "",
+        "### Skill pour agent LLM (`skills/chess-cli/`)",
+        "",
+        "`SKILL.md` apprend à un agent à jouer une partie complète via la CLI seule :",
+        "boucle `status --json` → `moves --json` → `move <uci> --json` → `ai-move",
+        "--depth 2 --json` pour l'adversaire, gestion des erreurs (rc 1 + liste des",
+        "coups légaux), condition d'arrêt `result != \"ongoing\"`. `example_game.pgn`",
+        "est une vraie partie jouée de cette façon (agent vs `ai-move --depth 2`,",
+        "nulle par triple répétition). Voir `chess --help` pour la liste des",
+        "sous-commandes."
+      ]
+    }
+  }
+}

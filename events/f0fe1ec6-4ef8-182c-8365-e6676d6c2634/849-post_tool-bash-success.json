@@ -1,0 +1,39 @@
+{
+  "seq": 849,
+  "received_at": "2026-11-22T21:41:48.641424+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "38CXXccm3",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python -m pytest -q > /tmp/pt.log 2>&1; echo \"PYTEST_RC=$?\"; tail -1 /tmp/pt.log; .venv/bin/python -m pytest -q -m slow > /tmp/pts.log 2>&1; echo \"SLOW_RC=$?\"; tail -1 /tmp/pts.log; node --check web/board.js && node --check web/api.js && echo JS-OK; grep -c \"🚧\" README.md; grep -n \"🚧\" README.md"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python -m pytest -q > /tmp/pt.log 2>&1; echo \"PYTEST_RC=$?\"; tail -1 /tmp/pt.log; .venv/bin/python -m pytest -q -m slow > /tmp/pts.log 2>&1; echo \"SLOW_RC=$?\"; tail -1 /tmp/pts.log; node --check web/board.js && node --check web/api.js && echo JS-OK; grep -c \"🚧\" README.md; grep -n \"🚧\" README.md",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "PYTEST_RC=0",
+        "157 passed in 3.53s",
+        "SLOW_RC=0",
+        "3 passed, 154 deselected in 2.90s",
+        "JS-OK",
+        "2",
+        "25:> Légende : ✅ implémenté et testé · 🚧 prévu mais pas encore fait.",
+        "225:   🚧 `report.md` (retour d'expérience demandé par le cours).",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 6966
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "seq": 840,
+  "received_at": "2026-11-22T21:41:18.545578+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "Onl6r0QGE",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "new_string": [
+        "7. **Finitions** (tous) — ✅ règles complètes + perft au vert, ✅ skill agent",
+        "   `skills/chess-cli/` (avec `example_game.pgn` jouée via la CLI seule) ;",
+        "   🚧 `report.md` (retour d'expérience demandé par le cours)."
+      ],
+      "old_string": [
+        "7. **Finitions** (tous) — 🚧 règles manquantes du moteur + perft, skill agent",
+        "   dans `skills/`, `report.md` (retour d'expérience demandé par le cours), polish."
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "lines_changed": 3,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 397
+  }
+}
