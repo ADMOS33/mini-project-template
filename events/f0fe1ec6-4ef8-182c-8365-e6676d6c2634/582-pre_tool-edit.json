@@ -1,0 +1,29 @@
+{
+  "seq": 582,
+  "received_at": "2026-11-22T21:17:01.416295+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "8cNUltPD1",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "old_string": [
+        "  et ✅ **PGN** (import/export dans `chess/engine/pgn.py` : Seven Tag Roster,",
+        "  `[SetUp \"1\"]`/`[FEN]` si besoin, coups SAN numérotés, résultat, lignes ≤ 80",
+        "  caractères ; import ignorant commentaires/variantes/NAG/numéros avec erreur",
+        "  numérotée) ; 🚧 `ai-move` côté CLI (déjà dispo via l'API)."
+      ],
+      "new_string": [
+        "  et ✅ **PGN** (import/export dans `chess/engine/pgn.py` : Seven Tag Roster,",
+        "  `[SetUp \"1\"]`/`[FEN]` si besoin, coups SAN numérotés, résultat, lignes ≤ 80",
+        "  caractères ; import ignorant commentaires/variantes/NAG/numéros avec erreur",
+        "  numérotée)."
+      ]
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "seq": 501,
+  "received_at": "2026-11-22T21:08:57.924461+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "vibe.todo",
+    "tool_call_id": "ZqX7m65RW",
+    "tool_input": {
+      "action": "write",
+      "todos": [
+        {
+          "content": "Phase 7.15 — engine/pgn.py export/import + test_pgn.py (Opéra de Morphy mat), commit feat: 1a50dfe",
+          "id": "phase7-15",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Phase 7.16 — CLI pgn + load-pgn, commit feat: d954d95",
+          "id": "phase7-16",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Phase 7.17 — API réaiguillée vers engine/pgn.py, notation.py supprimé, commit feat: fd79c69",
+          "id": "phase7-17",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Fin phase 7 : AGENTS.md/README (moteur complet) + commit events 1dce22e",
+          "id": "phase7-end",
+          "priority": "high",
+          "status": "completed"
+        }
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "message": "Updated 4 todos",
+      "todos": [
+        {
+          "content": "Phase 7.15 — engine/pgn.py export/import + test_pgn.py (Opéra de Morphy mat), commit feat: 1a50dfe",
+          "id": "phase7-15",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Phase 7.16 — CLI pgn + load-pgn, commit feat: d954d95",
+          "id": "phase7-16",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Phase 7.17 — API réaiguillée vers engine/pgn.py, notation.py supprimé, commit feat: fd79c69",
+          "id": "phase7-17",
+          "priority": "high",
+          "status": "completed"
+        },
+        {
+          "content": "Fin phase 7 : AGENTS.md/README (moteur complet) + commit events 1dce22e",
+          "id": "phase7-end",
+          "priority": "high",
+          "status": "completed"
+        }
+      ],
+      "total_count": 4,
+      "verb": "Updated"
+    },
+    "tool_error": null,
+    "duration_ms": 36
+  }
+}

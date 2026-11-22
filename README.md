@@ -43,19 +43,22 @@ d'un **adversaire classique** (minimax + élagage alpha-beta, pas d'IA générat
   et ✅ **PGN** (import/export dans `chess/engine/pgn.py` : Seven Tag Roster,
   `[SetUp "1"]`/`[FEN]` si besoin, coups SAN numérotés, résultat, lignes ≤ 80
   caractères ; import ignorant commentaires/variantes/NAG/numéros avec erreur
-  numérotée) ; 🚧 `ai-move` côté CLI (déjà dispo via l'API).
+  numérotée).
 - **CLI `chess`** pensée pour les humains *et* les agents LLM : `new`, `board`,
   `moves`, `move`, `status`, `undo`, `fen`, `load`, `history` ✅, sortie
   `--json` structurée sur chaque commande ✅, état de la partie persisté dans
   `.chess_game.json` ✅, erreurs explicites (coup illégal → liste des coups
   légaux) ✅ ; 🚧 `pgn` et `ai-move`.
 - **API HTTP** (FastAPI) exposant la même partie ✅ (`/api/status`, `/api/board`,
-  `/api/moves`, `/api/fen`, `/api/new`, `/api/move`, `/api/load`, `/api/undo`,
-  `/api/history`, `/api/pgn`, `/api/load-pgn`, `/api/ai-move`).
+  `/api/moves`, `/api/fen`, `/api/eval`, `/api/new`, `/api/move`, `/api/load`,
+  `/api/undo`, `/api/history`, `/api/pgn`, `/api/load-pgn`, `/api/ai-move`).
 - **Interface web** ✅ avec échiquier jouable en HTML/CSS/JS vanilla (voir
   ci-dessous).
-- **IA classique** ✅ : minimax avec élagage alpha-beta + évaluation statique
-  (matériel + tables de pièces).
+- **IA classique** ✅ : évaluation statique en centipions **du point de vue du
+  camp au trait** (matériel + tables pièce-case, `MATE_SCORE = ±100000` ajusté
+  par la profondeur) + **negamax alpha-beta** avec tri des coups (captures
+  MVV-LVA, promotions) renvoyant `(move, score, nodes)` ; dispo en CLI
+  (`ai-move --depth N`) et via l'API (`/api/ai-move`, `/api/eval`).
 - **Tests pytest** par module ✅ (93 tests, 0 xfail) ; **perft** ✅ tous au vert
   (`chess/engine/perft.py`, `tests/test_perft.py`) : position initiale
   profondeurs 1 à 4 (20, 400, 8902, 197281), Kiwipete
@@ -90,7 +93,8 @@ python3 -m chess moves               # coups légaux en UCI + SAN ✅
 python3 -m chess move e2e4           # joue un coup (UCI ou SAN : Nf3, O-O...) ✅
 python3 -m chess status              # au trait, échec, mat, nulle... ✅
 python3 -m chess undo / fen / load <fen> / history   # ✅
-python3 -m chess ai-move --depth 3   # 🚧 pas encore implémenté côté CLI (dispo via l'API)
+python3 -m chess ai-move --depth 3   # coup de l'IA (minimax alpha-beta) ✅
+                                       # JSON : move, san, score, nodes, time_ms
 python3 -m chess pgn                 # exporte la partie en PGN ✅
 python3 -m chess load-pgn partie.pgn # charge un fichier PGN ✅
 python3 -m chess <commande> --json   # sortie structurée pour un agent ✅
@@ -180,8 +184,8 @@ tournent depuis la racine du projet (surcharger avec `--state PATH` côté CLI o
    passant, triple répétition, 50 coups, matériel insuffisant), FEN, UCI ✅ ;
    ✅ **perft** au vert (toutes les positions de référence) ; ✅ **SAN** dans
    `chess/engine/san.py` ; ✅ **PGN** dans `chess/engine/pgn.py`.
-3. **CLI** (Adam) — persistance `.chess_game.json`, sous-commandes, `--json`,
-   tests CLI ✅ ; ✅ `pgn`, `load-pgn` ; 🚧 `ai-move`.
+3. **CLI** (Adam) — persistance `.chess_game.json`, sous-commandes complètes
+   (`new`…`load-pgn`, `ai-move`), `--json`, tests CLI ✅.
 4. **IA** (Adam) — évaluation statique + minimax alpha-beta, tests. ✅
 5. **API HTTP** (Adam) — FastAPI + schémas + tests (SAN, PGN import/export,
    `ai-move`). ✅

@@ -1,0 +1,55 @@
+{
+  "seq": 507,
+  "received_at": "2026-11-22T21:12:33.964714+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "vibe.todo",
+    "tool_call_id": "EETDMVXPC",
+    "tool_input": {
+      "action": "write",
+      "todos": [
+        {
+          "id": "phase8-18",
+          "content": "Phase 8.18 — evaluation.py perspective camp au trait + MATE_SCORE, tests, commit feat:",
+          "status": "in_progress",
+          "priority": "high"
+        },
+        {
+          "id": "phase8-19",
+          "content": "Phase 8.19 — search.py negamax (move,score,nodes), tri MVV-LVA+promotions, tests (mat1, dame, pièce gratuite, depth3<5s), commit feat:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "phase8-20",
+          "content": "Phase 8.20 — CLI ai-move --depth (JSON move/san/score/nodes/time_ms), commit feat:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "phase8-21",
+          "content": "Phase 8.21 — API ai-move (nodes/time_ms) + GET /api/eval, commit feat:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "phase9-22",
+          "content": "Phase 9.22 — test_api.py: 400 FEN invalide + test slow uvicorn subprocess/urllib, commit test:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "phase8-9-end",
+          "content": "Fins de phases 8 et 9 : AGENTS.md/README + commits events/",
+          "status": "pending",
+          "priority": "high"
+        }
+      ]
+    }
+  }
+}

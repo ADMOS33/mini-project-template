@@ -1,0 +1,53 @@
+{
+  "seq": 511,
+  "received_at": "2026-11-22T21:12:34.196340+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "2iO2K2lwT",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/tests/test_ai.py",
+      "new_string": [
+        "def test_evaluation_material_advantage() -> None:",
+        "    # White is up a queen, White to move: positive for the side to move.",
+        "    board = board_from_fen(\"rnb1kbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\")",
+        "    assert evaluate(board) > 800",
+        "    # Same position with Black to move: negative for the side to move.",
+        "    board_b = board_from_fen(\"rnb1kbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1\")",
+        "    assert evaluate(board_b) < -800",
+        "",
+        "",
+        "def test_evaluation_piece_square_tables() -> None:",
+        "    # A knight on e4 is much better than a knight on a1 (same kings).",
+        "    e4 = board_from_fen(\"4k3/8/8/8/4N3/8/8/4K3 w - - 0 1\")",
+        "    a1 = board_from_fen(\"4k3/8/8/8/8/8/8/N3K3 w - - 0 1\")",
+        "    assert evaluate(e4) > evaluate(a1) + 50",
+        "",
+        "",
+        "def test_mate_score_is_100000() -> None:",
+        "    from chess.ai.evaluation import MATE_SCORE",
+        "",
+        "    assert MATE_SCORE == 100_000"
+      ],
+      "old_string": [
+        "def test_evaluation_material_advantage() -> None:",
+        "    # White is up a queen.",
+        "    board = board_from_fen(\"rnb1kbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\")",
+        "    assert evaluate(board) > 800"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/tests/test_ai.py",
+      "lines_changed": 20,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 126
+  }
+}

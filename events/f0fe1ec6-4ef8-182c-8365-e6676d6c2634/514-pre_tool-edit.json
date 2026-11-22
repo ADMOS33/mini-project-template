@@ -1,0 +1,51 @@
+{
+  "seq": 514,
+  "received_at": "2026-11-22T21:12:44.353076+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "D4dIF6Eiw",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/chess/ai/evaluation.py",
+      "old_string": [
+        "def evaluate(board: Board) -> int:",
+        "    \"\"\"Static evaluation in centipawns, from White's perspective.\"\"\"",
+        "    score = 0",
+        "    for sq, piece in enumerate(board.squares):",
+        "        if piece is None:",
+        "            continue",
+        "        value = VALUES[piece.type] + PSQT[piece.type][sq]",
+        "        if piece.color is Color.WHITE:",
+        "            score += value",
+        "        else:",
+        "            # Mirror the square vertically for Black (rank flip: sq ^ 56).",
+        "            score -= VALUES[piece.type] + PSQT[piece.type][sq ^ 56]",
+        "    return score"
+      ],
+      "new_string": [
+        "def evaluate(board: Board) -> int:",
+        "    \"\"\"Static evaluation in centipawns, from the side to move's perspective.\"\"\"",
+        "    score = 0",
+        "    for sq, piece in enumerate(board.squares):",
+        "        if piece is None:",
+        "            continue",
+        "        if piece.color is board.turn:",
+        "            # Own piece: table as-is (tables are written for White).",
+        "            score += VALUES[piece.type] + PSQT[piece.type][",
+        "                sq if piece.color is Color.WHITE else sq ^ 56",
+        "            ]",
+        "        else:",
+        "            # Opponent piece: mirror the square vertically (rank flip).",
+        "            score -= VALUES[piece.type] + PSQT[piece.type][",
+        "                sq if piece.color is Color.WHITE else sq ^ 56",
+        "            ]",
+        "    return score"
+      ]
+    }
+  }
+}

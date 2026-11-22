@@ -1,0 +1,36 @@
+{
+  "seq": 591,
+  "received_at": "2026-11-22T21:17:02.363898+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "K6IjhA3CN",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "new_string": [
+        "- **IA classique** ✅ : évaluation statique en centipions **du point de vue du",
+        "  camp au trait** (matériel + tables pièce-case, `MATE_SCORE = ±100000` ajusté",
+        "  par la profondeur) + **negamax alpha-beta** avec tri des coups (captures",
+        "  MVV-LVA, promotions) renvoyant `(move, score, nodes)` ; dispo en CLI",
+        "  (`ai-move --depth N`) et via l'API (`/api/ai-move`, `/api/eval`)."
+      ],
+      "old_string": [
+        "- **IA classique** ✅ : minimax avec élagage alpha-beta + évaluation statique",
+        "  (matériel + tables de pièces)."
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "lines_changed": 5,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 501
+  }
+}

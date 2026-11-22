@@ -1,0 +1,36 @@
+{
+  "seq": 528,
+  "received_at": "2026-11-22T21:13:33.683330+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "4w478rcX2",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python -m pytest tests/test_ai.py -q 2>&1 | tail -5"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python -m pytest tests/test_ai.py -q 2>&1 | tail -5",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "FAILED tests/test_ai.py::test_negamax_mate_score_for_mated_side - TypeError: cannot unpack non-iterable int object",
+        "FAILED tests/test_ai.py::test_best_move_takes_a_free_queen - ValueError: not enough values to unpack (expected 3, got 2)",
+        "FAILED tests/test_ai.py::test_best_move_does_not_leave_its_queen_en_prise - ValueError: not enough values to unpack (expected 3, got 2)",
+        "FAILED tests/test_ai.py::test_best_move_depth3_from_initial_under_5s - ValueError: not enough values to unpack (expected 3, got 2)",
+        "6 failed, 5 passed in 0.16s",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 339
+  }
+}

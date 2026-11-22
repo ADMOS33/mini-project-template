@@ -1,0 +1,24 @@
+{
+  "seq": 504,
+  "received_at": "2026-11-22T21:09:24.290775+00:00",
+  "hook_event_name": "pre_agent",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_agent",
+    "agent_name": "default",
+    "turn_id": "turn-0da1cf2affc06965d08a6aa73e3df4d6",
+    "prompt": [
+      "## Phase 8 — IA (chess/ai/)",
+      "18. evaluation.py : matériel + tables pièce-case, en centipions, du point de vue du camp au trait ; mat = ±100000 ajusté par la profondeur. Commit feat:.",
+      "19. search.py : negamax alpha-beta, tri des coups (captures MVV-LVA, promotions), renvoie (move, score, nodes). Tests : mat en 1, ne laisse pas sa dame en prise, prend une pièce gratuite, profondeur 3 < 5 s depuis la position initiale. Commit feat:.",
+      "20. CLI chess ai-move [--depth N] (JSON : move, san, score, nodes, time_ms). Commit feat:.",
+      "21. API POST /api/ai-move {depth} + endpoint d'évaluation statique. Commit feat:.",
+      "",
+      "## Phase 9 — Tests API",
+      "22. tests/test_api.py sans nouvelle dépendance : appel direct des fonctions de route avec monkeypatch de server.STATE_FILE vers tmp_path ; vérifie les HTTPException 400 (coup illégal, FEN invalide, undo vide). Test d'intégration slow : uvicorn en sous-processus sur un port libre (et arrêté à la fin du test), requêtes via urllib.request. Commit test:."
+    ]
+  }
+}

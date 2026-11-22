@@ -1,0 +1,18 @@
+{
+  "seq": 573,
+  "received_at": "2026-11-22T21:16:31.067277+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "6dEKA2O6T",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python -m pytest -q > /tmp/pt.txt 2>&1; echo \"rc=$?\"; tail -1 /tmp/pt.txt"
+    }
+  }
+}

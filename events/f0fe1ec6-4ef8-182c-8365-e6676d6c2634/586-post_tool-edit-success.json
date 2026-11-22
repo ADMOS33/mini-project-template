@@ -1,0 +1,35 @@
+{
+  "seq": 586,
+  "received_at": "2026-11-22T21:17:02.077519+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "ERlP9kpbR",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/AGENTS.md",
+      "new_string": [
+        "| CLI `chess/cli/` | `new`, `board`, `moves`, `move` (**UCI ou SAN** ✅), `status`, `undo`, `fen`, `load` (erreur « invalid FEN » propre, rc 1), `history`, `pgn`, `load-pgn <fichier>`, **`ai-move [--depth N]`** ✅ (JSON : move, san, score, nodes, time_ms), `--json` ; `moves`/`history` affichent **UCI + SAN** (JSON : `moves` + `details`) ✅ | — (CLI complet) |",
+        "| API `chess/api/` | `status`, `board`, `moves`, `fen`, `eval` (évaluation statique), `new`, `move`, `load`, `undo`, `history` (SAN), `pgn`/`load-pgn` (via `engine/pgn.py`), `ai-move` (move/san/score/nodes/time_ms), **`_load()` : état corrompu → erreur 500 claire** — aucune logique d'échecs dans l'API ✅ | — |",
+        "| IA `chess/ai/` | évaluation **perspective camp au trait** (matériel + PSQT, centipions) + `MATE_SCORE=100000` ajusté par la profondeur, **negamax alpha-beta** renvoyant `(move, score, nodes)`, tri MVV-LVA + promotions ✅ | — |"
+      ],
+      "old_string": [
+        "| CLI `chess/cli/` | `new`, `board`, `moves`, `move` (**UCI ou SAN** ✅), `status`, `undo`, `fen`, `load` (erreur « invalid FEN » propre, rc 1), `history`, `pgn`, `load-pgn <fichier>` ✅, `--json` ; `moves`/`history` affichent **UCI + SAN** (JSON : `moves` + `details`) ✅ | `ai-move` |",
+        "| API `chess/api/` | `status`, `board`, `moves`, `fen`, `new`, `move`, `load`, `undo`, `history` (SAN), `pgn`/`load-pgn` (via `engine/pgn.py`), `ai-move`, **`_load()` : état corrompu → erreur 500 claire** — aucune logique d'échecs dans l'API ✅ | — |",
+        "| IA `chess/ai/` | évaluation statique (matériel + tables de pièces), minimax + alpha-beta | — |"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/AGENTS.md",
+      "lines_changed": 3,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 383
+  }
+}
