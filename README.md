@@ -117,8 +117,15 @@ endpoints) : échiquier cliquable, coups joués contre l'IA.
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
-.venv/bin/python -m pytest          # tous les tests, y compris perft
+.venv/bin/python -m pytest          # tous les tests (les 'slow' tournent aussi)
+.venv/bin/python -m pytest -m "not slow"   # rapide : sans perft profonds ni test live
 ```
+
+Les tests API sont faits sans nouvelle dépendance : appels directs des
+fonctions de route (`server.STATE_FILE` monkeypatché vers un `tmp_path`) pour
+les cas 400/500, plus un test d'intégration `@pytest.mark.slow` qui démarre
+**uvicorn en sous-processus** sur un port libre (arrêté à la fin du test) et
+lui parle en `urllib.request`.
 
 ## Interface web (`web/`)
 

@@ -86,10 +86,10 @@ Si la session est interrompue, la prochaine reprendra grâce à ce tableau.
 | API `chess/api/` | `status`, `board`, `moves`, `fen`, `eval` (évaluation statique), `new`, `move`, `load`, `undo`, `history` (SAN), `pgn`/`load-pgn` (via `engine/pgn.py`), `ai-move` (move/san/score/nodes/time_ms), **`_load()` : état corrompu → erreur 500 claire** — aucune logique d'échecs dans l'API ✅ | — |
 | IA `chess/ai/` | évaluation **perspective camp au trait** (matériel + PSQT, centipions) + `MATE_SCORE=100000` ajusté par la profondeur, **negamax alpha-beta** renvoyant `(move, score, nodes)`, tri MVV-LVA + promotions ✅ | — |
 | Web `web/` | échiquier jouable complet (clic + drag&drop, surbrillance, promotion, historique SAN, captures, horloges, vs ordinateur, flip, modale fin de partie, import/export FEN/PGN) | — |
-| Tests | **153 tests** pytest verts, **0 xfail** ; assertions nettoyées ; **perft 100 % au vert** (`chess/engine/perft.py` + `tests/test_perft.py`) : initiale p1–p4 (20/400/8902/197281), Kiwipete p1–p3 (48/2039/97862), pos3 p1–p3 (14/191/2812), pos4 p1–p3 (6/264/9467) ; `tests/test_rules.py` (fins de partie), `tests/test_san.py` (SAN + roundtrip), `tests/test_pgn.py` (roundtrip + Opéra de Morphy), `tests/test_ai.py` (mat en 1, dame non laissée en prise, pièce gratuite, depth 3 < 5 s) | test d'intégration live (uvicorn en sous-processus, `slow`) |
+| Tests | **156 tests** verts, **0 xfail** (+ **3 tests `slow`** : perft profonds + intégration live uvicorn en sous-processus via urllib) ; perft 100 % au vert : initiale p1–p4 (20/400/8902/197281), Kiwipete p1–p3 (48/2039/97862), pos3 p1–p3 (14/191/2812), pos4 p1–p3 (6/264/9467) ; `test_rules.py`, `test_san.py`, `test_pgn.py` (Opéra de Morphy), `test_ai.py` (mat en 1, dame, pièce gratuite, depth 3 < 5 s), `test_api.py` (routes en direct + 400 + live) | — |
 | Skills `skills/` | — | skill Vibe apprenant à jouer via la CLI |
 
-> Phases faites : 1 (docs) ✅ · 2 (bugs) ✅ · 3 (perft) ✅ · 4 (roque + EP, perft verts) ✅ · 5 (rules.py : fins de partie) ✅ · 6 (SAN moteur + CLI UCI/SAN) ✅ · 7 (PGN moteur + CLI pgn/load-pgn + API réaiguillée) ✅ · 8 (IA : éval perspective trait, negamax (move,score,nodes), CLI ai-move, API ai-move/eval) ✅
+> Phases faites : 1 (docs) ✅ · 2 (bugs) ✅ · 3 (perft) ✅ · 4 (roque + EP, perft verts) ✅ · 5 (rules.py : fins de partie) ✅ · 6 (SAN moteur + CLI UCI/SAN) ✅ · 7 (PGN moteur + CLI pgn/load-pgn + API réaiguillée) ✅ · 8 (IA : éval, negamax (move,score,nodes), CLI ai-move, API ai-move/eval) ✅ · 9 (tests API : 400 + test live slow) ✅
 
 ## Architecture cible
 

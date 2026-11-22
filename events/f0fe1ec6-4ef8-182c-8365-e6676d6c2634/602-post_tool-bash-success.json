@@ -1,0 +1,37 @@
+{
+  "seq": 602,
+  "received_at": "2026-11-22T21:17:58.035576+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "6mPcyNwXz",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python -m pytest tests/test_api.py -q > /tmp/pt.txt 2>&1; echo \"rc=$?\"; tail -2 /tmp/pt.txt && .venv/bin/python -m pytest tests/test_api.py -q -m slow --runxfail > /tmp/pts.txt 2>&1; echo \"slow_rc=$?\"; tail -3 /tmp/pts.txt"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python -m pytest tests/test_api.py -q > /tmp/pt.txt 2>&1; echo \"rc=$?\"; tail -2 /tmp/pt.txt && .venv/bin/python -m pytest tests/test_api.py -q -m slow --runxfail > /tmp/pts.txt 2>&1; echo \"slow_rc=$?\"; tail -3 /tmp/pts.txt",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "rc=0",
+        "...................                                                      [100%]",
+        "19 passed in 0.69s",
+        "slow_rc=0",
+        ".                                                                        [100%]",
+        "1 passed, 18 deselected in 0.58s",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 1719
+  }
+}

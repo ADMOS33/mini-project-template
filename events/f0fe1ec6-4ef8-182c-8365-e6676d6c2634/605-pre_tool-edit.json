@@ -1,0 +1,29 @@
+{
+  "seq": 605,
+  "received_at": "2026-11-22T21:18:30.304036+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "Sr1Od67uW",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/AGENTS.md",
+      "old_string": [
+        "| Tests | **153 tests** pytest verts, **0 xfail** ; assertions nettoyées ; **perft 100 % au vert** (`chess/engine/perft.py` + `tests/test_perft.py`) : initiale p1–p4 (20/400/8902/197281), Kiwipete p1–p3 (48/2039/97862), pos3 p1–p3 (14/191/2812), pos4 p1–p3 (6/264/9467) ; `tests/test_rules.py` (fins de partie), `tests/test_san.py` (SAN + roundtrip), `tests/test_pgn.py` (roundtrip + Opéra de Morphy), `tests/test_ai.py` (mat en 1, dame non laissée en prise, pièce gratuite, depth 3 < 5 s) | test d'intégration live (uvicorn en sous-processus, `slow`) |",
+        "| Skills `skills/` | — | skill Vibe apprenant à jouer via la CLI |",
+        "",
+        "> Phases faites : 1 (docs) ✅ · 2 (bugs) ✅ · 3 (perft) ✅ · 4 (roque + EP, perft verts) ✅ · 5 (rules.py : fins de partie) ✅ · 6 (SAN moteur + CLI UCI/SAN) ✅ · 7 (PGN moteur + CLI pgn/load-pgn + API réaiguillée) ✅ · 8 (IA : éval perspective trait, negamax (move,score,nodes), CLI ai-move, API ai-move/eval) ✅"
+      ],
+      "new_string": [
+        "| Tests | **156 tests** verts, **0 xfail** (+ **3 tests `slow`** : perft profonds + intégration live uvicorn en sous-processus via urllib) ; perft 100 % au vert : initiale p1–p4 (20/400/8902/197281), Kiwipete p1–p3 (48/2039/97862), pos3 p1–p3 (14/191/2812), pos4 p1–p3 (6/264/9467) ; `test_rules.py`, `test_san.py`, `test_pgn.py` (Opéra de Morphy), `test_ai.py` (mat en 1, dame, pièce gratuite, depth 3 < 5 s), `test_api.py` (routes en direct + 400 + live) | — |",
+        "| Skills `skills/` | — | skill Vibe apprenant à jouer via la CLI |",
+        "",
+        "> Phases faites : 1 (docs) ✅ · 2 (bugs) ✅ · 3 (perft) ✅ · 4 (roque + EP, perft verts) ✅ · 5 (rules.py : fins de partie) ✅ · 6 (SAN moteur + CLI UCI/SAN) ✅ · 7 (PGN moteur + CLI pgn/load-pgn + API réaiguillée) ✅ · 8 (IA : éval, negamax (move,score,nodes), CLI ai-move, API ai-move/eval) ✅ · 9 (tests API : 400 + test live slow) ✅"
+      ]
+    }
+  }
+}
