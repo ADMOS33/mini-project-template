@@ -108,9 +108,32 @@ def test_ai_move_plays_and_flips_turn(state) -> None:
     server.post_new()
     r = server.post_ai_move(AiMoveRequest(depth=2))
     assert r["ok"] and r["depth"] == 2
+    assert set(r) >= {"move", "san", "score", "nodes", "time_ms"}
+    assert r["nodes"] > 0 and r["time_ms"] >= 0
     st = server.get_status()
     assert st["turn"] == "b"
     assert st["last_move"] == r["move"]
+    # the SAN of the AI move is in the history
+    assert server.get_history()["entries"][-1]["san"] == r["san"]
+
+
+def test_ai_move_on_finished_game_is_400(state) -> None:
+    server.post_new()
+    for uci in ("f2f3", "e7e5", "g2g4", "d8h4"):
+        server.post_move(MoveRequest(move=uci))
+    with pytest.raises(HTTPException) as exc:
+        server.post_ai_move(AiMoveRequest(depth=1))
+    assert exc.value.status_code == 400
+    assert "game is over" in exc.value.detail
+
+
+def test_eval_endpoint_static_score(state) -> None:
+    server.post_new()
+    r = server.get_eval()
+    assert r["score"] == 0  # initial position is balanced
+    assert r["turn"] == "w"
+    server.post_load(LoadRequest(fen="rnb1kbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"))
+    assert server.get_eval()["score"] > 800  # White (to move) is up a queen
 
 
 def test_undo_endpoint(state) -> None:

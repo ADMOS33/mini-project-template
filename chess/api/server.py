@@ -16,11 +16,13 @@ same directory.
 from __future__ import annotations
 
 import os
+import time
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 
+from chess.ai.evaluation import evaluate
 from chess.ai.search import best_move
 from chess.api.schemas import AiMoveRequest, LoadRequest, MoveRequest, PgnRequest
 from chess.engine.board import square_name
@@ -179,6 +181,17 @@ def post_load_pgn(req: PgnRequest) -> dict:
     }
 
 
+@app.get("/api/eval")
+def get_eval() -> dict:
+    """Static evaluation in centipawns, from the side to move's perspective."""
+    game = _load()
+    return {
+        "score": evaluate(game.board),
+        "turn": str(game.board.turn),
+        "fen": board_to_fen(game.board),
+    }
+
+
 @app.post("/api/ai-move")
 def post_ai_move(req: AiMoveRequest) -> dict:
     """Let the computer (minimax + alpha-beta) play the side to move."""
@@ -186,14 +199,19 @@ def post_ai_move(req: AiMoveRequest) -> dict:
     if game.status()["result"] != "ongoing":
         raise HTTPException(status_code=400, detail="game is over")
     depth = max(1, min(req.depth, 6))
+    start = time.perf_counter()
     move, score, nodes = best_move(game.board, depth)
+    time_ms = round((time.perf_counter() - start) * 1000, 1)
+    san = move_to_san(game.board, move)
     game.play_uci(move.to_uci())
     _save(game)
     return {
         "ok": True,
         "move": move.to_uci(),
+        "san": san,
         "score": score,
         "nodes": nodes,
+        "time_ms": time_ms,
         "depth": depth,
         "status": game.status(),
     }
