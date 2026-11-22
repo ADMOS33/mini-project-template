@@ -403,3 +403,65 @@ button.secondary:hover {
 .promo-btn:hover {
   background: var(--accent);
 }
+
+/* --- Options, import/export, review bar, thinking --- */
+
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+select,
+textarea {
+  width: 100%;
+}
+
+textarea {
+  resize: vertical;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.8rem;
+}
+
+.thinking {
+  color: var(--accent-hover);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.thinking.hidden,
+.review-bar.hidden,
+.modal.hidden {
+  display: none;
+}
+
+.review-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 0.35rem 0.6rem;
+}
+
+.review-bar button {
+  padding: 0.15rem 0.55rem;
+  font-size: 0.95rem;
+}
+
+#review-label {
+  font-family: ui-monospace, monospace;
+  font-size: 0.8rem;
+  color: var(--muted);
+  min-width: 6.5rem;
+  text-align: center;
+}
+
+.captured .adv {
+  font-size: 0.8rem;
+  color: var(--accent-hover);
+  font-family: ui-monospace, monospace;
+}
