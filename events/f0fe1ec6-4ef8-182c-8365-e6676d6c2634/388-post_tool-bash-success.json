@@ -1,0 +1,36 @@
+{
+  "seq": 388,
+  "received_at": "2026-11-22T20:59:41.763731+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "wtN8s03B7",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python -m pytest tests/test_cli.py -q 2>&1 | tail -5"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python -m pytest tests/test_cli.py -q 2>&1 | tail -5",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "=========================== short test summary info ============================",
+        "FAILED tests/test_cli.py::test_move_accepts_san - assert (1 == 0)",
+        "FAILED tests/test_cli.py::test_moves_output_shows_uci_and_san - AssertionError: assert (0 == 0 and 'g1f3 (Nf3)' in 'a2a3\\na2a4\\nb1a3\\nb1c3\\nb2b3\\nb2b4\\nc2c3\\nc2c4\\nd2d3\\nd2d4\\ne2e3\\ne2e4\\nf2f3\\nf2f4\\ng1f3\\ng1h3\\ng2g3\\ng2g4\\nh2h3\\nh2h4\\n')",
+        "FAILED tests/test_cli.py::test_history_output_shows_uci_and_san - AssertionError: assert (0 == 0 and '1. e2e4 (e4)' in '1. e2e4\\n')",
+        "3 failed, 7 passed in 0.08s",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 262
+  }
+}

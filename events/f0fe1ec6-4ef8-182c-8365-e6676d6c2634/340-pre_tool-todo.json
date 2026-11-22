@@ -1,0 +1,43 @@
+{
+  "seq": 340,
+  "received_at": "2026-11-22T20:52:37.446042+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "vibe.todo",
+    "tool_call_id": "YMLbJK6BQ",
+    "tool_input": {
+      "action": "write",
+      "todos": [
+        {
+          "id": "phase5-10",
+          "content": "Phase 5.10 — détection fin de partie déplacée vers rules.py + winner, commit refactor: f8c5725",
+          "status": "completed",
+          "priority": "high"
+        },
+        {
+          "id": "phase5-11",
+          "content": "Phase 5.11 — triple répétition (clé placement/trait/roques/EP jouable), commit feat: 89ada85",
+          "status": "completed",
+          "priority": "high"
+        },
+        {
+          "id": "phase5-12",
+          "content": "Phase 5.12 — matériel insuffisant + note Décisions, commit feat: a619dd4",
+          "status": "completed",
+          "priority": "high"
+        },
+        {
+          "id": "phase5-end",
+          "content": "Fin phase 5 : AGENTS.md/README/web à jour + commit events 739847a",
+          "status": "completed",
+          "priority": "high"
+        }
+      ]
+    }
+  }
+}

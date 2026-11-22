@@ -1,0 +1,53 @@
+{
+  "seq": 355,
+  "received_at": "2026-11-22T20:57:00.206524+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "jHUcHCdec",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/tests/test_san.py",
+      "old_string": [
+        "def test_disambiguation_full_square() -> None:",
+        "    # Queens a1, h1, h4 can all reach e1; h1 shares file with h4 and rank",
+        "    # with a1, so it needs its full origin square.",
+        "    board = board_from_fen(\"4k3/8/8/8/7Q/8/6K1/Q6Q w - - 0 1\")",
+        "    assert san_of(board, \"h1e1\") == \"Qh1e1\"",
+        "    assert san_of(board, \"h4e1\") == \"Q4e1\"",
+        "    assert san_of(board, \"a1e1\") == \"Qae1\"",
+        "",
+        "",
+        "def test_promotions() -> None:",
+        "    board = board_from_fen(\"4k3/4P3/8/8/8/8/8/4K3 w - - 0 1\")",
+        "    assert san_of(board, \"e7e8q\") == \"e8=Q\"",
+        "    assert san_of(board, \"e7e8n\") == \"e8=N\"",
+        "    capture = board_from_fen(\"3rk3/4P3/8/8/8/8/8/4K3 w - - 0 1\")",
+        "    assert san_of(capture, \"e7d8n\") == \"exd8=N\"",
+        "    assert san_of(capture, \"e7d8q\") == \"exd8=Q\""
+      ],
+      "new_string": [
+        "def test_disambiguation_full_square() -> None:",
+        "    # Queens a1, h1, h4 can all reach e1; h1 shares file with h4 and rank",
+        "    # with a1, so it needs its full origin square.",
+        "    board = board_from_fen(\"6k1/8/8/8/7Q/8/6K1/Q6Q w - - 0 1\")",
+        "    assert san_of(board, \"h1e1\") == \"Qh1e1\"",
+        "    assert san_of(board, \"h4e1\") == \"Q4e1\"",
+        "    assert san_of(board, \"a1e1\") == \"Qae1\"",
+        "",
+        "",
+        "def test_promotions() -> None:",
+        "    board = board_from_fen(\"k7/4P3/8/8/8/8/8/4K3 w - - 0 1\")",
+        "    assert san_of(board, \"e7e8q\") == \"e8=Q\"",
+        "    assert san_of(board, \"e7e8n\") == \"e8=N\"",
+        "    capture = board_from_fen(\"k2r4/4P3/8/8/8/8/8/4K3 w - - 0 1\")",
+        "    assert san_of(capture, \"e7d8n\") == \"exd8=N\"",
+        "    assert san_of(capture, \"e7d8q\") == \"exd8=Q\""
+      ]
+    }
+  }
+}

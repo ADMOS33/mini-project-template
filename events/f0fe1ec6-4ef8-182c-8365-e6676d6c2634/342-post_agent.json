@@ -1,0 +1,29 @@
+{
+  "seq": 342,
+  "received_at": "2026-11-22T20:52:49.027425+00:00",
+  "hook_event_name": "post_agent",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_agent",
+    "agent_name": "default",
+    "turn_id": "turn-b84f16cb0608c2cc47af7ff6a2453e7e",
+    "response_text": [
+      "La **Phase 5 est terminée** — **111 tests passed**, CLI vérifié en live (`status --json` → `\"result\": \"draw_threefold\", \"winner\": null` après 8 demi-coups de cavalier A/R).",
+      "",
+      "## Phase 5 — Règles de fin de partie (`chess/engine/rules.py`) ✅",
+      "",
+      "| # | Commit | Contenu |",
+      "|---|--------|---------|",
+      "| 10 | `f8c5725` refactor: | Détection de fin de partie déplacée de `Game.status()` vers `rules.game_result(board, repetitions)`. `status()` renvoie désormais `result ∈ {ongoing, checkmate, stalemate, draw_threefold, draw_fifty_move, draw_insufficient_material}` **et** `winner ∈ {w, b, null}` (`null` sauf mat). `tests/test_rules.py` créé. |",
+      "| 11 | `89ada85` feat: | **Triple répétition** : `position_key(board)` = placement + trait + roques + case en passant **seulement si une prise y est réellement jouable** (compteurs ignorés). `Game.status()` compte les clés sur l'historique persisté ; 3 occurrences → `draw_threefold`. Tests : 2 répétitions → ongoing, 3 → nulle, clé EP jouable/non jouable, roques dans la clé. |",
+      "| 12 | `a619dd4` feat: | **Matériel insuffisant** (nulle automatique) : K-K, KB-K, KN-K, KB-KB fous de même couleur ; KNN-K, fous de couleurs opposées, ou toute pièce lourde/pion → pas de nulle. Noté dans README « Décisions » (nulles automatiques, sans réclamation). |",
+      "",
+      "Fin de phase : `web/board.js` aligné sur la clé `draw_threefold` (libellé d'affichage uniquement — aucune règle en JS), AGENTS.md (moteur ✅ règles complètes, 111 tests) et README (fonctionnalités ✅) mis à jour, logs `events/` commités (`739847a`).",
+      "",
+      "Le moteur est maintenant **complet côté règles** : tous les coups spéciaux et toutes les fins de partie sont implémentés et couverts par les perft de référence + `test_rules.py`."
+    ]
+  }
+}

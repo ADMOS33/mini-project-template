@@ -1,0 +1,42 @@
+{
+  "seq": 376,
+  "received_at": "2026-11-22T20:58:22.651355+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "nV2PPJeQ6",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python -m pytest tests/test_san.py -q 2>&1 | grep -B4 \"?  \" | head -12"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && .venv/bin/python -m pytest tests/test_san.py -q 2>&1 | grep -B4 \"?  \" | head -12",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "E       AssertionError: assert 'exd8=Q+' == 'exd8=Q'",
+        "E         ",
+        "E         - exd8=Q",
+        "E         + exd8=Q+",
+        "E         ?       +",
+        "--",
+        "FAILED tests/test_san.py::test_promotions - AssertionError: assert 'exd8=Q+' == 'exd8=Q'",
+        "  ",
+        "  - exd8=Q",
+        "  + exd8=Q+",
+        "  ?       +",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 254
+  }
+}

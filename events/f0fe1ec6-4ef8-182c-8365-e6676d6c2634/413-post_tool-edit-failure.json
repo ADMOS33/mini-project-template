@@ -1,0 +1,39 @@
+{
+  "seq": 413,
+  "received_at": "2026-11-22T21:01:02.359829+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "PnanrRLS4",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "new_string": [
+        "   ✅ **perft** au vert (toutes les positions de",
+        "   référence) ; ✅ **SAN** dans `chess/engine/san.py` ; 🚧 PGN dans",
+        "   `chess/engine/` (déjà dispo via l'API)."
+      ],
+      "old_string": [
+        "   ✅ **perft** au vert (toutes les positions de",
+        "   référence) ; 🚧 SAN/PGN dans `chess/engine/` (déjà dispo via l'API)."
+      ]
+    },
+    "tool_status": "failure",
+    "tool_output": null,
+    "tool_output_text": [
+      "old_string not found in /home/dilos/A3/agentic/mini-project-template/README.md; the closest match (85% similar) starts at line 178:",
+      "   ✅ **perft** au vert (toutes les positions de référence) ; 🚧 SAN/PGN dans",
+      "   `chess/engine/` (déjà dispo via l'API)."
+    ],
+    "tool_error": [
+      "old_string not found in /home/dilos/A3/agentic/mini-project-template/README.md; the closest match (85% similar) starts at line 178:",
+      "   ✅ **perft** au vert (toutes les positions de référence) ; 🚧 SAN/PGN dans",
+      "   `chess/engine/` (déjà dispo via l'API)."
+    ],
+    "duration_ms": 371
+  }
+}

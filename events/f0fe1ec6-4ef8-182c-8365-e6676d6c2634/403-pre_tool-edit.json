@@ -1,0 +1,30 @@
+{
+  "seq": 403,
+  "received_at": "2026-11-22T21:01:01.496641+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "ftZ39DG7W",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "old_string": [
+        "- **Notations et formats** : ✅ **FEN** (import/export), ✅ **UCI** (`e2e4`,",
+        "  `e7e8q`), ✅ **SAN** (`Nf3`, `O-O`) et ✅ **PGN** (import/export) côté API ;",
+        "  🚧 export PGN et commande `ai-move` côté CLI."
+      ],
+      "new_string": [
+        "- **Notations et formats** : ✅ **FEN** (import/export), ✅ **UCI** (`e2e4`,",
+        "  `e7e8q`), ✅ **SAN** (`Nf3`, `O-O`) — rendu *et* parsing dans",
+        "  `chess/engine/san.py` (`move_to_san` / `san_to_move`, désambiguïsation",
+        "  `Nbd2`/`R1e2`/`Qh4e1`, promotions `e8=Q`, `0-0` accepté, suffixes `+`/`#`) —",
+        "  et ✅ **PGN** (import/export, côté API) ; 🚧 export PGN et commande `ai-move`",
+        "  côté CLI."
+      ]
+    }
+  }
+}

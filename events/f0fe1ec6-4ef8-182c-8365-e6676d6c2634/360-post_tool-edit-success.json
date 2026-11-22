@@ -1,0 +1,33 @@
+{
+  "seq": 360,
+  "received_at": "2026-11-22T20:57:00.541445+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "KqyLPU4IM",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/tests/test_san.py",
+      "new_string": [
+        "    queens = board_from_fen(\"6k1/8/8/8/7Q/8/6K1/Q6Q w - - 0 1\")",
+        "    assert san_to_move(queens, \"Qh1e1\").to_uci() == \"h1e1\""
+      ],
+      "old_string": [
+        "    queens = board_from_fen(\"4k3/8/8/8/7Q/8/6K1/Q6Q w - - 0 1\")",
+        "    assert san_to_move(queens, \"Qh1e1\").to_uci() == \"h1e1\""
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/tests/test_san.py",
+      "lines_changed": 2,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 184
+  }
+}
