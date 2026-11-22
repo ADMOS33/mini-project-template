@@ -1,0 +1,53 @@
+"""Tests for piece identity and board representation."""
+
+import pytest
+
+from chess.engine.board import Board, parse_square, square, square_name
+from chess.engine.pieces import Color, Piece, PieceType
+
+
+def test_square_helpers_roundtrip() -> None:
+    assert square(0, 0) == 0
+    assert square(4, 1) == parse_square("e2")
+    assert square_name(parse_square("h8")) == "h8"
+    with pytest.raises(ValueError):
+        parse_square("i9")
+    with pytest.raises(ValueError):
+        square_name(64)
+
+
+def test_piece_symbols_and_glyphs() -> None:
+    assert Piece(PieceType.QUEEN, Color.WHITE).symbol == "Q"
+    assert Piece(PieceType.QUEEN, Color.BLACK).symbol == "q"
+    assert Piece.from_symbol("N") == Piece(PieceType.KNIGHT, Color.WHITE)
+    assert Piece.from_symbol("p") == Piece(PieceType.PAWN, Color.BLACK)
+    assert Piece(PieceType.KING, Color.WHITE).glyph == "♔"
+    assert Piece(PieceType.PAWN, Color.BLACK).glyph == "♟"
+    with pytest.raises(ValueError):
+        Piece.from_symbol("x")
+
+
+def test_initial_board() -> None:
+    board = Board.initial()
+    assert sum(p is not None for p in board.squares) == 32
+    assert board.piece_at(parse_square("e1")) == Piece(PieceType.KING, Color.WHITE)
+    assert board.piece_at(parse_square("d8")) == Piece(PieceType.QUEEN, Color.BLACK)
+    assert board.piece_at(parse_square("e4")) is None
+    assert board.king_square(Color.BLACK) == parse_square("e8")
+    assert board.turn is Color.WHITE
+
+
+def test_ascii_rendering() -> None:
+    text = Board.initial().ascii()
+    lines = text.splitlines()
+    assert lines[0].startswith("8") and "r n b q k b n r" in lines[0]
+    assert lines[7].startswith("1") and "R N B Q K B N R" in lines[7]
+    assert lines[8].strip() == "a b c d e f g h"
+
+
+def test_copy_is_independent() -> None:
+    board = Board.initial()
+    clone = board.copy()
+    clone.set_piece(parse_square("e4"), Piece(PieceType.PAWN, Color.WHITE))
+    assert board.piece_at(parse_square("e4")) is None
+    assert clone.piece_at(parse_square("e4")) is not None
