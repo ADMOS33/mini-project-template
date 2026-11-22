@@ -1,0 +1,19 @@
+{
+  "seq": 823,
+  "received_at": "2026-11-22T21:40:53.475895+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "KF9goieJV",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/AGENTS.md",
+      "old_string": "10 (web pro FR : design system, plateau SVG, drag&drop, historique, vs ordi, modale, FEN/PGN, éval, sons, horloge) ✅",
+      "new_string": "10 (web pro FR : design system, plateau SVG, drag&drop, historique, vs ordi, modale, FEN/PGN, éval, sons, horloge) ✅ · 11 (skill chess-cli + example_game.pgn jouée en CLI --json ; fix `moves`→historique) ✅"
+    }
+  }
+}

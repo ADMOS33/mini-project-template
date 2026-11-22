@@ -1,0 +1,50 @@
+{
+  "seq": 793,
+  "received_at": "2026-11-22T21:39:32.391404+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "zuyX556Ez",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && grep -n \"def test_moves\\|def test_history\\|moves\" tests/test_cli.py | head -20"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && grep -n \"def test_moves\\|def test_history\\|moves\" tests/test_cli.py | head -20",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "34:def test_moves_json_has_20_moves_initially(capsys, tmp_path) -> None:",
+        "37:    rc, out, _ = run_cli(capsys, \"--state\", state, \"moves\", \"--json\")",
+        "39:    moves = json.loads(out)[\"moves\"]",
+        "40:    assert len(moves) == 20",
+        "41:    assert \"e2e4\" in moves",
+        "44:def test_illegal_move_error_lists_legal_moves(capsys, tmp_path) -> None:",
+        "52:    assert \"legal moves\" in json.loads(out)[\"error\"]",
+        "101:    # illegal SAN -> rc 1 with the legal moves listed",
+        "103:    assert rc == 1 and \"Ke9\" in err and \"legal moves\" in err",
+        "106:def test_moves_output_shows_uci_and_san(capsys, tmp_path) -> None:",
+        "109:    rc, out, _ = run_cli(capsys, \"--state\", state, \"moves\")",
+        "111:    rc, out, _ = run_cli(capsys, \"--state\", state, \"moves\", \"--json\")",
+        "114:    assert payload[\"moves\"] == sorted(payload[\"moves\"])  # UCI list kept",
+        "115:    assert len(payload[\"moves\"]) == 20",
+        "118:    assert set(details) == set(payload[\"moves\"])",
+        "121:def test_history_output_shows_uci_and_san(capsys, tmp_path) -> None:",
+        "130:    assert payload[\"moves\"] == [\"e2e4\", \"e7e5\"]",
+        "158:    assert json.loads(out)[\"moves\"] == [\"e2e4\", \"e7e5\", \"g1f3\", \"b8c6\"]",
+        "183:    assert history[\"moves\"][-1] == payload[\"move\"]",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 56
+  }
+}
