@@ -1,5 +1,12 @@
-"""Tests for the HTTP API route functions, called directly (no HTTP client,
-since httpx is not an allowed dependency — see README "Décisions")."""
+"""Tests for the HTTP API.
+
+Route functions are called directly with ``server.STATE_FILE`` monkeypatched
+to a tmp_path (no HTTP client needed — httpx is not an allowed dependency,
+see README "Décisions"). One slow integration test boots uvicorn in a
+subprocess on a free port and talks to it with urllib.request only.
+"""
+
+from pathlib import Path
 
 import pytest
 from fastapi import HTTPException
@@ -104,6 +111,22 @@ def test_load_fen_endpoint(state) -> None:
     assert server.get_fen()["fen"] == fen
 
 
+def test_load_invalid_fen_raises_400(state) -> None:
+    server.post_new()
+    with pytest.raises(HTTPException) as exc:
+        server.post_load(LoadRequest(fen="8/8/8/8/8/8/8/8 w - - 0 1"))  # no kings
+    assert exc.value.status_code == 400
+    assert "invalid FEN" in exc.value.detail
+
+
+def test_undo_on_empty_history_raises_400(state) -> None:
+    server.post_new()
+    with pytest.raises(HTTPException) as exc:
+        server.post_undo()
+    assert exc.value.status_code == 400
+    assert "no moves to undo" in exc.value.detail
+
+
 def test_ai_move_plays_and_flips_turn(state) -> None:
     server.post_new()
     r = server.post_ai_move(AiMoveRequest(depth=2))
@@ -165,3 +188,68 @@ def test_state_file_with_wrong_shape_gives_a_clear_error(state) -> None:
         server.get_moves()
     assert exc.value.status_code == 500
     assert "corrupted game state" in exc.value.detail
+
+
+@pytest.mark.slow
+def test_live_server_over_http_with_urllib(tmp_path) -> None:
+    """Integration test: uvicorn in a subprocess on a free port, stopped at
+    the end of the test; requests via urllib.request (no new dependency)."""
+    import json as jsonlib
+    import os
+    import socket
+    import subprocess
+    import sys
+    import time
+    import urllib.error
+    import urllib.request
+
+    sock = socket.socket()
+    sock.bind(("127.0.0.1", 0))
+    port = sock.getsockname()[1]
+    sock.close()
+    env = dict(os.environ, CHESS_STATE_FILE=str(tmp_path / ".chess_game.json"))
+    root = Path(__file__).resolve().parents[1]
+    proc = subprocess.Popen(
+        [sys.executable, "-m", "uvicorn", "chess.api.server:app",
+         "--host", "127.0.0.1", "--port", str(port)],
+        cwd=root, env=env,
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+    )
+    base = f"http://127.0.0.1:{port}"
+
+    def req(method: str, path: str, payload: dict | None = None):
+        data = jsonlib.dumps(payload).encode() if payload is not None else None
+        request = urllib.request.Request(
+            base + path, data=data, method=method,
+            headers={"Content-Type": "application/json"},
+        )
+        with urllib.request.urlopen(request, timeout=5) as resp:
+            return resp.status, jsonlib.loads(resp.read())
+
+    try:
+        for _ in range(100):  # wait for the server to be ready
+            try:
+                req("GET", "/api/status")
+                break
+            except Exception:
+                time.sleep(0.1)
+        else:
+            raise RuntimeError("uvicorn did not start")
+        assert req("GET", "/api/status")[1]["turn"] == "w"
+        assert req("POST", "/api/new", {})[0] == 200
+        status, body = req("POST", "/api/move", {"move": "e2e4"})
+        assert status == 200 and body["move"] == "e2e4"
+        assert "4P3" in req("GET", "/api/fen")[1]["fen"]
+        assert len(req("GET", "/api/moves")[1]["moves"]) == 20
+        with pytest.raises(urllib.error.HTTPError) as exc:  # illegal move
+            req("POST", "/api/move", {"move": "e2e5"})
+        assert exc.value.code == 400
+        with pytest.raises(urllib.error.HTTPError) as exc:  # invalid FEN
+            req("POST", "/api/load", {"fen": "8/8/8/8/8/8/8/8 w - - 0 1"})
+        assert exc.value.code == 400
+        with urllib.request.urlopen(base + "/", timeout=5) as resp:  # web UI
+            html = resp.read()
+        assert resp.status == 200 and b"<html" in html.lower()
+    finally:
+        proc.terminate()
+        proc.wait(timeout=10)
