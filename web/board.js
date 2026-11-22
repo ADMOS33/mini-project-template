@@ -330,7 +330,7 @@ const RESULT_REASONS = {
   checkmate: (s) => (s.turn === "b" ? "Échec et mat — les Blancs gagnent." : "Échec et mat — les Noirs gagnent."),
   stalemate: () => "Pat — partie nulle.",
   draw_fifty_move: () => "Nulle — règle des 50 coups.",
-  draw_repetition: () => "Nulle — triple répétition.",
+  draw_threefold: () => "Nulle — triple répétition.",
   draw_insufficient_material: () => "Nulle — matériel insuffisant.",
 };
 

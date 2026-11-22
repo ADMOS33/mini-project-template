@@ -1,0 +1,19 @@
+{
+  "seq": 334,
+  "received_at": "2026-11-22T20:51:38.310370+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "ncpMLUUgw",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/AGENTS.md",
+      "old_string": "| Moteur `chess/engine/` | plateau/pièces, déplacements de base, promotion, coups légaux (roi jamais en échec), échec/mat/pat, règle des 50 coups, FEN import/export **+ validation** (1 roi/camp, pas de pion en 1re/8e, camp sans le trait pas en échec), `Game` play/undo **robuste**, persistance JSON, **roque petit/grand 2 camps ✅**, **prise en passant ✅**, `perft.py` | triple répétition, matériel insuffisant |",
+      "new_string": "| Moteur `chess/engine/` | plateau/pièces, déplacements de base, promotion, coups légaux (roi jamais en échec), échec/mat/pat, règle des 50 coups, FEN import/export **+ validation**, `Game` play/undo **robuste**, persistance JSON, **roque petit/grand 2 camps ✅**, **prise en passant ✅**, **triple répétition ✅** (clé = placement+trait+roques+EP si capturable), **matériel insuffisant ✅** (nulles automatiques), détection de fin de partie dans **`rules.py`** (`result` + `winner`), `perft.py` | SAN/PGN dans `chess/engine/` |"
+    }
+  }
+}

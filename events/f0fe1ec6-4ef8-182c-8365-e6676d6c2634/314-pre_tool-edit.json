@@ -1,0 +1,44 @@
+{
+  "seq": 314,
+  "received_at": "2026-11-22T20:50:48.082857+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "VjQ1Wd4TY",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/chess/engine/rules.py",
+      "old_string": "def game_result(board: Board, repetitions: Mapping | None = None) -> tuple[str, str | None]:",
+      "new_string": [
+        "def insufficient_material(board: Board) -> bool:",
+        "    \"\"\"True when neither side can possibly checkmate (automatic draw):",
+        "    K vs K, K + single minor (B or N) vs K, or K+B vs K+B with both bishops",
+        "    on the same color complex.\"\"\"",
+        "    minors = [",
+        "        (sq, piece)",
+        "        for sq, piece in enumerate(board.squares)",
+        "        if piece is not None and piece.type is not PieceType.KING",
+        "    ]",
+        "    if any(piece.type not in (PieceType.BISHOP, PieceType.KNIGHT) for _, piece in minors):",
+        "        return False  # a pawn, rook or queen is on the board",
+        "    if len(minors) <= 1:",
+        "        return True  # K-K, KB-K or KN-K",
+        "    if (",
+        "        len(minors) == 2",
+        "        and all(piece.type is PieceType.BISHOP for _, piece in minors)",
+        "        and {piece.color for _, piece in minors} == {Color.WHITE, Color.BLACK}",
+        "        and len({(square_file(sq) + square_rank(sq)) % 2 for sq, _ in minors}) == 1",
+        "    ):",
+        "        return True  # KB vs KB, bishops on the same color complex",
+        "    return False",
+        "",
+        "",
+        "def game_result(board: Board, repetitions: Mapping | None = None) -> tuple[str, str | None]:"
+      ]
+    }
+  }
+}

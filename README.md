@@ -33,7 +33,9 @@ d'un **adversaire classique** (minimax + élagage alpha-beta, pas d'IA générat
     attaquée — la tour bouge aussi, UCI `e1g1`/`e1c1`) ;
   - ✅ prise en passant (génération + application, le pion pris disparaît de
     sa propre case ; le piège du clouage est correctement rejeté) ;
-  - 🚧 nulle par triple répétition, matériel insuffisant.
+  - ✅ nulle par triple répétition (clé = placement + trait + roques + case
+    en passant seulement si une prise y est réellement jouable) ;
+  - ✅ matériel insuffisant (K-K, KB-K, KN-K, KB-KB fous de même couleur).
 - **Notations et formats** : ✅ **FEN** (import/export), ✅ **UCI** (`e2e4`,
   `e7e8q`), ✅ **SAN** (`Nf3`, `O-O`) et ✅ **PGN** (import/export) côté API ;
   🚧 export PGN et commande `ai-move` côté CLI.
@@ -168,10 +170,10 @@ tournent depuis la racine du projet (surcharger avec `--state PATH` côté CLI o
 1. **Fondations** — `AGENTS.md`, `README.md`, squelette (`pyproject.toml`,
    arborescence, test trivial qui passe). ✅
 2. **Moteur** (Rafiq) — plateau, pièces, génération de coups pseudo-légaux puis
-   légaux, règles de base (échec/mat/pat, promotion, 50 coups), FEN, UCI ✅ ;
-   ✅ roque, prise en passant, **perft** au vert (toutes les positions de
-   référence) ; 🚧 triple répétition, matériel insuffisant, SAN/PGN dans
-   `chess/engine/`.
+   légaux, règles complètes (échec/mat/pat, promotion, roque, prise en
+   passant, triple répétition, 50 coups, matériel insuffisant), FEN, UCI ✅ ;
+   ✅ **perft** au vert (toutes les positions de référence) ; 🚧 SAN/PGN dans
+   `chess/engine/` (déjà dispo via l'API).
 3. **CLI** (Adam) — persistance `.chess_game.json`, sous-commandes, `--json`,
    tests CLI ✅ ; 🚧 `pgn`, `ai-move`.
 4. **IA** (Adam) — évaluation statique + minimax alpha-beta, tests. ✅
@@ -200,9 +202,12 @@ tournent depuis la racine du projet (surcharger avec `--state PATH` côté CLI o
   sont enregistrées avant le mount statique pour prendre la priorité.
 - Slice moteur actuel : coups normaux de toutes les pièces, promotion, roque
   (petit/grand, toutes conditions), prise en passant, filtre « roi pas en
-  échec », échec/mat/pat, règle des 50 coups, FEN (+ validation), persistance
-  JSON, perft au vert sur les 4 positions de référence. **Triple répétition et
-  matériel insuffisant ne sont pas encore implémentés.** SAN et PGN vivent pour
-  l'instant dans la couche API (`chess/api/notation.py`), pas dans
-  `chess/engine/`.
+  échec », échec/mat/pat, triple répétition, règle des 50 coups, matériel
+  insuffisant, FEN (+ validation), persistance JSON, perft au vert sur les 4
+  positions de référence. SAN et PGN vivent pour l'instant dans la couche API
+  (`chess/api/notation.py`), pas dans `chess/engine/`.
+- **Nulles automatiques** : triple répétition, règle des 50 coups et matériel
+  insuffisant sont détectées automatiquement (pas de réclamation à la FIDE) —
+  `result` vaut `draw_threefold` / `draw_fifty_move` /
+  `draw_insufficient_material` et `winner` vaut `null` dans `Game.status()`.
 - Règle d'ambiguïté : choisir l'option la plus simple et l'ajouter ici.

@@ -1,0 +1,38 @@
+{
+  "seq": 328,
+  "received_at": "2026-11-22T20:51:26.612780+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "6UXD5BYv6",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "old_string": [
+        "- Slice moteur actuel : coups normaux de toutes les pièces, promotion, roque",
+        "  (petit/grand, toutes conditions), prise en passant, filtre « roi pas en",
+        "  échec », échec/mat/pat, règle des 50 coups, FEN (+ validation), persistance",
+        "  JSON, perft au vert sur les 4 positions de référence. **Triple répétition et",
+        "  matériel insuffisant ne sont pas encore implémentés.** SAN et PGN vivent pour",
+        "  l'instant dans la couche API (`chess/api/notation.py`), pas dans",
+        "  `chess/engine/`."
+      ],
+      "new_string": [
+        "- Slice moteur actuel : coups normaux de toutes les pièces, promotion, roque",
+        "  (petit/grand, toutes conditions), prise en passant, filtre « roi pas en",
+        "  échec », échec/mat/pat, triple répétition, règle des 50 coups, matériel",
+        "  insuffisant, FEN (+ validation), persistance JSON, perft au vert sur les 4",
+        "  positions de référence. SAN et PGN vivent pour l'instant dans la couche API",
+        "  (`chess/api/notation.py`), pas dans `chess/engine/`.",
+        "- **Nulles automatiques** : triple répétition, règle des 50 coups et matériel",
+        "  insuffisant sont détectées automatiquement (pas de réclamation à la FIDE) —",
+        "  `result` vaut `draw_threefold` / `draw_fifty_move` /",
+        "  `draw_insufficient_material` et `winner` vaut `null` dans `Game.status()`."
+      ]
+    }
+  }
+}

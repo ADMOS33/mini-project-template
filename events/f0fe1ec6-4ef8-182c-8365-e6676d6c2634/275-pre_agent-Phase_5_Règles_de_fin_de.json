@@ -1,0 +1,20 @@
+{
+  "seq": 275,
+  "received_at": "2026-11-22T20:44:16.081221+00:00",
+  "hook_event_name": "pre_agent",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_agent",
+    "agent_name": "default",
+    "turn_id": "turn-b84f16cb0608c2cc47af7ff6a2453e7e",
+    "prompt": [
+      "## Phase 5 — Règles de fin de partie (chess/engine/rules.py)",
+      "10. Déplace la détection de fin de partie de Game.status() vers rules.py. status() renvoie result ∈ {ongoing, checkmate, stalemate, draw_threefold, draw_fifty_move, draw_insufficient_material} et winner ∈ {w, b, null}. Commit refactor:.",
+      "11. Triple répétition (placement, trait, roques, case en passant seulement si une prise est réellement jouable). Commit feat:.",
+      "12. Matériel insuffisant (K-K, KB-K, KN-K, KB-KB fous de même couleur). Nulles automatiques, noté dans Décisions. Commit feat:."
+    ]
+  }
+}

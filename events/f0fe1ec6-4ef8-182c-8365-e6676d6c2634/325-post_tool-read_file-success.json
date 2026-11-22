@@ -1,0 +1,63 @@
+{
+  "seq": 325,
+  "received_at": "2026-11-22T20:51:13.157078+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.read_file",
+    "tool_call_id": "3tjTDYavM",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/web/board.js",
+      "limit": 28,
+      "offset": 325
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "content": [
+        "  statusEl.textContent = text;",
+        "}",
+        "",
+        "const RESULT_REASONS = {",
+        "  checkmate: (s) => (s.turn === \"b\" ? \"Échec et mat — les Blancs gagnent.\" : \"Échec et mat — les Noirs gagnent.\"),",
+        "  stalemate: () => \"Pat — partie nulle.\",",
+        "  draw_fifty_move: () => \"Nulle — règle des 50 coups.\",",
+        "  draw_repetition: () => \"Nulle — triple répétition.\",",
+        "  draw_insufficient_material: () => \"Nulle — matériel insuffisant.\",",
+        "};",
+        "",
+        "function showGameOver(title, reason) {",
+        "  document.getElementById(\"gameover-title\").textContent = title;",
+        "  document.getElementById(\"gameover-reason\").textContent = reason;",
+        "  document.getElementById(\"gameover-modal\").classList.remove(\"hidden\");",
+        "}",
+        "",
+        "function maybeShowGameOver(status) {",
+        "  if (status.result === \"ongoing\") return;",
+        "  if (state.gameOverShownFor === status.fen) return;",
+        "  state.gameOverShownFor = status.fen;",
+        "  const reason = (RESULT_REASONS[status.result] || (() => status.result))(status);",
+        "  const title = status.result === \"checkmate\" ? \"Échec et mat !\" : \"Partie nulle\";",
+        "  showGameOver(title, reason);",
+        "}",
+        "",
+        "// --- Refresh --------------------------------------------------------------",
+        "",
+        ""
+      ],
+      "file_size_bytes": 21832,
+      "lines_read": 28,
+      "next_offset": 353,
+      "offset": 325,
+      "path": "/home/dilos/A3/agentic/mini-project-template/web/board.js",
+      "returned_bytes": 1116,
+      "total_lines": 672,
+      "was_truncated": true
+    },
+    "tool_error": null,
+    "duration_ms": 26
+  }
+}

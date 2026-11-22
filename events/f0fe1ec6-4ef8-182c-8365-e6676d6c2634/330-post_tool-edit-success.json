@@ -1,0 +1,35 @@
+{
+  "seq": 330,
+  "received_at": "2026-11-22T20:51:26.907253+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "tcmSidtLz",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/web/board.js",
+      "new_string": [
+        "  draw_fifty_move: () => \"Nulle — règle des 50 coups.\",",
+        "  draw_threefold: () => \"Nulle — triple répétition.\",",
+        "  draw_insufficient_material: () => \"Nulle — matériel insuffisant.\","
+      ],
+      "old_string": [
+        "  draw_fifty_move: () => \"Nulle — règle des 50 coups.\",",
+        "  draw_repetition: () => \"Nulle — triple répétition.\",",
+        "  draw_insufficient_material: () => \"Nulle — matériel insuffisant.\","
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/web/board.js",
+      "lines_changed": 3,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 173
+  }
+}

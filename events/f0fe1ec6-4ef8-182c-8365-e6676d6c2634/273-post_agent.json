@@ -1,0 +1,29 @@
+{
+  "seq": 273,
+  "received_at": "2026-11-22T20:43:48.313183+00:00",
+  "hook_event_name": "post_agent",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_agent",
+    "agent_name": "default",
+    "turn_id": "turn-288b922d12504b78d6061f336d4a525d",
+    "response_text": [
+      "La **Phase 4 est terminée** — **93 tests passed, 0 xfailed**, arbre git propre.",
+      "",
+      "## Phase 4 — Coups spéciaux ✅",
+      "",
+      "| # | Commit | Contenu |",
+      "|---|--------|---------|",
+      "| 7 | `66a5be1` feat: | **Roque** petit/grand, deux camps : généré seulement si droit présent + tour sur son coin + cases intermédiaires vides + roi pas en échec + ne traverse/atteint aucune case attaquée (b1 peut être attaquée en grand roque). `apply_move` déplace aussi la tour (`e1g1`→Rf1, `e1c1`→Rd1). 10 tests dédiés (FEN exactes après roque, chaque condition bloquante testée). Perft : Kiwipete p1=48 et pos4 p2=264 passent → leurs xfail retirés dans le même commit. |",
+      "| 8 | `4e4b4f4` feat: | **Prise en passant** : génération vers la case `ep` + application où le pion pris disparaît de **sa propre case**. Le piège `8/8/8/KPp4r/8/8/8/4k3 w - c6 0 1` → `b5c6` **illégal** (clouage horizontal attraqué par le filtre de sécurité du roi), contrôle positif sans la tour, EP valable un seul coup. Les 4 xfail restants retirés. |",
+      "| 9 | `1634b79` test: | **`divide()`** utilisé pour la vérification croisée : Kiwipete p1 = 48 avec `e1g1`/`e1c1` présents, somme divide p2 = perft = 2039, `e5d6` généré après double push. **Les 13 perft de référence passent sans aucun xfail** : initiale 20/400/8902/197281, Kiwipete 48/2039/97862, pos3 14/191/2812, pos4 6/264/9467. |",
+      "",
+      "Fin de phase : tableau « État d'avancement » d'AGENTS.md et README mis à jour (roque ✅, prise en passant ✅, perft 100 % verts, 93 tests) et logs `events/` commités (`0bbb7a5`).",
+      "",
+      "Le moteur génère maintenant tous les coups spéciaux ; il reste, côté règles, la **triple répétition** et le **matériel insuffisant** (tous deux encore 🚧 dans le tableau)."
+    ]
+  }
+}
