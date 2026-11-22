@@ -48,8 +48,11 @@ def _save(game: Game) -> None:
 
 @app.get("/api/status")
 def get_status() -> dict:
-    """Game status: side to move, check, result, FEN."""
-    return _load().status()
+    """Game status: side to move, check, result, FEN and last move (UCI)."""
+    game = _load()
+    status = game.status()
+    status["last_move"] = game.moves[-1].to_uci() if game.moves else None
+    return status
 
 
 @app.get("/api/board")

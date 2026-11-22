@@ -1,16 +1,22 @@
-// Chess board rendering and interaction.
-// Renders the position from /api/board and sends moves to /api/move.
+// Chess board rendering and interaction: click-click and drag & drop,
+// legal-move hints, last-move / check highlights, promotion picker.
 
 const boardEl = document.getElementById("board");
 const statusEl = document.getElementById("status");
 const FILES = "abcdefgh";
 
 const state = {
+  boardData: null, // last /api/board payload
   selected: null, // selected square name, e.g. "e2"
-  glyphs: {}, // square -> unicode glyph
-  symbols: {}, // square -> FEN symbol (uppercase = white)
+  glyphs: {},
+  symbols: {},
   turn: "w",
   flipped: false,
+  legalMoves: [], // UCI strings from /api/moves
+  lastMove: null, // {from, to, uci}
+  prevLastMoveUci: null, // to trigger the slide animation once
+  inCheck: false,
+  drag: null, // {from, startX, startY, ghost, moved}
 };
 
 function squareName(file, rank) {
@@ -30,13 +36,33 @@ function sizeBoard() {
 }
 window.addEventListener("resize", sizeBoard);
 
+function kingSquareOf(color) {
+  for (const [name, sym] of Object.entries(state.symbols)) {
+    if (sym && sym.toLowerCase() === "k" && (color === "w" ? sym === "K" : sym === "k")) {
+      return name;
+    }
+  }
+  return null;
+}
+
 function render(data) {
   boardEl.innerHTML = "";
   state.glyphs = data.glyphs || {};
   state.symbols = data.squares || {};
-  // When flipped, black is at the bottom: iterate ranks/files accordingly.
   const ranks = state.flipped ? [0, 1, 2, 3, 4, 5, 6, 7] : [7, 6, 5, 4, 3, 2, 1, 0];
   const files = state.flipped ? [7, 6, 5, 4, 3, 2, 1, 0] : [0, 1, 2, 3, 4, 5, 6, 7];
+  const lastFrom = state.lastMove ? state.lastMove.from : null;
+  const lastTo = state.lastMove ? state.lastMove.to : null;
+  const checkSq = state.inCheck ? kingSquareOf(state.turn) : null;
+  const hintTargets = new Map(); // to-square -> isCapture
+  if (state.selected) {
+    for (const uci of state.legalMoves) {
+      if (uci.startsWith(state.selected)) {
+        const to = uci.slice(2, 4);
+        hintTargets.set(to, hintTargets.get(to) || Boolean(state.symbols[to]));
+      }
+    }
+  }
   for (const rank of ranks) {
     for (const file of files) {
       const name = squareName(file, rank);
@@ -49,6 +75,11 @@ function render(data) {
       if (isLeftEdge) addCoord(sq, "coord rank", String(rank + 1));
       if (isBottomEdge) addCoord(sq, "coord file", FILES[file]);
       if (name === state.selected) sq.classList.add("selected");
+      if (name === lastFrom || name === lastTo) sq.classList.add("last-move");
+      if (name === checkSq) sq.classList.add("in-check");
+      if (hintTargets.has(name)) {
+        sq.classList.add(hintTargets.get(name) ? "hint-capture" : "hint");
+      }
       const glyph = state.glyphs[name];
       if (glyph) {
         const span = document.createElement("span");
@@ -57,11 +88,30 @@ function render(data) {
         span.textContent = glyph;
         sq.appendChild(span);
       }
-      sq.addEventListener("click", () => onSquareClick(name));
       boardEl.appendChild(sq);
     }
   }
   sizeBoard();
+  animateLastMove();
+}
+
+function animateLastMove() {
+  if (!state.lastMove || state.lastMove.uci === state.prevLastMoveUci) return;
+  state.prevLastMoveUci = state.lastMove.uci;
+  const { from, to } = state.lastMove;
+  const fromEl = boardEl.querySelector(`[data-square="${from}"]`);
+  const toEl = boardEl.querySelector(`[data-square="${to}"]`);
+  const pieceEl = toEl && toEl.querySelector(".piece");
+  if (!fromEl || !toEl || !pieceEl) return;
+  const dx = fromEl.offsetLeft - toEl.offsetLeft;
+  const dy = fromEl.offsetTop - toEl.offsetTop;
+  pieceEl.animate(
+    [
+      { transform: `translate(${dx}px, ${dy}px)` },
+      { transform: "translate(0, 0)" },
+    ],
+    { duration: 150, easing: "ease-out" }
+  );
 }
 
 function renderPlayers(turn) {
@@ -81,8 +131,18 @@ function setStatus(text) {
 
 async function refresh() {
   try {
-    const [board, status] = await Promise.all([ChessAPI.board(), ChessAPI.status()]);
+    const [board, status, moves] = await Promise.all([
+      ChessAPI.board(),
+      ChessAPI.status(),
+      ChessAPI.moves(),
+    ]);
+    state.boardData = board;
     state.turn = status.turn;
+    state.inCheck = status.in_check;
+    state.legalMoves = moves.moves;
+    state.lastMove = status.last_move
+      ? { from: status.last_move.slice(0, 2), to: status.last_move.slice(2, 4), uci: status.last_move }
+      : null;
     render(board);
     renderPlayers(status.turn);
     const turn = status.turn === "w" ? "Blancs" : "Noirs";
@@ -94,27 +154,126 @@ async function refresh() {
   }
 }
 
-async function onSquareClick(name) {
-  if (!state.selected) {
-    state.selected = name;
-  } else if (state.selected === name) {
-    state.selected = null;
-  } else {
-    let uci = state.selected + name;
-    // Default to queen promotion when a pawn reaches the last rank.
-    const glyph = state.glyphs[state.selected];
-    if ((glyph === "♙" && name.endsWith("8")) || (glyph === "♟" && name.endsWith("1"))) {
-      uci += "q";
-    }
-    state.selected = null;
-    try {
-      await ChessAPI.move(uci);
-    } catch (err) {
-      setStatus(`Coup illégal ${uci}`);
-    }
+// --- Promotion picker -------------------------------------------------
+
+function askPromotion(color) {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("promotion-modal");
+    const box = document.getElementById("promo-choices");
+    box.innerHTML = "";
+    const glyphs = color === "w" ? ["♕", "♖", "♗", "♘"] : ["♛", "♜", "♝", "♞"];
+    const letters = ["q", "r", "b", "n"];
+    glyphs.forEach((g, i) => {
+      const btn = document.createElement("button");
+      btn.className = "promo-btn";
+      btn.textContent = g;
+      btn.addEventListener("click", () => {
+        modal.classList.add("hidden");
+        resolve(letters[i]);
+      });
+      box.appendChild(btn);
+    });
+    modal.classList.remove("hidden");
+    modal.querySelector(".modal-cancel").onclick = () => {
+      modal.classList.add("hidden");
+      resolve(null);
+    };
+  });
+}
+
+// --- Moves ------------------------------------------------------------
+
+async function tryMove(from, to) {
+  const candidates = state.legalMoves.filter((m) => m.startsWith(from + to));
+  if (candidates.length === 0) {
+    setStatus(`Coup illégal : ${from}${to}`);
+    return;
+  }
+  let uci = candidates[0];
+  if (candidates.length > 1) {
+    // Several moves share from+to: it is a promotion, ask for the piece.
+    const sym = state.symbols[from] || "";
+    const color = sym === sym.toUpperCase() ? "w" : "b";
+    const promo = await askPromotion(color);
+    if (!promo) return; // cancelled
+    uci = from + to + promo;
+  }
+  state.selected = null;
+  try {
+    await ChessAPI.move(uci);
+  } catch (err) {
+    setStatus("Coup illégal: " + err.message);
   }
   await refresh();
 }
+
+function squareFromEvent(e) {
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  const sq = el && el.closest ? el.closest(".square") : null;
+  return sq ? sq.dataset.square : null;
+}
+
+function myPieceAt(name) {
+  const sym = state.symbols[name];
+  if (!sym) return false;
+  return state.turn === "w" ? sym === sym.toUpperCase() : sym === sym.toLowerCase();
+}
+
+boardEl.addEventListener("pointerdown", (e) => {
+  const name = squareFromEvent(e);
+  if (!name) return;
+  state.drag = { from: name, startX: e.clientX, startY: e.clientY, ghost: null, moved: false };
+});
+
+boardEl.addEventListener("pointermove", (e) => {
+  const d = state.drag;
+  if (!d) return;
+  if (!d.moved && Math.hypot(e.clientX - d.startX, e.clientY - d.startY) > 6 && myPieceAt(d.from)) {
+    d.moved = true;
+    const rect = boardEl.getBoundingClientRect();
+    const ghost = document.createElement("span");
+    const sym = state.symbols[d.from] || "";
+    ghost.className = "piece drag-ghost " + (sym === sym.toUpperCase() ? "white" : "black");
+    ghost.textContent = state.glyphs[d.from] || "";
+    ghost.style.left = e.clientX - rect.left + "px";
+    ghost.style.top = e.clientY - rect.top + "px";
+    boardEl.appendChild(ghost);
+    d.ghost = ghost;
+  }
+  if (d.ghost) {
+    const rect = boardEl.getBoundingClientRect();
+    d.ghost.style.left = e.clientX - rect.left + "px";
+    d.ghost.style.top = e.clientY - rect.top + "px";
+  }
+});
+
+boardEl.addEventListener("pointerup", (e) => {
+  const d = state.drag;
+  state.drag = null;
+  if (!d) return;
+  if (d.moved && d.ghost) {
+    // Drag & drop: move to the square under the pointer.
+    d.ghost.remove();
+    const target = squareFromEvent(e);
+    if (target && target !== d.from) tryMove(d.from, target);
+    else render(state.boardData);
+    return;
+  }
+  // Simple click (click-click play).
+  const name = squareFromEvent(e);
+  if (!name) return;
+  if (!state.selected) {
+    if (myPieceAt(name)) {
+      state.selected = name;
+      render(state.boardData);
+    }
+  } else if (state.selected === name) {
+    state.selected = null;
+    render(state.boardData);
+  } else {
+    tryMove(state.selected, name);
+  }
+});
 
 document.getElementById("btn-new").addEventListener("click", async () => {
   state.selected = null;
