@@ -153,3 +153,59 @@ def test_queenside_castling_allows_b1_attacked() -> None:
     b1_attacked = "r3k2r/8/8/8/8/8/1r6/R3K2R w KQkq - 0 1"
     moves = {m.to_uci() for m in legal_moves(board_from_fen(b1_attacked))}
     assert "e1c1" in moves
+
+
+# --- En passant ----------------------------------------------------------
+
+
+def test_en_passant_is_generated_after_a_double_push() -> None:
+    # 1.e4 a6 2.e5 d5 -> White may capture en passant on d6 (from e5).
+    board = board_from_fen(
+        "rnbqkbnr/ppp1pppp/8/3pP3/8/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 3"
+    )
+    moves = {m.to_uci() for m in legal_moves(board)}
+    assert "e5d6" in moves
+
+
+def test_en_passant_removes_the_pawn_from_its_own_square() -> None:
+    board = board_from_fen(
+        "rnbqkbnr/ppp1pppp/8/3pP3/8/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 3"
+    )
+    new = apply_move(board, Move.from_uci("e5d6"))
+    assert new.piece_at(parse_square("d6")) == Piece(PieceType.PAWN, Color.WHITE)
+    assert new.piece_at(parse_square("d5")) is None  # captured pawn gone from d5
+    assert new.piece_at(parse_square("e5")) is None
+    # input board unchanged
+    assert board.piece_at(parse_square("d5")) == Piece(PieceType.PAWN, Color.BLACK)
+    assert board_to_fen(new) == (
+        "rnbqkbnr/ppp1pppp/3P4/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 3"
+    )
+
+
+def test_en_passant_pin_is_illegal() -> None:
+    # Classic trap: bxc6 e.p. would expose the white king a5 to the h5 rook
+    # along the 5th rank (b5 and c5 both become empty), so it is illegal.
+    board = board_from_fen("8/8/8/KPp4r/8/8/8/4k3 w - c6 0 1")
+    moves = {m.to_uci() for m in legal_moves(board)}
+    assert "b5c6" not in moves
+
+
+def test_en_passant_legal_without_the_pin() -> None:
+    board = board_from_fen("8/8/8/KPp5/8/8/8/4k3 w - c6 0 1")
+    moves = {m.to_uci() for m in legal_moves(board)}
+    assert "b5c6" in moves
+    new = apply_move(board, Move.from_uci("b5c6"))
+    assert new.piece_at(parse_square("c6")) == Piece(PieceType.PAWN, Color.WHITE)
+    assert new.piece_at(parse_square("c5")) is None  # the black pawn is removed
+    assert board_to_fen(new) == "8/8/2P5/K7/8/8/8/4k3 b - - 0 1"
+
+
+def test_en_passant_only_immediately() -> None:
+    from chess.engine.game import Game
+
+    game = Game()
+    for uci in ("e2e4", "a7a6", "e4e5", "d7d5"):
+        game.play_uci(uci)
+    assert "e5d6" in {m.to_uci() for m in game.legal_moves()}
+    game.play_uci("g1f3")  # ep square expires
+    assert "e5d6" not in {m.to_uci() for m in game.legal_moves()}

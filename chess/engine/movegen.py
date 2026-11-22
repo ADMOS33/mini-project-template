@@ -95,6 +95,8 @@ def _pawn_moves(board: Board, sq: int, color: Color, moves: list[Move]) -> None:
             target_piece = board.squares[target]
             if target_piece is not None and target_piece.color is not color:
                 _add_pawn_move(moves, sq, target, r + forward == promo_rank)
+            elif target_piece is None and board.ep_square == target:
+                moves.append(Move(sq, target))  # en-passant capture
 
 
 def _jump_moves(board: Board, sq: int, color: Color, offsets: tuple, moves: list[Move]) -> None:
@@ -205,6 +207,15 @@ def apply_move(board: Board, move: Move) -> Board:
         Piece(move.promotion, piece.color) if move.promotion is not None else piece
     )
     new.squares[move.from_sq] = None
+    if (
+        piece.type is PieceType.PAWN
+        and captured is None
+        and move.to_sq == board.ep_square
+        and square_file(move.to_sq) != square_file(move.from_sq)
+    ):
+        # En passant: the captured pawn disappears from its own square.
+        ep_captured = square(square_file(move.to_sq), square_rank(move.from_sq))
+        new.squares[ep_captured] = None
     if piece.type is PieceType.KING and abs(move.to_sq - move.from_sq) == 2:
         # Castling: the rook jumps to the other side of the king.
         rank = square_rank(move.from_sq)
