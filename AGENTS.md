@@ -1,25 +1,86 @@
-# mini-project-template
+# AGENTS.md — Projet Chess (ENSEIRB-MATMECA, cours de génie logiciel)
 
-Minimal project template that ships one Mistral Vibe hook: an event logger.
+## Fichiers interdits — NE JAMAIS modifier, supprimer ou déplacer
 
-## Hook
+- `events/` : logs du hook Vibe. Ne jamais modifier/supprimer/déplacer, et
+  **ne jamais l'ajouter au `.gitignore`** : ces fichiers sont faits pour être
+  commités dans git comme n'importe quel autre (le prof les analyse).
+- `.vibe/hooks.toml` et `.vibe/hooks/log_event.py` : configuration du hook
+  d'enregistrement d'événements. Ne jamais toucher.
 
-- Config: `.vibe/hooks.toml` — one `[[hooks]]` row per event type
-  (`session_start`, `pre_agent`, `pre_tool`, `post_tool`, `post_agent`,
-  `notification`, `session_end`).
-- Script: `.vibe/hooks/log_event.py` — Vibe pipes each event's JSON payload
-  to the script on stdin; the script appends it as one JSON file to
-  `events/<session_id>/NNN-<slug>.json` in the project directory.
+## Le projet
 
-The hook always exits 0 with empty stdout, so it is a pure passthrough and
-never interferes with the agent. Hook commands run from the project root,
-which is why the script path in `hooks.toml` is relative.
+Un **jeu d'échecs complet en Python pur** (aucune bibliothèque d'échecs
+externe, tout est écrit à la main) :
 
-Do not delete the `events/` directory, and never add `events/` to
-`.gitignore` — it is the hook's log output and is meant to be committed
-to git like any other file. The events data will be used for data
-analysis, which is why it is important to keep.
+1. un moteur d'échecs avec règles complètes ;
+2. une CLI utilisable par un humain **et par un agent LLM** (exigence du cours) ;
+3. une API HTTP (FastAPI) ;
+4. une interface web (HTML/CSS/JS vanilla) avec échiquier jouable ;
+5. un adversaire ordinateur classique : **minimax + élagage alpha-beta**
+   (pas d'IA générative).
 
-To reuse in another project: copy the `.vibe/` directory into that project's
-root and trust the folder. New event types need no script changes — just add
-a `[[hooks]]` row in `hooks.toml`.
+Règles à implémenter intégralement : déplacements de toutes les pièces, coups
+légaux (on ne laisse pas son roi en échec), échec, échec et mat, pat, petit et
+grand roque (avec toutes les conditions), prise en passant, promotion (choix
+de la pièce), nulle par triple répétition, règle des 50 coups, matériel
+insuffisant. Import/export **FEN** et **PGN**. Notations **UCI** (`e2e4`,
+`e7e8q`) et **SAN** (`Nf3`, `O-O`).
+
+Vérification : tests pytest par module + **perft obligatoires** (position
+initiale profondeur 1 à 4 : 20, 400, 8902, 197281 ; Kiwipete
+`r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1`
+profondeurs 1 à 3 : 48, 2039, 97862). Le moteur n'est correct que si tous les
+perft passent.
+
+## Règles de travail
+
+- Commits petits et fréquents, **un commit par unité logique**, messages en
+  anglais au format **Conventional Commits** (`feat:`, `test:`, `fix:`,
+  `refactor:`, `docs:`, `chore:`).
+- **Ne jamais committer un état où les tests existants échouent.**
+- Code en **anglais**, typé (type hints), docstrings courtes.
+- Dépendances autorisées uniquement : `fastapi`, `uvicorn`, `pytest`.
+- Après chaque fonctionnalité : lancer les tests et corriger jusqu'au vert.
+- Si une décision est ambiguë : choisir **l'option la plus simple** et la noter
+  dans le README (section « Décisions »).
+
+## Architecture cible
+
+```
+chess/
+  engine/  board.py pieces.py move.py movegen.py rules.py game.py fen.py pgn.py san.py
+  ai/      evaluation.py search.py
+  cli/     main.py
+  api/     server.py schemas.py
+web/       index.html style.css board.js api.js
+tests/     test_board.py test_movegen.py test_rules.py test_fen.py test_pgn.py
+           test_san.py test_perft.py test_game.py test_cli.py test_api.py test_ai.py
+skills/    (plus tard) skill Vibe apprenant à un agent à jouer via la CLI
+```
+
+## Contrat CLI (pensé pour les agents)
+
+Commande `chess`, sous-commandes : `new`, `board` (ASCII), `move <uci|san>`,
+`moves` (coups légaux), `status` (au trait, échec, mat, nulle), `undo`, `fen`,
+`load <fen>`, `pgn`, `ai-move [--depth N]`, `history`. L'état de la partie est
+persisté dans `.chess_game.json` à la racine du projet (gitignoré). Chaque
+commande accepte `--json` pour une sortie structurée lisible par un agent.
+Messages d'erreur clairs : coup illégal → liste des coups légaux.
+
+## Équipe et répartition
+
+- **Rafiq** : moteur (`chess/engine/`)
+- **Adam** : CLI / API / IA (`chess/cli/`, `chess/api/`, `chess/ai/`)
+- **Hafsa** : interface web (`web/`)
+
+Le développement est réalisé principalement par l'agent ; les membres
+relacent/valident par revue.
+
+## Environnement de dev
+
+- venv local `.venv` (gitignoré) : `python3 -m venv .venv` puis
+  `.venv/bin/pip install -e '.[dev]'`
+- Tests : `.venv/bin/python -m pytest` depuis la racine du dépôt.
+- CLI sans installation : `python3 -m chess ...` (ou `.venv/bin/chess ...`
+  après `pip install -e .`).
