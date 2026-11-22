@@ -18,6 +18,7 @@ from pathlib import Path
 from chess.engine.fen import board_from_fen, board_to_fen
 from chess.engine.game import Game
 from chess.engine.move import Move
+from chess.engine.pgn import export_pgn, import_pgn
 from chess.engine.san import move_to_san, san_to_move
 
 DEFAULT_STATE_FILE = ".chess_game.json"
@@ -57,7 +58,9 @@ def _build_parser() -> argparse.ArgumentParser:
     add("fen", "print the FEN of the current position")
     p_load = add("load", "start a game from a FEN string")
     p_load.add_argument("fen", help="FEN string")
-    add("pgn", "export the game as PGN (not implemented yet)")
+    add("pgn", "export the game as PGN")
+    p_load_pgn = add("load-pgn", "load a game from a PGN file")
+    p_load_pgn.add_argument("file", help="path to a .pgn file")
     p_ai = add("ai-move", "let the computer play a move (not implemented yet)")
     p_ai.add_argument("--depth", type=int, default=3, help="search depth")
     add("history", "list the moves played so far")
@@ -136,9 +139,27 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
         game.save(state_file)
         status = game.status()
         return {"ok": True, "status": status}, f"Loaded position.\n{status['fen']}"
-    if cmd in ("pgn", "ai-move"):
-        what = "PGN export" if cmd == "pgn" else "the AI opponent (ai-move)"
-        raise CliError(f"{what} is not implemented yet — planned for a later phase")
+    if cmd == "ai-move":
+        raise CliError("the AI opponent (ai-move) is not implemented yet — planned for a later phase")
+    if cmd == "pgn":
+        game = _load_game(state_file)
+        text = export_pgn(game)
+        return {"pgn": text}, text
+    if cmd == "load-pgn":
+        try:
+            text = Path(args.file).read_text(encoding="utf-8")
+        except OSError as exc:
+            raise CliError(f"cannot read {args.file}: {exc}") from exc
+        try:
+            game = import_pgn(text)
+        except ValueError as exc:
+            raise CliError(f"invalid PGN in {args.file}: {exc}") from exc
+        game.save(state_file)
+        status = game.status()
+        return (
+            {"ok": True, "status": status},
+            f"Loaded PGN from {args.file} ({len(game.moves)} plies).\n{status['fen']}",
+        )
 
     game = _load_game(state_file)
     if cmd == "board":
