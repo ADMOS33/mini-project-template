@@ -1,8 +1,8 @@
-"""SAN rendering and PGN import/export.
+"""PGN import/export for the API layer.
 
-This lives in the API layer (not chess/engine/san.py) for the current
-phase: it only *uses* the engine's public move generation, it does not
-modify the engine.
+SAN rendering/parsing itself lives in the engine (``chess/engine/san.py``);
+this module only adapts it to PGN movetext and re-exports ``to_san`` for the
+server endpoints.
 """
 
 from __future__ import annotations
@@ -10,64 +10,14 @@ from __future__ import annotations
 import re
 from datetime import datetime, timezone
 
-from chess.engine.board import FILES, RANKS, Board, square_file, square_name, square_rank
+from chess.engine.board import Board
 from chess.engine.fen import board_from_fen
 from chess.engine.game import Game
 from chess.engine.move import Move
-from chess.engine.movegen import apply_move, is_square_attacked, legal_moves
-from chess.engine.pieces import PieceType
+from chess.engine.san import move_to_san, san_to_move
 
-_PIECE_LETTERS = {
-    PieceType.KNIGHT: "N",
-    PieceType.BISHOP: "B",
-    PieceType.ROOK: "R",
-    PieceType.QUEEN: "Q",
-    PieceType.KING: "K",
-}
-
-
-def to_san(board: Board, move: Move) -> str:
-    """SAN of ``move`` in position ``board`` (e.g. 'Nf3', 'exd5', 'O-O', 'e8=Q#')."""
-    piece = board.piece_at(move.from_sq)
-    if piece is None:
-        raise ValueError("no piece on the origin square")
-    is_capture = board.piece_at(move.to_sq) is not None
-    if piece.type is PieceType.KING and abs(move.to_sq - move.from_sq) == 2:
-        san = "O-O" if square_file(move.to_sq) == 6 else "O-O-O"
-    elif piece.type is PieceType.PAWN:
-        san = ""
-        if is_capture:
-            san += FILES[square_file(move.from_sq)] + "x"
-        san += square_name(move.to_sq)
-        if move.promotion is not None:
-            san += "=" + move.promotion.value.upper()
-    else:
-        san = _PIECE_LETTERS[piece.type]
-        others = [
-            m
-            for m in legal_moves(board)
-            if m.to_sq == move.to_sq
-            and m.from_sq != move.from_sq
-            and (p := board.piece_at(m.from_sq)) is not None
-            and p.type is piece.type
-        ]
-        if others:
-            same_file = any(square_file(m.from_sq) == square_file(move.from_sq) for m in others)
-            same_rank = any(square_rank(m.from_sq) == square_rank(move.from_sq) for m in others)
-            if not same_file:
-                san += FILES[square_file(move.from_sq)]
-            elif not same_rank:
-                san += RANKS[square_rank(move.from_sq)]
-            else:
-                san += square_name(move.from_sq)
-        if is_capture:
-            san += "x"
-        san += square_name(move.to_sq)
-    new = apply_move(board, move)
-    # The attacker is the side that just moved (the original board.turn).
-    if is_square_attacked(new, new.king_square(new.turn), board.turn):
-        san += "#" if not legal_moves(new) else "+"
-    return san
+#: Re-exported for the API endpoints (history, PGN export).
+to_san = move_to_san
 
 
 def pgn_export(game: Game) -> str:
@@ -76,7 +26,7 @@ def pgn_export(game: Game) -> str:
     sans = [to_san(board_from_fen(fens[i]), move) for i, move in enumerate(game.moves)]
     status = game.status()
     if status["result"] == "checkmate":
-        result = "1-0" if status["turn"] == "b" else "0-1"
+        result = "1-0" if status["winner"] == "w" else "0-1"
     elif status["result"] == "ongoing":
         result = "*"
     else:
@@ -119,13 +69,10 @@ def pgn_import(text: str) -> tuple[str | None, list[str]]:
         token = raw.strip()
         if not token or re.fullmatch(r"\d+\.", token) or token in ("1-0", "0-1", "1/2-1/2", "*"):
             continue
-        san = token.rstrip("!?").rstrip("+#")
-        matches = [
-            m for m in game.legal_moves() if to_san(game.board, m).rstrip("+#") == san
-        ]
-        if not matches:
-            raise ValueError(f"coup SAN inconnu ou illégal dans le PGN: {token!r}")
-        uci = matches[0].to_uci()
-        game.play_uci(uci)
-        uci_moves.append(uci)
+        try:
+            move = san_to_move(game.board, token)
+        except ValueError as exc:
+            raise ValueError(f"coup SAN inconnu ou illégal dans le PGN: {token!r}") from exc
+        game.play_uci(move.to_uci())
+        uci_moves.append(move.to_uci())
     return start_fen, uci_moves
