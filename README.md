@@ -45,10 +45,13 @@ d'un **adversaire classique** (minimax + élagage alpha-beta, pas d'IA générat
   ci-dessous).
 - **IA classique** ✅ : minimax avec élagage alpha-beta + évaluation statique
   (matériel + tables de pièces).
-- **Tests pytest** par module ✅ (46 tests) ; 🚧 **perft** sur positions standard
-  (position initiale, profondeurs 1 à 4 : 20, 400, 8902, 197281 ; Kiwipete
-  `r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1`,
-  profondeurs 1 à 3 : 48, 2039, 97862).
+- **Tests pytest** par module ✅ (68 tests, 6 xfail strict) ; **perft** écrits
+  (`chess/engine/perft.py`, `tests/test_perft.py`) : ✅ position initiale
+  profondeurs 1 à 4 (20, 400, 8902, 197281) ; 🚧 Kiwipete
+  `r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1`
+  (48, 2039, 97862) et positions 3/4 en **xfail strict** tant que le roque et
+  la prise en passant ne sont pas générés par le moteur. Les cas profonds
+  portent le marqueur `slow` (deselectable via `-m "not slow"`).
 
 ## Architecture
 

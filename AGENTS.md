@@ -86,10 +86,10 @@ Si la session est interrompue, la prochaine reprendra grâce à ce tableau.
 | API `chess/api/` | `status`, `board`, `moves`, `fen`, `new`, `move`, `load`, `undo`, `history` (SAN), export/import PGN, `ai-move`, **`_load()` : état corrompu → erreur 500 claire** | — |
 | IA `chess/ai/` | évaluation statique (matériel + tables de pièces), minimax + alpha-beta | — |
 | Web `web/` | échiquier jouable complet (clic + drag&drop, surbrillance, promotion, historique SAN, captures, horloges, vs ordinateur, flip, modale fin de partie, import/export FEN/PGN) | — |
-| Tests | **56 tests** pytest verts ; assertions tautologiques/faibles nettoyées | perft (position initiale + Kiwipete) |
+| Tests | **68 tests** pytest verts (6 xfail strict) ; assertions nettoyées ; **perft écrits** (`chess/engine/perft.py` + `tests/test_perft.py`) : position initiale p1–p4 ✅ (20/400/8902/197281) | perft Kiwipete p1–p3, pos3 p3, pos4 p2–p3 au vert (xfail strict tant que roque + prise en passant ne sont pas générés) |
 | Skills `skills/` | — | skill Vibe apprenant à jouer via la CLI |
 
-> Phases faites : 1 (docs/AGENTS+README) ✅ · 2 (bugs : undo, validation FEN, assertions, `_load()` corrompu) ✅
+> Phases faites : 1 (docs/AGENTS+README) ✅ · 2 (bugs : undo, validation FEN, assertions, `_load()` corrompu) ✅ · 3 (perft + tests de référence, xfail strict sur roque/EP) ✅
 
 ## Architecture cible
 
