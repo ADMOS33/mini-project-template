@@ -407,3 +407,135 @@ input {
 .promo-overlay button:last-child { border-bottom: none; }
 .promo-overlay button:hover { background: var(--accent); }
 .promo-overlay img { width: 100%; height: 100%; pointer-events: none; }
+
+/* ==========================================================================
+   Cartes joueurs + tableau des coups.
+   ========================================================================== */
+
+.player-card {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s2) var(--s3);
+  border-radius: var(--r8);
+  background: var(--elevated);
+  border: 2px solid transparent;
+  transition: border-color var(--tr), background var(--tr);
+}
+
+/* Joueur au trait : bordure accent */
+.player-card.active {
+  border-color: var(--accent);
+  background: #2a2823;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.avatar img { width: 100%; height: 100%; }
+
+.pinfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.pname { font-weight: 600; }
+
+.captured {
+  min-height: 1.4rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.captured img {
+  width: 20px;
+  height: 20px;
+  margin-right: -4px;
+}
+
+.captured .adv {
+  font-size: 0.78rem;
+  color: var(--accent-hover);
+  font-family: var(--mono);
+  margin-left: var(--s2);
+}
+
+.clock {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.clock.low { color: var(--danger); }
+
+/* Tableau des coups : n° | Blancs | Noirs */
+.moves-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.moves-table th {
+  text-align: left;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: var(--s1) var(--s2);
+  border-bottom: 1px solid var(--border);
+}
+
+.moves-table td {
+  padding: var(--s1) var(--s2);
+  border-bottom: 1px solid var(--border);
+}
+
+.moves-table td.num { color: var(--muted); width: 2.2rem; }
+
+.moves-table td.move {
+  cursor: pointer;
+  border-radius: var(--r8);
+}
+
+.moves-table td.move:hover { background: var(--elevated); }
+
+.moves-table td.move.current {
+  background: var(--accent);
+  color: #fff;
+}
+
+.moves-table .empty-row td {
+  color: var(--muted);
+  text-align: center;
+  padding: var(--s4);
+}
+
+.block.grow {
+  flex: 1;
+  min-height: 0;
+}
+
+#moves-body {
+  display: block;
+  max-height: 46vh;
+  overflow-y: auto;
+}
+
+#moves-body tr { display: table; width: 100%; table-layout: fixed; }

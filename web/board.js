@@ -175,16 +175,191 @@ async function refresh() {
       state.symbols = board.squares;
     }
     render();
-    const turn = status.turn === "w" ? "Blancs" : "Noirs";
-    setStatus(
-      status.result === "ongoing"
-        ? `Aux ${turn.toLowerCase()} de jouer${status.in_check ? " — échec !" : ""}`
-        : status.result
-    );
+    renderPlayers();
+    renderMovesTable();
+    if (state.reviewPly === null) {
+      setStatus(statusText(status));
+    }
   } catch (err) {
     setStatus("Erreur : " + err.message);
   }
 }
+
+// Barre de statut, 100 % en français.
+function statusText(status) {
+  if (status.result === "ongoing") {
+    const qui = status.turn === "w" ? "Blancs" : "Noirs";
+    return `Aux ${qui.toLowerCase()} de jouer${status.in_check ? " — Échec !" : ""}`;
+  }
+  if (status.result === "checkmate") {
+    return status.winner === "w"
+      ? "Échec et mat — les Blancs gagnent."
+      : "Échec et mat — les Noirs gagnent.";
+  }
+  if (status.result === "stalemate") return "Pat — partie nulle.";
+  if (status.result === "draw_fifty_move") return "Nulle — règle des 50 coups.";
+  if (status.result === "draw_threefold") return "Nulle — triple répétition.";
+  if (status.result === "draw_insufficient_material") return "Nulle — matériel insuffisant.";
+  return status.result;
+}
+
+// --- Cartes joueurs -----------------------------------------------------------
+
+const VALUES = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
+const START_COUNTS = { p: 8, n: 2, b: 2, r: 2, q: 1, k: 1 };
+
+function computeCaptured(symbols) {
+  const counts = { w: { p: 0, n: 0, b: 0, r: 0, q: 0 }, b: { p: 0, n: 0, b: 0, r: 0, q: 0 } };
+  for (const sym of Object.values(symbols)) {
+    if (!sym) continue;
+    const c = sym === sym.toUpperCase() ? "w" : "b";
+    counts[c][sym.toLowerCase()]++;
+  }
+  const missingOf = (color) => {
+    const list = [];
+    for (const t of ["q", "r", "b", "n", "p"]) {
+      for (let i = counts[color][t]; i < START_COUNTS[t]; i++) list.push(t);
+    }
+    return list;
+  };
+  const material = (c) => Object.entries(counts[c]).reduce((s, [t, n]) => s + VALUES[t] * n, 0);
+  return {
+    capturedByW: missingOf("b"), // pièces noires manquantes = prises par les Blancs
+    capturedByB: missingOf("w"),
+    diff: material("w") - material("b"), // > 0 : les Blancs mènent
+  };
+}
+
+function playerName(color) {
+  return color === "w" ? "Blancs" : "Noirs";
+}
+
+function renderPlayers() {
+  const topColor = state.flipped ? "w" : "b";
+  const bottomColor = state.flipped ? "b" : "w";
+  const { capturedByW, capturedByB, diff } = computeCaptured(state.symbols);
+  for (const [cardId, capId, avId, color] of [
+    ["player-top", "captured-top", "avatar-top", topColor],
+    ["player-bottom", "captured-bottom", "avatar-bottom", bottomColor],
+  ]) {
+    const card = document.getElementById(cardId);
+    card.classList.toggle("active", state.turn === color && state.reviewPly === null);
+    document.getElementById(avId).innerHTML = `<img src="pieces/${color}K.svg" alt="">`;
+    document.getElementById("pname-" + cardId.split("-")[1]).textContent = playerName(color);
+    const mine = color === "w" ? capturedByW : capturedByB;
+    const oppColor = color === "w" ? "b" : "w";
+    const capEl = document.getElementById(capId);
+    capEl.innerHTML = mine
+      .map((t) => `<img src="pieces/${oppColor}${t.toUpperCase()}.svg" alt="${t}">`)
+      .join("");
+    const leading = (color === "w" && diff > 0) || (color === "b" && diff < 0);
+    if (leading) {
+      const s = document.createElement("span");
+      s.className = "adv";
+      s.textContent = "+" + Math.abs(diff);
+      capEl.appendChild(s);
+    }
+  }
+}
+
+// --- Tableau des coups : n° | Blancs | Noirs ------------------------------------
+
+function renderMovesTable() {
+  const body = document.getElementById("moves-body");
+  body.innerHTML = "";
+  const entries = state.history;
+  if (entries.length <= 1) {
+    body.innerHTML = '<tr class="empty-row"><td colspan="3">Aucun coup pour l\'instant</td></tr>';
+    return;
+  }
+  const lastPly = entries.length - 1;
+  for (let i = 1; i < entries.length; i += 2) {
+    const tr = document.createElement("tr");
+    const num = document.createElement("td");
+    num.className = "num";
+    num.textContent = i / 2 + 1 + ".";
+    tr.appendChild(num);
+    tr.appendChild(moveCell(entries[i], lastPly));
+    tr.appendChild(
+      i + 1 < entries.length ? moveCell(entries[i + 1], lastPly) : document.createElement("td")
+    );
+    body.appendChild(tr);
+  }
+  body.scrollTop = body.scrollHeight;
+}
+
+function moveCell(entry, lastPly) {
+  const td = document.createElement("td");
+  td.className = "move";
+  td.textContent = entry.san || entry.uci;
+  td.title = entry.uci;
+  if (state.reviewPly === entry.ply || (state.reviewPly === null && entry.ply === lastPly)) {
+    td.classList.add("current");
+  }
+  td.addEventListener("click", () => {
+    state.reviewPly = state.reviewPly === entry.ply ? null : entry.ply;
+    state.selected = null;
+    renderAll();
+  });
+  return td;
+}
+
+function renderAll() {
+  if (state.reviewPly !== null) {
+    const entry = state.history[state.reviewPly];
+    const rows = entry.fen.split(" ")[0].split("/");
+    const symbols = {};
+    for (let r = 0; r < 8; r++) {
+      let f = 0;
+      for (const ch of rows[r]) {
+        if (/\d/.test(ch)) f += parseInt(ch, 10);
+        else {
+          symbols[FILES[f] + (8 - r)] = ch;
+          f++;
+        }
+      }
+    }
+    state.symbols = symbols;
+    render();
+    setStatus(`Position passée — après ${state.reviewPly} demi-coup${state.reviewPly > 1 ? "s" : ""}`);
+  } else if (state.boardData) {
+    state.symbols = state.boardData.squares;
+    render();
+  }
+  renderPlayers();
+  renderMovesTable();
+}
+
+// --- Boutons de base -------------------------------------------------------------
+
+async function newGame() {
+  state.selected = null;
+  state.reviewPly = null;
+  try {
+    await ChessAPI.newGame();
+  } catch (err) {
+    setStatus("Nouvelle partie : " + err.message);
+  }
+  await refresh();
+}
+
+document.getElementById("btn-new").addEventListener("click", newGame);
+document.getElementById("btn-undo").addEventListener("click", async () => {
+  state.selected = null;
+  state.reviewPly = null;
+  try {
+    await ChessAPI.undo();
+  } catch (err) {
+    setStatus("Annuler : " + err.message);
+  }
+  await refresh();
+});
+document.getElementById("btn-flip").addEventListener("click", () => {
+  state.flipped = !state.flipped;
+  lsSet("chess.flip", state.flipped ? "1" : "0");
+  render();
+  renderPlayers();
+});
 
 // --- Jouer un coup -----------------------------------------------------------
 
