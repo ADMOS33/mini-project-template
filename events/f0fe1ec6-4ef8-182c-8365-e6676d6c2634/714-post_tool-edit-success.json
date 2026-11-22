@@ -1,0 +1,51 @@
+{
+  "seq": 714,
+  "received_at": "2026-11-22T21:33:39.317269+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "G1NMpf0rY",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/web/index.html",
+      "new_string": [
+        "        <div class=\"player-card\" id=\"player-bottom\">",
+        "          <span class=\"avatar\" id=\"avatar-bottom\" aria-hidden=\"true\"></span>",
+        "          <span class=\"pinfo\">",
+        "            <span class=\"pname\" id=\"pname-bottom\">Blancs</span>",
+        "            <span class=\"captured\" id=\"captured-bottom\"></span>",
+        "          </span>",
+        "          <span class=\"clock\" id=\"clock-bottom\"></span>",
+        "        </div>",
+        "        <div class=\"evalbar-wrap\" title=\"Évaluation statique (centipions)\">",
+        "          <div class=\"evalbar\"><div id=\"evalbar-fill\"></div></div>",
+        "          <span id=\"evalbar-label\" class=\"muted\">0.0</span>",
+        "        </div>",
+        "      </aside>"
+      ],
+      "old_string": [
+        "        <div class=\"player-card\" id=\"player-bottom\">",
+        "          <span class=\"avatar\" id=\"avatar-bottom\" aria-hidden=\"true\"></span>",
+        "          <span class=\"pinfo\">",
+        "            <span class=\"pname\" id=\"pname-bottom\">Blancs</span>",
+        "            <span class=\"captured\" id=\"captured-bottom\"></span>",
+        "          </span>",
+        "          <span class=\"clock\" id=\"clock-bottom\"></span>",
+        "        </div>",
+        "      </aside>"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/web/index.html",
+      "lines_changed": 13,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 329
+  }
+}

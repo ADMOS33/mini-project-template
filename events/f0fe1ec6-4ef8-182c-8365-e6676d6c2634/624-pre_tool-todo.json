@@ -1,0 +1,97 @@
+{
+  "seq": 624,
+  "received_at": "2026-11-22T21:23:36.936509+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "vibe.todo",
+    "tool_call_id": "zcw7aMHW3",
+    "tool_input": {
+      "action": "write",
+      "todos": [
+        {
+          "id": "p10-23",
+          "content": "P10.23 — design system CSS (variables, Inter, boutons, focus), commit style:",
+          "status": "in_progress",
+          "priority": "high"
+        },
+        {
+          "id": "p10-24",
+          "content": "P10.24 — plateau carré responsive, cases #ebecd0/#739552, coords, pièces SVG web/pieces/ dessinées main, anim 180ms, commit feat:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "p10-25",
+          "content": "P10.25 — hints point/anneau, dernier coup rgba(255,255,0,.35), roi échec dégradé rouge, commit feat:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "p10-26",
+          "content": "P10.26 — drag&drop + sélecteur promotion superposé façon lichess, commit feat:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "p10-27",
+          "content": "P10.27 — layout 3 col (<900px 1 col), header logo, cartes joueurs, table coups n°|Blancs|Noirs, statut FR, commit feat:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "p10-28",
+          "content": "P10.28 — nav historique ⏮◀▶⏭ + clavier, bandeau position passée, Annuler/Retourner, commit feat:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "p10-29",
+          "content": "P10.29 — mode contre ordinateur (segmenté, couleur, difficulté 1-4, spinner), commit feat:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "p10-30",
+          "content": "P10.30 — modale fin de partie (raison API, Rejouer/Revoir) + toasts, commit feat:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "p10-31",
+          "content": "P10.31 — section repliable FEN/PGN (copier/importer) + barre éval animée, commit feat:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "p10-32",
+          "content": "P10.32 — sons Web Audio + muet, horloge 5/10/3+2, commit feat:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "p11-33",
+          "content": "P11.33 — skills/chess-cli/SKILL.md, commit docs:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "p11-34",
+          "content": "P11.34 — partie complète CLI --json vs ai-move depth 2 → example_game.pgn + fix points pénibles, commits séparés",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "fin-35",
+          "content": "Fin.35 — README final + résumé tests navigateur + events",
+          "status": "pending",
+          "priority": "high"
+        }
+      ]
+    }
+  }
+}

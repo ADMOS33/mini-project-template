@@ -1,0 +1,56 @@
+{
+  "seq": 687,
+  "received_at": "2026-11-22T21:31:51.398571+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "iwfKluc63",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/web/index.html",
+      "new_string": [
+        "        <section class=\"block\">",
+        "          <h2>Adversaire</h2>",
+        "          <div class=\"segmented\" role=\"tablist\" aria-label=\"Adversaire\">",
+        "            <button id=\"seg-human\" class=\"seg\" role=\"tab\">Deux joueurs</button>",
+        "            <button id=\"seg-computer\" class=\"seg\" role=\"tab\">Contre l'ordinateur</button>",
+        "          </div>",
+        "          <div id=\"vs-options\" class=\"hidden\">",
+        "            <select id=\"opt-color\" aria-label=\"Votre couleur\">",
+        "              <option value=\"w\">Je joue les Blancs</option>",
+        "              <option value=\"b\">Je joue les Noirs</option>",
+        "              <option value=\"random\">Couleur aléatoire</option>",
+        "            </select>",
+        "            <select id=\"opt-depth\" aria-label=\"Difficulté\">",
+        "              <option value=\"1\">Débutant (profondeur 1)</option>",
+        "              <option value=\"2\">Facile (profondeur 2)</option>",
+        "              <option value=\"3\" selected>Normal (profondeur 3)</option>",
+        "              <option value=\"4\">Difficile (profondeur 4)</option>",
+        "            </select>",
+        "            <span id=\"thinking\" class=\"thinking hidden\">",
+        "              <span class=\"spinner\" aria-hidden=\"true\"></span> l'ordinateur réfléchit…",
+        "            </span>",
+        "          </div>",
+        "        </section>",
+        "        <section class=\"block grow\">",
+        "          <h2>Coups</h2>"
+      ],
+      "old_string": [
+        "        <section class=\"block grow\">",
+        "          <h2>Coups</h2>"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/web/index.html",
+      "lines_changed": 25,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 120
+  }
+}

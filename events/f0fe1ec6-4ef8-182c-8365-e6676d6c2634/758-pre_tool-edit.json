@@ -1,0 +1,19 @@
+{
+  "seq": 758,
+  "received_at": "2026-11-22T21:36:15.960404+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "29iqls7nJ",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/AGENTS.md",
+      "old_string": "9 (tests API : 400 + test live slow) ✅",
+      "new_string": "9 (tests API : 400 + test live slow) ✅ · 10 (web pro FR : design system, plateau SVG, drag&drop, historique, vs ordi, modale, FEN/PGN, éval, sons, horloge) ✅"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "seq": 643,
+  "received_at": "2026-11-22T21:26:27.217713+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "JYlfFGCZY",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/web/board.js",
+      "old_string": [
+        "  const checkSq = state.inCheck && state.reviewPly === null ? kingSquareOf(state.turn) : null;",
+        "  for (const rank of ranks) {"
+      ],
+      "new_string": [
+        "  const checkSq = state.inCheck && state.reviewPly === null ? kingSquareOf(state.turn) : null;",
+        "  // Coups légaux de la pièce sélectionnée : uci \"e2e4\" -> destination \"e4\"",
+        "  const hintTargets = new Map();",
+        "  if (state.selected && state.reviewPly === null) {",
+        "    for (const uci of state.legalMoves) {",
+        "      if (uci.startsWith(state.selected)) {",
+        "        const to = uci.slice(2, 4);",
+        "        hintTargets.set(to, hintTargets.get(to) || Boolean(state.symbols[to]) || isEpCapture(state.selected, to));",
+        "      }",
+        "    }",
+        "  }",
+        "  for (const rank of ranks) {"
+      ]
+    }
+  }
+}

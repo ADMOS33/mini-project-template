@@ -1,0 +1,17 @@
+{
+  "seq": 617,
+  "received_at": "2026-11-22T21:21:35.231955+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.read_file",
+    "tool_call_id": "6LaOdgreJ",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/web/api.js"
+    }
+  }
+}

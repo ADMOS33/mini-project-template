@@ -130,27 +130,34 @@ lui parle en `urllib.request`.
 ## Interface web (`web/`)
 
 Servie par FastAPI à la racine (`http://localhost:8000/`), en HTML/CSS/JS
-vanilla, branchée sur l'API JSON (`/api/*`) :
+vanilla **100 % en français**, branchée sur l'API JSON (`/api/*`) — le JS ne
+fait qu'afficher ce que renvoie l'API, aucune règle d'échecs en JS :
 
-- **Échiquier jouable** : clic-clic **et** glisser-déposer, pièces animées
-  (~150 ms), coordonnées, cases a1 foncée / h1 claire, pièces noires
-  lisibles (#1a1a1a liséré clair) et blanches (#fff liséré sombre).
-- **Aide au jeu** : sélection → surbrillance + coups légaux de l'API (point
-  sur case vide, anneau sur capture), dernier coup surligné, roi en échec
-  en rouge, modale de promotion (D/T/F/C).
-- **Historique en SAN** numéroté (1. e4 e5 2. Nf3…), cliquable pour revoir
-  une position (mode lecture avec ⏮ ◀ ▶ ⏭).
-- **Pièces capturées** par camp avec badge d'avantage matériel (+N).
-- **Contre l'ordinateur** : choix de la couleur (Blancs/Noirs/aléatoire) et
-  de la difficulté (profondeur 1–4, minimax alpha-beta), réponse
-  automatique avec indicateur « réfléchit… ».
-- **Retourner l'échiquier**, **horloge** optionnelle (5 min, 10 min, 3+2 s,
-  perte au temps), préférences persistées en `localStorage`.
-- **Fin de partie** : modale avec résultat et raison (mat, pat, 50 coups…).
-- **Import/export** : coller une FEN ou un PGN pour charger une partie,
-  copier la FEN / le PGN de la partie en cours.
-- **Mise en page** : 3 colonnes sur grand écran (joueurs/échiquier/contrôles),
-  empilée sur mobile ; thème sombre.
+- **Design system** : thème sombre (fond `#161512`, accent `#7fa650`), police
+  Inter (repli `system-ui`), chiffres tabulaires, boutons primaire/secondaire/
+  icône avec SVG inline, focus clavier visible, transitions 150 ms.
+- **Échiquier jouable** : carré et responsive, cases `#ebecd0`/`#739552`,
+  coordonnées en bord de plateau, **pièces SVG dessinées à la main**
+  (`web/pieces/`), animation ~180 ms, clic-clic **et** glisser-déposer.
+- **Aide au jeu** : sélection → coups légaux de l'API (point sur case vide,
+  anneau sur capture), dernier coup surligné `rgba(255,255,0,0.35)`, roi en
+  échec en dégradé rouge, **sélecteur de promotion** superposé façon lichess.
+- **Mise en page 3 colonnes** (1 colonne sous 900 px) : en-tête logo +
+  « Nouvelle partie » ; cartes joueurs (avatar, pièces capturées, avantage
+  matériel +N, bordure accent sur le joueur au trait) ; tableau des coups
+  **n° | Blancs | Noirs** en SAN ; barre de statut en français (« Aux Blancs
+  de jouer », « Échec ! », « Échec et mat — les Noirs gagnent »…).
+- **Navigation dans l'historique** ⏮️ ◀️ ▶️ ⏭️ + flèches clavier (← → Home
+  End), bandeau « position passée », bouton « ▶ Jouer » pour revenir au live.
+- **Contre l'ordinateur** : contrôle segmenté, couleur
+  Blancs/Noirs/aléatoire, difficulté 1–4, spinner « l'ordinateur réfléchit… ».
+- **Fin de partie** : fenêtre modale (résultat + raison exacte de l'API,
+  « Rejouer » / « Revoir la partie ») ; **toasts** pour les erreurs.
+- **FEN / PGN** : section repliable (charger, copier) ; **barre d'évaluation
+  animée** alimentée par `/api/eval`.
+- **Sons optionnels** (Web Audio API) avec bouton muet, **horloge optionnelle**
+  (5 min, 10 min, 3 min + 2 s, perte au temps) ; préférences persistées en
+  `localStorage`. Boutons « Annuler le coup » et « Retourner l'échiquier ».
 
 ## Lancer en local
 

@@ -1,0 +1,18 @@
+{
+  "seq": 752,
+  "received_at": "2026-11-22T21:35:54.832735+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "MVsj2iMBC",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /home/dilos/A3/agentic/mini-project-template && grep -n \"État d'avancement\" -A 30 AGENTS.md | head -45 && echo ---- && grep -n -i \"web\\|interface\" README.md | head -20"
+    }
+  }
+}

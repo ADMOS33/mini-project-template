@@ -1,0 +1,50 @@
+{
+  "seq": 726,
+  "received_at": "2026-11-22T21:34:18.414494+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "595FVdUOM",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/web/board.js",
+      "old_string": [
+        "    state.legalMoves = moves.moves;",
+        "    if (state.reviewPly === null) {",
+        "      state.symbols = board.squares;",
+        "    }",
+        "    render();",
+        "    renderPlayers();",
+        "    renderMovesTable();",
+        "    renderEval();"
+      ],
+      "new_string": [
+        "    state.legalMoves = moves.moves;",
+        "    const prevTurn = state.turn;",
+        "    if (state.reviewPly === null) {",
+        "      state.symbols = board.squares;",
+        "    }",
+        "    render();",
+        "    renderPlayers();",
+        "    renderMovesTable();",
+        "    renderEval();",
+        "    renderClocks();",
+        "    // horloge : incrément pour le camp qui vient de jouer",
+        "    if (prevTurn && prevTurn !== status.turn && state.clockMode !== \"none\") {",
+        "      state.clock[prevTurn] += state.clock.inc;",
+        "    }",
+        "    state.clock.active = status.turn;",
+        "    // son du dernier coup (SAN de l'historique)",
+        "    const lastEntry = hist.entries[hist.entries.length - 1];",
+        "    if (lastEntry && lastEntry.uci && lastEntry.uci !== (state.prevSoundUci || null)) {",
+        "      state.prevSoundUci = lastEntry.uci;",
+        "      if (state.reviewPly === null) playMoveSound(lastEntry.san, status.result);",
+        "    }"
+      ]
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "seq": 613,
+  "received_at": "2026-11-22T21:18:52.040500+00:00",
+  "hook_event_name": "post_agent",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_agent",
+    "agent_name": "default",
+    "turn_id": "turn-0da1cf2affc06965d08a6aa73e3df4d6",
+    "response_text": [
+      "Les **phases 8 et 9 sont terminées** — **156 tests passed** (rc vérifié directement, plus 3 tests `slow` verts séparément), arbre git propre.",
+      "",
+      "## Phase 8 — IA ✅",
+      "",
+      "| # | Commit | Contenu |",
+      "|---|--------|---------|",
+      "| 18 | `7299de8` feat: | `evaluation.py` : évaluation en **centipions du point de vue du camp au trait** (matériel + tables pièce-case, miroirs `sq ^ 56` pour les Noirs) ; `MATE_SCORE = 100_000` défini ici (mat ajusté par la profondeur côté search). |",
+      "| 19 | `2587029` feat: | `search.py` : **negamax alpha-beta** renvoyant `(move, score, nodes)` ; tri des coups **captures MVV-LVA (EP = capture de pion) puis promotions** ; mat = `±MATE_SCORE` ajusté par la profondeur restante (mat rapide > mat lent). Tests : mat en 1 (`a1a8#`), **dame non laissée en prise**, **pièce gratuite prise** (`exd5`), **depth 3 < 5 s** depuis l'initial. (Bug attrapé en test-first : négation negamax oubliée à la racine.) |",
+      "| 20 | `72f3f1b` feat: (+ `2bf1f22` fix:) | **CLI `chess ai-move [--depth N]`** : joue le meilleur coup, persiste, JSON complet `move, san, score, nodes, time_ms, depth, status` ; rc 1 « game is over » si partie finie. *Note : un commit a embarqué un test rouge à cause d'un pipe masquant le rc de pytest — corrigé immédiatement par `2bf1f22` ; depuis, je vérifie le rc réel.* |",
+      "| 21 | `8b14509` feat: | **API** : `POST /api/ai-move` renvoie désormais `san, nodes, time_ms` (400 si partie finie) + nouveau **`GET /api/eval`** (score statique, perspective camp au trait). |",
+      "",
+      "Fin de phase 8 : AGENTS.md/README à jour, events commités (`cb96620`).",
+      "",
+      "## Phase 9 — Tests API ✅",
+      "",
+      "| # | Commit | Contenu |",
+      "|---|--------|---------|",
+      "| 22 | `0bc62e8` test: | `tests/test_api.py` sans nouvelle dépendance : appels directs des routes avec `monkeypatch` de `server.STATE_FILE` vers `tmp_path`, avec vérif explicite des **HTTPException 400** (coup illégal, **FEN invalide**, **undo vide**) et 500 (état corrompu, déjà là) ; plus un **test d'intégration `@pytest.mark.slow`** : uvicorn en **sous-processus sur port libre**, requêtes via `urllib.request` (GET/POST, 400 lu via `HTTPError.code`, UI web servie à `/`), **processus arrêté dans `finally`** — vérifié vert avec `-m slow`. |",
+      "",
+      "Fin de phase 9 : AGENTS.md (156 tests + 3 slow, phase 9 cochée) et README (section tests, `-m \"not slow\"`) à jour, events commités (`f1de28a`).",
+      "",
+      "**Reste au tableau** : la skill Vibe dans `skills/` (apprendre à un agent à jouer via la CLI) et le `report.md` de fin de projet."
+    ]
+  }
+}

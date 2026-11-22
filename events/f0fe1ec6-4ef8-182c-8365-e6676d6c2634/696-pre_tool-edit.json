@@ -1,0 +1,54 @@
+{
+  "seq": 696,
+  "received_at": "2026-11-22T21:32:19.857424+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "c6xkWnMxG",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/web/board.js",
+      "old_string": [
+        "    if (state.reviewPly === null) {",
+        "      setStatus(statusText(status));",
+        "    }",
+        "  } catch (err) {",
+        "    setStatus(\"Erreur : \" + err.message);",
+        "  }",
+        "}"
+      ],
+      "new_string": [
+        "    if (state.reviewPly === null) {",
+        "      setStatus(statusText(status));",
+        "    }",
+        "    maybeShowGameOver(status);",
+        "    maybeAiMove(status);",
+        "  } catch (err) {",
+        "    setStatus(\"Erreur : \" + err.message);",
+        "  }",
+        "}",
+        "",
+        "// Fenêtre de fin de partie (détail à l'étape 30 : modale + raison exacte de l'API).",
+        "function maybeShowGameOver(status) {",
+        "  if (status.result === \"ongoing\") return;",
+        "  if (state.gameOverShownFor === status.fen) return;",
+        "  state.gameOverShownFor = status.fen;",
+        "  showGameOver(",
+        "    status.result === \"checkmate\" ? \"Échec et mat !\" : \"Partie nulle\",",
+        "    statusText(status)",
+        "  );",
+        "}",
+        "",
+        "function showGameOver(title, reason) {",
+        "  document.getElementById(\"gameover-title\").textContent = title;",
+        "  document.getElementById(\"gameover-reason\").textContent = reason;",
+        "  document.getElementById(\"gameover-modal\").classList.remove(\"hidden\");",
+        "}"
+      ]
+    }
+  }
+}

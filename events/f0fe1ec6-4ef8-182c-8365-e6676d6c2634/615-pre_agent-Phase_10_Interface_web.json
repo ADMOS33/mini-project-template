@@ -1,0 +1,35 @@
+{
+  "seq": 615,
+  "received_at": "2026-11-22T21:21:18.013326+00:00",
+  "hook_event_name": "pre_agent",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_agent",
+    "agent_name": "default",
+    "turn_id": "turn-e150dea181684046cfdea1bcf81f8d5a",
+    "prompt": [
+      "## Phase 10 — Interface web professionnelle (web/)",
+      "Objectif : niveau lichess.org / chess.com, propre et cohérent, 100 % en français. Le JS ne fait qu'afficher ce que renvoie l'API.",
+      "23. Design system en variables CSS : police Inter (repli system-ui), chiffres tabulaires ; palette sombre fond #161512, surface #1f1e1b, surélevé #262421, bordure #34322e, texte #e8e6e3, atténué #9a968f, accent #7fa650 (survol #8fb860), danger #d9534f ; espacements 4/8/12/16/24/32, rayon 8/12 px, ombres légères, transitions 150 ms ; boutons primaire/secondaire/icône avec SVG inline, focus clavier visible. Commit style:.",
+      "24. Plateau : responsive et carré, cases #ebecd0 / #739552, coordonnées en bord de plateau ; pièces SVG que tu dessines toi-même dans web/pieces/ ; animation ~180 ms. Commit feat:.",
+      "25. Coups légaux de la pièce sélectionnée (point / anneau de capture), dernier coup surligné rgba(255,255,0,0.35), roi en échec en dégradé rouge. Commit feat:.",
+      "26. Glisser-déposer + sélecteur de promotion superposé façon lichess. Commit feat:.",
+      "27. Mise en page 3 colonnes (1 colonne sous 900 px) : en-tête avec logo SVG + « Échecs » + « Nouvelle partie » ; à gauche, cartes joueurs (avatar, nom, pièces capturées, avantage matériel, joueur au trait en bordure accent) ; à droite, liste des coups SAN en tableau n° | Blancs | Noirs. Barre de statut en français (« Aux Blancs de jouer », « Échec ! », « Échec et mat — les Noirs gagnent »…). Aucun panneau vide. Commit feat:.",
+      "28. Navigation dans l'historique ⏮️ ◀️ ▶️ ⏭️ + flèches clavier, bandeau « position passée ». Boutons Annuler, Retourner l'échiquier. Commit feat:.",
+      "29. Mode « Contre l'ordinateur » (contrôle segmenté, couleur, difficulté 1-4, spinner « réfléchit… »). Commit feat:.",
+      "30. Fenêtre de fin de partie (résultat + raison exacte de l'API, « Rejouer » / « Revoir la partie »). Toasts pour les erreurs au lieu des alert(). Commit feat:.",
+      "31. Section repliable FEN / PGN (copier, importer). Barre d'évaluation animée. Commit feat:.",
+      "32. Sons optionnels via Web Audio API + bouton muet ; horloge optionnelle (5 min, 10 min, 3+2). Commit feat:.",
+      "",
+      "## Phase 11 — Skill pour agent",
+      "33. skills/chess-cli/SKILL.md (frontmatter name/description) : apprendre à un agent à jouer via la CLI (boucle status --json → moves --json → choisir → move --json → gérer l'erreur ; ai-move pour l'adversaire ; condition d'arrêt). Commit docs:.",
+      "34. Valide-le : joue une partie complète contre chess ai-move --depth 2 avec UNIQUEMENT la CLI en --json, sauve-la dans skills/chess-cli/example_game.pgn, corrige chaque point pénible pour un agent. Commits séparés.",
+      "",
+      "## Fin",
+      "35. README final (✅ partout où c'est vrai, section « Lancer en local », captures). Résume-moi ce que je dois tester dans le navigateur."
+    ]
+  }
+}

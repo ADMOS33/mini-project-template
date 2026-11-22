@@ -1,0 +1,44 @@
+{
+  "seq": 650,
+  "received_at": "2026-11-22T21:26:27.671822+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "kQhTLfqOi",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/web/board.js",
+      "new_string": [
+        "// Vrai si from->to est une prise en passant (case vide = case ep du FEN).",
+        "function isEpCapture(from, to) {",
+        "  const sym = state.symbols[from] || \"\";",
+        "  if (sym.toLowerCase() !== \"p\") return false;",
+        "  if (state.symbols[to]) return false;",
+        "  const ep = state.boardData ? state.boardData.fen.split(\" \")[3] : \"-\";",
+        "  return ep !== \"-\" && ep === to;",
+        "}",
+        "",
+        "function myPieceAt(name) {",
+        "  const sym = state.symbols[name];",
+        "  if (!sym) return false;",
+        "  return state.turn === \"w\" ? sym === sym.toUpperCase() : sym === sym.toLowerCase();",
+        "}",
+        "",
+        "function kingSquareOf(color) {"
+      ],
+      "old_string": "function kingSquareOf(color) {"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/web/board.js",
+      "lines_changed": 16,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 154
+  }
+}

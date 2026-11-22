@@ -1,0 +1,52 @@
+{
+  "seq": 704,
+  "received_at": "2026-11-22T21:32:49.733405+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "By39XRch5",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/web/index.html",
+      "new_string": [
+        "  <!-- Fenêtre de fin de partie -->",
+        "  <div id=\"gameover-modal\" class=\"modal hidden\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"gameover-title\">",
+        "    <div class=\"modal-box\">",
+        "      <h3 id=\"gameover-title\">Fin de partie</h3>",
+        "      <p id=\"gameover-reason\" class=\"muted\"></p>",
+        "      <div class=\"btn-row\">",
+        "        <button id=\"btn-gameover-new\" class=\"btn\">Rejouer</button>",
+        "        <button id=\"btn-gameover-review\" class=\"btn-secondary\">Revoir la partie</button>",
+        "      </div>",
+        "    </div>",
+        "  </div>",
+        "",
+        "  <!-- Toasts (erreurs) -->",
+        "  <div id=\"toasts\" class=\"toasts\" aria-live=\"polite\"></div>",
+        "",
+        "  <script src=\"api.js\"></script>",
+        "  <script src=\"board.js\"></script>",
+        "</body>",
+        "</html>"
+      ],
+      "old_string": [
+        "  <script src=\"api.js\"></script>",
+        "  <script src=\"board.js\"></script>",
+        "</body>",
+        "</html>"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/web/index.html",
+      "lines_changed": 19,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 154
+  }
+}

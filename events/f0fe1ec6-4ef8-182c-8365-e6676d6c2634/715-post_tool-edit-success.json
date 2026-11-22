@@ -1,0 +1,61 @@
+{
+  "seq": 715,
+  "received_at": "2026-11-22T21:33:39.348821+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "QAVVN9HdK",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/web/index.html",
+      "new_string": [
+        "          <table class=\"moves-table\">",
+        "            <thead>",
+        "              <tr><th class=\"num\">n°</th><th>Blancs</th><th>Noirs</th></tr>",
+        "            </thead>",
+        "            <tbody id=\"moves-body\">",
+        "              <tr class=\"empty-row\"><td colspan=\"3\">Aucun coup pour l'instant</td></tr>",
+        "            </tbody>",
+        "          </table>",
+        "        </section>",
+        "        <details class=\"block io-block\">",
+        "          <summary>FEN / PGN</summary>",
+        "          <textarea id=\"io-text\" rows=\"4\" placeholder=\"Colle une FEN ou un PGN ici…\"></textarea>",
+        "          <div class=\"btn-row\">",
+        "            <button id=\"btn-load-fen\" class=\"btn-secondary\">Charger la FEN</button>",
+        "            <button id=\"btn-load-pgn\" class=\"btn-secondary\">Charger le PGN</button>",
+        "          </div>",
+        "          <div class=\"btn-row\">",
+        "            <button id=\"btn-copy-fen\" class=\"btn-secondary\">Copier la FEN</button>",
+        "            <button id=\"btn-copy-pgn\" class=\"btn-secondary\">Copier le PGN</button>",
+        "          </div>",
+        "        </details>",
+        "      </aside>"
+      ],
+      "old_string": [
+        "          <table class=\"moves-table\">",
+        "            <thead>",
+        "              <tr><th class=\"num\">n°</th><th>Blancs</th><th>Noirs</th></tr>",
+        "            </thead>",
+        "            <tbody id=\"moves-body\">",
+        "              <tr class=\"empty-row\"><td colspan=\"3\">Aucun coup pour l'instant</td></tr>",
+        "            </tbody>",
+        "          </table>",
+        "        </section>",
+        "      </aside>"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/web/index.html",
+      "lines_changed": 22,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 340
+  }
+}
