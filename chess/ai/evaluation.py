@@ -1,2 +1,116 @@
-"""Static position evaluation (material + piece-square tables) in centipawns,
-from the point of view of the side to move (skeleton)."""
+"""Static position evaluation: material + piece-square tables.
+
+Scores are in centipawns from White's point of view (positive = White
+is better). Piece-square tables are indexed like Board.squares
+(0 = a1 ... 63 = h8) and given here rank 1 first.
+"""
+
+from __future__ import annotations
+
+from chess.engine.board import Board
+from chess.engine.pieces import Color, PieceType
+
+VALUES = {
+    PieceType.PAWN: 100,
+    PieceType.KNIGHT: 320,
+    PieceType.BISHOP: 330,
+    PieceType.ROOK: 500,
+    PieceType.QUEEN: 900,
+    PieceType.KING: 0,
+}
+
+
+def _t(rows: list[list[int]]) -> list[int]:
+    """Flatten 8 rows given rank 1 first into a 64-entry table (a1 = 0)."""
+    return [v for row in rows for v in row]
+
+
+PAWN_PSQT = _t([
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [50, 50, 50, 50, 50, 50, 50, 50],
+    [10, 10, 20, 30, 30, 20, 10, 10],
+    [5, 5, 10, 25, 25, 10, 5, 5],
+    [0, 0, 0, 20, 20, 0, 0, 0],
+    [5, -5, -10, 0, 0, -10, -5, 5],
+    [5, 10, 10, -20, -20, 10, 10, 5],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+])
+
+KNIGHT_PSQT = _t([
+    [-50, -40, -30, -30, -30, -30, -40, -50],
+    [-40, -20, 0, 0, 0, 0, -20, -40],
+    [-30, 0, 10, 15, 15, 10, 0, -30],
+    [-30, 5, 15, 20, 20, 15, 5, -30],
+    [-30, 0, 15, 20, 20, 15, 0, -30],
+    [-30, 5, 10, 15, 15, 10, 5, -30],
+    [-40, -20, 0, 5, 5, 0, -20, -40],
+    [-50, -40, -30, -30, -30, -30, -40, -50],
+])
+
+BISHOP_PSQT = _t([
+    [-20, -10, -10, -10, -10, -10, -10, -20],
+    [-10, 0, 0, 0, 0, 0, 0, -10],
+    [-10, 0, 5, 10, 10, 5, 0, -10],
+    [-10, 5, 5, 10, 10, 5, 5, -10],
+    [-10, 0, 10, 10, 10, 10, 0, -10],
+    [-10, 10, 10, 10, 10, 10, 10, -10],
+    [-10, 5, 0, 0, 0, 0, 5, -10],
+    [-20, -10, -10, -10, -10, -10, -10, -20],
+])
+
+ROOK_PSQT = _t([
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [5, 10, 10, 10, 10, 10, 10, 5],
+    [-5, 0, 0, 0, 0, 0, 0, -5],
+    [-5, 0, 0, 0, 0, 0, 0, -5],
+    [-5, 0, 0, 0, 0, 0, 0, -5],
+    [-5, 0, 0, 0, 0, 0, 0, -5],
+    [-5, 0, 0, 0, 0, 0, 0, -5],
+    [0, 0, 0, 5, 5, 0, 0, 0],
+])
+
+QUEEN_PSQT = _t([
+    [-20, -10, -10, -5, -5, -10, -10, -20],
+    [-10, 0, 0, 0, 0, 0, 0, -10],
+    [-10, 0, 5, 5, 5, 5, 0, -10],
+    [-5, 0, 5, 5, 5, 5, 0, -5],
+    [0, 0, 5, 5, 5, 5, 0, -5],
+    [-10, 5, 5, 5, 5, 5, 0, -10],
+    [-10, 0, 5, 0, 0, 0, 0, -10],
+    [-20, -10, -10, -5, -5, -10, -10, -20],
+])
+
+KING_PSQT = _t([
+    [-30, -40, -40, -50, -50, -40, -40, -30],
+    [-30, -40, -40, -50, -50, -40, -40, -30],
+    [-30, -40, -40, -50, -50, -40, -40, -30],
+    [-30, -40, -40, -50, -50, -40, -40, -30],
+    [-20, -30, -30, -40, -40, -30, -30, -20],
+    [-10, -20, -20, -20, -20, -20, -20, -10],
+    [20, 20, 0, 0, 0, 0, 20, 20],
+    [20, 30, 10, 0, 0, 10, 30, 20],
+])
+
+PSQT = {
+    PieceType.PAWN: PAWN_PSQT,
+    PieceType.KNIGHT: KNIGHT_PSQT,
+    PieceType.BISHOP: BISHOP_PSQT,
+    PieceType.ROOK: ROOK_PSQT,
+    PieceType.QUEEN: QUEEN_PSQT,
+    PieceType.KING: KING_PSQT,
+}
+
+
+def evaluate(board: Board) -> int:
+    """Static evaluation in centipawns, from White's perspective."""
+    score = 0
+    for sq, piece in enumerate(board.squares):
+        if piece is None:
+            continue
+        value = VALUES[piece.type] + PSQT[piece.type][sq]
+        if piece.color is Color.WHITE:
+            score += value
+        else:
+            # Mirror the square vertically for Black (rank flip: sq ^ 56).
+            score -= VALUES[piece.type] + PSQT[piece.type][sq ^ 56]
+    return score
