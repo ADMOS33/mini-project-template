@@ -1,0 +1,34 @@
+{
+  "seq": 234,
+  "received_at": "2026-11-22T20:39:01.286481+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "ndseqFtNA",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/chess/engine/movegen.py",
+      "old_string": [
+        "    new.squares[move.from_sq] = None",
+        "    if piece.type is PieceType.KING and abs(move.to_sq - move.from_sq) == 2:"
+      ],
+      "new_string": [
+        "    new.squares[move.from_sq] = None",
+        "    if (",
+        "        piece.type is PieceType.PAWN",
+        "        and captured is None",
+        "        and move.to_sq == board.ep_square",
+        "        and square_file(move.to_sq) != square_file(move.from_sq)",
+        "    ):",
+        "        # En passant: the captured pawn disappears from its own square.",
+        "        ep_captured = square(square_file(move.to_sq), square_rank(move.from_sq))",
+        "        new.squares[ep_captured] = None",
+        "    if piece.type is PieceType.KING and abs(move.to_sq - move.from_sq) == 2:"
+      ]
+    }
+  }
+}

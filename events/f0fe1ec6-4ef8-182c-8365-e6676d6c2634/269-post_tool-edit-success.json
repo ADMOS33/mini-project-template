@@ -1,0 +1,27 @@
+{
+  "seq": 269,
+  "received_at": "2026-11-22T20:43:04.595609+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "96eZ0iZBX",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "new_string": "    sa propre case ; le piège du clouage est correctement rejeté) ;",
+      "old_string": "    sa propre case ; le piège du clouage est correctly rejeté) ;"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "lines_changed": 1,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 116
+  }
+}

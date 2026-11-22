@@ -1,0 +1,20 @@
+{
+  "seq": 194,
+  "received_at": "2026-11-22T20:33:05.929803+00:00",
+  "hook_event_name": "pre_agent",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_agent",
+    "agent_name": "default",
+    "turn_id": "turn-288b922d12504b78d6061f336d4a525d",
+    "prompt": [
+      "## Phase 4 — Coups spéciaux",
+      "7. Roque petit et grand, deux camps : droit présent, tour en place, cases intermédiaires vides, roi pas en échec, ne traverse ni n'atteint une case attaquée ; la tour bouge aussi. UCI e1g1/e1c1. Commit feat:.",
+      "8. Prise en passant : génération + application (le pion pris disparaît de SA case). Teste le piège \"8/8/8/KPp4r/8/8/8/4k3 w - c6 0 1\" : b5c6 illégal. Commit feat:.",
+      "9. Utilise divide() pour corriger les écarts. Retire chaque xfail perft seulement quand il passe vraiment. Fin de phase : tous les perft verts sans xfail. Commit test:/fix:."
+    ]
+  }
+}

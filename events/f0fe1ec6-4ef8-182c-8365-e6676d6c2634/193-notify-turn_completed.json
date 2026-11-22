@@ -1,0 +1,15 @@
+{
+  "seq": 193,
+  "received_at": "2026-11-22T20:32:49.131187+00:00",
+  "hook_event_name": "notification",
+  "event": {
+    "hook_event_name": "notification",
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "notification_type": "turn_completed",
+    "message": "Vibe finished its turn",
+    "agent_name": "default"
+  }
+}

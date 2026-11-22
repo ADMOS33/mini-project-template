@@ -1,0 +1,44 @@
+{
+  "seq": 265,
+  "received_at": "2026-11-22T20:43:00.335037+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "NGaPRRaKQ",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "new_string": [
+        "- **Tests pytest** par module ✅ (93 tests, 0 xfail) ; **perft** ✅ tous au vert",
+        "  (`chess/engine/perft.py`, `tests/test_perft.py`) : position initiale",
+        "  profondeurs 1 à 4 (20, 400, 8902, 197281), Kiwipete",
+        "  `r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1`",
+        "  (48, 2039, 97862), `8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1`",
+        "  (14, 191, 2812), `r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1`",
+        "  (6, 264, 9467). Les cas profonds portent le marqueur `slow`",
+        "  (deselectable via `-m \"not slow\"`)."
+      ],
+      "old_string": [
+        "- **Tests pytest** par module ✅ (68 tests, 6 xfail strict) ; **perft** écrits",
+        "  (`chess/engine/perft.py`, `tests/test_perft.py`) : ✅ position initiale",
+        "  profondeurs 1 à 4 (20, 400, 8902, 197281) ; 🚧 Kiwipete",
+        "  `r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1`",
+        "  (48, 2039, 97862) et positions 3/4 en **xfail strict** tant que le roque et",
+        "  la prise en passant ne sont pas générés par le moteur. Les cas profonds",
+        "  portent le marqueur `slow` (deselectable via `-m \"not slow\"`)."
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "lines_changed": 8,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 321
+  }
+}

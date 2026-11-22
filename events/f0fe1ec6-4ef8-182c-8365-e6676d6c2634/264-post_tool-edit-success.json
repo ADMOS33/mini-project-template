@@ -1,0 +1,38 @@
+{
+  "seq": 264,
+  "received_at": "2026-11-22T20:43:00.311197+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "IWJU2qDi5",
+    "tool_input": {
+      "file_path": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "new_string": [
+        "2. **Moteur** (Rafiq) — plateau, pièces, génération de coups pseudo-légaux puis",
+        "   légaux, règles de base (échec/mat/pat, promotion, 50 coups), FEN, UCI ✅ ;",
+        "   ✅ roque, prise en passant, **perft** au vert (toutes les positions de",
+        "   référence) ; 🚧 triple répétition, matériel insuffisant, SAN/PGN dans",
+        "   `chess/engine/`."
+      ],
+      "old_string": [
+        "2. **Moteur** (Rafiq) — plateau, pièces, génération de coups pseudo-légaux puis",
+        "   légaux, règles de base (échec/mat/pat, promotion, 50 coups), FEN, UCI ✅ ;",
+        "   🚧 roques, prise en passant, triple répétition, matériel insuffisant, SAN/PGN",
+        "   dans `chess/engine/`, **perft** jusqu'au vert."
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/home/dilos/A3/agentic/mini-project-template/README.md",
+      "lines_changed": 5,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 346
+  }
+}

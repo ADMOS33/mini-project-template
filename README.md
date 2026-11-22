@@ -28,8 +28,12 @@ d'un **adversaire classique** (minimax + élagage alpha-beta, pas d'IA générat
   - ✅ déplacements de toutes les pièces, coups légaux (le roi ne peut jamais
     rester en échec), échec, échec et mat, pat, promotion avec choix de la
     pièce, règle des 50 coups ;
-  - 🚧 petit et grand roque (avec toutes les conditions), prise en passant,
-    nulle par triple répétition, matériel insuffisant.
+  - ✅ petit et grand roque, deux camps (droit présent, tour en place, cases
+    intermédiaires vides, roi ni en échec ni en transit/arrivée sur case
+    attaquée — la tour bouge aussi, UCI `e1g1`/`e1c1`) ;
+  - ✅ prise en passant (génération + application, le pion pris disparaît de
+    sa propre case ; le piège du clouage est correctement rejeté) ;
+  - 🚧 nulle par triple répétition, matériel insuffisant.
 - **Notations et formats** : ✅ **FEN** (import/export), ✅ **UCI** (`e2e4`,
   `e7e8q`), ✅ **SAN** (`Nf3`, `O-O`) et ✅ **PGN** (import/export) côté API ;
   🚧 export PGN et commande `ai-move` côté CLI.
@@ -45,13 +49,14 @@ d'un **adversaire classique** (minimax + élagage alpha-beta, pas d'IA générat
   ci-dessous).
 - **IA classique** ✅ : minimax avec élagage alpha-beta + évaluation statique
   (matériel + tables de pièces).
-- **Tests pytest** par module ✅ (68 tests, 6 xfail strict) ; **perft** écrits
-  (`chess/engine/perft.py`, `tests/test_perft.py`) : ✅ position initiale
-  profondeurs 1 à 4 (20, 400, 8902, 197281) ; 🚧 Kiwipete
+- **Tests pytest** par module ✅ (93 tests, 0 xfail) ; **perft** ✅ tous au vert
+  (`chess/engine/perft.py`, `tests/test_perft.py`) : position initiale
+  profondeurs 1 à 4 (20, 400, 8902, 197281), Kiwipete
   `r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1`
-  (48, 2039, 97862) et positions 3/4 en **xfail strict** tant que le roque et
-  la prise en passant ne sont pas générés par le moteur. Les cas profonds
-  portent le marqueur `slow` (deselectable via `-m "not slow"`).
+  (48, 2039, 97862), `8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1`
+  (14, 191, 2812), `r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1`
+  (6, 264, 9467). Les cas profonds portent le marqueur `slow`
+  (deselectable via `-m "not slow"`).
 
 ## Architecture
 
@@ -164,8 +169,9 @@ tournent depuis la racine du projet (surcharger avec `--state PATH` côté CLI o
    arborescence, test trivial qui passe). ✅
 2. **Moteur** (Rafiq) — plateau, pièces, génération de coups pseudo-légaux puis
    légaux, règles de base (échec/mat/pat, promotion, 50 coups), FEN, UCI ✅ ;
-   🚧 roques, prise en passant, triple répétition, matériel insuffisant, SAN/PGN
-   dans `chess/engine/`, **perft** jusqu'au vert.
+   ✅ roque, prise en passant, **perft** au vert (toutes les positions de
+   référence) ; 🚧 triple répétition, matériel insuffisant, SAN/PGN dans
+   `chess/engine/`.
 3. **CLI** (Adam) — persistance `.chess_game.json`, sous-commandes, `--json`,
    tests CLI ✅ ; 🚧 `pgn`, `ai-move`.
 4. **IA** (Adam) — évaluation statique + minimax alpha-beta, tests. ✅
@@ -192,9 +198,11 @@ tournent depuis la racine du projet (surcharger avec `--state PATH` côté CLI o
   `httpx` ne fait pas partie des dépendances autorisées.
 - Le serveur sert `web/` à la racine (`/`) ; les routes `/api/*` et `/docs`
   sont enregistrées avant le mount statique pour prendre la priorité.
-- Slice moteur actuel : coups normaux de toutes les pièces, promotion, filtre
-  « roi pas en échec », échec/mat/pat, règle des 50 coups, FEN, persistance JSON.
-  **Roque, prise en passant, triple répétition et matériel insuffisant ne sont
-  pas encore implémentés** (perft compris). SAN et PGN vivent pour l'instant dans
-  la couche API (`chess/api/notation.py`), pas dans `chess/engine/`.
+- Slice moteur actuel : coups normaux de toutes les pièces, promotion, roque
+  (petit/grand, toutes conditions), prise en passant, filtre « roi pas en
+  échec », échec/mat/pat, règle des 50 coups, FEN (+ validation), persistance
+  JSON, perft au vert sur les 4 positions de référence. **Triple répétition et
+  matériel insuffisant ne sont pas encore implémentés.** SAN et PGN vivent pour
+  l'instant dans la couche API (`chess/api/notation.py`), pas dans
+  `chess/engine/`.
 - Règle d'ambiguïté : choisir l'option la plus simple et l'ajouter ici.

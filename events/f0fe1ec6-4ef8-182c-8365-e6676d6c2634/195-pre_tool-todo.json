@@ -1,0 +1,43 @@
+{
+  "seq": 195,
+  "received_at": "2026-11-22T20:35:24.826186+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "transcript_path": "/home/dilos/.vibe/logs/session/unified/f0fe1ec6-4ef8-182c-8365-e6676d6c2634",
+    "cwd": "/home/dilos/A3/agentic/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "vibe.todo",
+    "tool_call_id": "5RZH0PVYl",
+    "tool_input": {
+      "action": "write",
+      "todos": [
+        {
+          "id": "phase4-7",
+          "content": "Phase 4.7 — roque petit/grand 2 camps, toutes conditions, tour bouge, UCI e1g1/e1c1 ; tests d'abord puis implémentation, commit feat:",
+          "status": "in_progress",
+          "priority": "high"
+        },
+        {
+          "id": "phase4-8",
+          "content": "Phase 4.8 — prise en passant génération + application (pion pris disparaît de sa case), test piège b5c6 illégal, commit feat:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "phase4-9",
+          "content": "Phase 4.9 — divide() pour corriger les écarts perft, retirer les xfail un par un, tous les perft verts, commit test:/fix:",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "phase4-end",
+          "content": "Fin phase 4 : tableau AGENTS.md + README (roque/EP/perft ✅) + commit events/",
+          "status": "pending",
+          "priority": "high"
+        }
+      ]
+    }
+  }
+}
