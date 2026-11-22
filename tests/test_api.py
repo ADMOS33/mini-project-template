@@ -91,3 +91,25 @@ def test_undo_endpoint(state) -> None:
     assert r["undone"] == "e2e4"
     with pytest.raises(HTTPException):
         server.post_undo()
+
+
+def test_missing_state_file_starts_a_fresh_game(state) -> None:
+    assert not state.exists()
+    assert server.get_status()["turn"] == "w"
+
+
+def test_corrupted_state_file_gives_a_clear_error(state) -> None:
+    server.post_new()
+    state.write_text("{not json", encoding="utf-8")  # JSONDecodeError
+    with pytest.raises(HTTPException) as exc:
+        server.get_status()
+    assert exc.value.status_code == 500
+    assert "corrupted game state" in exc.value.detail
+
+
+def test_state_file_with_wrong_shape_gives_a_clear_error(state) -> None:
+    state.write_text('{"fen": 42}', encoding="utf-8")
+    with pytest.raises(HTTPException) as exc:
+        server.get_moves()
+    assert exc.value.status_code == 500
+    assert "corrupted game state" in exc.value.detail

@@ -35,13 +35,21 @@ app = FastAPI(title="Chess API", version="0.1.0")
 
 
 def _load() -> Game:
-    """Current persisted game, or a fresh game if none exists yet."""
-    if STATE_FILE.exists():
-        try:
-            return Game.load(STATE_FILE)
-        except (ValueError, KeyError):
-            pass
-    return Game()
+    """Current persisted game, or a fresh game if no state file exists yet.
+
+    A corrupted state file (invalid JSON, wrong shape, inconsistent history,
+    unreadable file) raises HTTPException 500 with a clear message — it must
+    NOT silently start a new game.
+    """
+    if not STATE_FILE.exists():
+        return Game()
+    try:
+        return Game.load(STATE_FILE)
+    except Exception as exc:  # JSONDecodeError included (subclass of ValueError)
+        raise HTTPException(
+            status_code=500,
+            detail=f"corrupted game state in {STATE_FILE}: {exc}",
+        ) from exc
 
 
 def _save(game: Game) -> None:
