@@ -87,6 +87,53 @@ def test_load_empty_board_is_a_clean_invalid_fen_error(capsys, tmp_path) -> None
     assert rc == 1 and "invalid FEN" in json.loads(out)["error"]
 
 
+def test_move_accepts_san(capsys, tmp_path) -> None:
+    state = str(tmp_path / ".chess_game.json")
+    run_cli(capsys, "--state", state, "new")
+    rc, out, _ = run_cli(capsys, "--state", state, "move", "Nf3")
+    assert rc == 0 and "Played g1f3" in out
+    rc, out, _ = run_cli(capsys, "--state", state, "move", "e5")
+    assert rc == 0 and "Played e7e5" in out
+    # SAN castling with the 0-0 spelling
+    run_cli(capsys, "--state", state, "load", "r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1")
+    rc, out, _ = run_cli(capsys, "--state", state, "move", "0-0")
+    assert rc == 0 and "Played e1g1" in out
+    # illegal SAN -> rc 1 with the legal moves listed
+    rc, _, err = run_cli(capsys, "--state", state, "move", "Ke9")
+    assert rc == 1 and "Ke9" in err and "legal moves" in err
+
+
+def test_moves_output_shows_uci_and_san(capsys, tmp_path) -> None:
+    state = str(tmp_path / ".chess_game.json")
+    run_cli(capsys, "--state", state, "new")
+    rc, out, _ = run_cli(capsys, "--state", state, "moves")
+    assert rc == 0 and "g1f3 (Nf3)" in out and "e2e4 (e4)" in out
+    rc, out, _ = run_cli(capsys, "--state", state, "moves", "--json")
+    payload = json.loads(out)
+    assert rc == 0
+    assert payload["moves"] == sorted(payload["moves"])  # UCI list kept
+    assert len(payload["moves"]) == 20
+    details = {d["uci"]: d["san"] for d in payload["details"]}
+    assert details["g1f3"] == "Nf3" and details["e2e4"] == "e4"
+    assert set(details) == set(payload["moves"])
+
+
+def test_history_output_shows_uci_and_san(capsys, tmp_path) -> None:
+    state = str(tmp_path / ".chess_game.json")
+    run_cli(capsys, "--state", state, "new")
+    run_cli(capsys, "--state", state, "move", "e2e4")
+    run_cli(capsys, "--state", state, "move", "e5")
+    rc, out, _ = run_cli(capsys, "--state", state, "history")
+    assert rc == 0 and "1. e2e4 (e4)" in out and "2. e7e5 (e5)" in out
+    rc, out, _ = run_cli(capsys, "--state", state, "history", "--json")
+    payload = json.loads(out)
+    assert payload["moves"] == ["e2e4", "e7e5"]
+    assert payload["details"] == [
+        {"uci": "e2e4", "san": "e4"},
+        {"uci": "e7e5", "san": "e5"},
+    ]
+
+
 def test_unimplemented_commands_report_clearly(capsys, tmp_path) -> None:
     state = str(tmp_path / ".chess_game.json")
     run_cli(capsys, "--state", state, "new")

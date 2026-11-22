@@ -15,8 +15,10 @@ import json
 import sys
 from pathlib import Path
 
-from chess.engine.fen import board_to_fen
+from chess.engine.fen import board_from_fen, board_to_fen
 from chess.engine.game import Game
+from chess.engine.move import Move
+from chess.engine.san import move_to_san, san_to_move
 
 DEFAULT_STATE_FILE = ".chess_game.json"
 
@@ -73,6 +75,41 @@ def _load_game(state_file: Path) -> Game:
         raise CliError(f"could not load game state from {state_file}: {exc}") from exc
 
 
+def _play_notation(game: Game, text: str) -> Move:
+    """Play a move given in UCI (``e2e4``) or SAN (``Nf3``) notation."""
+    try:
+        uci_move = Move.from_uci(text)
+    except ValueError:
+        uci_move = None
+    if uci_move is not None:
+        try:
+            return game.play_uci(uci_move.to_uci())
+        except ValueError as exc:
+            raise CliError(str(exc)) from exc
+    try:
+        move = san_to_move(game.board, text)
+    except ValueError:
+        legal = " ".join(sorted(m.to_uci() for m in game.legal_moves()))
+        raise CliError(
+            f"illegal move {text!r} (neither UCI nor SAN); legal moves: {legal}"
+        ) from None
+    return game.play_uci(move.to_uci())
+
+
+def _move_details(game: Game) -> list[dict]:
+    """[{uci, san}] for the legal moves, or for the played history."""
+    fens = game.position_fens()
+    if game.moves:
+        return [
+            {"uci": m.to_uci(), "san": move_to_san(board_from_fen(fens[i]), m)}
+            for i, m in enumerate(game.moves)
+        ]
+    return [
+        {"uci": m.to_uci(), "san": move_to_san(game.board, m)}
+        for m in sorted(game.legal_moves(), key=lambda m: m.to_uci())
+    ]
+
+
 def _status_text(status: dict) -> str:
     turn = "White" if status["turn"] == "w" else "Black"
     lines = [f"{turn} to move (move {status['fullmove_number']})"]
@@ -110,11 +147,15 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
             game.board.ascii() + f"\n{game.status()['turn']} to move",
         )
     if cmd == "moves":
-        moves = sorted(m.to_uci() for m in game.legal_moves())
-        return {"moves": moves}, "\n".join(moves)
+        details = _move_details(game)
+        moves = [d["uci"] for d in details]
+        text = "\n".join(f"{d['uci']} ({d['san']})" for d in details)
+        return {"moves": moves, "details": details}, text
     if cmd == "move":
         try:
-            move = game.play_uci(args.move)
+            move = _play_notation(game, args.move)
+        except CliError:
+            raise
         except ValueError as exc:
             raise CliError(str(exc)) from exc
         game.save(state_file)
@@ -137,9 +178,12 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
         fen = board_to_fen(game.board)
         return {"fen": fen}, fen
     if cmd == "history":
-        moves = [m.to_uci() for m in game.moves]
-        text = "\n".join(f"{i + 1}. {m}" for i, m in enumerate(moves)) or "no moves yet"
-        return {"moves": moves}, text
+        details = _move_details(game)
+        text = (
+            "\n".join(f"{i + 1}. {d['uci']} ({d['san']})" for i, d in enumerate(details))
+            or "no moves yet"
+        )
+        return {"moves": [d["uci"] for d in details], "details": details}, text
     raise CliError(f"unknown command: {cmd}")  # pragma: no cover
 
 
