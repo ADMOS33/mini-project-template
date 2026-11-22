@@ -3,115 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chess — moteur Python pur</title>
+  <title>Échecs — moteur Python pur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="app">
     <header class="topbar">
-      <h1>♞ Chess</h1>
-      <span class="subtitle">Moteur d'échecs écrit à la main en Python — API FastAPI</span>
+      <a class="logo" href="/" aria-label="Échecs — accueil">
+        <!-- Logo : cavalier dessiné en SVG inline -->
+        <svg viewBox="0 0 45 45" aria-hidden="true">
+          <path fill="#7fa650" d="M11 39c0-9 3.5-15.5 9-19l-2.5-5 5-3.5L25 15l7 1.5c3.5 1 6 4.5 6 8.5v14h-7v-9c0-2.5-1.5-4.5-3.5-5.5L23 30v9z"/>
+          <circle cx="27.5" cy="19.5" r="1.6" fill="#161512"/>
+        </svg>
+        <span class="logo-name">Échecs</span>
+      </a>
+      <span class="spacer"></span>
+      <button id="btn-new" class="btn">Nouvelle partie</button>
     </header>
 
     <div class="layout">
-      <!-- Left panel: players, captured pieces, clocks -->
-      <aside class="panel panel-left">
-        <div class="player-card" id="player-top"><span class="pname"></span><span class="clock" id="clock-top"></span></div>
-        <div class="captured" id="captured-top"></div>
-        <div class="player-card" id="player-bottom"><span class="pname"></span><span class="clock" id="clock-bottom"></span></div>
-        <div class="captured" id="captured-bottom"></div>
-      </aside>
-
-      <!-- Center: board -->
-      <section class="board-area">
-        <div id="board" class="board" aria-label="Échiquier"></div>
-        <div id="status" class="status">chargement…</div>
-        <div id="review-bar" class="review-bar hidden">
-          <button class="secondary" data-review="first" title="Début">⏮</button>
-          <button class="secondary" data-review="prev" title="Coup précédent">◀</button>
-          <span id="review-label"></span>
-          <button class="secondary" data-review="next" title="Coup suivant">▶</button>
-          <button class="secondary" data-review="last" title="Position actuelle">⏭</button>
-          <button id="btn-exit-review" class="secondary">▶ Jouer</button>
-        </div>
-      </section>
-
-      <!-- Right panel: controls, history, options, import/export -->
-      <aside class="panel panel-right">
-        <section class="block">
-          <h2>Partie</h2>
-          <div class="btn-row">
-            <button id="btn-new">Nouvelle partie</button>
-            <button id="btn-undo" class="secondary">Annuler</button>
-            <button id="btn-flip" class="secondary" title="Retourner l'échiquier">⇅ Retourner</button>
-          </div>
-        </section>
-
-        <section class="block">
-          <h2>Coups</h2>
-          <ol id="history" class="history"><li class="empty">aucun coup</li></ol>
-        </section>
-
-        <section class="block">
-          <h2>Ordinateur</h2>
-          <label class="opt"><input type="checkbox" id="opt-vs" /> Jouer contre l'ordinateur</label>
-          <select id="opt-color">
-            <option value="w">Je joue les Blancs</option>
-            <option value="b">Je joue les Noirs</option>
-            <option value="random">Couleur aléatoire</option>
-          </select>
-          <select id="opt-depth">
-            <option value="1">Débutant (profondeur 1)</option>
-            <option value="2">Facile (profondeur 2)</option>
-            <option value="3" selected>Normal (profondeur 3)</option>
-            <option value="4">Difficile (profondeur 4)</option>
-          </select>
-          <span id="thinking" class="thinking hidden">l'ordinateur réfléchit…</span>
-        </section>
-
-        <section class="block">
-          <h2>Horloge</h2>
-          <select id="opt-clock">
-            <option value="none" selected>Sans horloge</option>
-            <option value="300">5 min</option>
-            <option value="600">10 min</option>
-            <option value="182">3 min + 2 s</option>
-          </select>
-        </section>
-
-        <section class="block">
-          <h2>Import / export</h2>
-          <textarea id="io-text" rows="4" placeholder="Coller une FEN ou un PGN ici…"></textarea>
-          <div class="btn-row">
-            <button id="btn-load-fen" class="secondary">Charger la FEN</button>
-            <button id="btn-load-pgn" class="secondary">Charger le PGN</button>
-          </div>
-          <div class="btn-row">
-            <button id="btn-copy-fen" class="secondary">Copier la FEN</button>
-            <button id="btn-copy-pgn" class="secondary">Copier le PGN</button>
-          </div>
-        </section>
-      </aside>
+      <aside class="panel panel-left" id="panel-left"></aside>
+      <section class="board-col" id="board-col"></section>
+      <aside class="panel panel-right" id="panel-right"></aside>
     </div>
   </main>
-
-  <!-- Promotion picker -->
-  <div id="promotion-modal" class="modal hidden">
-    <div class="modal-box">
-      <h3>Promotion</h3>
-      <div class="promo-choices" id="promo-choices"></div>
-      <button class="secondary modal-cancel">Annuler</button>
-    </div>
-  </div>
-
-  <!-- Game over -->
-  <div id="gameover-modal" class="modal hidden">
-    <div class="modal-box">
-      <h3 id="gameover-title">Fin de partie</h3>
-      <p id="gameover-reason"></p>
-      <button id="btn-gameover-new">Nouvelle partie</button>
-    </div>
-  </div>
 
   <script src="api.js"></script>
   <script src="board.js"></script>
