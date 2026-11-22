@@ -70,20 +70,21 @@ class Game:
         )
 
     def status(self) -> dict:
-        """Game status as a JSON-serializable dict."""
-        moves = self.legal_moves()
-        check = self.in_check()
-        if not moves:
-            result = "checkmate" if check else "stalemate"
-        elif self.board.halfmove_clock >= 100:
-            result = "draw_fifty_move"
-        else:
-            result = "ongoing"
+        """Game status as a JSON-serializable dict.
+
+        End-of-game detection is delegated to :mod:`chess.engine.rules`;
+        ``result`` is one of ``rules.RESULTS`` and ``winner`` is ``"w"``,
+        ``"b"`` or ``None``.
+        """
+        from chess.engine.rules import game_result
+
+        result, winner = game_result(self.board)
         return {
             "result": result,
+            "winner": winner,
             "turn": str(self.board.turn),
-            "in_check": check,
-            "legal_move_count": len(moves),
+            "in_check": self.in_check(),
+            "legal_move_count": len(self.legal_moves()),
             "halfmove_clock": self.board.halfmove_clock,
             "fullmove_number": self.board.fullmove_number,
             "fen": board_to_fen(self.board),

@@ -1,0 +1,48 @@
+"""Tests for end-of-game rules (chess/engine/rules.py)."""
+
+from collections import Counter
+
+from chess.engine.fen import START_FEN, board_from_fen
+from chess.engine.game import Game
+from chess.engine.rules import game_result
+
+
+def test_game_result_ongoing_at_start() -> None:
+    result, winner = game_result(board_from_fen(START_FEN), Counter())
+    assert result == "ongoing"
+    assert winner is None
+
+
+def test_game_result_checkmate_fools_mate() -> None:
+    game = Game()
+    for uci in ("f2f3", "e7e5", "g2g4", "d8h4"):
+        game.play_uci(uci)
+    result, winner = game_result(game.board, Counter())
+    assert result == "checkmate"
+    assert winner == "b"  # Black delivered the mate
+
+
+def test_game_result_stalemate() -> None:
+    # Black to move, not in check, no legal move.
+    board = board_from_fen("7k/5Q2/6K1/8/8/8/8/8 b - - 0 1")
+    result, winner = game_result(board, Counter())
+    assert result == "stalemate"
+    assert winner is None
+
+
+def test_game_result_fifty_move_rule() -> None:
+    board = board_from_fen("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 100 60")
+    result, winner = game_result(board, Counter())
+    assert result == "draw_fifty_move"
+    assert winner is None
+
+
+def test_status_exposes_winner() -> None:
+    game = Game()
+    assert game.status()["winner"] is None
+    assert game.status()["result"] == "ongoing"
+    for uci in ("f2f3", "e7e5", "g2g4", "d8h4"):
+        game.play_uci(uci)
+    status = game.status()
+    assert status["result"] == "checkmate"
+    assert status["winner"] == "b"

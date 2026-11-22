@@ -71,6 +71,7 @@ def test_fools_mate_is_checkmate() -> None:
     assert status["result"] == "checkmate"
     assert status["in_check"] is True
     assert status["legal_move_count"] == 0
+    assert status["winner"] == "b"
 
 
 def test_single_undo_after_two_plies_restores_exact_position(tmp_path) -> None:
