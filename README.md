@@ -1,21 +1,115 @@
-L’objectif est de choisir un projet d’implémentation de votre choix (petite application, petit jeu, …) a faire en groupe (2, ou 3). Ce projet doit être:
+# ♞ Chess — un jeu d'échecs complet en Python
 
-- **Petit, mais non trivial**. Ce ne doit pas être quelque chose de faisable en une poignée de prompts (vous avez 2 semaines pour le faire). L’idée est d’avoir un retour d’expérience avec un projet qui commence à passer à l’échelle. Disons au moins une vingtaine de fichiers de code et une cinquantaine de commits (ça peut paraître gros! mais vous allez voir, ça passe très vite).
-- **Visible sur Git**. Pour pouvoir jeter un oeil sur le code et le développement, le code doit être visible (pour moi, vous pouvez le garder privé), ainsi que des informations basiques de développement. Pour ce faire, j’ai crée un “hook” (comme présenté en classe par Tristan!)  qui devrait se charger automatiquement sur Vibe (testé avec 3.1.2). Le hook ne fait qu’enregistrer des informations. On pourra s’en servir pour analyser des données de développement. Vous devez commencer par forker le repo template: https://github.com/rrobbes/mini-project-template/ , quand vous lancez l’agent dans le repo 
-- **Utilisable par un agent**. Un petit côté experimental: votre application doit être au moins partiellement (c’est pas forcément évident pour toutes les scénarios) utilisable par un agent. Ça peut être soit par une interface en ligne de commande (en parallèle à une interface web/graphique), soit par un serveur MCP. Si vous avez des difficultés à imaginer quoi faire dans votre cas, envoyez-moi un mail et on en parle. Si vous voulez, vous pouvez même faire un “skill” (comme présenté en classe par Paul!) afin d’enseigner à votre agent comment utiliser l’application.
-- **Utilisez Vibe**. Certains d’entre vous utilisent Claude, Codex, … le hook ne marchera pas avec ces agents.
+Projet de groupe de génie logiciel (ENSEIRB-MATMECA), développé avec l'agent
+**Vibe**. Moteur d'échecs écrit **à la main** en Python pur (aucune bibliothèque
+d'échecs externe), accompagné d'une **CLI utilisable par un agent LLM**, d'une
+**API HTTP (FastAPI)**, d'une **interface web jouable** (HTML/CSS/JS vanilla) et
+d'un **adversaire classique** (minimax + élagage alpha-beta, pas d'IA générative).
 
-Dans le cas ou vous avez déjà commencé dans la demi-heure, je pense que ça ne vous prendra pas trop de temps de “recommencer” avec le template du repo.  
+> Ce dépôt est un fork du
+> [mini-project-template](https://github.com/rrobbes/mini-project-template) :
+> le hook enregistre l'activité de développement dans `events/` pour
+> l'évaluation du cours. **Ne jamais modifier `events/` ni `.vibe/`, et ne
+> jamais gitignorer `events/`** (les logs sont commités volontairement).
 
-Timeline:
-- D’ici **mercredi 18** maximum: 
-	- un membre du groupe doit forker le projet (clicker sur un bouton): https://github.com/rrobbes/mini-project-template/ 
-	- inviter votre binôme.
-	- m’inviter en tant que membre du projet (rrobbes sur GitHub). 
-	- lancer Vibe une fois dans le repo, “truster” la configuration, et vérifier que des événements s’enregistrent dans le dossier events. 
-- D'ici **vendredi 20**: 
-	- faire au moins un premier commit d’un README.md avec un plan initial du projet. 
-	- m’envoyer un mail si vous avez des difficultés à envisager comment faire que votre application soit utilisable par un agent.
-- Jusqu’a **lundi 30**:
-  - travail sur le mini-projet.
-  - ajouter un fichier "report.md" ou vous faîtes une (brève) réflexion sur votre processus de travail, les facilités, les difficultés.
+## Équipe
+
+| Membre | Périmètre |
+|--------|-----------|
+| **Rafiq** | Moteur d'échecs — `chess/engine/` |
+| **Adam**  | CLI, API HTTP, IA — `chess/cli/`, `chess/api/`, `chess/ai/` |
+| **Hafsa** | Interface web — `web/` |
+
+## Fonctionnalités
+
+- **Règles complètes** : déplacements de toutes les pièces, coups légaux (le roi
+  ne peut jamais rester en échec), échec, échec et mat, pat, petit et grand roque
+  (avec toutes les conditions), prise en passant, promotion avec choix de la
+  pièce, nulle par triple répétition, règle des 50 coups, matériel insuffisant.
+- **Import/export FEN et PGN** ; notations **UCI** (`e2e4`, `e7e8q`) et **SAN**
+  (`Nf3`, `O-O`).
+- **CLI `chess`** pensée pour les humains *et* les agents LLM : sortie `--json`
+  structurée sur chaque commande, état de la partie persisté dans
+  `.chess_game.json`, erreurs explicites (coup illégal → liste des coups légaux).
+- **API HTTP** (FastAPI) exposant la même partie.
+- **Interface web** avec échiquier jouable en HTML/CSS/JS vanilla.
+- **IA classique** : minimax avec élagage alpha-beta + évaluation statique.
+- **Tests pytest** par module + **perft** sur positions standard (position
+  initiale, profondeurs 1 à 4 : 20, 400, 8902, 197281 ; Kiwipete
+  `r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1`,
+  profondeurs 1 à 3 : 48, 2039, 97862).
+
+## Architecture
+
+```
+chess/
+  engine/  board.py pieces.py move.py movegen.py rules.py game.py fen.py pgn.py san.py
+  ai/      evaluation.py search.py
+  cli/     main.py
+  api/     server.py schemas.py
+web/       index.html style.css board.js api.js
+tests/     test_board.py test_movegen.py test_rules.py test_fen.py test_pgn.py
+           test_san.py test_perft.py test_game.py test_cli.py test_api.py test_ai.py
+skills/    (plus tard) skill Vibe pour apprendre à un agent à jouer via la CLI
+```
+
+## Utilisation prévue
+
+### CLI (humain ou agent)
+
+```bash
+python3 -m chess new                 # nouvelle partie (persistée dans .chess_game.json)
+python3 -m chess board               # échiquier ASCII
+python3 -m chess moves               # coups légaux (UCI + SAN)
+python3 -m chess move e2e4           # joue un coup (UCI ou SAN accepté)
+python3 -m chess ai-move --depth 3   # coup de l'IA
+python3 -m chess status              # au trait, échec, mat, nulle...
+python3 -m chess undo / fen / load <fen> / pgn / history
+python3 -m chess <commande> --json   # sortie structurée pour un agent
+```
+
+Après `pip install -e .`, la commande `chess` est aussi disponible directement.
+
+### API HTTP
+
+```bash
+uvicorn chess.api.server:app --reload   # endpoints REST + statut de la partie
+```
+
+### Web
+
+Ouvrir `web/index.html` (servi de préférence via l'API pour appeler les
+endpoints) : échiquier cliquable, coups joués contre l'IA.
+
+### Tests
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
+.venv/bin/python -m pytest          # tous les tests, y compris perft
+```
+
+## Plan de développement (phases)
+
+1. **Fondations** — `AGENTS.md`, `README.md`, squelette (`pyproject.toml`,
+   arborescence, test trivial qui passe). ✅
+2. **Moteur** (Rafiq) — plateau, pièces, génération de coups pseudo-légaux puis
+   légaux, règles (échec/mat/pat, roques, prise en passant, promotion, nulles),
+   FEN, UCI/SAN, puis **perft** jusqu'au vert.
+3. **CLI** (Adam) — persistance `.chess_game.json`, sous-commandes, `--json`,
+   tests CLI.
+4. **IA** (Adam) — évaluation statique + minimax alpha-beta, tests.
+5. **API HTTP** (Adam) — FastAPI + schémas + tests.
+6. **Web** (Hafsa) — échiquier jouable vanilla JS branché sur l'API.
+7. **Finitions** (tous) — import/export PGN, skill agent dans `skills/`,
+   `report.md` (retour d'expérience demandé par le cours), polish.
+
+## Décisions
+
+- README en français ; **code, docstrings et commits en anglais**.
+- État de la partie persisté dans `.chess_game.json` à la racine (gitignoré :
+  c'est de l'état runtime, pas du code).
+- Packaging via `pyproject.toml` (console script `chess` + `python -m chess`).
+- venv local `.venv` gitignoré ; dépendances strictement limitées à
+  `fastapi`, `uvicorn`, `pytest`.
+- Aucune bibliothèque d'échecs externe : tout le moteur est écrit à la main.
+- Règle d'ambiguïté : choisir l'option la plus simple et l'ajouter ici.
