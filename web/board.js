@@ -184,18 +184,18 @@ async function refresh() {
     maybeShowGameOver(status);
     maybeAiMove(status);
   } catch (err) {
-    setStatus("Erreur : " + err.message);
+    reportError("Erreur API", err);
   }
 }
 
-// Fenêtre de fin de partie (détail à l'étape 30 : modale + raison exacte de l'API).
+// Fenêtre de fin de partie : résultat + raison exacte renvoyée par l'API.
 function maybeShowGameOver(status) {
   if (status.result === "ongoing") return;
   if (state.gameOverShownFor === status.fen) return;
   state.gameOverShownFor = status.fen;
   showGameOver(
     status.result === "checkmate" ? "Échec et mat !" : "Partie nulle",
-    statusText(status)
+    statusText(status) // raison exacte (checkmate/pat/50 coups/répétition/matériel)
   );
 }
 
@@ -203,6 +203,38 @@ function showGameOver(title, reason) {
   document.getElementById("gameover-title").textContent = title;
   document.getElementById("gameover-reason").textContent = reason;
   document.getElementById("gameover-modal").classList.remove("hidden");
+}
+
+document.getElementById("btn-gameover-new").addEventListener("click", () => {
+  document.getElementById("gameover-modal").classList.add("hidden");
+  state.gameOverShownFor = null;
+  newGame();
+});
+document.getElementById("btn-gameover-review").addEventListener("click", () => {
+  document.getElementById("gameover-modal").classList.add("hidden");
+  state.reviewPly = 0; // retour au début de la partie pour la revoir
+  renderAll();
+});
+
+// --- Toasts (au lieu de alert()) -------------------------------------------------
+
+function toast(message, kind = "error") {
+  const box = document.getElementById("toasts");
+  const el = document.createElement("div");
+  el.className = "toast" + (kind === "info" ? " info" : "");
+  el.textContent = message;
+  box.appendChild(el);
+  setTimeout(() => {
+    el.style.transition = "opacity var(--tr)";
+    el.style.opacity = "0";
+    setTimeout(() => el.remove(), 200);
+  }, 4000);
+}
+
+// Les erreurs API passent par un toast (plus de alert()).
+function reportError(prefix, err) {
+  setStatus(prefix + " : " + err.message);
+  toast(prefix + " : " + err.message);
 }
 
 // Barre de statut, 100 % en français.
@@ -410,7 +442,7 @@ async function newGame() {
   try {
     await ChessAPI.newGame();
   } catch (err) {
-    setStatus("Nouvelle partie : " + err.message);
+    reportError("Nouvelle partie", err);
   }
   await refresh();
   renderVsControls();
@@ -426,7 +458,7 @@ document.getElementById("btn-undo").addEventListener("click", async () => {
   try {
     await ChessAPI.undo();
   } catch (err) {
-    setStatus("Annuler : " + err.message);
+    reportError("Annuler", err);
   }
   await refresh();
 });
@@ -500,7 +532,7 @@ async function maybeAiMove(status) {
   try {
     await ChessAPI.aiMove(state.depth);
   } catch (err) {
-    setStatus("IA : " + err.message);
+    reportError("IA", err);
   }
   state.thinking = false;
   document.getElementById("thinking").classList.add("hidden");
@@ -574,7 +606,7 @@ async function tryMove(from, to) {
   try {
     await ChessAPI.move(uci);
   } catch (err) {
-    setStatus("Coup refusé : " + err.message);
+    reportError("Coup refusé", err);
   }
   state.reviewPly = null;
   await refresh();

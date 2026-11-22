@@ -116,6 +116,21 @@
     </div>
   </main>
 
+  <!-- Fenêtre de fin de partie -->
+  <div id="gameover-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="gameover-title">
+    <div class="modal-box">
+      <h3 id="gameover-title">Fin de partie</h3>
+      <p id="gameover-reason" class="muted"></p>
+      <div class="btn-row">
+        <button id="btn-gameover-new" class="btn">Rejouer</button>
+        <button id="btn-gameover-review" class="btn-secondary">Revoir la partie</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toasts (erreurs) -->
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
   <script src="api.js"></script>
   <script src="board.js"></script>
 </body>
