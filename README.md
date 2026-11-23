@@ -351,3 +351,27 @@ sous-commandes.
 - **Éditeur de position (V11)** : le JS ne sérialise qu'une FEN à partir de
   l'éditeur ; la légalité est validée par le moteur via `POST /api/load`
   (erreur affichée en toast).
+
+### Décisions V12–V13 (ajouts)
+
+- **Chess960 (V12)** : les 960 positions de départ sont numérotées selon le
+  schéma SPN (`N = 96·K + 16·Q + 4·D + L`) — n° 518 = position standard,
+  n° 0 = BBQNNRKR. Droits de roque en **X-FEN** (lettre de colonne du tour,
+  ex. `FHfh`) ; roque généralisé : le roi rejoint g/c et la tour f/d, toutes
+  les cases entre le roi et la tour doivent être vides, le roi ne traverse
+  aucune case attaquée ; en UCI le roque Chess960 s'écrit « le roi prend sa
+  tour » (ex. `f1h1`), le roque standard reste `e1g1`/`e1c1`. Non-régression :
+  toute la suite perft standard reste verte. `chess new --chess960 [N]` (N
+  aléatoire si omis), `POST /api/new {chess960: N}`, carte « Chess960 » dans
+  la modale web.
+- **Finitions (V13)** : page « Aide agent » (bouton **?**), `GUIDE.md`
+  (versions V1–V13, démarrage, utilisation CLI/API/web/MCP) et `report.md`
+  (retour d'expérience demandé par le cours).
+
+## Documents
+
+- `GUIDE.md` — guide complet : démarrage rapide, tableau des versions V1–V13,
+  fonctionnalités, utilisation CLI / API / web / MCP.
+- `report.md` — retour d'expérience (méthode, ce qui a marché/raté, chiffres,
+  agent-vs-agent, procédure de mesure du taux de réussite sur les problèmes).
+- `skills/chess-cli/SKILL.md` — skill pour agent LLM (contrat `--json`).
