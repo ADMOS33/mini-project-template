@@ -59,6 +59,23 @@ perft passent.
   encore atteinte, utiliser `pytest.mark.xfail(strict=True, reason=...)`.
 - **N'implémenter que ce qui est demandé**, rien de plus.
 
+## Règles front-end (web/)
+
+- **Le JS n'implémente aucune règle d'échecs** : légalité des coups, SAN,
+  fin de partie et évaluation viennent exclusivement de l'API (`/api/*`) —
+  le front ne fait qu'afficher et relayer.
+- **`web/` en modules ES natifs** (`<script type="module">`) : pas de build,
+  pas de framework, pas de JS depuis un CDN.
+- **Toute erreur visible passe par un toast** ; la barre de statut
+  n'affiche jamais d'erreur brute (message lisible uniquement).
+- **Rendus isolés** : chaque fonction de rendu est isolée (try/catch ou
+  wrapper) — une exception dans l'une n'empêche pas les autres de
+  s'afficher.
+- **Préférences** (thème, son, jeux de pièces) dans `localStorage`, toujours
+  entourées de `try/catch`.
+- **Chaque prompt front se termine par une liste « À tester dans le
+  navigateur »** avec des étapes précises.
+
 ## Workflow — test d'abord
 
 1. Écrire le test de régression et le voir **échouer**.
@@ -90,6 +107,26 @@ Si la session est interrompue, la prochaine reprendra grâce à ce tableau.
 | Skills `skills/` | **`skills/chess-cli/SKILL.md`** ✅ : contrat `--json` de chaque sous-commande, boucle de jeu (status → moves → move → ai-move), gestion des erreurs (rc 1 + liste des coups légaux), condition d'arrêt (`result != "ongoing"`) ; **`example_game.pgn`** ✅ partie complète jouée via la CLI uniquement (agent vs `ai-move --depth 2`, nulle par triple répétition) ; bug trouvé en validant : `moves` renvoyait l'historique une fois des coups joués → fix `18ad939` | `report.md` (hors plan, demandé par le cours) |
 
 > Phases faites : 1 (docs) ✅ · 2 (bugs) ✅ · 3 (perft) ✅ · 4 (roque + EP, perft verts) ✅ · 5 (rules.py : fins de partie) ✅ · 6 (SAN moteur + CLI UCI/SAN) ✅ · 7 (PGN moteur + CLI pgn/load-pgn + API réaiguillée) ✅ · 8 (IA : éval, negamax (move,score,nodes), CLI ai-move, API ai-move/eval) ✅ · 9 (tests API : 400 + test live slow) ✅ · 10 (web pro FR : design system, plateau SVG, drag&drop, historique, vs ordi, modale, FEN/PGN, éval, sons, horloge) ✅ · 11 (skill chess-cli + example_game.pgn jouée en CLI --json ; fix `moves`→historique) ✅ · **FIN** (README final ✅ partout où vrai, « Lancer en local », capture `docs/screenshots/board-initial.svg`) ✅ — projet terminé, 157 tests + 3 slow au vert
+
+## Plan v2
+
+Feuille de route — statut à cocher (✅) au fil des sessions.
+
+| Version | Sujet | Statut |
+|---------|-------|--------|
+| V1 | Bugs visuels + robustesse (toasts, rendus isolés, statut sans erreur brute) | 🚧 |
+| V2 | `web/` en modules ES natifs (`<script type="module">`) | 🚧 |
+| V3 | Design (thème, polish, accessibilité) | 🚧 |
+| V4 | Mise en page façon lichess | 🚧 |
+| V5 | Synchro live + agent (coups de l'adversaire en temps réel) | 🚧 |
+| V6 | Serveur MCP | 🚧 |
+| V7 | Problèmes (puzzles) | 🚧 |
+| V8 | Actions de partie + niveaux de difficulté | 🚧 |
+| V9 | Analyse de partie + ouvertures | 🚧 |
+| V10 | Interactions plateau (drag & drop, indices avancés) | 🚧 |
+| V11 | Personnalisation (thème, son, pièces) + archive des parties | 🚧 |
+| V12 | Chess960 (optionnel) | 🚧 |
+| V13 | Finitions + `report.md` | 🚧 |
 
 ## Architecture cible
 
