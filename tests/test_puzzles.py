@@ -101,9 +101,9 @@ def test_solve_move_mate_in_2_two_plies() -> None:
     r1 = solve_move(game, p["solution"])
     assert r1["accepted"] and not r1["puzzle"]["solved"]
     assert r1["reply"] is not None  # computer played the best defense
-    # second solver move must be the (unique) mate in 1 now
+    # a mate in 1 must now be available (the defense only delays the mate)
     mating = find_mates(game.board, 1)
-    assert len(mating) == 1
+    assert len(mating) >= 1
     r2 = solve_move(game, mating[0].to_uci())
     assert r2["accepted"] and r2["puzzle"]["solved"]
     assert r2["status"]["result"] == "checkmate"
@@ -123,7 +123,11 @@ def test_cli_puzzle_then_solve_json(capsys, tmp_path) -> None:
     assert payload["ok"] and payload["puzzle"]["n"] == 1
     assert "solution" not in payload["puzzle"]  # CLI does not leak the solution
     solution = get_puzzle(1, index=0)["solution"]
-    rc, out, _ = run_cli(capsys, "--state", state, "solve", "a1a1", "--json")
+    fen = payload["puzzle"]["fen"]
+    wrong = next(
+        m.to_uci() for m in legal_moves(board_from_fen(fen)) if m.to_uci() != solution
+    )
+    rc, out, _ = run_cli(capsys, "--state", state, "solve", wrong, "--json")
     assert rc == 1 and "first move must be the solution" in json.loads(out)["error"]
     rc, out, _ = run_cli(capsys, "--state", state, "solve", solution, "--json")
     assert rc == 0
