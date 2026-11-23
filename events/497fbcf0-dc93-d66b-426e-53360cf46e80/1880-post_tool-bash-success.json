@@ -1,0 +1,55 @@
+{
+  "seq": 1880,
+  "received_at": "2026-11-23T23:01:51.645434+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "J7YE9HNEw",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && git log --oneline -8 && git show --stat 91f82d9 | head -10 && git show --stat 88114eb | head -6"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && git log --oneline -8 && git show --stat 91f82d9 | head -10 && git show --stat 88114eb | head -6",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "88114eb chore: add vibe session logs",
+        "91f82d9 fix(puzzles): replace puzzles invalidated by the negamax fix",
+        "0381a5b docs: README — Chess960 (V12), documents GUIDE.md/report.md (V13)",
+        "d404215 docs(v13): report.md (méthode, échecs, chiffres, agent-vs-agent, procédure puzzles) + GUIDE.md (versions V1-V13, démarrage, CLI/API/web/MCP) + Plan v2 à jour dans AGENTS.md",
+        "b14e206 fix(ai): negamax checked depth==0 before terminal nodes — a mate on the horizon scored as a static eval, hiding all mates in >= 2",
+        "b7842b0 docs: README — lots V7-V12 (puzzles, actions, revue/ouvertures, interactions, personnalisation/archive/éditeur, Chess960)",
+        "458f312 feat(web): lots V7-V12 — carte Problèmes + score, boutons abandon/nulle/reprendre, niveaux nommés, revue de partie + courbe, ouverture ECO, indice, flèches/cercles, prémouvements, aperçu au survol, thèmes, archive Parties, éditeur de position, carte Chess960",
+        "8216843 feat(v12): Chess960 — 960 positions SPN (n°518 = standard), droits X-FEN en lettres de colonne, roque généralisé (roi prend sa tour en UCI)",
+        "commit 91f82d992affa123505ecdb5f2e0c8dfac340b7f",
+        "Author: Rafiq <rafiqamrar4@gmail.com>",
+        "Date:   Tue Nov 24 00:00:24 2026 +0100",
+        "",
+        "    fix(puzzles): replace puzzles invalidated by the negamax fix",
+        "    ",
+        "    The terminal-node fix in negamax (c1a3215) revealed that many built-in",
+        "    puzzles were not unique forced mates. Replace them with positions verified",
+        "    by find_mates, relax the mate-in-2 follow-up test (the defense may leave",
+        "    several mates in 1), and update the progress table in AGENTS.md.",
+        "commit 88114eb8922d2bf6ba6c5f16c29c709ef23b78af",
+        "Author: Rafiq <rafiqamrar4@gmail.com>",
+        "Date:   Tue Nov 24 00:00:25 2026 +0100",
+        "",
+        "    chore: add vibe session logs",
+        "",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 198
+  }
+}

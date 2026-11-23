@@ -1,0 +1,34 @@
+{
+  "seq": 1874,
+  "received_at": "2026-11-23T23:01:37.568661+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "gujWdHmpe",
+    "tool_input": {
+      "timeout": 120,
+      "command": "sleep 115; tail -2 /Users/rafiq/.vibe/scratchpad/full_tests.log 2>/dev/null; ps aux | grep pytest | grep -v grep | wc -l"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "sleep 115; tail -2 /Users/rafiq/.vibe/scratchpad/full_tests.log 2>/dev/null; ps aux | grep pytest | grep -v grep | wc -l",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "................................                                                                                 [100%]",
+        "256 passed in 178.79s (0:02:58)",
+        "       0",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 115247
+  }
+}
