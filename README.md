@@ -111,6 +111,50 @@ Après `pip install -e .`, la commande `chess` est aussi disponible directement.
 uvicorn chess.api.server:app --reload   # endpoints REST + statut de la partie
 ```
 
+### Serveur MCP (jouer sans passer par le shell) ✅
+
+`chess/mcp/` implémente **à la main** le protocole MCP (JSON-RPC 2.0, un
+message JSON par ligne sur stdin/stdout, logs sur stderr) — **aucune
+dépendance ajoutée**. Point d'entrée : `python -m chess.mcp`.
+
+Outils exposés (chacun avec un `inputSchema`) : `new_game`, `get_board`,
+`get_status`, `legal_moves`, `play_move {move}` (UCI **ou** SAN ; coup
+illégal → `isError: true` + liste des coups légaux), `ai_move {depth}`,
+`analyze_position {depth}` (meilleur coup + score, sans jouer), `get_pgn`.
+
+Le serveur partage le **même fichier d'état** que la CLI et l'API
+(variable d'environnement `CHESS_STATE_FILE`, défaut `.chess_game.json`) :
+une partie jouée via MCP est suivie **en direct** par le navigateur (compteur
+`version`, V5).
+
+Pour le déclarer dans la configuration MCP de Vibe (sans toucher aux hooks
+`.vibe/`) :
+
+```bash
+# depuis la racine du projet :
+vibe mcp add chess --transport stdio \
+  --command "$PWD/.venv/bin/python" \
+  --arg -m --arg chess.mcp \
+  --env CHESS_STATE_FILE="$PWD/.chess_game.json"
+```
+
+Équivalent TOML dans `~/.vibe/config.toml` (c'est ce que `vibe mcp add`
+écrit) :
+
+```toml
+[[mcp_servers]]
+name = "chess"
+transport = "stdio"
+command = "/abs/path/mini-project-template/.venv/bin/python"
+args = ["-m", "chess.mcp"]
+
+[mcp_servers.env]
+CHESS_STATE_FILE = "/abs/path/mini-project-template/.chess_game.json"
+```
+
+Tests : `tests/test_mcp.py` lance le serveur en sous-processus et vérifie
+`initialize`, `tools/list`, `tools/call` et les codes d'erreur JSON-RPC.
+
 ### Web
 
 Lancer le serveur (section « Lancer en local » ci-dessous) puis ouvrir
