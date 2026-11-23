@@ -18,6 +18,7 @@ from pathlib import Path
 
 from chess.ai.search import best_move
 from chess.engine.fen import board_from_fen, board_to_fen
+from chess.archive import archive_current, load_archive, save_game
 from chess.engine.game import Game, next_version
 from chess.engine.move import Move
 from chess.engine.pgn import export_pgn, import_pgn
@@ -50,7 +51,16 @@ def _build_parser() -> argparse.ArgumentParser:
     def add(name: str, help_text: str) -> argparse.ArgumentParser:
         return sub.add_parser(name, help=help_text, parents=[json_parent])
 
-    add("new", "start a new game")
+    p_new = add("new", "start a new game")
+    p_new.add_argument(
+        "--chess960",
+        type=int,
+        nargs="?",
+        const=-1,
+        default=None,
+        metavar="N",
+        help="start a Chess960 position (SPN 0-959; random when N is omitted)",
+    )
     add("board", "print the board (ASCII)")
     add("moves", "list the legal moves (UCI)")
     p_move = add("move", "play a move (UCI, e.g. e2e4 or e7e8q)")
@@ -89,6 +99,7 @@ def _build_parser() -> argparse.ArgumentParser:
     p_puz.add_argument("--seed", type=int, default=None, help="random pick with this seed")
     p_solve = add("solve", "play a move in the current puzzle (first move must be the solution)")
     p_solve.add_argument("move", help="move in UCI or SAN notation")
+    add("games", "list the archived finished games (V11)")
     p_an = add("analyze", "game review: per-ply evaluation, loss and label (V9)")
     p_an.add_argument("--depth", type=int, default=2, help="search depth for the review")
     return parser
@@ -164,17 +175,33 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
     """Run one subcommand; returns (json_payload, human_text)."""
     cmd = args.command
     if cmd == "new":
-        game = _fresh_game(state_file)
-        game.save(state_file)
+        archive_current(state_file)
+        if args.chess960 is not None:
+            import random
+
+            from chess.engine.chess960 import start_board
+
+            index = args.chess960
+            if index < 0:
+                index = random.randrange(960)
+            if not 0 <= index < 960:
+                raise CliError(f"--chess960 index must be in 0..959, got {index}")
+            game = Game(start_board(index))
+            game.meta["chess960"] = index
+            game.version = next_version(state_file)
+        else:
+            game = _fresh_game(state_file)
+        save_game(game, state_file)
         status = game.status()
         return {"ok": True, "status": status}, f"New game started.\n{status['fen']}"
     if cmd == "load":
+        archive_current(state_file)
         try:
             game = Game.from_fen(args.fen)
         except ValueError as exc:
             raise CliError(f"invalid FEN: {exc}") from exc
         game.version = next_version(state_file)
-        game.save(state_file)
+        save_game(game, state_file)
         status = game.status()
         return {"ok": True, "status": status}, f"Loaded position.\n{status['fen']}"
     if cmd == "ai-move":
@@ -195,7 +222,7 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
         time_ms = round((time.perf_counter() - start) * 1000, 1)
         san = move_to_san(game.board, move)
         game.play_uci(move.to_uci())
-        game.save(state_file)
+        save_game(game, state_file)
         status = game.status()
         return (
             {
@@ -217,6 +244,7 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
         text = export_pgn(game)
         return {"pgn": text}, text
     if cmd == "load-pgn":
+        archive_current(state_file)
         try:
             text = Path(args.file).read_text(encoding="utf-8")
         except OSError as exc:
@@ -226,7 +254,7 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
         except ValueError as exc:
             raise CliError(f"invalid PGN in {args.file}: {exc}") from exc
         game.version = next_version(state_file)
-        game.save(state_file)
+        save_game(game, state_file)
         status = game.status()
         return (
             {"ok": True, "status": status},
@@ -240,10 +268,11 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
             puzzle = get_puzzle(args.level, args.index, args.seed)
         except ValueError as exc:
             raise CliError(str(exc)) from exc
+        archive_current(state_file)
         game = Game.from_fen(puzzle["fen"])
         game.version = next_version(state_file)
         load_puzzle(game, puzzle)
-        game.save(state_file)
+        save_game(game, state_file)
         meta = game.meta["puzzle"]
         return (
             {
@@ -279,7 +308,7 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
             raise
         except ValueError as exc:
             raise CliError(str(exc)) from exc
-        game.save(state_file)
+        save_game(game, state_file)
         status = game.status()
         return (
             {"ok": True, "move": move.to_uci(), "status": status},
@@ -292,14 +321,14 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
         move = game.undo()
         if move is None:
             raise CliError("no moves to undo")
-        game.save(state_file)
+        save_game(game, state_file)
         status = game.status()
         return {"ok": True, "undone": move.to_uci(), "status": status}, f"Undone {move.to_uci()}."
     if cmd == "resign":
         if game.status()["result"] != "ongoing":
             raise CliError("game is already over")
         game.resign()
-        game.save(state_file)
+        save_game(game, state_file)
         status = game.status()
         return (
             {"ok": True, "status": status},
@@ -309,7 +338,7 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
         if game.status()["result"] != "ongoing":
             raise CliError("game is already over")
         game.offer_draw()
-        game.save(state_file)
+        save_game(game, state_file)
         status = game.status()
         return (
             {"ok": True, "status": status},
@@ -324,7 +353,7 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
             undone.append(move.to_uci())
         if not undone:
             raise CliError("no moves to undo")
-        game.save(state_file)
+        save_game(game, state_file)
         status = game.status()
         return (
             {"ok": True, "undone": undone, "status": status},
@@ -369,7 +398,7 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
             result = solve_move(game, args.move)
         except ValueError as exc:
             raise CliError(str(exc)) from exc
-        game.save(state_file)
+        save_game(game, state_file)
         p = result["puzzle"]
         text = (
             f"Played {result['move']} ({result['san']})"
@@ -378,6 +407,14 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
             + f".\n{_status_text(result['status'])}"
         )
         return result, text
+    if cmd == "games":
+        entries = load_archive()
+        text = "\n".join(
+            f"#{e['id']} {e['date'][:10]} {e['mode']} {e.get('level') or ''} "
+            f"{e['result']} ({e.get('winner') or 'nulle'}) en {e['moves_count']} coups"
+            for e in entries
+        ) or "aucune partie archivée"
+        return {"games": entries}, text
     if cmd == "analyze":
         from chess.ai.analysis import analyze_game
 

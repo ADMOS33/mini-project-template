@@ -31,6 +31,7 @@ from chess.api.schemas import (
     FlagRequest,
     LoadRequest,
     MoveRequest,
+    NewGameRequest,
     OfferDrawRequest,
     PgnRequest,
     PuzzleRequest,
@@ -38,6 +39,7 @@ from chess.api.schemas import (
 )
 from chess.engine.board import square_name
 from chess.engine.fen import board_from_fen, board_to_fen
+from chess.archive import archive_current, load_archive, save_game
 from chess.engine.game import Game, next_version
 from chess.engine.pgn import export_pgn, import_pgn
 from chess.engine.san import move_to_san
@@ -67,7 +69,7 @@ def _load() -> Game:
 
 
 def _save(game: Game) -> None:
-    game.save(STATE_FILE)
+    save_game(game, STATE_FILE)
 
 
 @app.get("/api/status")
@@ -115,9 +117,23 @@ def get_fen() -> dict:
 
 
 @app.post("/api/new")
-def post_new() -> dict:
-    """Start a new game (resets the persisted state)."""
-    game = Game()
+def post_new(req: NewGameRequest | None = None) -> dict:
+    """Start a new game (resets the persisted state; archives the previous one)."""
+    archive_current(STATE_FILE)
+    if req is not None and req.chess960 is not None:
+        from chess.engine.chess960 import start_board
+
+        game = Game(start_board(req.chess960))
+        game.meta["chess960"] = req.chess960
+        if req.mode:
+            game.meta["mode"] = req.mode
+    else:
+        game = Game()
+        if req is not None:
+            if req.mode:
+                game.meta["mode"] = req.mode
+            if req.level:
+                game.meta["level"] = req.level
     game.version = next_version(STATE_FILE)
     _save(game)
     return {"ok": True, "status": game.status()}
@@ -138,6 +154,7 @@ def post_move(req: MoveRequest) -> dict:
 @app.post("/api/load")
 def post_load(req: LoadRequest) -> dict:
     """Load a position from a FEN string."""
+    archive_current(STATE_FILE)
     try:
         game = Game.from_fen(req.fen)
     except ValueError as exc:
@@ -197,6 +214,7 @@ def get_pgn() -> dict:
 @app.post("/api/load-pgn")
 def post_load_pgn(req: PgnRequest) -> dict:
     """Load a game from a PGN string. 400 naming the move number if invalid."""
+    archive_current(STATE_FILE)
     try:
         game = import_pgn(req.pgn)
     except ValueError as exc:
@@ -319,6 +337,7 @@ def post_puzzle(req: PuzzleRequest) -> dict:
     includes the solution so the web UI can offer a "Solution" button."""
     from chess.ai.puzzles import get_puzzle, load_puzzle
 
+    archive_current(STATE_FILE)
     try:
         puzzle = get_puzzle(req.level, req.index, req.seed)
     except ValueError as exc:
@@ -366,6 +385,46 @@ def post_analyze(req: AnalyzeRequest) -> dict:
 
     game = _load()
     return analyze_game(game, req.depth)
+
+
+@app.post("/api/analyze-position")
+def post_analyze_position(req: AiMoveRequest) -> dict:
+    """Best move + score for the current position, WITHOUT playing it (hint)."""
+    game = _load()
+    if game.status()["result"] != "ongoing":
+        raise HTTPException(status_code=400, detail="game is over")
+    depth = max(1, min(req.depth, 6))
+    move, score, nodes = best_move(game.board, depth)
+    return {
+        "ok": True,
+        "best_move": move.to_uci(),
+        "san": move_to_san(game.board, move),
+        "score": score,
+        "nodes": nodes,
+        "depth": depth,
+        "status": game.status(),
+    }
+
+
+@app.get("/api/games")
+def get_games() -> dict:
+    """Archive of finished games (V11): summaries, newest last."""
+    return {
+        "games": [
+            {k: e[k] for k in ("id", "date", "mode", "level", "result", "winner",
+                              "moves_count", "opening") if k in e}
+            for e in load_archive()
+        ]
+    }
+
+
+@app.get("/api/games/{game_id}")
+def get_game(game_id: int) -> dict:
+    """One archived game, with its full PGN."""
+    for e in load_archive():
+        if e.get("id") == game_id:
+            return e
+    raise HTTPException(status_code=404, detail=f"no archived game #{game_id}")
 
 
 class NoCacheStaticFiles(StaticFiles):

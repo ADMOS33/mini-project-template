@@ -71,3 +71,14 @@ class AnalyzeRequest(BaseModel):
     """Body of ``POST /api/analyze`` (V9 game review)."""
 
     depth: int = Field(2, ge=1, le=4, description="Search depth for the review")
+
+
+class NewGameRequest(BaseModel):
+    """Optional body of ``POST /api/new``: mode metadata stored in the game state
+    (used by the archive, V11)."""
+
+    mode: str | None = Field(None, description="human | computer | spectateur | puzzle")
+    level: str | None = Field(None, description="AI level when mode=computer")
+    chess960: int | None = Field(
+        None, ge=0, le=959, description="Chess960 start position index (SPN 0-959)"
+    )
