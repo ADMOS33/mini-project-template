@@ -20,6 +20,7 @@ import time
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import Response
 from fastapi.staticfiles import StaticFiles
 
 from chess.ai.evaluation import evaluate
@@ -217,5 +218,15 @@ def post_ai_move(req: AiMoveRequest) -> dict:
     }
 
 
+class NoCacheStaticFiles(StaticFiles):
+    """Static files served with ``Cache-Control: no-cache`` so a browser
+    reload never shows a stale version of the web UI."""
+
+    async def get_response(self, path: str, scope) -> Response:
+        response = await super().get_response(path, scope)
+        response.headers["Cache-Control"] = "no-cache"
+        return response
+
+
 # Serve the web UI last so the /api/* routes above take precedence.
-app.mount("/", StaticFiles(directory=WEB_DIR, html=True), name="web")
+app.mount("/", NoCacheStaticFiles(directory=WEB_DIR, html=True), name="web")

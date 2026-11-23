@@ -12,6 +12,8 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / "web"
 INDEX_HTML = (WEB / "index.html").read_text(encoding="utf-8")
@@ -98,3 +100,45 @@ def test_piece_svg_set_is_complete() -> None:
             path = WEB / "pieces" / f"{color}{t}.svg"
             assert path.is_file(), f"{path.name} manquante"
             assert path.stat().st_size > 0, f"{path.name} est vide"
+
+
+@pytest.mark.slow
+def test_web_files_served_with_no_cache(tmp_path) -> None:
+    """Live check (urllib only, no new dependency): uvicorn in a subprocess,
+    stopped at the end. Every file served from web/ must carry
+    'Cache-Control: no-cache' so a reload never shows a stale UI."""
+    import os
+    import socket
+    import subprocess
+    import sys
+    import time
+    import urllib.request
+
+    sock = socket.socket()
+    sock.bind(("127.0.0.1", 0))
+    port = sock.getsockname()[1]
+    sock.close()
+    env = dict(os.environ, CHESS_STATE_FILE=str(tmp_path / ".chess_game.json"))
+    proc = subprocess.Popen(
+        [sys.executable, "-m", "uvicorn", "chess.api.server:app",
+         "--host", "127.0.0.1", "--port", str(port)],
+        cwd=ROOT, env=env,
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+    )
+    base = f"http://127.0.0.1:{port}"
+    try:
+        for _ in range(100):  # wait until the server answers
+            try:
+                with urllib.request.urlopen(base + "/api/status", timeout=5):
+                    break
+            except Exception:
+                time.sleep(0.1)
+        else:
+            raise RuntimeError("uvicorn did not start")
+        for path in ("/", "/index.html", "/style.css", "/board.js", "/api.js", "/pieces/wK.svg"):
+            with urllib.request.urlopen(base + path, timeout=5) as resp:
+                cc = resp.headers.get("Cache-Control", "")
+                assert "no-cache" in cc, f"{path}: Cache-Control={cc!r} (no-cache attendu)"
+    finally:
+        proc.terminate()
+        proc.wait(timeout=10)
