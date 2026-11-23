@@ -31,11 +31,13 @@ DYNAMIC_IDS = {
     "captured-top", "captured-bottom",
     "player-top", "player-bottom",
     "clock-top", "clock-bottom",
+    # passés à wireChips("…") dans main.js / clock.js
+    "opt-color", "opt-depth", "opt-clock",
 }
 # Expressions dynamiques connues de getElementById(...) ; toute nouvelle
 # expression dynamique doit être ajoutée ici (le test échoue sinon).
-# "pname-" + … est un préfixe concaténé (ids pname-top / pname-bottom).
-KNOWN_DYNAMIC_CALLS = {"avId", "capId", "cardId", "elId"}
+# "pname-" + … est un préfixe concaténé ; "id" est le paramètre de wireChips().
+KNOWN_DYNAMIC_CALLS = {"avId", "capId", "cardId", "elId", "id"}
 KNOWN_DYNAMIC_PREFIXES = ('"pname-"',)
 
 

@@ -131,8 +131,14 @@ export function renderVsControls() {
   document.getElementById("seg-human").setAttribute("aria-selected", String(!state.vs));
   document.getElementById("seg-computer").setAttribute("aria-selected", String(state.vs));
   document.getElementById("vs-options").classList.toggle("hidden", !state.vs);
-  document.getElementById("opt-color").value = state.colorChoice;
-  document.getElementById("opt-depth").value = String(state.depth);
+  for (const [id, val] of [["opt-color", state.colorChoice], ["opt-depth", String(state.depth)]]) {
+    const group = document.getElementById(id);
+    if (group) {
+      group.querySelectorAll(".chip").forEach((b) =>
+        b.setAttribute("aria-pressed", String(b.dataset.value === val))
+      );
+    }
+  }
 }
 
 // --- Barre d'évaluation animée (score /api/eval, perspective camp au trait) -------

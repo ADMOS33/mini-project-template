@@ -14,7 +14,7 @@ import {
   renderVsControls,
 } from "./panels.js";
 import { playMoveSound, initSound } from "./sound.js";
-import { lsSet, setStatus, state, statusText } from "./state.js";
+import { lsSet, setStatus, state, statusText, wireChips } from "./state.js";
 import { reportError, toast } from "./toasts.js";
 
 // --- API injoignable : overlay + réessai automatique toutes les 3 s ---------
@@ -207,16 +207,16 @@ document.getElementById("seg-computer").addEventListener("click", async () => {
   const st = await ChessAPI.status();
   maybeAiMove(st);
 });
-document.getElementById("opt-color").addEventListener("change", (e) => {
-  state.colorChoice = e.target.value;
-  lsSet("chess.color", state.colorChoice);
-  if (state.colorChoice === "random") state.actualColor = Math.random() < 0.5 ? "w" : "b";
+wireChips("opt-color", (v) => {
+  state.colorChoice = v;
+  lsSet("chess.color", v);
+  if (v === "random") state.actualColor = Math.random() < 0.5 ? "w" : "b";
   renderPlayers();
-});
-document.getElementById("opt-depth").addEventListener("change", (e) => {
-  state.depth = parseInt(e.target.value, 10);
-  lsSet("chess.depth", e.target.value);
-});
+}, state.colorChoice);
+wireChips("opt-depth", (v) => {
+  state.depth = parseInt(v, 10);
+  lsSet("chess.depth", v);
+}, String(state.depth));
 
 // --- Section repliable FEN / PGN : importer + copier ---------------------------------
 

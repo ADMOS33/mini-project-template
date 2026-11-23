@@ -55,6 +55,25 @@ export function setStatus(text) {
   statusEl.textContent = text;
 }
 
+// Groupe de chips segmentées (remplace les <select> natifs) : boutons
+// natifs -> utilisables au clavier (Tab / Entrée / Espace), avec
+// role="group" + aria-pressed et focus visible (voir style.css).
+export function wireChips(id, onPick, initial) {
+  const group = document.getElementById(id);
+  if (!group) return;
+  const chips = group.querySelectorAll(".chip");
+  const select = (value) => {
+    chips.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.value === value)));
+  };
+  select(initial);
+  chips.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      select(btn.dataset.value);
+      onPick(btn.dataset.value);
+    });
+  });
+}
+
 export function squareName(file, rank) {
   return FILES[file] + (rank + 1);
 }

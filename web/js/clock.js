@@ -1,7 +1,7 @@
 // Horloge optionnelle (5 min, 10 min, 3 min + 2 s) avec perte au temps.
 
 import { showGameOver } from "./panels.js";
-import { lsSet, state } from "./state.js";
+import { lsSet, state, wireChips } from "./state.js";
 
 function clockBase() {
   const m = state.clockMode;
@@ -65,16 +65,12 @@ function tickClock() {
   renderClocks();
 }
 
-// Branche le sélecteur d'horloge et démarre le tick (200 ms).
+// Branche le groupe de chips d'horloge et démarre le tick (200 ms).
 export function initClock() {
   setInterval(tickClock, 200);
-  const optClock = document.getElementById("opt-clock");
-  if (optClock) {
-    optClock.value = state.clockMode;
-    optClock.addEventListener("change", () => {
-      state.clockMode = optClock.value;
-      lsSet("chess.clock", state.clockMode);
-      resetClock();
-    });
-  }
+  wireChips("opt-clock", (v) => {
+    state.clockMode = v;
+    lsSet("chess.clock", v);
+    resetClock();
+  }, state.clockMode);
 }
