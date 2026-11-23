@@ -60,6 +60,7 @@
         <div class="board-wrap">
           <div id="board" class="board" role="grid" aria-label="Échiquier"></div>
           <div id="promo-overlay" class="promo-overlay hidden" role="dialog" aria-label="Promotion"></div>
+          <div id="board-loading" class="board-loading">Chargement de la partie…</div>
         </div>
         <div id="review-banner" class="review-banner hidden">Position passée — lecture seule</div>
         <div id="review-bar" class="review-bar hidden">
@@ -153,6 +154,16 @@
         <button id="btn-gameover-new" class="btn">Rejouer</button>
         <button id="btn-gameover-review" class="btn-secondary">Revoir la partie</button>
       </div>
+    </div>
+  </div>
+
+  <!-- API injoignable : commande à lancer + réessai auto toutes les 3 s -->
+  <div id="api-down" class="modal hidden" role="alertdialog" aria-modal="true" aria-labelledby="api-down-title">
+    <div class="modal-box">
+      <h3 id="api-down-title">API injoignable</h3>
+      <p class="muted">Le serveur FastAPI ne répond pas. Depuis la racine du projet, lance :</p>
+      <pre class="cmd">.venv/bin/python -m uvicorn chess.api.server:app --reload --host 127.0.0.1 --port 8000</pre>
+      <p class="muted">puis ouvre <code>http://localhost:8000/</code>.<br>Nouvel essai automatique toutes les 3 s…</p>
     </div>
   </div>
 

@@ -180,7 +180,37 @@ function safeRender(name, fn) {
   }
 }
 
+// --- API injoignable : overlay + réessai automatique toutes les 3 s ---------
+// Une erreur réseau (fetch qui échoue) est un TypeError ; une erreur HTTP
+// de l'API est une Error(detail) et ne déclenche PAS l'overlay.
+function isNetworkError(err) {
+  return err instanceof TypeError;
+}
+
+let apiDown = false;
+function setApiDown(down) {
+  apiDown = down;
+  const el = document.getElementById("api-down");
+  if (el) el.classList.toggle("hidden", !down);
+  if (!down) refresh();
+}
+async function probeApi() {
+  try {
+    await ChessAPI.status();
+    if (apiDown) setApiDown(false);
+  } catch (err) {
+    if (isNetworkError(err)) setApiDown(true);
+  }
+}
+setInterval(() => {
+  if (apiDown) probeApi();
+}, 3000);
+
 async function refresh() {
+  const loadingEl = document.getElementById("board-loading");
+  if (!state.boardData && state.reviewPly === null && loadingEl) {
+    loadingEl.classList.remove("hidden");
+  }
   try {
     const [board, status, moves, hist] = await Promise.all([
       ChessAPI.board(),
@@ -207,6 +237,7 @@ async function refresh() {
     safeRender("coups", renderMovesTable);
     safeRender("évaluation", renderEval);
     safeRender("horloge", renderClocks);
+    if (loadingEl) loadingEl.classList.add("hidden");
     // horloge : incrément pour le camp qui vient de jouer
     if (prevTurn && prevTurn !== status.turn && state.clockMode !== "none") {
       state.clock[prevTurn] += state.clock.inc;
@@ -224,7 +255,8 @@ async function refresh() {
     maybeShowGameOver(status);
     maybeAiMove(status);
   } catch (err) {
-    reportError("Erreur API", err);
+    if (isNetworkError(err)) setApiDown(true);
+    else reportError("Erreur API", err);
   }
 }
 
