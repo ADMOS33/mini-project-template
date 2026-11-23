@@ -8,7 +8,9 @@ from chess.engine.pieces import Color, Piece, PieceType
 
 START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
-_CASTLING_CHARS = "KQkq"
+# Standard letters plus X-FEN file letters (Chess960): A-H for white rooks,
+# a-h for black rooks.
+_CASTLING_CHARS = "KQkqABCDEFGHabcdefgh"
 
 
 def _validate_position(board: Board, fen: str) -> None:
@@ -113,7 +115,13 @@ def board_to_fen(board: Board) -> str:
         rows.append(row)
     placement = "/".join(rows)
     side = "w" if board.turn is Color.WHITE else "b"
-    castling = "".join(ch for ch in _CASTLING_CHARS if ch in board.castling) or "-"
+    # Standard letters keep their canonical KQkq order; X-FEN file letters
+    # follow, uppercase (white) then lowercase (black), in file order.
+    letters = sorted(
+        (ch for ch in board.castling if ch not in "KQkq"),
+        key=lambda c: _CASTLING_CHARS.index(c),
+    )
+    castling = "".join(ch for ch in "KQkq" if ch in board.castling) + "".join(letters) or "-"
     ep = "-" if board.ep_square is None else square_name(board.ep_square)
     return (
         f"{placement} {side} {castling} {ep} "

@@ -8,7 +8,7 @@ for king safety.
 
 from __future__ import annotations
 
-from chess.engine.board import Board, square, square_file, square_rank
+from chess.engine.board import FILES, Board, square, square_file, square_rank
 from chess.engine.move import Move
 from chess.engine.pieces import Color, Piece, PieceType
 
@@ -18,13 +18,40 @@ ROOK_DIRS = ((1, 0), (-1, 0), (0, 1), (0, -1))
 BISHOP_DIRS = ((1, 1), (1, -1), (-1, 1), (-1, -1))
 QUEEN_DIRS = ROOK_DIRS + BISHOP_DIRS
 
-# (rook square, castling right letter) used to update rights on rook moves/captures.
-_ROOK_RIGHTS = (
-    (square(0, 0), "Q"),
-    (square(7, 0), "K"),
-    (square(0, 7), "q"),
-    (square(7, 7), "k"),
-)
+def rook_file_for_right(letter: str) -> int:
+    """Rook file targeted by a castling-right letter (X-FEN aware).
+
+    Standard letters ``K``/``Q`` (and ``k``/``q``) map to the h/a files;
+    Chess960 X-FEN letters are the rook's own file (``A``-``H`` / ``a``-``h``).
+    """
+    if letter in ("K", "H", "k", "h"):
+        return 7
+    if letter in ("Q", "A", "q", "a"):
+        return 0
+    return FILES.index(letter.lower())
+
+
+def is_castling_move(board: Board, move: Move) -> bool:
+    """True if ``move`` is a castling move of the king in ``board``.
+
+    Standard castling is king two files away on its home rank (e1g1/e1c1);
+    in Chess960 the king moves onto its own rook's square ("the king takes
+    its rook", e.g. f1h1).
+    """
+    piece = board.piece_at(move.from_sq)
+    if piece is None or piece.type is not PieceType.KING:
+        return False
+    if square_rank(move.from_sq) not in (0, 7):
+        return False
+    kf = square_file(move.from_sq)
+    target = board.piece_at(move.to_sq)
+    if (
+        target is not None
+        and target.type is PieceType.ROOK
+        and target.color is piece.color
+    ):
+        return True
+    return abs(square_file(move.to_sq) - kf) == 2
 
 
 def _on_board(f: int, r: int) -> bool:
@@ -128,43 +155,77 @@ def _slide_moves(board: Board, sq: int, color: Color, dirs: tuple, moves: list[M
 
 
 def _castling_moves(board: Board, sq: int, color: Color, moves: list[Move]) -> None:
-    """Castling moves for a king on its home square, with every condition checked:
-    right present, rook on its corner, intermediate squares empty, king not in
-    check and neither crossing nor landing on an attacked square."""
+    """Castling moves for a king on its home rank, with every condition checked:
+    right present, rook on the file named by the right, all squares between king
+    and rook (plus both destination squares) empty, king not in check and never
+    crossing or landing on an attacked square.
+
+    The king always lands on the g/c file and the rook on the f/d file. In the
+    standard position (king e1/e8, rook a/h) the move is rendered e1g1/e1c1;
+    in Chess960 it is "the king takes its rook" (king square -> rook square).
+    """
     rank = 0 if color is Color.WHITE else 7
-    if sq != square(4, rank):
+    if square_rank(sq) != rank:
         return
     enemy = color.opposite
+    kf = square_file(sq)
     if is_square_attacked(board, sq, enemy):
         return  # may not castle out of check
-    king_right, queen_right = ("K", "Q") if color is Color.WHITE else ("k", "q")
-    if king_right in board.castling:
-        f, g = square(5, rank), square(6, rank)
-        rook = board.squares[square(7, rank)]
+    for right in sorted(board.castling):
+        if right.isupper() != (color is Color.WHITE):
+            continue
+        rf = rook_file_for_right(right)
+        if rf == kf:
+            continue
+        rook_sq = square(rf, rank)
+        rook = board.squares[rook_sq]
         if (
-            rook is not None
-            and rook.type is PieceType.ROOK
-            and rook.color is color
-            and board.squares[f] is None
-            and board.squares[g] is None
-            and not is_square_attacked(board, f, enemy)
-            and not is_square_attacked(board, g, enemy)
+            rook is None
+            or rook.type is not PieceType.ROOK
+            or rook.color is not color
         ):
-            moves.append(Move(sq, g))  # e1g1 / e8g8
-    if queen_right in board.castling:
-        b, c, d = square(1, rank), square(2, rank), square(3, rank)
-        rook = board.squares[square(0, rank)]
-        if (
-            rook is not None
-            and rook.type is PieceType.ROOK
-            and rook.color is color
-            and board.squares[b] is None
-            and board.squares[c] is None
-            and board.squares[d] is None
-            and not is_square_attacked(board, c, enemy)
-            and not is_square_attacked(board, d, enemy)
-        ):
-            moves.append(Move(sq, c))  # e1c1 / e8c8
+            continue
+        kingside = rf > kf
+        king_dest_f = 6 if kingside else 2
+        rook_dest_f = 5 if kingside else 3
+        king_dest = square(king_dest_f, rank)
+        rook_dest = square(rook_dest_f, rank)
+        # Every square strictly between the king and the rook must be empty,
+        # and so must both destination squares (unless they are the king/rook
+        # squares themselves).
+        empty = all(
+            board.squares[square(f, rank)] is None
+            for f in range(min(kf, rf) + 1, max(kf, rf))
+        )
+        if empty:
+            for dest in (king_dest, rook_dest):
+                df = square_file(dest)
+                if df in (kf, rf):
+                    continue
+                if board.squares[dest] is not None:
+                    empty = False
+                    break
+        if not empty:
+            continue
+        # The king may not cross or land on an attacked square.
+        step = 1 if king_dest_f > kf else -1
+        f = kf
+        safe = True
+        while True:
+            if is_square_attacked(board, square(f, rank), enemy):
+                safe = False
+                break
+            if f == king_dest_f:
+                break
+            f += step
+        if not safe:
+            continue
+        if kf == 4 and rf == 7:
+            moves.append(Move(sq, square(6, rank)))  # e1g1 / e8g8
+        elif kf == 4 and rf == 0:
+            moves.append(Move(sq, square(2, rank)))  # e1c1 / e8c8
+        else:
+            moves.append(Move(sq, rook_sq))  # Chess960: king takes its rook
 
 
 def pseudo_legal_moves(board: Board, color: Color) -> list[Move]:
@@ -203,10 +264,31 @@ def apply_move(board: Board, move: Move) -> Board:
 
         raise ValueError(f"no piece on {square_name(move.from_sq)}")
     captured = new.squares[move.to_sq]
-    new.squares[move.to_sq] = (
-        Piece(move.promotion, piece.color) if move.promotion is not None else piece
-    )
-    new.squares[move.from_sq] = None
+    if piece.type is PieceType.KING and is_castling_move(board, move):
+        # Castling: the king lands on g/c (standard) or stays/takes its rook
+        # (Chess960); the rook lands on f/d. Not a capture for the 50-move rule.
+        rank = square_rank(move.from_sq)
+        kf = square_file(move.from_sq)
+        target = board.squares[move.to_sq]
+        if target is not None and target.type is PieceType.ROOK:
+            rook_sq = move.to_sq  # Chess960: king takes its rook
+        else:
+            rook_sq = square(7 if square_file(move.to_sq) > kf else 0, rank)
+        rf = square_file(rook_sq)
+        kingside = rf > kf
+        king_to = square(6 if kingside else 2, rank)
+        rook_to = square(5 if kingside else 3, rank)
+        rook = new.squares[rook_sq]
+        new.squares[king_to] = piece
+        new.squares[move.from_sq] = None
+        new.squares[rook_to] = rook
+        new.squares[rook_sq] = None
+        captured = None
+    else:
+        new.squares[move.to_sq] = (
+            Piece(move.promotion, piece.color) if move.promotion is not None else piece
+        )
+        new.squares[move.from_sq] = None
     if (
         piece.type is PieceType.PAWN
         and captured is None
@@ -216,21 +298,23 @@ def apply_move(board: Board, move: Move) -> Board:
         # En passant: the captured pawn disappears from its own square.
         ep_captured = square(square_file(move.to_sq), square_rank(move.from_sq))
         new.squares[ep_captured] = None
-    if piece.type is PieceType.KING and abs(move.to_sq - move.from_sq) == 2:
-        # Castling: the rook jumps to the other side of the king.
-        rank = square_rank(move.from_sq)
-        if square_file(move.to_sq) == 6:  # kingside
-            new.squares[square(5, rank)] = new.squares[square(7, rank)]
-            new.squares[square(7, rank)] = None
-        else:  # queenside
-            new.squares[square(3, rank)] = new.squares[square(0, rank)]
-            new.squares[square(0, rank)] = None
     if piece.type is PieceType.KING:
-        new.castling.discard("K" if piece.color is Color.WHITE else "k")
-        new.castling.discard("Q" if piece.color is Color.WHITE else "q")
-    for rook_sq, right in _ROOK_RIGHTS:
-        if move.from_sq == rook_sq or move.to_sq == rook_sq:
-            new.castling.discard(right)
+        # A king move discards every castling right of its color.
+        if piece.color is Color.WHITE:
+            new.castling = {r for r in new.castling if not r.isupper()}
+        else:
+            new.castling = {r for r in new.castling if not r.islower()}
+    # A rook leaving (or being captured on) its home square discards the right
+    # tied to that square: the X-FEN file letter, plus K/Q/k/q on the corners.
+    for sq in (move.from_sq, move.to_sq):
+        f, r = square_file(sq), square_rank(sq)
+        if r not in (0, 7):
+            continue
+        new.castling.discard(FILES[f].upper() if r == 0 else FILES[f])
+        if f == 7:
+            new.castling.discard("K" if r == 0 else "k")
+        elif f == 0:
+            new.castling.discard("Q" if r == 0 else "q")
     new.ep_square = None
     if piece.type is PieceType.PAWN and abs(move.to_sq - move.from_sq) == 16:
         new.ep_square = (move.to_sq + move.from_sq) // 2

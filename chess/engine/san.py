@@ -13,7 +13,7 @@ import re
 
 from chess.engine.board import FILES, RANKS, Board, parse_square, square_file, square_name, square_rank
 from chess.engine.move import Move
-from chess.engine.movegen import apply_move, is_square_attacked, legal_moves
+from chess.engine.movegen import apply_move, is_castling_move, is_square_attacked, legal_moves
 from chess.engine.pieces import PieceType
 
 _PIECE_LETTERS = {
@@ -51,8 +51,10 @@ def move_to_san(board: Board, move: Move) -> str:
     if piece is None:
         raise ValueError("no piece on the origin square")
     is_capture = _is_capture(board, move, piece.type)
-    if piece.type is PieceType.KING and abs(move.to_sq - move.from_sq) == 2:
-        san = "O-O" if square_file(move.to_sq) == 6 else "O-O-O"
+    if piece.type is PieceType.KING and is_castling_move(board, move):
+        # Kingside when the king heads towards the h-file (g1 in standard,
+        # or onto a rook right of the king in Chess960).
+        san = "O-O" if square_file(move.to_sq) > square_file(move.from_sq) else "O-O-O"
     elif piece.type is PieceType.PAWN:
         san = ""
         if is_capture:
@@ -100,15 +102,12 @@ def san_to_move(board: Board, san: str) -> Move:
         raise ValueError(f"unknown SAN move: {san!r}")
     normalized = text.lower().replace("0", "o")
     if normalized in ("o-o", "o-o-o"):
-        want_file = 6 if normalized == "o-o" else 2
+        want_kingside = normalized == "o-o"
         for move in legal_moves(board):
-            piece = board.piece_at(move.from_sq)
-            if (
-                piece is not None
-                and piece.type is PieceType.KING
-                and abs(move.to_sq - move.from_sq) == 2
-                and square_file(move.to_sq) == want_file
-            ):
+            if not is_castling_move(board, move):
+                continue
+            kingside = square_file(move.to_sq) > square_file(move.from_sq)
+            if kingside == want_kingside:
                 return move
         raise ValueError(f"illegal castling move: {san!r}")
     match = _MOVE_RE.match(text)
