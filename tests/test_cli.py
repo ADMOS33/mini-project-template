@@ -229,3 +229,80 @@ def test_status_json_exposes_version_and_it_increments(capsys, tmp_path) -> None
     run_cli(capsys, "--state", state, "new", "--json")
     _, out, _ = run_cli(capsys, "--state", state, "status", "--json")
     assert json.loads(out)["version"] == v_move + 2
+
+
+def test_wait_returns_immediately_when_condition_already_met(capsys, tmp_path) -> None:
+    state = str(tmp_path / ".chess_game.json")
+    run_cli(capsys, "--state", state, "new", "--json")
+    rc, out, _ = run_cli(capsys, "--state", state, "wait", "--color", "w", "--timeout", "2", "--json")
+    assert rc == 0
+    payload = json.loads(out)
+    assert payload["ok"] is True
+    assert payload["timeout"] is False
+    assert payload["status"]["turn"] == "w"
+    assert payload["status"]["result"] == "ongoing"
+
+
+def test_wait_times_out_when_condition_not_met(capsys, tmp_path) -> None:
+    state = str(tmp_path / ".chess_game.json")
+    run_cli(capsys, "--state", state, "new", "--json")
+    run_cli(capsys, "--state", state, "move", "e2e4", "--json")  # black to move
+    rc, out, _ = run_cli(capsys, "--state", state, "wait", "--color", "w", "--timeout", "0.3", "--json")
+    assert rc == 0
+    payload = json.loads(out)
+    assert payload["timeout"] is True
+    assert payload["status"]["turn"] == "b"
+
+
+def test_wait_returns_when_game_is_over(capsys, tmp_path) -> None:
+    state = str(tmp_path / ".chess_game.json")
+    run_cli(capsys, "--state", state, "new", "--json")
+    for mv in ["f2f3", "e7e5", "g2g4", "d8h4"]:  # fool's mate
+        run_cli(capsys, "--state", state, "move", mv, "--json")
+    rc, out, _ = run_cli(capsys, "--state", state, "wait", "--color", "b", "--timeout", "5", "--json")
+    assert rc == 0
+    payload = json.loads(out)
+    assert payload["timeout"] is False
+    assert payload["status"]["result"] == "checkmate"
+    assert payload["status"]["winner"] == "b"
+
+
+def test_wait_requires_a_color(capsys, tmp_path) -> None:
+    import pytest
+
+    state = str(tmp_path / ".chess_game.json")
+    run_cli(capsys, "--state", state, "new", "--json")
+    with pytest.raises(SystemExit):
+        run_cli(capsys, "--state", state, "wait", "--timeout", "1", "--json")
+
+
+def test_wait_unblocks_when_another_process_plays(capsys, tmp_path) -> None:
+    import subprocess
+    import sys
+    import time
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parent.parent
+    state = str(tmp_path / ".chess_game.json")
+    run_cli(capsys, "--state", state, "new", "--json")
+    proc = subprocess.Popen(
+        [
+            sys.executable,
+            "-c",
+            "import sys; from chess.cli.main import main; "
+            "sys.exit(main(['--state', sys.argv[1], 'wait', '--color', 'b', "
+            "'--timeout', '5', '--json']))",
+            state,
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        cwd=root,
+    )
+    time.sleep(0.6)  # laisser le wait démarrer et entrer dans sa boucle
+    run_cli(capsys, "--state", state, "move", "e2e4", "--json")
+    out, _err = proc.communicate(timeout=10)
+    assert proc.returncode == 0
+    payload = json.loads(out)
+    assert payload["timeout"] is False
+    assert payload["status"]["turn"] == "b"

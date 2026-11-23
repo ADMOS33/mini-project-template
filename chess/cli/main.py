@@ -66,6 +66,14 @@ def _build_parser() -> argparse.ArgumentParser:
     p_ai = add("ai-move", "let the computer play a move (minimax + alpha-beta)")
     p_ai.add_argument("--depth", type=int, default=3, help="search depth")
     add("history", "list the moves played so far")
+    p_wait = add(
+        "wait",
+        "wait until it is COLOR's turn or the game is over, then print the status (for agents)",
+    )
+    p_wait.add_argument("--color", choices=["w", "b"], required=True, help="side to wait for")
+    p_wait.add_argument(
+        "--timeout", type=float, default=60.0, help="max seconds to wait (default: 60)"
+    )
     return parser
 
 
@@ -243,6 +251,26 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
             or "no moves yet"
         )
         return {"moves": [d["uci"] for d in details], "details": details}, text
+    if cmd == "wait":
+        # Re-read the state file on every poll: another process (agent, web
+        # client) may have played a move meanwhile.
+        deadline = time.monotonic() + max(0.0, args.timeout)
+        status = game.status()
+        while (
+            status["result"] == "ongoing"
+            and status["turn"] != args.color
+            and time.monotonic() < deadline
+        ):
+            time.sleep(0.1)
+            game = _load_game(state_file)
+            status = game.status()
+        timed_out = status["result"] == "ongoing" and status["turn"] != args.color
+        text = _status_text(status)
+        if timed_out:
+            text = f"wait: timed out after {args.timeout:g}s.\n{text}"
+        else:
+            text = f"wait: condition met for color {args.color}.\n{text}"
+        return {"ok": True, "timeout": timed_out, "status": status}, text
     raise CliError(f"unknown command: {cmd}")  # pragma: no cover
 
 
