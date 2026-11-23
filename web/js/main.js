@@ -46,6 +46,7 @@ setInterval(() => {
 // --- Rafraîchissement depuis l'API -------------------------------------------
 
 async function refresh() {
+  state.refreshing = true;
   const loadingEl = document.getElementById("board-loading");
   if (!state.boardData && state.reviewPly === null && loadingEl) {
     loadingEl.classList.remove("hidden");
@@ -60,6 +61,7 @@ async function refresh() {
     const prevTurn = state.turn;
     state.boardData = board;
     state.turn = status.turn;
+    if (typeof status.version === "number") state.lastVersion = status.version;
     // Retour automatique du plateau en mode 2 joueurs : on voit toujours son camp en bas
     if (state.autoFlip && !state.vs) state.flipped = status.turn === "b";
     state.inCheck = status.in_check;
@@ -98,8 +100,30 @@ async function refresh() {
   } catch (err) {
     if (isNetworkError(err)) setApiDown(true);
     else reportError("Erreur API", err);
+  } finally {
+    state.refreshing = false;
   }
 }
+
+// --- Synchro live (V5) : poll /api/status chaque seconde ----------------------
+// Si `version` a changé (coup joué via la CLI, un autre navigateur, un agent),
+// on rafraîchit tout : un coup extérieur apparaît en moins de 2 s.
+async function pollStatus() {
+  if (state.refreshing || apiDown) return;
+  let st;
+  try {
+    st = await ChessAPI.status();
+  } catch {
+    return; // silencieux : les erreurs visibles sont gérées par refresh()
+  }
+  if (typeof st.version !== "number") return;
+  if (state.lastVersion !== null && st.version !== state.lastVersion) {
+    await refresh();
+  } else {
+    state.lastVersion = st.version;
+  }
+}
+setInterval(pollStatus, 1000);
 
 // --- Mode « Contre l'ordinateur » -----------------------------------------------
 

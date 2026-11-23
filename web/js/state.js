@@ -50,6 +50,10 @@ state.depth = parseInt(ls("chess.depth", "3"), 10);
 state.sound = ls("chess.sound", "1") === "1";
 state.clockMode = ls("chess.clock", "none");
 state.autoFlip = ls("chess.autoflip", "0") === "1";
+// Synchro live (V5) : dernière version vue de l'état persisté + garde-fou
+// pour ne pas lancer deux refresh() en parallèle.
+state.lastVersion = null;
+state.refreshing = false;
 
 export const statusEl = document.getElementById("status");
 export function setStatus(text) {
