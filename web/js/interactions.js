@@ -1,0 +1,147 @@
+// Interactions plateau : clic-clic, glisser-déposer et promotion.
+// Les coups légaux viennent de l'API (state.legalMoves) — aucune règle ici.
+
+import { ChessAPI } from "./api.js";
+import { boardEl, render, renderAll } from "./board-view.js";
+import { reportError } from "./toasts.js";
+import { FILES, myPieceAt, pieceSrc, setStatus, state, symAt } from "./state.js";
+
+function squareFromEvent(e) {
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  const sq = el && el.closest ? el.closest(".square") : null;
+  return sq ? sq.dataset.square : null;
+}
+
+// Sélecteur de promotion superposé sur le plateau, façon lichess : une
+// colonne de 4 pièces (D/T/F/C) alignée sur la case d'arrivée.
+function askPromotion(from, to, color) {
+  return new Promise((resolve) => {
+    const overlay = document.getElementById("promo-overlay");
+    overlay.innerHTML = "";
+    const wrap = boardEl.parentElement.getBoundingClientRect();
+    const sqSize = wrap.width / 8;
+    const file = FILES.indexOf(to[0]);
+    const rank = parseInt(to[1], 10) - 1;
+    // colonne verticale centrée sur la case d'arrivée
+    const left = state.flipped ? (7 - file) * sqSize : file * sqSize;
+    const topEdge = (7 - rank) * sqSize;
+    overlay.style.left = left + "px";
+    overlay.style.width = sqSize + "px";
+    // la colonne s'ouvre vers le haut ou vers le bas selon la rangée d'arrivée
+    const openUp = state.flipped ? rank > 3 : rank < 4;
+    overlay.style.top = (openUp ? topEdge - 3 * sqSize : topEdge) + "px";
+    overlay.style.height = 4 * sqSize + "px";
+    for (const letter of ["q", "r", "b", "n"]) {
+      const btn = document.createElement("button");
+      const img = document.createElement("img");
+      img.src = pieceSrc(color === "w" ? letter.toUpperCase() : letter);
+      img.alt = letter.toUpperCase();
+      btn.appendChild(img);
+      btn.addEventListener("click", () => {
+        overlay.classList.add("hidden");
+        resolve(letter);
+      });
+      overlay.appendChild(btn);
+    }
+    overlay.classList.remove("hidden");
+    const cancel = (e) => {
+      if (!overlay.contains(e.target)) {
+        overlay.classList.add("hidden");
+        document.removeEventListener("pointerdown", cancel, true);
+        resolve(null);
+      }
+    };
+    document.addEventListener("pointerdown", cancel, true);
+  });
+}
+
+async function tryMove(from, to, refresh) {
+  const candidates = state.legalMoves.filter((m) => m.startsWith(from + to));
+  if (candidates.length === 0) {
+    setStatus(`Case ${to} non atteignable depuis ${from}.`);
+    return;
+  }
+  let uci = candidates[0];
+  if (candidates.length > 1) {
+    // promotion : plusieurs variantes (q/r/b/n)
+    const sym = symAt(from);
+    const color = sym === sym.toUpperCase() ? "w" : "b";
+    const promo = await askPromotion(from, to, color);
+    if (!promo) return; // annulé
+    uci = from + to + promo;
+  }
+  state.selected = null;
+  try {
+    await ChessAPI.move(uci);
+  } catch (err) {
+    reportError("Coup refusé", err);
+  }
+  state.reviewPly = null;
+  await refresh();
+}
+
+// Branche pointerdown/move/up sur le plateau. `refresh` est passé par main.js
+// (évite une dépendance circulaire).
+export function initInteractions({ refresh }) {
+  boardEl.addEventListener("pointerdown", (e) => {
+    if (state.reviewPly !== null) return;
+    const name = squareFromEvent(e);
+    if (!name) return;
+    state.drag = { from: name, startX: e.clientX, startY: e.clientY, ghost: null, moved: false };
+  });
+
+  boardEl.addEventListener("pointermove", (e) => {
+    const d = state.drag;
+    if (!d || state.reviewPly !== null) return;
+    if (!d.moved && Math.hypot(e.clientX - d.startX, e.clientY - d.startY) > 6 && myPieceAt(d.from)) {
+      d.moved = true;
+      const rect = boardEl.getBoundingClientRect();
+      const ghost = document.createElement("span");
+      ghost.className = "drag-ghost";
+      const img = document.createElement("img");
+      const ghostSrc = pieceSrc(symAt(d.from));
+      if (ghostSrc) img.src = ghostSrc;
+      img.draggable = false;
+      ghost.appendChild(img);
+      ghost.style.left = e.clientX - rect.left + "px";
+      ghost.style.top = e.clientY - rect.top + "px";
+      boardEl.parentElement.appendChild(ghost);
+      d.ghost = ghost;
+    }
+    if (d.ghost) {
+      const rect = boardEl.getBoundingClientRect();
+      d.ghost.style.left = e.clientX - rect.left + "px";
+      d.ghost.style.top = e.clientY - rect.top + "px";
+    }
+  });
+
+  boardEl.addEventListener("pointerup", (e) => {
+    const d = state.drag;
+    state.drag = null;
+    if (!d || state.reviewPly !== null) return;
+    if (d.moved && d.ghost) {
+      d.ghost.remove();
+      const target = squareFromEvent(e);
+      if (target && target !== d.from) {
+        tryMove(d.from, target, refresh);
+      } else {
+        render();
+      }
+      return;
+    }
+    // clic-clic
+    const name = squareFromEvent(e);
+    if (!name) return;
+    if (!state.selected) {
+      if (myPieceAt(name)) state.selected = name;
+    } else if (state.selected === name) {
+      state.selected = null;
+    } else {
+      const from = state.selected;
+      state.selected = null;
+      tryMove(from, name, refresh);
+      return;
+    }
+    render();
+  });
+}
