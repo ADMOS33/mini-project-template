@@ -468,12 +468,13 @@ input {
 .captured .adv {
   font-size: 0.78rem;
   color: var(--accent-hover);
-  font-family: var(--mono);
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
   margin-left: var(--s2);
 }
 
 .clock {
-  font-family: var(--mono);
+  font-family: var(--font);
   font-variant-numeric: tabular-nums;
   font-weight: 600;
   color: var(--muted);
@@ -486,7 +487,7 @@ input {
 .moves-table {
   width: 100%;
   border-collapse: collapse;
-  font-family: var(--mono);
+  font-family: var(--font);
   font-size: 0.88rem;
   font-variant-numeric: tabular-nums;
 }
@@ -571,7 +572,7 @@ input {
 }
 
 #review-label {
-  font-family: var(--mono);
+  font-family: var(--font);
   font-size: 0.8rem;
   color: var(--muted);
   min-width: 7rem;
@@ -736,7 +737,8 @@ select, textarea {
 }
 
 #evalbar-label {
-  font-family: var(--mono);
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
   font-size: 0.8rem;
   min-width: 3rem;
   text-align: right;
@@ -756,6 +758,8 @@ details.io-block summary {
 
 details.io-block[open] summary { color: var(--text); margin-bottom: var(--s2); }
 
+/* Monospace réservé aux données copiables : FEN / PGN (textarea) et la
+   commande affichée par l'overlay « API injoignable » (.cmd). */
 textarea {
   resize: vertical;
   font-family: var(--mono);
