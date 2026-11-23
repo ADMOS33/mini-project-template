@@ -28,7 +28,7 @@ from chess.ai.search import best_move
 from chess.api.schemas import AiMoveRequest, FlagRequest, LoadRequest, MoveRequest, PgnRequest
 from chess.engine.board import square_name
 from chess.engine.fen import board_from_fen, board_to_fen
-from chess.engine.game import Game
+from chess.engine.game import Game, next_version
 from chess.engine.pgn import export_pgn, import_pgn
 from chess.engine.san import move_to_san
 
@@ -105,6 +105,7 @@ def get_fen() -> dict:
 def post_new() -> dict:
     """Start a new game (resets the persisted state)."""
     game = Game()
+    game.version = next_version(STATE_FILE)
     _save(game)
     return {"ok": True, "status": game.status()}
 
@@ -128,6 +129,7 @@ def post_load(req: LoadRequest) -> dict:
         game = Game.from_fen(req.fen)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=f"invalid FEN: {exc}") from exc
+    game.version = next_version(STATE_FILE)
     _save(game)
     return {"ok": True, "status": game.status()}
 
@@ -186,6 +188,7 @@ def post_load_pgn(req: PgnRequest) -> dict:
         game = import_pgn(req.pgn)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+    game.version = next_version(STATE_FILE)
     _save(game)
     return {
         "ok": True,

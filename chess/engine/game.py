@@ -26,10 +26,15 @@ class Game:
         # External end of game (not a chess rule, e.g. clock fall):
         # {"result": "flag", "winner": "b"} — blocks further moves.
         self.external_result: dict | None = None
+        # Monotonic counter bumped on every state mutation (move, undo,
+        # external result, new/load via :func:`next_version`). Live watchers
+        # (web polling) detect any change by comparing this value.
+        self.version = 0
 
     def set_external_result(self, result: str, winner: str | None = None) -> None:
         """Record an externally-decided end of game (e.g. flag fall)."""
         self.external_result = {"result": result, "winner": winner}
+        self.version += 1
 
     @classmethod
     def from_fen(cls, fen: str) -> Game:
@@ -55,6 +60,7 @@ class Game:
         self.moves.append(move)
         # positions[i] = FEN after i plies, so undo is a simple pop.
         self._positions.append(board_to_fen(self.board))
+        self.version += 1
         return move
 
     def undo(self) -> Move | None:
@@ -64,6 +70,7 @@ class Game:
         move = self.moves.pop()
         self._positions.pop()
         self.board = board_from_fen(self._positions[-1])
+        self.version += 1
         return move
 
     def position_fens(self) -> list[str]:
@@ -105,6 +112,7 @@ class Game:
             "halfmove_clock": self.board.halfmove_clock,
             "fullmove_number": self.board.fullmove_number,
             "fen": board_to_fen(self.board),
+            "version": self.version,
         }
 
     def to_dict(self) -> dict:
@@ -114,6 +122,7 @@ class Game:
             "moves": [m.to_uci() for m in self.moves],
             "positions": list(self._positions),
             "external_result": self.external_result,
+            "version": self.version,
         }
 
     @classmethod
@@ -139,6 +148,10 @@ class Game:
             raise ValueError("corrupted game state: FEN does not match the move list")
         # Set after the replay so play_uci does not reject the stored moves.
         game.external_result = data.get("external_result")
+        # The replay already bumped version once per stored move; restore the
+        # persisted counter when present (legacy files fall back to the count).
+        if "version" in data:
+            game.version = int(data["version"])
         return game
 
     def save(self, path: str | Path) -> None:
@@ -149,3 +162,17 @@ class Game:
     def load(cls, path: str | Path) -> Game:
         """Load a game previously saved with :meth:`save`."""
         return cls.from_dict(json.loads(Path(path).read_text(encoding="utf-8")))
+
+
+def next_version(state_file: str | Path) -> int:
+    """Version number for a brand-new game persisted at ``state_file``.
+
+    Reads the previous state file (if any) so the counter keeps increasing
+    across ``new`` / ``load`` commands — live watchers can rely on any change
+    of the value, including resets of the board itself. Returns 1 when no
+    previous state exists.
+    """
+    try:
+        return Game.load(state_file).version + 1
+    except Exception:
+        return 1

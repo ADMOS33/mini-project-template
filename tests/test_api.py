@@ -270,3 +270,15 @@ def test_live_server_over_http_with_urllib(tmp_path) -> None:
     finally:
         proc.terminate()
         proc.wait(timeout=10)
+
+
+def test_status_exposes_version_and_it_increments(state) -> None:
+    r = server.post_new()
+    v0 = r["status"]["version"]
+    assert isinstance(v0, int) and v0 >= 1
+    server.post_move(MoveRequest(move="e2e4"))
+    assert server.get_status()["version"] == v0 + 1
+    server.post_undo()
+    assert server.get_status()["version"] == v0 + 2
+    r = server.post_new()
+    assert r["status"]["version"] == v0 + 3

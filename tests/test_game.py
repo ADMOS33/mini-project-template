@@ -150,3 +150,48 @@ def test_persistence_roundtrip(tmp_path) -> None:
     game.undo()
     assert loaded.status() == game.status()
     assert [m.to_uci() for m in loaded.moves] == ["e2e4"]
+
+
+def test_version_counter_increments_on_play_undo_and_persists(tmp_path) -> None:
+    game = Game()
+    assert game.status()["version"] == 0
+    game.play_uci("e2e4")
+    assert game.status()["version"] == 1
+    game.play_uci("e7e5")
+    assert game.status()["version"] == 2
+    game.undo()
+    assert game.status()["version"] == 3
+    path = tmp_path / "g.json"
+    game.save(path)
+    loaded = Game.load(path)
+    assert loaded.status()["version"] == 3
+    loaded.play_uci("e7e5")
+    assert loaded.status()["version"] == 4
+
+
+def test_version_survives_legacy_state_file_without_version(tmp_path) -> None:
+    import json
+
+    game = Game()
+    game.play_uci("e2e4")
+    path = tmp_path / "g.json"
+    game.save(path)
+    data = json.loads(path.read_text(encoding="utf-8"))
+    del data["version"]
+    path.write_text(json.dumps(data), encoding="utf-8")
+    loaded = Game.load(path)
+    assert loaded.status()["version"] == 1  # replayed move count as fallback
+
+
+def test_next_version_increases_across_new_games(tmp_path) -> None:
+    from chess.engine.game import next_version
+
+    path = tmp_path / "g.json"
+    assert next_version(path) == 1
+    game = Game()
+    game.version = next_version(path)
+    game.save(path)
+    assert next_version(path) == 2
+    game.play_uci("e2e4")
+    game.save(path)
+    assert next_version(path) == 3

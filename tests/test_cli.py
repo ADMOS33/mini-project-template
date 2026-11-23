@@ -210,3 +210,22 @@ def test_ai_move_on_finished_game_is_an_error(capsys, tmp_path) -> None:
         run_cli(capsys, "--state", state, "move", uci)
     rc, _, err = run_cli(capsys, "--state", state, "ai-move")
     assert rc == 1 and "game is over" in err
+
+
+def test_status_json_exposes_version_and_it_increments(capsys, tmp_path) -> None:
+    state = str(tmp_path / ".chess_game.json")
+    run_cli(capsys, "--state", state, "new", "--json")
+    _, out, _ = run_cli(capsys, "--state", state, "status", "--json")
+    v_new = json.loads(out)["version"]
+    assert isinstance(v_new, int) and v_new >= 1
+    run_cli(capsys, "--state", state, "move", "e2e4", "--json")
+    _, out, _ = run_cli(capsys, "--state", state, "status", "--json")
+    v_move = json.loads(out)["version"]
+    assert v_move == v_new + 1
+    run_cli(capsys, "--state", state, "undo", "--json")
+    _, out, _ = run_cli(capsys, "--state", state, "status", "--json")
+    assert json.loads(out)["version"] == v_move + 1
+    # `new` also counts as a modification: version keeps increasing
+    run_cli(capsys, "--state", state, "new", "--json")
+    _, out, _ = run_cli(capsys, "--state", state, "status", "--json")
+    assert json.loads(out)["version"] == v_move + 2

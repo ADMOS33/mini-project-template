@@ -18,7 +18,7 @@ from pathlib import Path
 
 from chess.ai.search import best_move
 from chess.engine.fen import board_from_fen, board_to_fen
-from chess.engine.game import Game
+from chess.engine.game import Game, next_version
 from chess.engine.move import Move
 from chess.engine.pgn import export_pgn, import_pgn
 from chess.engine.san import move_to_san, san_to_move
@@ -67,6 +67,13 @@ def _build_parser() -> argparse.ArgumentParser:
     p_ai.add_argument("--depth", type=int, default=3, help="search depth")
     add("history", "list the moves played so far")
     return parser
+
+
+def _fresh_game(state_file: Path) -> Game:
+    """Brand-new game whose version keeps increasing across `new`/`load`."""
+    game = Game()
+    game.version = next_version(state_file)
+    return game
 
 
 def _load_game(state_file: Path) -> Game:
@@ -132,7 +139,7 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
     """Run one subcommand; returns (json_payload, human_text)."""
     cmd = args.command
     if cmd == "new":
-        game = Game()
+        game = _fresh_game(state_file)
         game.save(state_file)
         status = game.status()
         return {"ok": True, "status": status}, f"New game started.\n{status['fen']}"
@@ -141,6 +148,7 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
             game = Game.from_fen(args.fen)
         except ValueError as exc:
             raise CliError(f"invalid FEN: {exc}") from exc
+        game.version = next_version(state_file)
         game.save(state_file)
         status = game.status()
         return {"ok": True, "status": status}, f"Loaded position.\n{status['fen']}"
@@ -183,6 +191,7 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
             game = import_pgn(text)
         except ValueError as exc:
             raise CliError(f"invalid PGN in {args.file}: {exc}") from exc
+        game.version = next_version(state_file)
         game.save(state_file)
         status = game.status()
         return (
