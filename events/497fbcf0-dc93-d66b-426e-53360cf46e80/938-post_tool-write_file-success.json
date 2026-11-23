@@ -1,0 +1,44 @@
+{
+  "seq": 938,
+  "received_at": "2026-11-23T19:27:22.397963+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.write_file",
+    "tool_call_id": "jkqTbUjR9",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/mcp/tools.py",
+      "content": [
+        "\"\"\"MCP tool registry — stub for the protocol-only commit.",
+        "",
+        "The real tools are added in the next commit (outils).",
+        "\"\"\"",
+        "",
+        "from __future__ import annotations",
+        "",
+        "TOOLS: list[dict] = []",
+        "",
+        "",
+        "def tool_names() -> set[str]:",
+        "    return {t[\"name\"] for t in TOOLS}",
+        "",
+        "",
+        "def call_tool(name: str, arguments: dict) -> dict:",
+        "    raise ValueError(f\"unknown tool: {name!r}\")",
+        ""
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "bytes_written": 350,
+      "file_existed": false,
+      "path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/mcp/tools.py"
+    },
+    "tool_error": null,
+    "duration_ms": 121
+  }
+}

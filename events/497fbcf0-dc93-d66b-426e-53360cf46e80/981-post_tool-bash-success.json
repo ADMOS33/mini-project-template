@@ -1,0 +1,61 @@
+{
+  "seq": 981,
+  "received_at": "2026-11-23T19:37:56.449549+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "Z87iqHy8y",
+    "tool_input": {
+      "timeout": 120,
+      "command": "sed -n '640,660p' /Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md; grep -n \"env\" /Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md | awk -F: '$1>600 && $1<760'"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "sed -n '640,660p' /Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md; grep -n \"env\" /Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md | awk -F: '$1>600 && $1<760'",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "# agent (default: \"accept-edits\"). Valid values: \"ask\", \"accept-edits\",",
+        "# \"smart-approve\", \"auto-approve\". Applies in both interactive and programmatic",
+        "# (-p/--prompt) mode.",
+        "default_approval_policy = \"ask\"",
+        "```",
+        "",
+        "### MCP Servers",
+        "",
+        "Remote MCP servers can be added non-interactively from the shell:",
+        "",
+        "```bash",
+        "vibe mcp add mistralai \\",
+        "  --url https://api.mistral.ai/mcp \\",
+        "  --transport streamable-http \\",
+        "  --api-key-env MISTRAL_API_KEY",
+        "",
+        "vibe mcp add linear \\",
+        "  --url https://mcp.linear.app/mcp",
+        "",
+        "vibe mcp remove mistralai",
+        "```",
+        "654:  --api-key-env MISTRAL_API_KEY",
+        "662:Static auth is selected when `--api-key-env` or `--header` is provided.",
+        "670:authentication with `--api-key-env`, `--api-key-header`, `--api-key-format`,",
+        "674:`--arg VALUE` (use `--arg=-y` for flags), and `--env NAME=VALUE`.",
+        "710:api_key_env = \"MCP_API_KEY\"",
+        "729:- Static auth: legacy `api_key_env` / `headers` keys still work and are",
+        "735:- Headless environments without an OS keyring cannot store OAuth tokens; use",
+        "736:  static auth via `api_key_env` instead.",
+        "747:and the API key env var is set. Toggle the master switch or hide individual",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 956
+  }
+}

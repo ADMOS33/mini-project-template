@@ -1,0 +1,48 @@
+{
+  "seq": 978,
+  "received_at": "2026-11-23T19:37:51.766837+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "8OUxItAWA",
+    "tool_input": {
+      "timeout": 120,
+      "command": "grep -n \"mcp_servers.env\\|\\[mcp_servers\" /Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md | head; grep -n \"env\" /Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md | grep -i \"mcp\\|server\" | head -5; grep -n \"MCP\" /Users/rafiq/3A/projet-AI/mini-project-template/README.md | head -5; grep -n \"^## \" /Users/rafiq/3A/projet-AI/mini-project-template/README.md"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "grep -n \"mcp_servers.env\\|\\[mcp_servers\" /Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md | head; grep -n \"env\" /Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md | grep -i \"mcp\\|server\" | head -5; grep -n \"MCP\" /Users/rafiq/3A/projet-AI/mini-project-template/README.md | head -5; grep -n \"^## \" /Users/rafiq/3A/projet-AI/mini-project-template/README.md",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "697:[[mcp_servers]]",
+        "703:[[mcp_servers]]",
+        "708:[mcp_servers.auth]",
+        "714:[[mcp_servers]]",
+        "719:[mcp_servers.auth]",
+        "3:description: \"Authoritative reference for Mistral Vibe \\u2014 the CLI agent you (the model) are running inside.\\n\\nLOAD when the user:\\n- asks anything about Vibe itself, even by indirect name (\\\"this CLI\\\", \\\"this tool\\\", \\\"you\\\");\\n- wants to change, inspect, or reset their setup;\\n- asks why the agent did or did not act;\\n- asks how to make the CLI do X, where X lives, or what a flag/command/setting does;\\n- asks any meta question about your own behavior;\\n- is unsure whether a command, flag, env var, or file is in scope \\u2014 this skill is the source of truth.\\n\\nSCOPE: config under `~/.vibe/` and project-local `.vibe/`; `VIBE_*` and `LOG_*` env vars; models and providers; agents and subagents; skills; tools and their permission model; every slash command and CLI flag; hooks; MCP servers; connectors; plugins; trusted folders; `@`-file mentions; logs; themes; voice.\"",
+        "710:api_key_env = \"MCP_API_KEY\"",
+        "1326:- `/config` - Full-screen settings browser. Fields show their value and origin layer (default / TOML / env / override). Type to filter, arrows to move, Enter to edit; booleans toggle, closed-set fields (theme, models) pick from a list, scalars edit inline, complex fields open a JSON editor. The edit modal shows an inspector of the layers setting the field; edits persist to the user config (`~/.vibe/config.toml`) by default, `Tab` cycles the save target through the project config (`.vibe/config.toml`, when the project layer is active) and the ephemeral session override (until restart), and `Ctrl+R` clears the field one writable layer at a time toward the default. The `tools` field opens a grouped tool list with a per-tool config editor (permission, allow/deny lists, `Ctrl+E` for raw JSON). Enabling/disabling whole MCP servers or connectors stays in `/mcp`.",
+        "1384:  OAuth-only; use `vibe mcp add <name> --url <url> --api-key-env <var>` for",
+        "15:## Équipe",
+        "23:## Fonctionnalités",
+        "73:## Architecture",
+        "88:## Utilisation prévue",
+        "136:## Interface web (`web/`)",
+        "178:## Lancer en local",
+        "218:## Plan de développement (phases)",
+        "237:## Décisions",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 1786
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "seq": 990,
+  "received_at": "2026-11-23T19:38:55.001257+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "yhoWpWrfu",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/AGENTS.md",
+      "old_string": "| IA `chess/ai/` | évaluation **perspective camp au trait** (matériel + PSQT, centipions) + `MATE_SCORE=100000` ajusté par la profondeur, **negamax alpha-beta** renvoyant `(move, score, nodes)`, tri MVV-LVA + promotions ✅ | — |",
+      "new_string": [
+        "| IA `chess/ai/` | évaluation **perspective camp au trait** (matériel + PSQT, centipions) + `MATE_SCORE=100000` ajusté par la profondeur, **negamax alpha-beta** renvoyant `(move, score, nodes)`, tri MVV-LVA + promotions ✅ | — |",
+        "| MCP `chess/mcp/` | **JSON-RPC 2.0 maison sur stdio** (un message JSON/ligne, logs stderr), `python -m chess.mcp`, sans dépendance ✅ ; méthodes `initialize` (echo `protocolVersion`), `notifications/initialized`, `ping`, `tools/list`, `tools/call` + erreurs -32700/-32600/-32601/-32602/-32603 ✅ ; outils `new_game`, `get_board`, `get_status`, `legal_moves`, `play_move {move}` (UCI/SAN, coup illégal → `isError:true` + coups légaux), `ai_move {depth}`, `analyze_position {depth}`, `get_pgn` ✅ ; **même fichier d'état** (`CHESS_STATE_FILE`) que CLI/API → suivi live navigateur ✅ ; `tests/test_mcp.py` en sous-processus ✅ ; README : déclaration dans `~/.vibe/config.toml` via `vibe mcp add` ✅ | — |"
+      ]
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "seq": 949,
+  "received_at": "2026-11-23T19:33:29.254441+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "oR3h6zNxt",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && export CHESS_STATE_FILE=/tmp/mcp_test_game.json && rm -f /tmp/mcp_test_game.json && printf '%s\\n' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\"}}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"method\":\"notifications/initialized\"}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\"}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/call\",\"params\":{\"name\":\"new_game\",\"arguments\":{}}}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":4,\"method\":\"tools/call\",\"params\":{\"name\":\"play_move\",\"arguments\":{\"move\":\"e2e4\"}}}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":5,\"method\":\"tools/call\",\"params\":{\"name\":\"play_move\",\"arguments\":{\"move\":\"e7e5\"}}}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":6,\"method\":\"tools/call\",\"params\":{\"name\":\"play_move\",\"arguments\":{\"move\":\"g1f3\"}}}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":7,\"method\":\"tools/call\",\"params\":{\"name\":\"play_move\",\"arguments\":{\"move\":\"e2e5\"}}}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":8,\"method\":\"tools/call\",\"params\":{\"name\":\"legal_moves\",\"arguments\":{}}}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":9,\"method\":\"tools/call\",\"params\":{\"name\":\"analyze_position\",\"arguments\":{\"depth\":2}}}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":10,\"method\":\"tools/call\",\"params\":{\"name\":\"ai_move\",\"arguments\":{\"depth\":1}}}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":11,\"method\":\"tools/call\",\"params\":{\"name\":\"get_status\",\"arguments\":{}}}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":12,\"method\":\"tools/call\",\"params\":{\"name\":\"get_pgn\",\"arguments\":{}}}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":13,\"method\":\"tools/call\",\"params\":{\"name\":\"get_board\",\"arguments\":{}}}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":14,\"method\":\"tools/call\",\"params\":{\"name\":\"ai_move\",\"arguments\":{\"depth\":99}}}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":15,\"method\":\"tools/call\",\"params\":{\"name\":\"nope\",\"arguments\":{}}}' \\",
+        "| .venv/bin/python -m chess.mcp 2>/dev/null | .venv/bin/python -c \"",
+        "import json,sys",
+        "for line in sys.stdin:",
+        "    r = json.loads(line)",
+        "    if 'error' in r:",
+        "        print(r['id'], 'ERROR', r['error']['code'], r['error']['message'][:80])",
+        "    else:",
+        "        res = r['result']",
+        "        if 'content' in res:",
+        "            p = json.loads(res['content'][0]['text'])",
+        "            keys = {k: (str(v)[:60]) for k, v in p.items() if k in ('ok','error','move','san','best_move','score','result','turn','version','isError')}",
+        "            print(r['id'], 'isError=' + str(res.get('isError')), keys, 'legal_moves' in p and f\\\"({len(p['legal_moves'])} coups)\\\")",
+        "        else:",
+        "            print(r['id'], 'result keys:', list(res)[:4])",
+        "\""
+      ]
+    }
+  }
+}

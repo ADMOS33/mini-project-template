@@ -1,0 +1,66 @@
+{
+  "seq": 947,
+  "received_at": "2026-11-23T19:33:21.292711+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "NY9OrBtTM",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/mcp/tools.py",
+      "new_string": [
+        "        game = _load()",
+        "        try:",
+        "            move = _resolve_move(game, move_text.strip())",
+        "            san = move_to_san(game.board, move)  # SAN from the pre-move position",
+        "            game.play_uci(move.to_uci())",
+        "        except ValueError as exc:",
+        "            return _text(",
+        "                {",
+        "                    \"error\": str(exc),",
+        "                    \"legal_moves\": sorted(m.to_uci() for m in game.legal_moves()),",
+        "                },",
+        "                is_error=True,",
+        "            )",
+        "        game.save(STATE_FILE)",
+        "        return _text(",
+        "            {\"ok\": True, \"move\": move.to_uci(), \"san\": san, \"status\": game.status()}",
+        "        )"
+      ],
+      "old_string": [
+        "        game = _load()",
+        "        try:",
+        "            move = _parse_and_play(game, move_text.strip())",
+        "        except ValueError as exc:",
+        "            return _text(",
+        "                {",
+        "                    \"error\": str(exc),",
+        "                    \"legal_moves\": sorted(m.to_uci() for m in game.legal_moves()),",
+        "                },",
+        "                is_error=True,",
+        "            )",
+        "        game.save(STATE_FILE)",
+        "        return _text(",
+        "            {",
+        "                \"ok\": True,",
+        "                \"move\": move.to_uci(),",
+        "                \"san\": move_to_san(game.board, move) if False else None,  # placeholder",
+        "                \"status\": game.status(),",
+        "            }",
+        "        )"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/mcp/tools.py",
+      "lines_changed": 20,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 98
+  }
+}

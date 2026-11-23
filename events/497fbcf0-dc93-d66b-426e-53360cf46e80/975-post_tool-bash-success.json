@@ -1,0 +1,48 @@
+{
+  "seq": 975,
+  "received_at": "2026-11-23T19:37:46.463246+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "BK7xw1D11",
+    "tool_input": {
+      "timeout": 120,
+      "command": "grep -n \"mcp_servers\" /Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md | head; grep -n \"env\" /Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md | sed -n '1,12p'; grep -n \"## Serveur MCP\\|## MCP\\|mcp\" /Users/rafiq/3A/projet-AI/mini-project-template/README.md | head"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "grep -n \"mcp_servers\" /Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md | head; grep -n \"env\" /Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md | sed -n '1,12p'; grep -n \"## Serveur MCP\\|## MCP\\|mcp\" /Users/rafiq/3A/projet-AI/mini-project-template/README.md | head",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "697:[[mcp_servers]]",
+        "703:[[mcp_servers]]",
+        "708:[mcp_servers.auth]",
+        "714:[[mcp_servers]]",
+        "719:[mcp_servers.auth]",
+        "3:description: \"Authoritative reference for Mistral Vibe \\u2014 the CLI agent you (the model) are running inside.\\n\\nLOAD when the user:\\n- asks anything about Vibe itself, even by indirect name (\\\"this CLI\\\", \\\"this tool\\\", \\\"you\\\");\\n- wants to change, inspect, or reset their setup;\\n- asks why the agent did or did not act;\\n- asks how to make the CLI do X, where X lives, or what a flag/command/setting does;\\n- asks any meta question about your own behavior;\\n- is unsure whether a command, flag, env var, or file is in scope \\u2014 this skill is the source of truth.\\n\\nSCOPE: config under `~/.vibe/` and project-local `.vibe/`; `VIBE_*` and `LOG_*` env vars; models and providers; agents and subagents; skills; tools and their permission model; every slash command and CLI flag; hooks; MCP servers; connectors; plugins; trusted folders; `@`-file mentions; logs; themes; voice.\"",
+        "24:the `VIBE_HOME` environment variable. All user-level configuration, skills, tools,",
+        "33:  .env                 # API keys and credentials (dotenv format)",
+        "245:Settings can also be overridden via environment variables with the `VIBE_`",
+        "260:`config.toml` or `VIBE_STRICT_CONFIG=1` in the environment; Vibe then stops with",
+        "384:`OTEL_EXPORTER_OTLP_*` environment variables.",
+        "403:api_key_env_var = \"MISTRAL_API_KEY\"",
+        "409:api_key_env_var = \"\"",
+        "521:commands) get `VIBE_SESSION=1` in their environment, so a script can tell it",
+        "522:runs under Vibe. Commands in a sandbox use the sandbox's own environment.",
+        "525:Allowlisted shell readers also apply `sensitive_file_patterns` (the `.env`",
+        "527:Wrappers such as `env`, `nice`, `nohup`, `stdbuf`, `time` and `timeout` are read",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 90248
+  }
+}

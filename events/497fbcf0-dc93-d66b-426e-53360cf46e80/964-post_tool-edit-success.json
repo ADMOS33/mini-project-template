@@ -1,0 +1,40 @@
+{
+  "seq": 964,
+  "received_at": "2026-11-23T19:35:09.163862+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "6QUMT1cg3",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_mcp.py",
+      "new_string": [
+        "    # White to move here (e4 e5 played): ai_move plays White, then it is Black's turn",
+        "    payload, err = mcp.payload(\"ai_move\", {\"depth\": 1})",
+        "    assert not err and payload[\"ok\"] and payload[\"status\"][\"turn\"] == \"b\"",
+        "",
+        "    payload, err = mcp.payload(\"get_board\")",
+        "    assert not err and \"R N B Q K\" in payload[\"ascii\"] and payload[\"turn\"] == \"b\""
+      ],
+      "old_string": [
+        "    payload, err = mcp.payload(\"ai_move\", {\"depth\": 1})",
+        "    assert not err and payload[\"ok\"] and payload[\"status\"][\"turn\"] == \"w\"",
+        "",
+        "    payload, err = mcp.payload(\"get_board\")",
+        "    assert not err and \"R N B Q K\" in payload[\"ascii\"] and payload[\"turn\"] == \"w\""
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_mcp.py",
+      "lines_changed": 6,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 60
+  }
+}

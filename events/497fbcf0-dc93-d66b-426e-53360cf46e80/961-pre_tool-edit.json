@@ -1,0 +1,32 @@
+{
+  "seq": 961,
+  "received_at": "2026-11-23T19:35:08.890523+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "4lqz4GzPf",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/mcp/tools.py",
+      "old_string": [
+        "    Raises ValueError (mentioning the legal moves) if the move is illegal or",
+        "    the game is over.",
+        "    \"\"\"",
+        "    try:"
+      ],
+      "new_string": [
+        "    Raises ValueError (mentioning the legal moves) if the move is illegal or",
+        "    the game is over.",
+        "    \"\"\"",
+        "    status = game.status()",
+        "    if status[\"result\"] != \"ongoing\":",
+        "        raise ValueError(f\"game is over ({status['result']})\")",
+        "    try:"
+      ]
+    }
+  }
+}

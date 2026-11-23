@@ -1,0 +1,28 @@
+{
+  "seq": 936,
+  "received_at": "2026-11-23T19:27:22.099438+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "AyDp6OECW",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && printf '%s\\n' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-06-18\",\"clientInfo\":{\"name\":\"test\",\"version\":\"0\"}}}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"method\":\"notifications/initialized\"}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\"}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"bogus/method\"}' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":4,\"method\":\"tools/call\",\"params\":{\"name\":\"play_move\",\"arguments\":{\"move\":\"e2e4\"}}}' \\",
+        "'not json at all' \\",
+        "'{\"jsonrpc\":\"2.0\",\"id\":5,\"method\":\"ping\"}' \\",
+        "| .venv/bin/python -m chess.mcp 2>/tmp/mcp_err.log; echo \"--- stderr:\"; cat /tmp/mcp_err.log"
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "seq": 922,
+  "received_at": "2026-11-23T19:25:31.447067+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "aC3qZPJsq",
+    "tool_input": {
+      "timeout": 120,
+      "command": "grep -rn \"mcp_servers\\|mcpServers\" /Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c 2>/dev/null | head -10; ls /Users/rafiq/.vibe/ 2>/dev/null"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "grep -rn \"mcp_servers\\|mcpServers\" /Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c 2>/dev/null | head -10; ls /Users/rafiq/.vibe/ 2>/dev/null",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "/Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/create-plugin/SKILL.md:144:  \"mcpServers\": {",
+        "/Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md:697:[[mcp_servers]]",
+        "/Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md:703:[[mcp_servers]]",
+        "/Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md:708:[mcp_servers.auth]",
+        "/Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md:714:[[mcp_servers]]",
+        "/Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md:719:[mcp_servers.auth]",
+        "/Users/rafiq/.vibe/logs/session/plugins/packages/37/37d1471c35d01b72d8b52be874b05b3856121d3f345838aaac96af69530de21c/skills/vibe/SKILL.md:1800:| MCP servers | `mcp.json` | `$schema` + `mcpServers` dict; stdio, streamable-http, sse |",
+        "cache",
+        "cache.toml",
+        "config.toml",
+        "connector_bootstrap_cache.json",
+        "experiment_eval_cache.json",
+        "experiment_held_eval_cache.json",
+        "locks",
+        "logs",
+        "managed_config_cache.json",
+        "model_catalog_cache.json",
+        "skills-registry-cache",
+        "trusted_folders.toml",
+        "ui_startup_config.json",
+        "utility_model_cache.json",
+        "vibehistory",
+        "whoami_cache.json",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 11810
+  }
+}
