@@ -114,9 +114,9 @@ Feuille de route — statut à cocher (✅) au fil des sessions.
 
 | Version | Sujet | Statut |
 |---------|-------|--------|
-| V1 | Bugs visuels + robustesse (toasts, rendus isolés, statut sans erreur brute) | 🚧 |
-| V2 | `web/` en modules ES natifs (`<script type="module">`) | 🚧 |
-| V3 | Design (thème, polish, accessibilité) | 🚧 |
+| V1 | Bugs visuels + robustesse (toasts, rendus isolés, statut sans erreur brute) | ✅ |
+| V2 | `web/` en modules ES natifs (`<script type="module">`) | ✅ |
+| V3 | Design (thème, polish, accessibilité) | ✅ |
 | V4 | Mise en page façon lichess | 🚧 |
 | V5 | Synchro live + agent (coups de l'adversaire en temps réel) | 🚧 |
 | V6 | Serveur MCP | 🚧 |
