@@ -49,6 +49,7 @@ state.colorChoice = ls("chess.color", "w");
 state.depth = parseInt(ls("chess.depth", "3"), 10);
 state.sound = ls("chess.sound", "1") === "1";
 state.clockMode = ls("chess.clock", "none");
+state.autoFlip = ls("chess.autoflip", "0") === "1";
 
 export const statusEl = document.getElementById("status");
 export function setStatus(text) {

@@ -60,6 +60,8 @@ async function refresh() {
     const prevTurn = state.turn;
     state.boardData = board;
     state.turn = status.turn;
+    // Retour automatique du plateau en mode 2 joueurs : on voit toujours son camp en bas
+    if (state.autoFlip && !state.vs) state.flipped = status.turn === "b";
     state.inCheck = status.in_check;
     state.history = hist.entries || [];
     state.lastMove = status.last_move
@@ -142,7 +144,39 @@ async function newGame() {
   maybeAiMove(st); // l'ordinateur ouvre si c'est à lui de jouer
 }
 
-document.getElementById("btn-new").addEventListener("click", newGame);
+// --- Modale « Nouvelle partie » -------------------------------------------------
+
+function openNewGameModal() {
+  const modal = document.getElementById("newgame-modal");
+  document.getElementById("newgame-computer-opts").classList.toggle("hidden", !state.vs);
+  document.getElementById("newgame-autoflip").classList.toggle("hidden", state.vs);
+  document.getElementById("chip-autoflip").setAttribute("aria-pressed", String(state.autoFlip));
+  renderVsControls();
+  modal.classList.remove("hidden");
+}
+
+document.getElementById("btn-new").addEventListener("click", openNewGameModal);
+for (const id of ["mode-human", "mode-computer"]) {
+  document.getElementById(id).addEventListener("click", () => {
+    state.vs = id === "mode-computer";
+    lsSet("chess.vs", state.vs ? "1" : "0");
+    document.getElementById("newgame-computer-opts").classList.toggle("hidden", !state.vs);
+    document.getElementById("newgame-autoflip").classList.toggle("hidden", state.vs);
+    renderVsControls();
+  });
+}
+document.getElementById("chip-autoflip").addEventListener("click", () => {
+  state.autoFlip = !state.autoFlip;
+  lsSet("chess.autoflip", state.autoFlip ? "1" : "0");
+  document.getElementById("chip-autoflip").setAttribute("aria-pressed", String(state.autoFlip));
+});
+document.getElementById("btn-start-game").addEventListener("click", () => {
+  document.getElementById("newgame-modal").classList.add("hidden");
+  newGame();
+});
+document.getElementById("btn-cancel-newgame").addEventListener("click", () => {
+  document.getElementById("newgame-modal").classList.add("hidden");
+});
 document.getElementById("btn-undo").addEventListener("click", async () => {
   state.selected = null;
   state.reviewPly = null;

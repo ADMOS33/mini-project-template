@@ -73,17 +73,6 @@
               <button id="seg-computer" class="seg" role="tab">Contre l'ordinateur</button>
             </div>
             <div id="vs-options" class="hidden">
-              <div class="seg-group" id="opt-color" role="group" aria-label="Votre couleur">
-                <button type="button" class="chip" data-value="w" aria-pressed="true">Blancs</button>
-                <button type="button" class="chip" data-value="b" aria-pressed="false">Noirs</button>
-                <button type="button" class="chip" data-value="random" aria-pressed="false">Aléatoire</button>
-              </div>
-              <div class="seg-group" id="opt-depth" role="group" aria-label="Difficulté">
-                <button type="button" class="chip" data-value="1" aria-pressed="false">Débutant · 1</button>
-                <button type="button" class="chip" data-value="2" aria-pressed="false">Facile · 2</button>
-                <button type="button" class="chip" data-value="3" aria-pressed="true">Normal · 3</button>
-                <button type="button" class="chip" data-value="4" aria-pressed="false">Difficile · 4</button>
-              </div>
               <span id="thinking" class="thinking hidden">
                 <span class="spinner" aria-hidden="true"></span> l'ordinateur réfléchit…
               </span>
@@ -97,15 +86,6 @@
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v3l4-4-4-4v3H5v6h2V4zm10 16H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
                 Retourner
               </button>
-            </div>
-          </section>
-          <section class="block">
-            <h2>Horloge</h2>
-            <div class="seg-group" id="opt-clock" role="group" aria-label="Horloge">
-              <button type="button" class="chip" data-value="none" aria-pressed="true">Sans horloge</button>
-              <button type="button" class="chip" data-value="300" aria-pressed="false">5 min</button>
-              <button type="button" class="chip" data-value="600" aria-pressed="false">10 min</button>
-              <button type="button" class="chip" data-value="182" aria-pressed="false">3+2</button>
             </div>
           </section>
           <section class="block grow">
@@ -155,6 +135,53 @@
       </aside>
     </div>
   </main>
+
+  <!-- Modale « Nouvelle partie » façon chess.com -->
+  <div id="newgame-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="newgame-title">
+    <div class="modal-box newgame-box">
+      <h3 id="newgame-title">Nouvelle partie</h3>
+      <div class="mode-cards" role="group" aria-label="Mode de jeu">
+        <button type="button" class="mode-card" id="mode-human" aria-pressed="true">
+          <strong>Deux joueurs</strong>
+          <span>sur le même écran</span>
+        </button>
+        <button type="button" class="mode-card" id="mode-computer" aria-pressed="false">
+          <strong>Contre l'ordinateur</strong>
+          <span>couleur et niveau réglables</span>
+        </button>
+      </div>
+      <div id="newgame-computer-opts" class="hidden">
+        <h4>Ta couleur</h4>
+        <div class="seg-group" id="opt-color" role="group" aria-label="Votre couleur">
+          <button type="button" class="chip" data-value="w" aria-pressed="true">Blancs</button>
+          <button type="button" class="chip" data-value="b" aria-pressed="false">Noirs</button>
+          <button type="button" class="chip" data-value="random" aria-pressed="false">Aléatoire</button>
+        </div>
+        <h4>Niveau</h4>
+        <div class="seg-group" id="opt-depth" role="group" aria-label="Difficulté">
+          <button type="button" class="chip" data-value="1" aria-pressed="false">Débutant · 1</button>
+          <button type="button" class="chip" data-value="2" aria-pressed="false">Facile · 2</button>
+          <button type="button" class="chip" data-value="3" aria-pressed="true">Normal · 3</button>
+          <button type="button" class="chip" data-value="4" aria-pressed="false">Difficile · 4</button>
+        </div>
+      </div>
+      <div id="newgame-autoflip">
+        <button type="button" class="chip wide" id="chip-autoflip" aria-pressed="false">↻ Retourner le plateau automatiquement</button>
+      </div>
+      <h4>Cadence</h4>
+      <div class="seg-group" id="opt-clock" role="group" aria-label="Cadence">
+        <button type="button" class="chip" data-value="none" aria-pressed="true">Sans</button>
+        <button type="button" class="chip" data-value="60" aria-pressed="false">1+0</button>
+        <button type="button" class="chip" data-value="182" aria-pressed="false">3+2</button>
+        <button type="button" class="chip" data-value="300" aria-pressed="false">5+0</button>
+        <button type="button" class="chip" data-value="600" aria-pressed="false">10+0</button>
+      </div>
+      <div class="btn-row">
+        <button id="btn-start-game" class="btn">Jouer</button>
+        <button id="btn-cancel-newgame" class="btn-ghost">Annuler</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Fenêtre de fin de partie -->
   <div id="gameover-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="gameover-title">
