@@ -39,15 +39,22 @@ function squareName(file, rank) {
   return FILES[file] + (rank + 1);
 }
 
+// Accès sûr à state.symbols : jamais null/undefined, toujours une chaîne.
+function symAt(name) {
+  return (state.symbols && state.symbols[name]) || "";
+}
+
 function pieceSrc(sym) {
   // sym est une lettre FEN : "P" = pion blanc, "k" = roi noir...
+  // Sûr face à null/undefined : renvoie "" (l'appelant ignore alors l'image).
+  if (!sym || typeof sym !== "string") return "";
   const color = sym === sym.toUpperCase() ? "w" : "b";
   return `pieces/${color}${sym.toUpperCase()}.svg`;
 }
 
 // Vrai si from->to est une prise en passant (case vide = case ep du FEN).
 function isEpCapture(from, to) {
-  const sym = state.symbols[from] || "";
+  const sym = symAt(from);
   if (sym.toLowerCase() !== "p") return false;
   if (state.symbols[to]) return false;
   const ep = state.boardData ? state.boardData.fen.split(" ")[3] : "-";
@@ -55,13 +62,13 @@ function isEpCapture(from, to) {
 }
 
 function myPieceAt(name) {
-  const sym = state.symbols[name];
+  const sym = symAt(name);
   if (!sym) return false;
   return state.turn === "w" ? sym === sym.toUpperCase() : sym === sym.toLowerCase();
 }
 
 function kingSquareOf(color) {
-  for (const [name, sym] of Object.entries(state.symbols)) {
+  for (const [name, sym] of Object.entries(state.symbols || {})) {
     if (sym && sym.toLowerCase() === "k" && (color === "w" ? sym === "K" : sym === "k")) {
       return name;
     }
@@ -84,7 +91,7 @@ function render() {
     for (const uci of state.legalMoves) {
       if (uci.startsWith(state.selected)) {
         const to = uci.slice(2, 4);
-        hintTargets.set(to, hintTargets.get(to) || Boolean(state.symbols[to]) || isEpCapture(state.selected, to));
+        hintTargets.set(to, hintTargets.get(to) || Boolean(symAt(to)) || isEpCapture(state.selected, to));
       }
     }
   }
@@ -116,12 +123,13 @@ function render() {
       if (hintTargets.has(name)) {
         sq.classList.add(hintTargets.get(name) ? "hint-capture" : "hint");
       }
-      const sym = state.symbols[name];
+      const sym = symAt(name);
       if (sym) {
+        const src = pieceSrc(sym);
         const span = document.createElement("span");
         span.className = "piece";
         const img = document.createElement("img");
-        img.src = pieceSrc(sym);
+        if (src) img.src = src;
         img.alt = sym;
         img.draggable = false;
         span.appendChild(img);
@@ -157,6 +165,21 @@ function setStatus(text) {
   statusEl.textContent = text;
 }
 
+// Rendu isolé : log console + toast, les autres rendus continuent.
+function renderFail(name, err) {
+  console.error(`[render:${name}]`, err);
+  toast(`Erreur d'affichage « ${name} » — le reste est intact.`);
+}
+
+function safeRender(name, fn) {
+  try {
+    const r = fn();
+    if (r && typeof r.catch === "function") r.catch((err) => renderFail(name, err));
+  } catch (err) {
+    renderFail(name, err);
+  }
+}
+
 async function refresh() {
   try {
     const [board, status, moves, hist] = await Promise.all([
@@ -169,19 +192,21 @@ async function refresh() {
     state.boardData = board;
     state.turn = status.turn;
     state.inCheck = status.in_check;
-    state.history = hist.entries;
+    state.history = hist.entries || [];
     state.lastMove = status.last_move
       ? { from: status.last_move.slice(0, 2), to: status.last_move.slice(2, 4), uci: status.last_move }
       : null;
-    state.legalMoves = moves.moves;
+    state.legalMoves = moves.moves || [];
     if (state.reviewPly === null) {
-      state.symbols = board.squares;
+      state.symbols = board.squares || {};
     }
-    render();
-    renderPlayers();
-    renderMovesTable();
-    renderEval();
-    renderClocks();
+    // Chaque rendu est isolé : une exception dans l'un est loguée + toastée
+    // et n'empêche pas les autres de s'afficher.
+    safeRender("plateau", render);
+    safeRender("joueurs", renderPlayers);
+    safeRender("coups", renderMovesTable);
+    safeRender("évaluation", renderEval);
+    safeRender("horloge", renderClocks);
     // horloge : incrément pour le camp qui vient de jouer
     if (prevTurn && prevTurn !== status.turn && state.clockMode !== "none") {
       state.clock[prevTurn] += state.clock.inc;
@@ -277,7 +302,7 @@ const START_COUNTS = { p: 8, n: 2, b: 2, r: 2, q: 1, k: 1 };
 
 function computeCaptured(symbols) {
   const counts = { w: { p: 0, n: 0, b: 0, r: 0, q: 0 }, b: { p: 0, n: 0, b: 0, r: 0, q: 0 } };
-  for (const sym of Object.values(symbols)) {
+  for (const sym of Object.values(symbols || {})) {
     if (!sym) continue;
     const c = sym === sym.toUpperCase() ? "w" : "b";
     counts[c][sym.toLowerCase()]++;
@@ -389,7 +414,7 @@ function renderAll() {
     render();
     setStatus(`Position passée — après ${state.reviewPly} demi-coup${state.reviewPly > 1 ? "s" : ""}`);
   } else if (state.boardData) {
-    state.symbols = state.boardData.squares;
+    state.symbols = state.boardData.squares || {};
     render();
   }
   renderPlayers();
@@ -797,7 +822,7 @@ async function tryMove(from, to) {
   let uci = candidates[0];
   if (candidates.length > 1) {
     // promotion : plusieurs variantes (q/r/b/n)
-    const sym = state.symbols[from] || "";
+    const sym = symAt(from);
     const color = sym === sym.toUpperCase() ? "w" : "b";
     const promo = await askPromotion(from, to, color);
     if (!promo) return; // annulé
@@ -837,7 +862,8 @@ boardEl.addEventListener("pointermove", (e) => {
     const ghost = document.createElement("span");
     ghost.className = "drag-ghost";
     const img = document.createElement("img");
-    img.src = pieceSrc(state.symbols[d.from]);
+    const ghostSrc = pieceSrc(symAt(d.from));
+    if (ghostSrc) img.src = ghostSrc;
     img.draggable = false;
     ghost.appendChild(img);
     ghost.style.left = e.clientX - rect.left + "px";
