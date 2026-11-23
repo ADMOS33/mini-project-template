@@ -24,6 +24,8 @@ RESULTS = (
     "draw_fifty_move",
     "draw_insufficient_material",
     "flag",
+    "resignation",
+    "draw_agreement",
 )
 
 

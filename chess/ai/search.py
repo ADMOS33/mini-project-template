@@ -62,8 +62,9 @@ def negamax(board: Board, depth: int, alpha: int, beta: int) -> tuple[int, int]:
         return 0, nodes  # stalemate
     best = -_INF
     for move in moves:
-        score, child_nodes = negamax(apply_move(board, move), depth - 1, -beta, -alpha)
+        child_score, child_nodes = negamax(apply_move(board, move), depth - 1, -beta, -alpha)
         nodes += child_nodes
+        score = -child_score  # negamax: the child score is from the opponent's view
         if score > best:
             best = score
         if best > alpha:

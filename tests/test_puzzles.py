@@ -1,0 +1,133 @@
+"""Tests for the puzzle database and puzzle game logic (V7).
+
+Every database entry is re-verified with the engine: the stored solution must
+mate in ``level`` moves AND be the ONLY first move that does. Mate-in-3
+verifications are marked slow.
+"""
+
+from __future__ import annotations
+
+import json
+
+import pytest
+
+from chess.ai.mate import find_mates
+from chess.ai.puzzles import PUZZLES, get_puzzle, load_puzzle, puzzles_by_level, solve_move
+from chess.cli.main import main
+from chess.engine.fen import board_from_fen
+from chess.engine.game import Game
+
+
+def run_cli(capsys, *argv: str):
+    rc = main(list(argv))
+    out = capsys.readouterr()
+    return rc, out.out, out.err
+
+
+def test_database_has_required_counts() -> None:
+    assert len(puzzles_by_level(1)) >= 10
+    assert len(puzzles_by_level(2)) >= 10
+    assert len(puzzles_by_level(3)) >= 6
+    for p in PUZZLES:
+        assert set(p) == {"fen", "solution", "level", "theme"}
+        assert p["level"] in (1, 2, 3)
+
+
+def _assert_unique_mate(p: dict) -> None:
+    board = board_from_fen(p["fen"])
+    mates = find_mates(board, p["level"])
+    assert [m.to_uci() for m in mates] == [p["solution"]], (
+        f"puzzle {p['fen']!r}: expected only {p['solution']}, got {[m.to_uci() for m in mates]}"
+    )
+
+
+@pytest.mark.parametrize(
+    "p", puzzles_by_level(1) + puzzles_by_level(2), ids=lambda p: p["fen"][:40]
+)
+def test_puzzle_solution_is_the_unique_forced_mate(p: dict) -> None:
+    _assert_unique_mate(p)
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize("p", puzzles_by_level(3), ids=lambda p: p["fen"][:40])
+def test_puzzle_solution_is_the_unique_forced_mate_slow(p: dict) -> None:
+    _assert_unique_mate(p)
+
+
+def test_get_puzzle_deterministic_with_index_and_seed() -> None:
+    a = get_puzzle(1, index=0)
+    b = get_puzzle(1, index=0)
+    assert a == b
+    c = get_puzzle(2, seed=42)
+    d = get_puzzle(2, seed=42)
+    assert c == d and c["level"] == 2
+    with pytest.raises(ValueError):
+        get_puzzle(1, index=999)
+
+
+def test_solve_move_mate_in_1_is_solved_immediately() -> None:
+    p = get_puzzle(1, index=0)
+    game = Game.from_fen(p["fen"])
+    load_puzzle(game, p)
+    result = solve_move(game, p["solution"])
+    assert result["accepted"] and result["puzzle"]["solved"]
+    assert result["reply"] is None
+    assert result["status"]["result"] == "checkmate"
+    # solving again is an error: puzzle over
+    with pytest.raises(ValueError, match="already over"):
+        solve_move(game, p["solution"])
+
+
+def test_solve_move_rejects_wrong_first_move() -> None:
+    p = get_puzzle(1, index=0)
+    game = Game.from_fen(p["fen"])
+    load_puzzle(game, p)
+    board = board_from_fen(p["fen"])
+    wrong = next(m.to_uci() for m in board.legal_moves() if m.to_uci() != p["solution"])
+    with pytest.raises(ValueError, match="first move must be the solution"):
+        solve_move(game, wrong)
+
+
+def test_solve_move_mate_in_2_two_plies() -> None:
+    p = get_puzzle(2, index=0)
+    game = Game.from_fen(p["fen"])
+    load_puzzle(game, p)
+    r1 = solve_move(game, p["solution"])
+    assert r1["accepted"] and not r1["puzzle"]["solved"]
+    assert r1["reply"] is not None  # computer played the best defense
+    # second solver move must be the (unique) mate in 1 now
+    mating = find_mates(game.board, 1)
+    assert len(mating) == 1
+    r2 = solve_move(game, mating[0].to_uci())
+    assert r2["accepted"] and r2["puzzle"]["solved"]
+    assert r2["status"]["result"] == "checkmate"
+
+
+def test_solve_move_requires_a_loaded_puzzle() -> None:
+    game = Game()
+    with pytest.raises(ValueError, match="no puzzle loaded"):
+        solve_move(game, "e2e4")
+
+
+def test_cli_puzzle_then_solve_json(capsys, tmp_path) -> None:
+    state = str(tmp_path / ".chess_game.json")
+    rc, out, _ = run_cli(capsys, "--state", state, "puzzle", "--level", "1", "--index", "0", "--json")
+    assert rc == 0
+    payload = json.loads(out)
+    assert payload["ok"] and payload["puzzle"]["n"] == 1
+    assert "solution" not in payload["puzzle"]  # CLI does not leak the solution
+    solution = get_puzzle(1, index=0)["solution"]
+    rc, out, _ = run_cli(capsys, "--state", state, "solve", "a1a1", "--json")
+    assert rc == 1 and "first move must be the solution" in json.loads(out)["error"]
+    rc, out, _ = run_cli(capsys, "--state", state, "solve", solution, "--json")
+    assert rc == 0
+    payload = json.loads(out)
+    assert payload["accepted"] and payload["puzzle"]["solved"]
+    assert payload["status"]["result"] == "checkmate"
+
+
+def test_cli_solve_without_puzzle_is_an_error(capsys, tmp_path) -> None:
+    state = str(tmp_path / ".chess_game.json")
+    run_cli(capsys, "--state", state, "new", "--json")
+    rc, out, _ = run_cli(capsys, "--state", state, "solve", "e2e4", "--json")
+    assert rc == 1 and "no puzzle loaded" in json.loads(out)["error"]

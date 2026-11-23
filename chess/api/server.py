@@ -25,7 +25,16 @@ from fastapi.staticfiles import StaticFiles
 
 from chess.ai.evaluation import evaluate
 from chess.ai.search import best_move
-from chess.api.schemas import AiMoveRequest, FlagRequest, LoadRequest, MoveRequest, PgnRequest
+from chess.api.schemas import (
+    AiMoveRequest,
+    FlagRequest,
+    LoadRequest,
+    MoveRequest,
+    OfferDrawRequest,
+    PgnRequest,
+    PuzzleRequest,
+    SolveRequest,
+)
 from chess.engine.board import square_name
 from chess.engine.fen import board_from_fen, board_to_fen
 from chess.engine.game import Game, next_version
@@ -210,13 +219,30 @@ def get_eval() -> dict:
 
 @app.post("/api/ai-move")
 def post_ai_move(req: AiMoveRequest) -> dict:
-    """Let the computer (minimax + alpha-beta) play the side to move."""
+    """Let the computer (minimax + alpha-beta) play the side to move.
+
+    Accepts either a numeric ``depth`` or a named ``level`` (V8: depth + random
+    margin among near-best moves).
+    """
+    from chess.ai.levels import LEVELS, level_move
+
     game = _load()
     if game.status()["result"] != "ongoing":
         raise HTTPException(status_code=400, detail="game is over")
-    depth = max(1, min(req.depth, 6))
     start = time.perf_counter()
-    move, score, nodes = best_move(game.board, depth)
+    level = None
+    if req.level is not None:
+        if req.level not in LEVELS:
+            raise HTTPException(
+                status_code=400,
+                detail=f"unknown level {req.level!r}; choose from {sorted(LEVELS)}",
+            )
+        move, score, nodes, info = level_move(game.board, req.level)
+        depth = info["depth"]
+        level = req.level
+    else:
+        depth = max(1, min(req.depth, 6))
+        move, score, nodes = best_move(game.board, depth)
     time_ms = round((time.perf_counter() - start) * 1000, 1)
     san = move_to_san(game.board, move)
     game.play_uci(move.to_uci())
@@ -229,8 +255,104 @@ def post_ai_move(req: AiMoveRequest) -> dict:
         "nodes": nodes,
         "time_ms": time_ms,
         "depth": depth,
+        "level": level,
         "status": game.status(),
     }
+
+
+@app.post("/api/resign")
+def post_resign() -> dict:
+    """The side to move resigns; the other side wins ("resignation")."""
+    game = _load()
+    if game.status()["result"] != "ongoing":
+        raise HTTPException(status_code=400, detail="game is over")
+    game.resign()
+    _save(game)
+    return {"ok": True, "status": game.status()}
+
+
+@app.post("/api/offer-draw")
+def post_offer_draw(req: OfferDrawRequest | None = None) -> dict:
+    """Offer a draw. ``force=True`` records it immediately (2-player mode);
+    otherwise the computer (side not to move) accepts only if its own
+    evaluation is <= 0 (see README "Décisions")."""
+    game = _load()
+    if game.status()["result"] != "ongoing":
+        raise HTTPException(status_code=400, detail="game is over")
+    force = req is not None and req.force
+    if not force:
+        from chess.ai.evaluation import evaluate
+
+        score_white = evaluate(game.board)  # white perspective, centipawns
+        computer = game.board.turn.opposite.value
+        comp_score = score_white if computer == "w" else -score_white
+        if comp_score > 0:
+            return {"ok": True, "accepted": False, "status": game.status()}
+    game.offer_draw()
+    _save(game)
+    return {"ok": True, "accepted": True, "status": game.status()}
+
+
+@app.post("/api/takeback")
+def post_takeback() -> dict:
+    """Take back the last two plies (my move + the computer's answer)."""
+    game = _load()
+    undone = []
+    for _ in range(2):
+        move = game.undo()
+        if move is None:
+            break
+        undone.append(move.to_uci())
+    if not undone:
+        raise HTTPException(status_code=400, detail="no moves to undo")
+    _save(game)
+    return {"ok": True, "undone": undone, "status": game.status()}
+
+
+@app.post("/api/puzzle")
+def post_puzzle(req: PuzzleRequest) -> dict:
+    """Load a mate-in-n puzzle (V7) into the shared state. The response
+    includes the solution so the web UI can offer a "Solution" button."""
+    from chess.ai.puzzles import get_puzzle, load_puzzle
+
+    try:
+        puzzle = get_puzzle(req.level, req.index, req.seed)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    game = _load()
+    game.version = next_version(STATE_FILE)
+    load_puzzle(game, puzzle)
+    _save(game)
+    meta = game.meta["puzzle"]
+    return {
+        "ok": True,
+        "puzzle": {
+            "level": meta["level"],
+            "n": meta["n"],
+            "theme": meta["theme"],
+            "turn": game.status()["turn"],
+            "fen": meta["fen"],
+            "solution": meta["solution"],
+        },
+        "status": game.status(),
+    }
+
+
+@app.post("/api/solve")
+def post_solve(req: SolveRequest) -> dict:
+    """Play one solver move in the current puzzle (V7); the computer answers
+    with the best defense. 400 if the move is rejected."""
+    from chess.ai.puzzles import solve_move
+
+    game = _load()
+    if game.meta.get("puzzle") is None:
+        raise HTTPException(status_code=400, detail="no puzzle loaded — POST /api/puzzle first")
+    try:
+        result = solve_move(game, req.move)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    _save(game)
+    return result
 
 
 class NoCacheStaticFiles(StaticFiles):

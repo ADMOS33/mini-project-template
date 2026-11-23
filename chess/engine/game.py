@@ -30,11 +30,22 @@ class Game:
         # external result, new/load via :func:`next_version`). Live watchers
         # (web polling) detect any change by comparing this value.
         self.version = 0
+        # Free-form app metadata (e.g. puzzle mode state), persisted as-is.
+        self.meta: dict = {}
 
     def set_external_result(self, result: str, winner: str | None = None) -> None:
         """Record an externally-decided end of game (e.g. flag fall)."""
         self.external_result = {"result": result, "winner": winner}
         self.version += 1
+
+    def resign(self) -> None:
+        """The side to move resigns: the other side wins ("resignation")."""
+        winner = self.board.turn.opposite.value
+        self.set_external_result("resignation", winner)
+
+    def offer_draw(self) -> None:
+        """Record a draw by agreement ("draw_agreement", no winner)."""
+        self.set_external_result("draw_agreement", None)
 
     @classmethod
     def from_fen(cls, fen: str) -> Game:
@@ -123,6 +134,7 @@ class Game:
             "positions": list(self._positions),
             "external_result": self.external_result,
             "version": self.version,
+            "meta": self.meta,
         }
 
     @classmethod
@@ -152,6 +164,7 @@ class Game:
         # persisted counter when present (legacy files fall back to the count).
         if "version" in data:
             game.version = int(data["version"])
+        game.meta = data.get("meta") or {}
         return game
 
     def save(self, path: str | Path) -> None:

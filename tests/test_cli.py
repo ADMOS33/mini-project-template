@@ -306,3 +306,31 @@ def test_wait_unblocks_when_another_process_plays(capsys, tmp_path) -> None:
     payload = json.loads(out)
     assert payload["timeout"] is False
     assert payload["status"]["turn"] == "b"
+
+
+def test_resign_offer_draw_takeback_and_ai_level(capsys, tmp_path) -> None:
+    state = str(tmp_path / ".chess_game.json")
+    run_cli(capsys, "--state", state, "new", "--json")
+    run_cli(capsys, "--state", state, "move", "e2e4", "--json")
+    rc, out, _ = run_cli(capsys, "--state", state, "ai-move", "--level", "debutant", "--json")
+    assert rc == 0
+    payload = json.loads(out)
+    assert payload["level"] == "debutant" and payload["depth"] == 1
+    assert payload["status"]["turn"] == "w"
+    # takeback removes my move AND the computer's answer
+    rc, out, _ = run_cli(capsys, "--state", state, "takeback", "--json")
+    assert rc == 0 and len(json.loads(out)["undone"]) == 2
+    _, out, _ = run_cli(capsys, "--state", state, "status", "--json")
+    assert json.loads(out)["turn"] == "w" and json.loads(out)["fen"].startswith(
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w"
+    )
+    rc, out, _ = run_cli(capsys, "--state", state, "offer-draw", "--json")
+    assert rc == 0 and json.loads(out)["status"]["result"] == "draw_agreement"
+    # resign on a finished game is an error
+    rc, out, _ = run_cli(capsys, "--state", state, "resign", "--json")
+    assert rc == 1
+    run_cli(capsys, "--state", state, "new", "--json")
+    rc, out, _ = run_cli(capsys, "--state", state, "resign", "--json")
+    assert rc == 0
+    payload = json.loads(out)["status"]
+    assert payload["result"] == "resignation" and payload["winner"] == "b"

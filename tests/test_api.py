@@ -12,7 +12,14 @@ import pytest
 from fastapi import HTTPException
 
 import chess.api.server as server
-from chess.api.schemas import AiMoveRequest, FlagRequest, LoadRequest, MoveRequest, PgnRequest
+from chess.api.schemas import (
+    AiMoveRequest,
+    FlagRequest,
+    LoadRequest,
+    MoveRequest,
+    OfferDrawRequest,
+    PgnRequest,
+)
 
 
 @pytest.fixture()
@@ -282,3 +289,30 @@ def test_status_exposes_version_and_it_increments(state) -> None:
     assert server.get_status()["version"] == v0 + 2
     r = server.post_new()
     assert r["status"]["version"] == v0 + 3
+
+
+def test_resign_offer_draw_takeback_and_ai_level_endpoints(state) -> None:
+    server.post_new()
+    server.post_move(MoveRequest(move="e2e4"))
+    r = server.post_ai_move(AiMoveRequest(level="expert"))
+    assert r["level"] == "expert" and r["depth"] == 4
+    r = server.post_takeback()
+    assert len(r["undone"]) == 2
+    st = server.get_status()
+    assert st["turn"] == "w" and st["last_move"] is None
+    # draw refused when the computer (side not to move) is better than 0:
+    # after a takeback the eval is ~0, so force it for the accept path
+    r = server.post_offer_draw(OfferDrawRequest(force=True))
+    assert r["accepted"] and r["status"]["result"] == "draw_agreement"
+    with pytest.raises(HTTPException):
+        server.post_resign()  # game over
+    server.post_new()
+    r = server.post_resign()
+    assert r["status"]["result"] == "resignation" and r["status"]["winner"] == "b"
+    # non-forced offer: initial position eval ~ +20 for white (side to move),
+    # computer = black sees -20 <= 0 -> accepted
+    server.post_new()
+    r = server.post_offer_draw(OfferDrawRequest(force=False))
+    assert r["accepted"] is True
+    with pytest.raises(HTTPException):
+        server.post_ai_move(AiMoveRequest(level="nope"))

@@ -195,3 +195,24 @@ def test_next_version_increases_across_new_games(tmp_path) -> None:
     game.play_uci("e2e4")
     game.save(path)
     assert next_version(path) == 3
+
+
+def test_resign_and_offer_draw_are_persisted_external_results(tmp_path) -> None:
+    game = Game()
+    game.play_uci("e2e4")
+    game.resign()  # black to move resigns -> white wins
+    status = game.status()
+    assert status["result"] == "resignation"
+    assert status["winner"] == "w"
+    with pytest.raises(ValueError, match="game is over"):
+        game.play_uci("e7e5")
+    path = tmp_path / "g.json"
+    game.save(path)
+    loaded = Game.load(path)
+    assert loaded.status()["result"] == "resignation"
+    assert loaded.status()["winner"] == "w"
+
+    game2 = Game()
+    game2.offer_draw()
+    assert game2.status()["result"] == "draw_agreement"
+    assert game2.status()["winner"] is None

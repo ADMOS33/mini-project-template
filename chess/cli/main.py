@@ -65,6 +65,15 @@ def _build_parser() -> argparse.ArgumentParser:
     p_load_pgn.add_argument("file", help="path to a .pgn file")
     p_ai = add("ai-move", "let the computer play a move (minimax + alpha-beta)")
     p_ai.add_argument("--depth", type=int, default=3, help="search depth")
+    p_ai.add_argument(
+        "--level",
+        choices=["debutant", "novice", "club", "confirme", "expert"],
+        default=None,
+        help="named level (depth + random margin); overrides --depth",
+    )
+    add("resign", "the side to move resigns (the other side wins)")
+    add("offer-draw", "record a draw by agreement")
+    add("takeback", "take back the last two plies (my move + the computer's answer)")
     add("history", "list the moves played so far")
     p_wait = add(
         "wait",
@@ -74,6 +83,12 @@ def _build_parser() -> argparse.ArgumentParser:
     p_wait.add_argument(
         "--timeout", type=float, default=60.0, help="max seconds to wait (default: 60)"
     )
+    p_puz = add("puzzle", "load a mate-in-n puzzle into the game state")
+    p_puz.add_argument("--level", type=int, choices=[1, 2, 3], default=1, help="mate in n")
+    p_puz.add_argument("--index", type=int, default=None, help="deterministic pick within the level")
+    p_puz.add_argument("--seed", type=int, default=None, help="random pick with this seed")
+    p_solve = add("solve", "play a move in the current puzzle (first move must be the solution)")
+    p_solve.add_argument("move", help="move in UCI or SAN notation")
     return parser
 
 
@@ -161,12 +176,20 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
         status = game.status()
         return {"ok": True, "status": status}, f"Loaded position.\n{status['fen']}"
     if cmd == "ai-move":
+        from chess.ai.levels import LEVELS, level_move
+
         game = _load_game(state_file)
         if game.status()["result"] != "ongoing":
             raise CliError("game is over — no AI move to play")
-        depth = max(1, min(args.depth, 6))
         start = time.perf_counter()
-        move, score, nodes = best_move(game.board, depth)
+        if args.level is not None:
+            depth = LEVELS[args.level]["depth"]
+            move, score, nodes, info = level_move(game.board, args.level)
+            level = args.level
+        else:
+            depth = max(1, min(args.depth, 6))
+            move, score, nodes = best_move(game.board, depth)
+            level = None
         time_ms = round((time.perf_counter() - start) * 1000, 1)
         san = move_to_san(game.board, move)
         game.play_uci(move.to_uci())
@@ -181,6 +204,7 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
                 "nodes": nodes,
                 "time_ms": time_ms,
                 "depth": depth,
+                "level": level,
                 "status": status,
             },
             f"AI played {move.to_uci()} ({san}) — score {score}, {nodes} nodes "
@@ -241,6 +265,41 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
         game.save(state_file)
         status = game.status()
         return {"ok": True, "undone": move.to_uci(), "status": status}, f"Undone {move.to_uci()}."
+    if cmd == "resign":
+        if game.status()["result"] != "ongoing":
+            raise CliError("game is already over")
+        game.resign()
+        game.save(state_file)
+        status = game.status()
+        return (
+            {"ok": True, "status": status},
+            f"Resigned — {status['winner']} wins.\n{_status_text(status)}",
+        )
+    if cmd == "offer-draw":
+        if game.status()["result"] != "ongoing":
+            raise CliError("game is already over")
+        game.offer_draw()
+        game.save(state_file)
+        status = game.status()
+        return (
+            {"ok": True, "status": status},
+            f"Draw agreed.\n{_status_text(status)}",
+        )
+    if cmd == "takeback":
+        undone = []
+        for _ in range(2):
+            move = game.undo()
+            if move is None:
+                break
+            undone.append(move.to_uci())
+        if not undone:
+            raise CliError("no moves to undo")
+        game.save(state_file)
+        status = game.status()
+        return (
+            {"ok": True, "undone": undone, "status": status},
+            f"Took back {', '.join(undone)}.",
+        )
     if cmd == "fen":
         fen = board_to_fen(game.board)
         return {"fen": fen}, fen
@@ -271,6 +330,51 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
         else:
             text = f"wait: condition met for color {args.color}.\n{text}"
         return {"ok": True, "timeout": timed_out, "status": status}, text
+    if cmd == "puzzle":
+        from chess.ai.puzzles import get_puzzle, load_puzzle
+
+        try:
+            puzzle = get_puzzle(args.level, args.index, args.seed)
+        except ValueError as exc:
+            raise CliError(str(exc)) from exc
+        game = Game.from_fen(puzzle["fen"])
+        game.version = next_version(state_file)
+        load_puzzle(game, puzzle)
+        game.save(state_file)
+        meta = game.meta["puzzle"]
+        return (
+            {
+                "ok": True,
+                "puzzle": {
+                    "level": meta["level"],
+                    "n": meta["n"],
+                    "theme": meta["theme"],
+                    "turn": game.status()["turn"],
+                    "fen": meta["fen"],
+                },
+                "status": game.status(),
+            },
+            f"Puzzle loaded: mate in {meta['n']} ({meta['theme']}), "
+            f"{game.status()['turn']} to move.\n{meta['fen']}",
+        )
+    if cmd == "solve":
+        from chess.ai.puzzles import solve_move
+
+        if game.meta.get("puzzle") is None:
+            raise CliError("no puzzle loaded — run `chess puzzle --level N` first")
+        try:
+            result = solve_move(game, args.move)
+        except ValueError as exc:
+            raise CliError(str(exc)) from exc
+        game.save(state_file)
+        p = result["puzzle"]
+        text = (
+            f"Played {result['move']} ({result['san']})"
+            + (f", computer defense {result['reply']}" if result["reply"] else "")
+            + (", puzzle solved!" if p["solved"] else f", mate in {p['remaining']} still forced")
+            + f".\n{_status_text(result['status'])}"
+        )
+        return result, text
     raise CliError(f"unknown command: {cmd}")  # pragma: no cover
 
 
