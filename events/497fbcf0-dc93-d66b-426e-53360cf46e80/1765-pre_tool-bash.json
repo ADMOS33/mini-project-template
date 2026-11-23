@@ -1,0 +1,41 @@
+{
+  "seq": 1765,
+  "received_at": "2026-11-23T22:14:33.169745+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "H9oTHVb80",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cat > /Users/rafiq/.vibe/scratchpad/freeze.py <<'EOF'",
+        "import json, re, sys",
+        "raw = json.load(open(\"/Users/rafiq/.vibe/scratchpad/puzzles_raw.json\"))",
+        "# keep order: level 1, 2, 3; dedupe by fen",
+        "seen = set(); out = []",
+        "for p in sorted(raw, key=lambda p: (p[\"level\"], p[\"fen\"])):",
+        "    if p[\"fen\"] in seen: continue",
+        "    seen.add(p[\"fen\"])",
+        "    out.append({\"fen\": p[\"fen\"], \"solution\": p[\"solution\"], \"level\": p[\"level\"], \"theme\": p[\"theme\"]})",
+        "lines = [\"PUZZLES: list[dict] = [\"]",
+        "for p in out:",
+        "    lines.append('    {\"fen\": %r, \"solution\": %r, \"level\": %d, \"theme\": %r},' % (p[\"fen\"], p[\"solution\"], p[\"level\"], p[\"theme\"]))",
+        "lines.append(\"]\")",
+        "block = \"\\n\".join(lines)",
+        "path = \"/Users/rafiq/3A/projet-AI/mini-project-template/chess/ai/puzzles.py\"",
+        "s = open(path).read()",
+        "s2, n = re.subn(r\"PUZZLES: list\\[dict\\] = \\[.*?\\n\\]\", block, s, count=1, flags=re.S)",
+        "assert n == 1, \"PUZZLES block not found\"",
+        "open(path, \"w\").write(s2)",
+        "print(f\"frozen {len(out)} puzzles:\", {l: sum(1 for p in out if p['level']==l) for l in (1,2,3)})",
+        "EOF",
+        "sleep 30; grep \"^n=3\\|TOTAL\" /Users/rafiq/.vibe/scratchpad/gen9d.log | tail -4"
+      ]
+    }
+  }
+}

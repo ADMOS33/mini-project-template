@@ -1,0 +1,37 @@
+{
+  "seq": 1094,
+  "received_at": "2026-11-23T20:12:21.093537+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "j1qpfPNM4",
+    "tool_input": {
+      "timeout": 120,
+      "command": "sleep 60; tail -4 /Users/rafiq/.vibe/scratchpad/gen.log; grep -c \"n=2 #\\|n=3 #\" /Users/rafiq/.vibe/scratchpad/gen.log; ls /Users/rafiq/.vibe/scratchpad/puzzles_raw.json 2>/dev/null || echo running"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "sleep 60; tail -4 /Users/rafiq/.vibe/scratchpad/gen.log; grep -c \"n=2 #\\|n=3 #\" /Users/rafiq/.vibe/scratchpad/gen.log; ls /Users/rafiq/.vibe/scratchpad/puzzles_raw.json 2>/dev/null || echo running",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "  n=1 drop (0 mates): 5rk1/6pp/8/8/8/8/8/3Q2K1 w - - 0 1",
+        "  n=1 drop (0 mates): rnb1kbnr/pppp1ppp/8/4p3/6Pq/5P2/PPPPP2P/RNBQKBNR w KQkq - 1 3",
+        "scanning mate-in-1 from queen-odds games...",
+        "scanning mate-in-2...",
+        "0",
+        "running",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 60093
+  }
+}

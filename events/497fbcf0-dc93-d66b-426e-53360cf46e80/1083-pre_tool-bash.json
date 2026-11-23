@@ -1,0 +1,47 @@
+{
+  "seq": 1083,
+  "received_at": "2026-11-23T20:09:39.098583+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "EqExucjn4",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python - <<'EOF'",
+        "p = \"/Users/rafiq/.vibe/scratchpad/gen_puzzles.py\"",
+        "s = open(p).read()",
+        "old = '''for fen in CANDIDATES_1:",
+        "    b = board_from_fen(fen)",
+        "    ms = find_mates(b, 1)",
+        "    if len(ms) == 1:",
+        "        out[1].append((fen, ms[0].to_uci(), b.piece_at(ms[0].from_sq).symbol))",
+        "        print(f\"  n=1 keep: {fen} sol={ms[0].to_uci()}\", flush=True)",
+        "    else:",
+        "        print(f\"  n=1 drop ({len(ms)} mates): {fen}\", flush=True)'''",
+        "new = '''for fen in CANDIDATES_1:",
+        "    try:",
+        "        b = board_from_fen(fen)",
+        "        ms = find_mates(b, 1)",
+        "    except ValueError as exc:",
+        "        print(f\"  n=1 drop (invalid FEN: {exc}): {fen}\", flush=True)",
+        "        continue",
+        "    if len(ms) == 1:",
+        "        out[1].append((fen, ms[0].to_uci(), b.piece_at(ms[0].from_sq).symbol))",
+        "        print(f\"  n=1 keep: {fen} sol={ms[0].to_uci()}\", flush=True)",
+        "    else:",
+        "        print(f\"  n=1 drop ({len(ms)} mates): {fen}\", flush=True)'''",
+        "assert old in s",
+        "s = s.replace(old, new)",
+        "open(p, \"w\").write(s)",
+        "print(\"patched\")",
+        "EOF"
+      ]
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "seq": 1658,
+  "received_at": "2026-11-23T21:42:36.481295+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "S2k75qn5h",
+    "tool_input": {
+      "timeout": 120,
+      "command": "sleep 20; grep \"^n=\\|TOTAL\\|resume\" /Users/rafiq/.vibe/scratchpad/gen7.log | tail -8; wc -l /Users/rafiq/.vibe/scratchpad/gen7.log"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "sleep 20; grep \"^n=\\|TOTAL\\|resume\" /Users/rafiq/.vibe/scratchpad/gen7.log | tail -8; wc -l /Users/rafiq/.vibe/scratchpad/gen7.log",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "resume with 12 (l1 only)",
+        "       1 /Users/rafiq/.vibe/scratchpad/gen7.log",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 20204
+  }
+}

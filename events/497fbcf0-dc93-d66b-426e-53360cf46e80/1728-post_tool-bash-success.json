@@ -1,0 +1,46 @@
+{
+  "seq": 1728,
+  "received_at": "2026-11-23T22:05:56.567914+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "F7zb2PdY3",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && head -15 tests/test_mate.py"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && head -15 tests/test_mate.py",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "\"\"\"Tests for forced-mate search (chess/ai/mate.py).\"\"\"",
+        "",
+        "from __future__ import annotations",
+        "",
+        "from chess.ai.mate import best_defense, can_mate_in, find_mates, mate_distance",
+        "from chess.engine.board import Board",
+        "from chess.engine.fen import board_from_fen",
+        "from chess.engine.movegen import legal_moves",
+        "from chess.engine.pgn import import_pgn",
+        "",
+        "OPERA_PGN = \"\"\"[Event \"Opera\"]",
+        "[Result \"1-0\"]",
+        "",
+        "1. e4 e5 2. Nf3 d6 3. d4 Bg4 4. dxe5 Bxf3 5. Qxf3 dxe5 6. Bc4 Nf6",
+        "7. Qb3 Qe7 8. Nc3 c6 9. Bg5 b5 10. Nxb5 cxb5 11. Bxb5+ Nbd7",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 112
+  }
+}

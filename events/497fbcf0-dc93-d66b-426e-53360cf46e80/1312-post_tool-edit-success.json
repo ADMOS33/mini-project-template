@@ -1,0 +1,42 @@
+{
+  "seq": 1312,
+  "received_at": "2026-11-23T20:47:47.883788+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "TZ5VtmNB4",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/state.js",
+      "new_string": [
+        "// Mode spectateur (V5) : le navigateur n'accepte aucun coup et ne lance pas l'IA.",
+        "state.spectator = ls(\"chess.spectator\", \"0\") === \"1\";",
+        "// Niveaux nommés de l'ordinateur (V8) + problème en cours (V7) + revue (V9).",
+        "state.level = ls(\"chess.level\", \"club\");",
+        "state.puzzleMode = false;",
+        "state.puzzle = null; // {level, n, theme, fen, solution} renvoyé par /api/puzzle",
+        "state.puzzleLevel = ls(\"chess.puzzleLevel\", \"1\");",
+        "state.puzzleScore = parseInt(ls(\"chess.puzzleScore\", \"0\"), 10) || 0;",
+        "state.puzzleStreak = parseInt(ls(\"chess.puzzleStreak\", \"0\"), 10) || 0;",
+        "state.analysis = null; // rapport /api/analyze (V9)",
+        "state.hint = null; // {from, to} meilleur coup (bouton Indice)"
+      ],
+      "old_string": [
+        "// Mode spectateur (V5) : le navigateur n'accepte aucun coup et ne lance pas l'IA.",
+        "state.spectator = ls(\"chess.spectator\", \"0\") === \"1\";"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/state.js",
+      "lines_changed": 11,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 291
+  }
+}

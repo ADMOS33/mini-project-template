@@ -1,0 +1,33 @@
+{
+  "seq": 1357,
+  "received_at": "2026-11-23T20:50:56.561962+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "9A47kkeLF",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_puzzles.py",
+      "old_string": [
+        "    assert \"solution\" not in payload[\"puzzle\"]  # CLI ne divulgue pas la solution",
+        "    solution = get_puzzle(1, index=0)[\"solution\"]",
+        "    rc, out, _ = run_cli(capsys, \"--state\", state, \"solve\", \"a1a1\", \"--json\")",
+        "    assert rc == 1 and \"first move must be the solution\" in json.loads(out)[\"error\"]"
+      ],
+      "new_string": [
+        "    assert \"solution\" not in payload[\"puzzle\"]  # CLI ne divulgue pas la solution",
+        "    solution = get_puzzle(1, index=0)[\"solution\"]",
+        "    fen = payload[\"puzzle\"][\"fen\"]",
+        "    wrong = next(",
+        "        m.to_uci() for m in legal_moves(board_from_fen(fen)) if m.to_uci() != solution",
+        "    )",
+        "    rc, out, _ = run_cli(capsys, \"--state\", state, \"solve\", wrong, \"--json\")",
+        "    assert rc == 1 and \"first move must be the solution\" in json.loads(out)[\"error\"]"
+      ]
+    }
+  }
+}

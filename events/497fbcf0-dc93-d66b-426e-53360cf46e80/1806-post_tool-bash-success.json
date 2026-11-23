@@ -1,0 +1,40 @@
+{
+  "seq": 1806,
+  "received_at": "2026-11-23T22:29:08.753795+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "aMhC86cLN",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/chess --state /tmp/c960.json new --chess960 518 --json | python3 -c \"import json,sys; d=json.load(sys.stdin); print(d['status']['fen'])\" && .venv/bin/chess --state /tmp/c960.json new --chess960 0 --json | python3 -c \"import json,sys; d=json.load(sys.stdin); print(d['status']['fen'])\" && .venv/bin/chess --state /tmp/c960.json status --json | python3 -c \"import json,sys; print(json.load(sys.stdin)['status']['fen'])\" && .venv/bin/chess --state /tmp/c960.json moves --json | python3 -c \"import json,sys; print(json.load(sys.stdin)['moves'][:8])\""
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/chess --state /tmp/c960.json new --chess960 518 --json | python3 -c \"import json,sys; d=json.load(sys.stdin); print(d['status']['fen'])\" && .venv/bin/chess --state /tmp/c960.json new --chess960 0 --json | python3 -c \"import json,sys; d=json.load(sys.stdin); print(d['status']['fen'])\" && .venv/bin/chess --state /tmp/c960.json status --json | python3 -c \"import json,sys; print(json.load(sys.stdin)['status']['fen'])\" && .venv/bin/chess --state /tmp/c960.json moves --json | python3 -c \"import json,sys; print(json.load(sys.stdin)['moves'][:8])\"",
+      "returncode": 1,
+      "stderr": [
+        "Traceback (most recent call last):",
+        "  File \"<string>\", line 1, in <module>",
+        "    import json,sys; print(json.load(sys.stdin)['status']['fen'])",
+        "                           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^",
+        "KeyError: 'status'",
+        ""
+      ],
+      "stdout": [
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "bbqnnrkr/pppppppp/8/8/8/8/PPPPPPPP/BBQNNRKR w FHfh - 0 1",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 466
+  }
+}

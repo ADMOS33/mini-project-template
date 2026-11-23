@@ -1,0 +1,57 @@
+{
+  "seq": 1348,
+  "received_at": "2026-11-23T20:50:02.978267+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "UtGpCSOXM",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/interactions.js",
+      "old_string": [
+        "  state.selected = null;",
+        "  try {",
+        "    await ChessAPI.move(uci);",
+        "  } catch (err) {",
+        "    reportError(\"Coup refusé\", err);",
+        "  }",
+        "  state.reviewPly = null;",
+        "  await refresh();",
+        "}"
+      ],
+      "new_string": [
+        "  state.selected = null;",
+        "  try {",
+        "    if (state.puzzle) {",
+        "      // Mode problème (V7) : le coup est jugé par /api/solve (solution puis mat conservé)",
+        "      const r = await ChessAPI.solve(uci);",
+        "      if (r.puzzle && r.puzzle.solved) {",
+        "        state.puzzleScore += 1;",
+        "        state.puzzleStreak += 1;",
+        "        lsSet(\"chess.puzzleScore\", String(state.puzzleScore));",
+        "        lsSet(\"chess.puzzleStreak\", String(state.puzzleStreak));",
+        "        toast(`🧩 Bravo ! Problème résolu (${r.san}). Score ${state.puzzleScore}, série ${state.puzzleStreak}.`, \"info\");",
+        "      } else if (r.puzzle) {",
+        "        toast(`Coup accepté (${r.san}) — mat toujours forcé en ${r.puzzle.remaining}.`, \"info\");",
+        "      }",
+        "    } else {",
+        "      await ChessAPI.move(uci);",
+        "    }",
+        "  } catch (err) {",
+        "    if (state.puzzle) {",
+        "      state.puzzleStreak = 0;",
+        "      lsSet(\"chess.puzzleStreak\", \"0\");",
+        "    }",
+        "    reportError(\"Coup refusé\", err);",
+        "  }",
+        "  state.reviewPly = null;",
+        "  await refresh();",
+        "}"
+      ]
+    }
+  }
+}

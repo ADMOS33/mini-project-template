@@ -1,0 +1,37 @@
+{
+  "seq": 1490,
+  "received_at": "2026-11-23T21:14:58.361491+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "ZPn3xUrI4",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"english\\|English\\|ENGLISH\" tests/test_web.py | head -5 && cat >> web/style.css <<'EOF'",
+        "",
+        "/* --- V13 : aide agent --- */",
+        ".help-box { width: min(640px, calc(100vw - 2rem)); max-height: 80vh; overflow-y: auto; }",
+        ".help-box h4 { margin: 0.6rem 0 0.2rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); }",
+        ".help-box pre.cmd {",
+        "  background: var(--bg);",
+        "  border: 1px solid var(--border);",
+        "  border-radius: var(--r8);",
+        "  padding: var(--s3);",
+        "  overflow-x: auto;",
+        "  font-family: var(--mono);",
+        "  font-size: 0.8rem;",
+        "  line-height: 1.5;",
+        "  white-space: pre;",
+        "}",
+        "EOF",
+        "for f in web/js/*.js; do cp \"$f\" /tmp/check.mjs && node --check /tmp/check.mjs || echo \"FAIL $f\"; done; echo OK"
+      ]
+    }
+  }
+}

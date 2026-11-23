@@ -1,0 +1,32 @@
+{
+  "seq": 1022,
+  "received_at": "2026-11-23T19:50:26.256411+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "lNW72uiUm",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python /Users/rafiq/.vibe/scratchpad/gen_puzzles.py 2>&1 | tail -45"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python /Users/rafiq/.vibe/scratchpad/gen_puzzles.py 2>&1 | tail -45",
+      "returncode": -9,
+      "stderr": [
+        "",
+        "[The command timed out after 120s and was stopped. The output above is what it printed until then. To give it more time, start it with `tools.process.start` and read its output with `tools.process.output`.]"
+      ],
+      "stdout": "",
+      "timed_out": true,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 120067
+  }
+}

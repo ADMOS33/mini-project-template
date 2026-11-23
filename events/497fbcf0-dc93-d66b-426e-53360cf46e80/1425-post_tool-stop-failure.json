@@ -1,0 +1,22 @@
+{
+  "seq": 1425,
+  "received_at": "2026-11-23T21:00:57.644726+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "process.stop",
+    "tool_call_id": "typescript:576:fSMbvsoTH:0:tool:0",
+    "tool_input": {
+      "processId": "process-255310fd016a-b74730b1194577675408d0a"
+    },
+    "tool_status": "failure",
+    "tool_output": null,
+    "tool_output_text": "Unknown background process",
+    "tool_error": "Unknown background process",
+    "duration_ms": 138
+  }
+}

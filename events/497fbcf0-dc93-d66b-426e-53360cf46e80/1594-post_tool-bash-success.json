@@ -1,0 +1,52 @@
+{
+  "seq": 1594,
+  "received_at": "2026-11-23T21:32:07.139760+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "VmTffo9dg",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && python3 - <<'EOF'",
+        "p = \"tests/test_chess960.py\"",
+        "s = open(p).read()",
+        "s = s.replace(\"5KR1 w H\", \"5K1R w H\").replace(\"5KRN w H\", \"5KNR w H\")",
+        "open(p, \"w\").write(s)",
+        "print(\"ok\")",
+        "EOF",
+        "set -o pipefail && .venv/bin/python -m pytest tests/test_chess960.py -q 2>&1 | tail -3"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && python3 - <<'EOF'",
+        "p = \"tests/test_chess960.py\"",
+        "s = open(p).read()",
+        "s = s.replace(\"5KR1 w H\", \"5K1R w H\").replace(\"5KRN w H\", \"5KNR w H\")",
+        "open(p, \"w\").write(s)",
+        "print(\"ok\")",
+        "EOF",
+        "set -o pipefail && .venv/bin/python -m pytest tests/test_chess960.py -q 2>&1 | tail -3"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "ok",
+        "..............                                                           [100%]",
+        "14 passed in 0.11s",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 1113
+  }
+}

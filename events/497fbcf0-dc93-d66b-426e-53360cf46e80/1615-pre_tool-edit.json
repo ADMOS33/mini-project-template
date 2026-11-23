@@ -1,0 +1,44 @@
+{
+  "seq": 1615,
+  "received_at": "2026-11-23T21:33:31.865696+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "FqHUZrLUi",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "old_string": [
+        "        <button type=\"button\" class=\"mode-card\" id=\"mode-puzzle\" aria-pressed=\"false\">",
+        "          <strong>Problèmes</strong>",
+        "          <span>mat forcé en 1, 2 ou 3 coups</span>",
+        "        </button>",
+        "      </div>"
+      ],
+      "new_string": [
+        "        <button type=\"button\" class=\"mode-card\" id=\"mode-puzzle\" aria-pressed=\"false\">",
+        "          <strong>Problèmes</strong>",
+        "          <span>mat forcé en 1, 2 ou 3 coups</span>",
+        "        </button>",
+        "        <button type=\"button\" class=\"mode-card\" id=\"mode-chess960\" aria-pressed=\"false\">",
+        "          <strong>Chess960</strong>",
+        "          <span>position de départ n° 0–959</span>",
+        "        </button>",
+        "      </div>",
+        "      <div id=\"newgame-chess960-opts\" class=\"hidden\">",
+        "        <h4>Position de départ n°</h4>",
+        "        <div class=\"chess960-row\">",
+        "          <input type=\"number\" id=\"opt-chess960-index\" min=\"0\" max=\"959\" step=\"1\" value=\"518\"",
+        "                 aria-label=\"Numéro de position Chess960 (0 à 959)\">",
+        "          <button type=\"button\" class=\"chip\" id=\"btn-chess960-random\">Aléatoire</button>",
+        "          <span class=\"chess960-hint\">518 = position standard</span>",
+        "        </div>",
+        "      </div>"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "seq": 1189,
+  "received_at": "2026-11-23T20:26:32.856190+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "process.stop",
+    "tool_call_id": "typescript:400:MJTUEOym2:0:tool:0",
+    "tool_input": {
+      "processId": "process-255310fd016a-bb4f836488e471e26acd9423"
+    }
+  }
+}

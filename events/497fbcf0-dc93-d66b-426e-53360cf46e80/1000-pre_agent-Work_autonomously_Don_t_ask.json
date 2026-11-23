@@ -1,0 +1,26 @@
+{
+  "seq": 1000,
+  "received_at": "2026-11-23T19:40:24.547557+00:00",
+  "hook_event_name": "pre_agent",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_agent",
+    "agent_name": "default",
+    "turn_id": "turn-6db00493153568f44ed1f2bf73ddd635",
+    "prompt": [
+      "Work autonomously. Don't ask for my approval before executing commands, making code changes, creating or modifying files, or implementing features.",
+      "",
+      "Make reasonable decisions independently and continue working until the task is fully completed.",
+      "",
+      "Only ask me questions if something is genuinely ambiguous or blocks progress. Test your changes, fix any issues you find, and keep me informed of your progress.",
+      "",
+      "Do not stop to request confirmation for routine actions.",
+      "",
+      "",
+      "fait tout les v qui rest et a la fin cree un markdown avec la documentation les versions et les fonctionalites et comment demarrer et utiliser"
+    ]
+  }
+}

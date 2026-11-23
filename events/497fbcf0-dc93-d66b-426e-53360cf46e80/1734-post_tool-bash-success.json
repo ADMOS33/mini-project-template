@@ -1,0 +1,46 @@
+{
+  "seq": 1734,
+  "received_at": "2026-11-23T22:06:40.960668+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "FWfFA3rZJ",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -m pytest tests/test_mate.py::test_mate_on_the_horizon_is_detected_at_depth_zero -q 2>&1 | tail -15"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -m pytest tests/test_mate.py::test_mate_on_the_horizon_is_detected_at_depth_zero -q 2>&1 | tail -15",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "        # White mates in 2 (not in 1): 1.Kg6 (only ...Kg8) 2.Qd8#.",
+        "        board = board_from_fen(\"7k/8/5K2/8/8/3Q4/8/8 w - - 0 1\")",
+        "        assert not can_mate_in(board, 1)",
+        "        assert can_mate_in(board, 2)",
+        "        assert \"f6g6\" in {m.to_uci() for m in find_mates(board, 2)}",
+        "        # One ply before the mate, a depth-1 search must see MATE_SCORE.",
+        "        child = apply_move(board, next(m for m in legal_moves(board) if m.to_uci() == \"f6g6\"))",
+        "        score, _ = negamax(child, 1, -_INF, _INF)  # black to move, forced ...Kg8, then Qd8#",
+        ">       assert score <= -MATE_SCORE",
+        "E       assert -925 <= -100000",
+        "",
+        "tests/test_mate.py:72: AssertionError",
+        "=========================== short test summary info ============================",
+        "FAILED tests/test_mate.py::test_mate_on_the_horizon_is_detected_at_depth_zero - assert -925 <= -100000",
+        "1 failed in 0.97s",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 1516
+  }
+}

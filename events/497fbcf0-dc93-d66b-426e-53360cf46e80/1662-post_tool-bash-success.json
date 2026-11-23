@@ -1,0 +1,40 @@
+{
+  "seq": 1662,
+  "received_at": "2026-11-23T21:42:58.325584+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "u4ZlGLf0N",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && export CHESS_STATE_FILE=/tmp/puz-state.json && .venv/bin/python -m chess.cli.main new --state /tmp/puz-state.json >/dev/null 2>&1; .venv/bin/python -m chess.cli.main puzzle --level 1 --state /tmp/puz-state.json --json 2>&1 | head -c 400; echo; .venv/bin/python -c \"",
+        "import sys; sys.argv=['chess','puzzle','--level','1','--state','/tmp/puz-state.json','--json']",
+        "\" ; .venv/bin/python -m chess.cli.main solve e2e4 --state /tmp/puz-state.json --json 2>&1 | head -c 200"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && export CHESS_STATE_FILE=/tmp/puz-state.json && .venv/bin/python -m chess.cli.main new --state /tmp/puz-state.json >/dev/null 2>&1; .venv/bin/python -m chess.cli.main puzzle --level 1 --state /tmp/puz-state.json --json 2>&1 | head -c 400; echo; .venv/bin/python -c \"",
+        "import sys; sys.argv=['chess','puzzle','--level','1','--state','/tmp/puz-state.json','--json']",
+        "\" ; .venv/bin/python -m chess.cli.main solve e2e4 --state /tmp/puz-state.json --json 2>&1 | head -c 200"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 417
+  }
+}

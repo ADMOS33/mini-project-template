@@ -1,0 +1,50 @@
+{
+  "seq": 1431,
+  "received_at": "2026-11-23T21:01:51.793878+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "jF6m6HlGK",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && cat .gitignore"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && cat .gitignore",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        ".DS_Store",
+        "",
+        "# Python",
+        "__pycache__/",
+        "*.py[cod]",
+        "*.egg-info/",
+        "dist/",
+        "build/",
+        "",
+        "# Tooling",
+        ".pytest_cache/",
+        ".venv/",
+        "venv/",
+        "",
+        "# Local game state persisted by the CLI (runtime data, not source)",
+        ".chess_game.json",
+        "",
+        "# NOTE: events/ is intentionally NOT ignored — the Vibe hook log output is",
+        "# meant to be committed to git (see AGENTS.md).",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 203
+  }
+}

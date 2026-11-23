@@ -1,0 +1,54 @@
+{
+  "seq": 1506,
+  "received_at": "2026-11-23T21:15:58.151443+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "xWktjNPH3",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"castl\" chess/engine/movegen.py chess/engine/board.py chess/engine/fen.py | head -25"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"castl\" chess/engine/movegen.py chess/engine/board.py chess/engine/fen.py | head -25",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "chess/engine/movegen.py:5:bishop, rook, queen, king) and castling are fully implemented and filtered",
+        "chess/engine/movegen.py:21:# (rook square, castling right letter) used to update rights on rook moves/captures.",
+        "chess/engine/movegen.py:130:def _castling_moves(board: Board, sq: int, color: Color, moves: list[Move]) -> None:",
+        "chess/engine/movegen.py:139:        return  # may not castle out of check",
+        "chess/engine/movegen.py:141:    if king_right in board.castling:",
+        "chess/engine/movegen.py:154:    if queen_right in board.castling:",
+        "chess/engine/movegen.py:182:            _castling_moves(board, sq, color, moves)",
+        "chess/engine/movegen.py:196:    castling-rights bookkeeping and the move counters. Legality (king safety,",
+        "chess/engine/movegen.py:197:    castling/en-passant rules) is the caller's responsibility.",
+        "chess/engine/movegen.py:229:        new.castling.discard(\"K\" if piece.color is Color.WHITE else \"k\")",
+        "chess/engine/movegen.py:230:        new.castling.discard(\"Q\" if piece.color is Color.WHITE else \"q\")",
+        "chess/engine/movegen.py:233:            new.castling.discard(right)",
+        "chess/engine/board.py:50:    \"\"\"Full board state: pieces, side to move, castling rights, en-passant",
+        "chess/engine/board.py:55:    castling: set[str] = field(default_factory=lambda: {\"K\", \"Q\", \"k\", \"q\"})",
+        "chess/engine/board.py:94:            set(self.castling),",
+        "chess/engine/fen.py:48:    placement, side, castling, ep, halfmove, fullmove = parts",
+        "chess/engine/fen.py:76:    if castling == \"-\":",
+        "chess/engine/fen.py:77:        board.castling = set()",
+        "chess/engine/fen.py:79:        if any(ch not in _CASTLING_CHARS for ch in castling):",
+        "chess/engine/fen.py:80:            raise ValueError(f\"invalid FEN castling field: {castling!r}\")",
+        "chess/engine/fen.py:81:        board.castling = set(castling)",
+        "chess/engine/fen.py:116:    castling = \"\".join(ch for ch in _CASTLING_CHARS if ch in board.castling) or \"-\"",
+        "chess/engine/fen.py:119:        f\"{placement} {side} {castling} {ep} \"",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 200
+  }
+}

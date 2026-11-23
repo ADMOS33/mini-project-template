@@ -1,0 +1,18 @@
+{
+  "seq": 1829,
+  "received_at": "2026-11-23T22:33:46.256055+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "pd469oCS2",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && for f in web/js/*.js; do cp \"$f\" /tmp/c.mjs && node --check /tmp/c.mjs || echo \"FAIL $f\"; done; echo \"JS OK\"; grep -rn \"TODO\\|FIXME\\|XXX\" web/ chess/ tests/ skills/ 2>/dev/null | grep -v events | head -3; echo \"no-TODO check done\""
+    }
+  }
+}

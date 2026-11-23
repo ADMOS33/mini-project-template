@@ -1,0 +1,18 @@
+{
+  "seq": 1610,
+  "received_at": "2026-11-23T21:33:19.448329+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "XTP7ItuTC",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"newGame\\|function new\\b\\|api/new\" web/js/api.js web/js/main.js | head && grep -n \"puzzleMode\\|spectator\\|vs:\" web/js/state.js | head"
+    }
+  }
+}

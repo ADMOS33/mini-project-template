@@ -1,0 +1,46 @@
+{
+  "seq": 1475,
+  "received_at": "2026-11-23T21:08:09.789800+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "3e4qisJqW",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -c \"",
+        "import json",
+        "try:",
+        "    d = json.load(open('/Users/rafiq/.vibe/scratchpad/puzzles_raw.json'))",
+        "    print('json entries:', len(d), [p['level'] for p in d].count(1), [p['level'] for p in d].count(2), [p['level'] for p in d].count(3))",
+        "except Exception as e: print('no json', e)",
+        "\" ; .venv/bin/python -c \"",
+        "import sys, random, time; sys.path.insert(0, '.')",
+        "sys.argv=['x']",
+        "src = open('/Users/rafiq/.vibe/scratchpad/gen4.py').read()",
+        "exec(src.split('all_found = []')[0])",
+        "rng = random.Random(5)",
+        "hit2 = 0; legal = 0; t0=time.time()",
+        "for i in range(400):",
+        "    fen = make_fen('w', rng.choice([['Q'],['Q','R'],['R','R'],['Q','B'],['Q','N']]))",
+        "    if fen is None: continue",
+        "    try: b = board_from_fen(fen)",
+        "    except ValueError: continue",
+        "    legal += 1",
+        "    score, _ = negamax(b, 4, -_INF, _INF)",
+        "    if score >= MATE_SCORE:",
+        "        hit2 += 1",
+        "        if can_mate_in(b,1): continue",
+        "        ms = find_mates(b,2)",
+        "        if len(ms)==1: print('EXACT M2:', board_to_fen(b), ms[0].to_uci())",
+        "print(f'400 tries: legal={legal} mate<=2={hit2} in {time.time()-t0:.0f}s')",
+        "\""
+      ]
+    }
+  }
+}

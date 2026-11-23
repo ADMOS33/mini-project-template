@@ -1,0 +1,53 @@
+{
+  "seq": 1114,
+  "received_at": "2026-11-23T20:16:51.645811+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "r1rG3Va8J",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && sed -n '80,110p' chess/engine/rules.py"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && sed -n '80,110p' chess/engine/rules.py",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "def game_result(board: Board, repetitions: Mapping | None = None) -> tuple[str, str | None]:",
+        "    \"\"\"Return ``(result, winner)`` for ``board``.",
+        "",
+        "    ``result`` is one of :data:`RESULTS`; ``winner`` is ``\"w\"``, ``\"b\"`` or",
+        "    ``None`` (``None`` unless checkmate). ``repetitions`` maps position keys",
+        "    (see :func:`position_key`) to occurrence counts, for the threefold rule.",
+        "    \"\"\"",
+        "    in_check = is_square_attacked(",
+        "        board, board.king_square(board.turn), board.turn.opposite",
+        "    )",
+        "    if not legal_moves(board):",
+        "        result = \"checkmate\" if in_check else \"stalemate\"",
+        "    elif repetitions is not None and repetitions.get(position_key(board), 0) >= 3:",
+        "        result = \"draw_threefold\"",
+        "    elif board.halfmove_clock >= 100:",
+        "        result = \"draw_fifty_move\"",
+        "    elif insufficient_material(board):",
+        "        result = \"draw_insufficient_material\"",
+        "    else:",
+        "        result = \"ongoing\"",
+        "    winner = board.turn.opposite.value if result == \"checkmate\" else None",
+        "    return result, winner",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 75
+  }
+}

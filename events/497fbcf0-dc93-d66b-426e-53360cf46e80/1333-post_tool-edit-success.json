@@ -1,0 +1,60 @@
+{
+  "seq": 1333,
+  "received_at": "2026-11-23T20:49:09.124087+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "HWZ3GAsyr",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/panels.js",
+      "new_string": [
+        "const LABEL_CLASS = {",
+        "  \"meilleur\": \"lbl-best\",",
+        "  \"excellent\": \"lbl-good\",",
+        "  \"bon\": \"lbl-good\",",
+        "  \"imprécision ?!\": \"lbl-inaccuracy\",",
+        "  \"erreur ?\": \"lbl-error\",",
+        "  \"gaffe ??\": \"lbl-blunder\",",
+        "  \"brillant !!\": \"lbl-brilliant\",",
+        "};",
+        "",
+        "function moveCell(entry, lastPly) {",
+        "  const td = document.createElement(\"td\");",
+        "  td.className = \"move\";",
+        "  td.textContent = entry.san || entry.uci;",
+        "  td.title = entry.uci;",
+        "  // Revue de partie (V9) : étiquette colorée à côté du coup",
+        "  if (state.analysis) {",
+        "    const ply = state.analysis.plies.find((p) => p.ply === entry.ply);",
+        "    if (ply) {",
+        "      const badge = document.createElement(\"span\");",
+        "      badge.className = \"lbl \" + (LABEL_CLASS[ply.label] || \"lbl-good\");",
+        "      badge.textContent = ply.label;",
+        "      badge.title = `perte ${ply.loss} cp — meilleur : ${ply.best_move}`;",
+        "      td.appendChild(badge);",
+        "    }",
+        "  }"
+      ],
+      "old_string": [
+        "function moveCell(entry, lastPly) {",
+        "  const td = document.createElement(\"td\");",
+        "  td.className = \"move\";",
+        "  td.textContent = entry.san || entry.uci;",
+        "  td.title = entry.uci;"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/panels.js",
+      "lines_changed": 26,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 206
+  }
+}

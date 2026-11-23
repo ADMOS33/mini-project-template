@@ -1,0 +1,44 @@
+{
+  "seq": 1273,
+  "received_at": "2026-11-23T20:43:09.695349+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "v5JTwEcny",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/ai/analysis.py",
+      "old_string": [
+        "        child = apply_move(board, move)",
+        "        # evaluation after the move, still from the mover's perspective",
+        "        eval_after = -_score_stm(child)",
+        "        # a sacrifice = the mover's material drops after the opponent's best reply",
+        "        from chess.engine.movegen import legal_moves as _legal_moves",
+        "",
+        "        if _legal_moves(child):",
+        "            reply = best_move(child, depth)[0]",
+        "            mat_final = _material(apply_move(child, reply), mover)",
+        "        else:",
+        "            mat_final = mat_before  # game over (mate/stalemate): nothing captured"
+      ],
+      "new_string": [
+        "        child = apply_move(board, move)",
+        "        # evaluation after the move, still from the mover's perspective",
+        "        eval_after = -_score_stm(child)",
+        "        mat_before = _material(board, mover)",
+        "        # a sacrifice = the mover's material drops after the opponent's best reply",
+        "        from chess.engine.movegen import legal_moves as _legal_moves",
+        "",
+        "        if _legal_moves(child):",
+        "            reply = best_move(child, depth)[0]",
+        "            mat_final = _material(apply_move(child, reply), mover)",
+        "        else:",
+        "            mat_final = mat_before  # game over (mate/stalemate): nothing captured"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "seq": 1099,
+  "received_at": "2026-11-23T20:13:01.142576+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "process.start",
+    "tool_call_id": "typescript:323:0j4WagBuF:0:tool:0",
+    "tool_input": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python /Users/rafiq/.vibe/scratchpad/gen2.py > /Users/rafiq/.vibe/scratchpad/gen2.log 2>&1; echo EXIT=$? >> /Users/rafiq/.vibe/scratchpad/gen2.log"
+    }
+  }
+}

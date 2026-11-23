@@ -1,0 +1,46 @@
+{
+  "seq": 1586,
+  "received_at": "2026-11-23T21:30:28.865990+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "DM9NvZe3o",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && set -o pipefail && .venv/bin/python -m pytest tests/test_chess960.py -q 2>&1 | tail -15"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && set -o pipefail && .venv/bin/python -m pytest tests/test_chess960.py -q 2>&1 | tail -15",
+      "returncode": 1,
+      "stderr": "",
+      "stdout": [
+        "FAILED tests/test_chess960.py::test_start_positions_have_bishops_on_opposite_colors_and_king_between_rooks - TypeError: '<' not supported between instances of 'PieceType' and 'PieceType'",
+        "FAILED tests/test_chess960.py::test_xfen_file_letter_castling_standard_equivalent - AssertionError: assert ('e1g1' in {'a2a3', 'a2a4', 'b1a3', 'b1c3', 'b2b3', 'b2b4', ...})",
+        "FAILED tests/test_chess960.py::test_chess960_castle_king_takes_rook - AssertionError: assert [] == ['f1h1']",
+        "  ",
+        "  Right contains one more item: 'f1h1'",
+        "  ",
+        "  Full diff: (-: missing in left side, +: extra in left side)",
+        "  + []",
+        "  - [",
+        "  -     'f1h1',",
+        "  - ]",
+        "FAILED tests/test_chess960.py::test_chess960_castle_through_check_forbidden - ValueError: b must have exactly one king, got 0: '6r1/8/8/8/8/8/8/5RK1 w H - 0 1'",
+        "FAILED tests/test_chess960.py::test_chess960_castle_out_of_check_forbidden - ValueError: b must have exactly one king, got 0: '5r2/8/8/8/8/8/8/5RK1 w H - 0 1'",
+        "FAILED tests/test_chess960.py::test_chess960_rook_capture_removes_right - ValueError: b king is in check but it is w's move: 'r3k3/8/8/8/8/8/4R3/4K3 w A - 0 1'",
+        "7 failed, 7 passed in 0.15s",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 740
+  }
+}

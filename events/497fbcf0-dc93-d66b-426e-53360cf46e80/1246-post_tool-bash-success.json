@@ -1,0 +1,35 @@
+{
+  "seq": 1246,
+  "received_at": "2026-11-23T20:39:55.939234+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "Y7uCrb4SJ",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && set -o pipefail && .venv/bin/python -m pytest tests/test_analysis.py tests/test_mcp.py -q -m \"not slow\" 2>&1 | tail -4"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && set -o pipefail && .venv/bin/python -m pytest tests/test_analysis.py tests/test_mcp.py -q -m \"not slow\" 2>&1 | tail -4",
+      "returncode": 1,
+      "stderr": "",
+      "stdout": [
+        "  +     'solve',",
+        "    }",
+        "ERROR tests/test_analysis.py::test_api_analyze_and_status_opening",
+        "5 failed, 8 passed, 1 error in 0.78s",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 1225
+  }
+}

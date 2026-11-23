@@ -1,0 +1,32 @@
+{
+  "seq": 1377,
+  "received_at": "2026-11-23T20:57:10.999458+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "fgOiYVd1E",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "old_string": [
+        "        <div class=\"board-wrap\">",
+        "          <div id=\"board\" class=\"board\" role=\"grid\" aria-label=\"Échiquier\"></div>",
+        "          <div id=\"promo-overlay\" class=\"promo-overlay hidden\" role=\"dialog\" aria-label=\"Promotion\"></div>",
+        "          <div id=\"board-loading\" class=\"board-loading\">Chargement de la partie…</div>",
+        "        </div>"
+      ],
+      "new_string": [
+        "        <div class=\"board-wrap\">",
+        "          <div id=\"board\" class=\"board\" role=\"grid\" aria-label=\"Échiquier\"></div>",
+        "          <svg id=\"draw-layer\" class=\"draw-layer\" aria-hidden=\"true\"></svg>",
+        "          <div id=\"promo-overlay\" class=\"promo-overlay hidden\" role=\"dialog\" aria-label=\"Promotion\"></div>",
+        "          <div id=\"board-loading\" class=\"board-loading\">Chargement de la partie…</div>",
+        "        </div>"
+      ]
+    }
+  }
+}

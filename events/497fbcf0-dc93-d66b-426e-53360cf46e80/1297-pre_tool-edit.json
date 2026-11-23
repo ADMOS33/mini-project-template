@@ -1,0 +1,33 @@
+{
+  "seq": 1297,
+  "received_at": "2026-11-23T20:47:00.170775+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "ohZ3aJ4O4",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "old_string": "  <!-- Fenêtre de fin de partie -->",
+      "new_string": [
+        "  <!-- Petite modale de confirmation (jamais de confirm() natif) -->",
+        "  <div id=\"confirm-modal\" class=\"modal hidden\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"confirm-title\">",
+        "    <div class=\"modal-box\">",
+        "      <h3 id=\"confirm-title\">Confirmation</h3>",
+        "      <p id=\"confirm-text\" class=\"muted\"></p>",
+        "      <div class=\"btn-row\">",
+        "        <button id=\"btn-confirm-yes\" class=\"btn\">Confirmer</button>",
+        "        <button id=\"btn-confirm-no\" class=\"btn-ghost\">Annuler</button>",
+        "      </div>",
+        "    </div>",
+        "  </div>",
+        "",
+        "  <!-- Fenêtre de fin de partie -->"
+      ]
+    }
+  }
+}

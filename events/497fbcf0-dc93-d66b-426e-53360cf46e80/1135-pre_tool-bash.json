@@ -1,0 +1,18 @@
+{
+  "seq": 1135,
+  "received_at": "2026-11-23T20:18:27.052163+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "moY2yiLz5",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"from chess.api.schemas\" chess/api/server.py && sed -i 's/from chess.api.schemas import (.*)/from chess.api.schemas import (\\n    AiMoveRequest,\\n    FlagRequest,\\n    LoadRequest,\\n    MoveRequest,\\n    OfferDrawRequest,\\n    PgnRequest,\\n    PuzzleRequest,\\n    SolveRequest,\\n)/' chess/api/server.py && grep -n \"schemas import\" -A 10 chess/api/server.py | head -12; grep -n \"schemas\" tests/test_api.py | head -2"
+    }
+  }
+}

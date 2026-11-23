@@ -1,0 +1,34 @@
+{
+  "seq": 1364,
+  "received_at": "2026-11-23T20:53:33.839520+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "WA50RxWJr",
+    "tool_input": {
+      "timeout": 120,
+      "command": "sleep 90; tail -2 /Users/rafiq/.vibe/scratchpad/gen3.log; grep -c \"#\" /Users/rafiq/.vibe/scratchpad/gen3.log"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "sleep 90; tail -2 /Users/rafiq/.vibe/scratchpad/gen3.log; grep -c \"#\" /Users/rafiq/.vibe/scratchpad/gen3.log",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "n=1 #11 (53 tries, 0s): 8/Q7/8/8/8/5P1k/5K2/8 w - - 0 1 sol=a7h7",
+        "n=1 #12 (56 tries, 0s): 5k2/R7/6K1/8/8/8/4R3/8 w - - 0 1 sol=a7a8",
+        "12",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 90245
+  }
+}

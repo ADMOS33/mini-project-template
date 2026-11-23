@@ -1,0 +1,50 @@
+{
+  "seq": 1472,
+  "received_at": "2026-11-23T21:07:55.480267+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "VPIWyCJzB",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/board-view.js",
+      "new_string": [
+        "import {",
+        "  FILES,",
+        "  isEpCapture,",
+        "  kingSquareOf,",
+        "  pieceSrc,",
+        "  setStatus,",
+        "  squareName,",
+        "  state,",
+        "  symAt,",
+        "  UNICODE_GLYPH,",
+        "} from \"./state.js\";"
+      ],
+      "old_string": [
+        "import {",
+        "  FILES,",
+        "  isEpCapture,",
+        "  kingSquareOf,",
+        "  pieceSrc,",
+        "  setStatus,",
+        "  squareName,",
+        "  state,",
+        "  symAt,",
+        "} from \"./state.js\";"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/board-view.js",
+      "lines_changed": 11,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 344
+  }
+}

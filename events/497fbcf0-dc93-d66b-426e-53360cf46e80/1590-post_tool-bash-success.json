@@ -1,0 +1,54 @@
+{
+  "seq": 1590,
+  "received_at": "2026-11-23T21:31:36.944362+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "ezJ8lyfaQ",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && set -o pipefail && .venv/bin/python -m pytest tests/test_chess960.py -q 2>&1 | grep FAILED; .venv/bin/python - <<'EOF'",
+        "from chess.engine.fen import board_from_fen",
+        "from chess.engine.movegen import legal_moves, pseudo_legal_moves, is_castling_move",
+        "b = board_from_fen(\"4k3/8/8/8/8/8/8/5KR1 w H - 0 1\")",
+        "print(\"castling rights:\", b.castling)",
+        "print(\"pseudo castles:\", [m.to_uci() for m in pseudo_legal_moves(b, b.turn) if is_castling_move(b, m)])",
+        "print(\"legal castles:\", [m.to_uci() for m in legal_moves(b) if is_castling_move(b, m)])",
+        "EOF"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && set -o pipefail && .venv/bin/python -m pytest tests/test_chess960.py -q 2>&1 | grep FAILED; .venv/bin/python - <<'EOF'",
+        "from chess.engine.fen import board_from_fen",
+        "from chess.engine.movegen import legal_moves, pseudo_legal_moves, is_castling_move",
+        "b = board_from_fen(\"4k3/8/8/8/8/8/8/5KR1 w H - 0 1\")",
+        "print(\"castling rights:\", b.castling)",
+        "print(\"pseudo castles:\", [m.to_uci() for m in pseudo_legal_moves(b, b.turn) if is_castling_move(b, m)])",
+        "print(\"legal castles:\", [m.to_uci() for m in legal_moves(b) if is_castling_move(b, m)])",
+        "EOF"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "FAILED tests/test_chess960.py::test_spn_518_is_standard - AssertionError: assert 'rnbqkbnr/ppp... w AHah - 0 1' == 'rnbqkbnr/ppp... w KQkq - 0 1'",
+        "FAILED tests/test_chess960.py::test_chess960_castle_king_takes_rook - AssertionError: assert [] == ['f1h1']",
+        "castling rights: {'H'}",
+        "pseudo castles: []",
+        "legal castles: []",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 665
+  }
+}

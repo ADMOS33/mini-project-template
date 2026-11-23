@@ -1,0 +1,18 @@
+{
+  "seq": 1757,
+  "received_at": "2026-11-23T22:12:35.092201+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "R0VhljPkn",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && find chess web skills tests -name \"*.py\" -o -name \"*.js\" -o -name \"*.md\" -o -name \"*.html\" | grep -v events | sort && echo --- && .venv/bin/python -m pytest tests/ -q --ignore=tests/test_puzzles.py -p no:cacheprovider --collect-only 2>/dev/null | tail -1"
+    }
+  }
+}

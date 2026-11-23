@@ -1,0 +1,52 @@
+{
+  "seq": 1850,
+  "received_at": "2026-11-23T22:44:26.090978+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "6zmk9gmNA",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/chess --state /tmp/c960.json new --json >/dev/null && .venv/bin/chess --state /tmp/c960.json move e2e4 --json >/dev/null && .venv/bin/chess --state /tmp/c960.json move e7e5 --json >/dev/null && .venv/bin/chess --state /tmp/c960.json analyze --depth 2 --json | head -c 250; echo; .venv/bin/chess --state /tmp/c960.json games --json | head -c 150"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/chess --state /tmp/c960.json new --json >/dev/null && .venv/bin/chess --state /tmp/c960.json move e2e4 --json >/dev/null && .venv/bin/chess --state /tmp/c960.json move e7e5 --json >/dev/null && .venv/bin/chess --state /tmp/c960.json analyze --depth 2 --json | head -c 250; echo; .venv/bin/chess --state /tmp/c960.json games --json | head -c 150",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "{",
+        "  \"depth\": 2,",
+        "  \"plies\": [",
+        "    {",
+        "      \"ply\": 1,",
+        "      \"uci\": \"e2e4\",",
+        "      \"san\": \"e4\",",
+        "      \"color\": \"w\",",
+        "      \"eval_before\": 0,",
+        "      \"eval_after\": 25,",
+        "      \"loss\": 25,",
+        "      \"best_move\": \"b1c3\",",
+        "      \"sacrifice\": false,",
+        "      \"label\": \"exce",
+        "{",
+        "  \"games\": [",
+        "    {",
+        "      \"id\": 1,",
+        "      \"date\": \"2026-11-23T21:04:29+00:00\",",
+        "      \"mode\": \"2 joueurs\",",
+        "      \"level\": null,",
+        "      \"result\": \"checkm"
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 1104
+  }
+}

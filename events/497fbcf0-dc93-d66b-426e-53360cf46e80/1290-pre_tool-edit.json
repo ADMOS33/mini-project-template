@@ -1,0 +1,43 @@
+{
+  "seq": 1290,
+  "received_at": "2026-11-23T20:46:08.324294+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "nxwMm1zRG",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/api.js",
+      "old_string": [
+        "  aiMove: (depth) =>",
+        "    ChessAPI._req(\"/api/ai-move\", {",
+        "      method: \"POST\",",
+        "      headers: { \"Content-Type\": \"application/json\" },",
+        "      body: JSON.stringify({ depth }),",
+        "    }),",
+        "  undo: () => ChessAPI._req(\"/api/undo\", { method: \"POST\" }),"
+      ],
+      "new_string": [
+        "  post: (path, body) =>",
+        "    ChessAPI._req(path, {",
+        "      method: \"POST\",",
+        "      headers: { \"Content-Type\": \"application/json\" },",
+        "      body: JSON.stringify(body ?? {}),",
+        "    }),",
+        "  aiMove: (body) => ChessAPI.post(\"/api/ai-move\", body), // {depth} or {level}",
+        "  resign: () => ChessAPI.post(\"/api/resign\"),",
+        "  offerDraw: (force) => ChessAPI.post(\"/api/offer-draw\", { force }),",
+        "  takeback: () => ChessAPI.post(\"/api/takeback\"),",
+        "  puzzle: (level, extra) => ChessAPI.post(\"/api/puzzle\", { level, ...(extra || {}) }),",
+        "  solve: (move) => ChessAPI.post(\"/api/solve\", { move }),",
+        "  analyze: (depth) => ChessAPI.post(\"/api/analyze\", { depth }),",
+        "  analyzePosition: (depth) => ChessAPI.post(\"/api/analyze-position\", { depth }),",
+        "  undo: () => ChessAPI._req(\"/api/undo\", { method: \"POST\" }),"
+      ]
+    }
+  }
+}

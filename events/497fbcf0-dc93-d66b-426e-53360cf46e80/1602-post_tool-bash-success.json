@@ -1,0 +1,44 @@
+{
+  "seq": 1602,
+  "received_at": "2026-11-23T21:32:50.710950+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "u1YRkxsu0",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"mode-puzzle\\|mode-human\\|mode-computer\\|mode-spectator\\|newgame\" web/index.html | head -20 && grep -n \"mode-puzzle\\|modeCard\\|data-mode\\|querySelectorAll.*mode\" web/js/main.js | head -20"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"mode-puzzle\\|mode-human\\|mode-computer\\|mode-spectator\\|newgame\" web/index.html | head -20 && grep -n \"mode-puzzle\\|modeCard\\|data-mode\\|querySelectorAll.*mode\" web/js/main.js | head -20",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "187:  <div id=\"newgame-modal\" class=\"modal hidden\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"newgame-title\">",
+        "188:    <div class=\"modal-box newgame-box\">",
+        "189:      <h3 id=\"newgame-title\">Nouvelle partie</h3>",
+        "191:        <button type=\"button\" class=\"mode-card\" id=\"mode-human\" aria-pressed=\"true\">",
+        "195:        <button type=\"button\" class=\"mode-card\" id=\"mode-computer\" aria-pressed=\"false\">",
+        "199:        <button type=\"button\" class=\"mode-card\" id=\"mode-spectator\" aria-pressed=\"false\">",
+        "203:        <button type=\"button\" class=\"mode-card\" id=\"mode-puzzle\" aria-pressed=\"false\">",
+        "208:      <div id=\"newgame-computer-opts\" class=\"hidden\">",
+        "224:      <div id=\"newgame-puzzle-opts\" class=\"hidden\">",
+        "232:      <div id=\"newgame-autoflip\">",
+        "245:        <button id=\"btn-cancel-newgame\" class=\"btn-ghost\">Annuler</button>",
+        "207:for (const id of [\"mode-human\", \"mode-computer\", \"mode-spectator\", \"mode-puzzle\"]) {",
+        "211:    state.puzzleMode = id === \"mode-puzzle\";",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 238
+  }
+}

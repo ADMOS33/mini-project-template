@@ -1,0 +1,36 @@
+{
+  "seq": 1852,
+  "received_at": "2026-11-23T22:44:30.037906+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "0SwtNOx8o",
+    "tool_input": {
+      "timeout": 120,
+      "command": "grep DONE /Users/rafiq/.vibe/scratchpad/gen11.log; grep -c \"^L3\" /Users/rafiq/.vibe/scratchpad/gen11.log; echo gen12:; grep -c \"^L3\" /Users/rafiq/.vibe/scratchpad/gen12.log; ps aux | grep gen12 | grep -v grep | wc -l"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "grep DONE /Users/rafiq/.vibe/scratchpad/gen11.log; grep -c \"^L3\" /Users/rafiq/.vibe/scratchpad/gen11.log; echo gen12:; grep -c \"^L3\" /Users/rafiq/.vibe/scratchpad/gen12.log; ps aux | grep gen12 | grep -v grep | wc -l",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "DONE tries=240 l3=4",
+        "4",
+        "gen12:",
+        "1",
+        "       2",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 256
+  }
+}

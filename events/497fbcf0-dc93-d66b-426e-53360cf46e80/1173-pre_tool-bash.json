@@ -1,0 +1,35 @@
+{
+  "seq": 1173,
+  "received_at": "2026-11-23T20:25:24.749502+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "0L1GXqIqI",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && cat >> tests/test_ai.py <<'EOF'",
+        "",
+        "",
+        "def test_negamax_detects_mate_in_1_at_depth_2() -> None:",
+        "    \"\"\"Regression: negamax must negate child scores (mate in 1 scores +MATE).\"\"\"",
+        "    from chess.engine.fen import board_from_fen",
+        "",
+        "    board = board_from_fen(\"7k/8/6K1/8/8/8/8/R7 w - - 0 1\")  # Ra8#",
+        "    score, _ = negamax(board, 2, -_INF, _INF)",
+        "    assert score >= MATE_SCORE",
+        "    # and a hanging queen must be seen as winning at depth 2",
+        "    board2 = board_from_fen(\"rnb1kbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\")",
+        "    s, _ = negamax(board2, 2, -_INF, _INF)",
+        "    assert s >= 900 - 200  # queen is safe to take... just check it is positive-ish",
+        "EOF",
+        "set -o pipefail && .venv/bin/python -m pytest tests/test_ai.py -q 2>&1 | tail -3"
+      ]
+    }
+  }
+}

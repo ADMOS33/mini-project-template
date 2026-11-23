@@ -1,0 +1,33 @@
+{
+  "seq": 1830,
+  "received_at": "2026-11-23T22:33:48.502100+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "pd469oCS2",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && for f in web/js/*.js; do cp \"$f\" /tmp/c.mjs && node --check /tmp/c.mjs || echo \"FAIL $f\"; done; echo \"JS OK\"; grep -rn \"TODO\\|FIXME\\|XXX\" web/ chess/ tests/ skills/ 2>/dev/null | grep -v events | head -3; echo \"no-TODO check done\""
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && for f in web/js/*.js; do cp \"$f\" /tmp/c.mjs && node --check /tmp/c.mjs || echo \"FAIL $f\"; done; echo \"JS OK\"; grep -rn \"TODO\\|FIXME\\|XXX\" web/ chess/ tests/ skills/ 2>/dev/null | grep -v events | head -3; echo \"no-TODO check done\"",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "JS OK",
+        "no-TODO check done",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 2040
+  }
+}

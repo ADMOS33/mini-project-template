@@ -1,0 +1,67 @@
+{
+  "seq": 1001,
+  "received_at": "2026-11-23T19:44:00.433378+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "vibe.todo",
+    "tool_call_id": "6Ywtwbpio",
+    "tool_input": {
+      "action": "write",
+      "todos": [
+        {
+          "id": "v7",
+          "content": "V7 Puzzles: find_mates, base validée moteur, CLI puzzle/solve, API+MCP, web",
+          "status": "in_progress",
+          "priority": "high"
+        },
+        {
+          "id": "v8",
+          "content": "V8 Abandon/nulle/reprise + niveaux nommés (moteur, CLI, API, web)",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "v9",
+          "content": "V9 Revue de partie + ouvertures ECO + indice (moteur, CLI, API, MCP, web)",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "v10",
+          "content": "V10 Interactions plateau (flèches, prémouvements, survol, raccourcis, animations)",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "v11",
+          "content": "V11 Réglages + archive parties + éditeur de position",
+          "status": "pending",
+          "priority": "medium"
+        },
+        {
+          "id": "v12",
+          "content": "V12 Chess960 (optionnel) — ou revert si perft casse",
+          "status": "pending",
+          "priority": "low"
+        },
+        {
+          "id": "v13",
+          "content": "V13 Aide agent + cohérence + report.md",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "id": "final",
+          "content": "Markdown final doc (versions, fonctionnalités, démarrage/utilisation) + commits AGENTS/events",
+          "status": "pending",
+          "priority": "high"
+        }
+      ]
+    }
+  }
+}

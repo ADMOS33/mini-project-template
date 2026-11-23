@@ -1,0 +1,46 @@
+{
+  "seq": 1524,
+  "received_at": "2026-11-23T21:22:03.336643+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "tm8Zlpnvs",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"castling\\|castle\" chess/engine/movegen.py chess/engine/game.py chess/engine/san.py | head -50"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"castling\\|castle\" chess/engine/movegen.py chess/engine/game.py chess/engine/san.py | head -50",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "chess/engine/movegen.py:5:bishop, rook, queen, king) and castling are fully implemented and filtered",
+        "chess/engine/movegen.py:21:# (rook square, castling right letter) used to update rights on rook moves/captures.",
+        "chess/engine/movegen.py:130:def _castling_moves(board: Board, sq: int, color: Color, moves: list[Move]) -> None:",
+        "chess/engine/movegen.py:139:        return  # may not castle out of check",
+        "chess/engine/movegen.py:141:    if king_right in board.castling:",
+        "chess/engine/movegen.py:154:    if queen_right in board.castling:",
+        "chess/engine/movegen.py:182:            _castling_moves(board, sq, color, moves)",
+        "chess/engine/movegen.py:196:    castling-rights bookkeeping and the move counters. Legality (king safety,",
+        "chess/engine/movegen.py:197:    castling/en-passant rules) is the caller's responsibility.",
+        "chess/engine/movegen.py:229:        new.castling.discard(\"K\" if piece.color is Color.WHITE else \"k\")",
+        "chess/engine/movegen.py:230:        new.castling.discard(\"Q\" if piece.color is Color.WHITE else \"q\")",
+        "chess/engine/movegen.py:233:            new.castling.discard(right)",
+        "chess/engine/san.py:7:castling.",
+        "chess/engine/san.py:95:    ``+``/``#``/``!``/``?`` annotations are ignored; castling accepts",
+        "chess/engine/san.py:113:        raise ValueError(f\"illegal castling move: {san!r}\")",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 193
+  }
+}

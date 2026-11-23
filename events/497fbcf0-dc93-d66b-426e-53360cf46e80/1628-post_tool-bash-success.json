@@ -1,0 +1,64 @@
+{
+  "seq": 1628,
+  "received_at": "2026-11-23T21:34:23.789665+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "0Yvtj5pIj",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && cat >> web/style.css <<'EOF'",
+        "",
+        "/* Chess960 (V12) */",
+        ".chess960-row { display: flex; align-items: center; gap: 8px; }",
+        ".chess960-row input[type=\"number\"] {",
+        "  width: 90px; padding: 6px 8px; border-radius: 8px;",
+        "  border: 1px solid var(--border); background: var(--bg-input); color: var(--text);",
+        "  font-variant-numeric: tabular-nums;",
+        "}",
+        ".chess960-hint { font-size: 12px; color: var(--text-dim); }",
+        "EOF",
+        "for f in web/js/main.js web/js/api.js web/js/state.js; do cp \"$f\" /tmp/c.mjs && node --check /tmp/c.mjs && echo \"OK $f\"; done",
+        "set -o pipefail && .venv/bin/python -m pytest tests/test_web.py -q 2>&1 | tail -2"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && cat >> web/style.css <<'EOF'",
+        "",
+        "/* Chess960 (V12) */",
+        ".chess960-row { display: flex; align-items: center; gap: 8px; }",
+        ".chess960-row input[type=\"number\"] {",
+        "  width: 90px; padding: 6px 8px; border-radius: 8px;",
+        "  border: 1px solid var(--border); background: var(--bg-input); color: var(--text);",
+        "  font-variant-numeric: tabular-nums;",
+        "}",
+        ".chess960-hint { font-size: 12px; color: var(--text-dim); }",
+        "EOF",
+        "for f in web/js/main.js web/js/api.js web/js/state.js; do cp \"$f\" /tmp/c.mjs && node --check /tmp/c.mjs && echo \"OK $f\"; done",
+        "set -o pipefail && .venv/bin/python -m pytest tests/test_web.py -q 2>&1 | tail -2"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "OK web/js/main.js",
+        "OK web/js/api.js",
+        "OK web/js/state.js",
+        "......                                                                   [100%]",
+        "6 passed in 1.04s",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 2637
+  }
+}

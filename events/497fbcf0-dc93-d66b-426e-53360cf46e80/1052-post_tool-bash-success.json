@@ -1,0 +1,39 @@
+{
+  "seq": 1052,
+  "received_at": "2026-11-23T20:01:15.879964+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "03SpxG4RD",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"MORPHY\\|1. e4\" tests/test_pgn.py | head -5 && sed -n \"$(grep -n 'MORPHY' tests/test_pgn.py | head -1 | cut -d: -f1),+12p\" tests/test_pgn.py"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"MORPHY\\|1. e4\" tests/test_pgn.py | head -5 && sed -n \"$(grep -n 'MORPHY' tests/test_pgn.py | head -1 | cut -d: -f1),+12p\" tests/test_pgn.py",
+      "returncode": 1,
+      "stderr": [
+        "sed: 1: \",+12p",
+        "\": invalid command code ,",
+        ""
+      ],
+      "stdout": [
+        "19:1. e4 e5 2. Nf3 d6 3. d4 Bg4 4. dxe5 Bxf3 5. Qxf3 dxe5 6. Bc4 Nf6",
+        "41:    assert \"1. e4 e5 2. Nf3 Nc6 *\" in movetext",
+        "92:        \"1. e4 {best by test} e5 (1... c5 2. Nf3) 2. Nf3 $1 d6 3. d4 *\"",
+        "100:        import_pgn(\"1. e4 e5 2. Nf3 nonsense\")",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 71
+  }
+}

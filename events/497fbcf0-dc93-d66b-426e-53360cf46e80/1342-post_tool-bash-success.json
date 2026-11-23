@@ -1,0 +1,55 @@
+{
+  "seq": 1342,
+  "received_at": "2026-11-23T20:49:39.767936+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "pzR6g3zp0",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"renderVsControls\" web/js/panels.js && sed -n \"$(grep -n 'export function renderVsControls' web/js/panels.js | cut -d: -f1),+22p\" web/js/panels.js 2>/dev/null || awk '/export function renderVsControls/,/^}/' web/js/panels.js"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"renderVsControls\" web/js/panels.js && sed -n \"$(grep -n 'export function renderVsControls' web/js/panels.js | cut -d: -f1),+22p\" web/js/panels.js 2>/dev/null || awk '/export function renderVsControls/,/^}/' web/js/panels.js",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "211:export function renderVsControls() {",
+        "export function renderVsControls() {",
+        "  document.getElementById(\"seg-human\").setAttribute(\"aria-selected\", String(!state.vs));",
+        "  document.getElementById(\"seg-computer\").setAttribute(\"aria-selected\", String(state.vs));",
+        "  document.getElementById(\"vs-options\").classList.toggle(\"hidden\", !state.vs);",
+        "  const mh = document.getElementById(\"mode-human\");",
+        "  const mc = document.getElementById(\"mode-computer\");",
+        "  const ms = document.getElementById(\"mode-spectator\");",
+        "  if (mh && mc) {",
+        "    mh.setAttribute(\"aria-pressed\", String(!state.vs && !state.spectator));",
+        "    mc.setAttribute(\"aria-pressed\", String(state.vs && !state.spectator));",
+        "  }",
+        "  if (ms) ms.setAttribute(\"aria-pressed\", String(state.spectator));",
+        "  for (const [id, val] of [[\"opt-color\", state.colorChoice], [\"opt-depth\", String(state.depth)]]) {",
+        "    const group = document.getElementById(id);",
+        "    if (group) {",
+        "      group.querySelectorAll(\".chip\").forEach((b) =>",
+        "        b.setAttribute(\"aria-pressed\", String(b.dataset.value === val))",
+        "      );",
+        "    }",
+        "  }",
+        "}",
+        "",
+        "// --- Barre d'évaluation animée (score /api/eval, perspective camp au trait) -------",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 91
+  }
+}

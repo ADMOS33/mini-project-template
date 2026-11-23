@@ -1,0 +1,125 @@
+{
+  "seq": 1003,
+  "received_at": "2026-11-23T19:44:00.692123+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "vibe.todo",
+    "tool_call_id": "6Ywtwbpio",
+    "tool_input": {
+      "action": "write",
+      "todos": [
+        {
+          "content": "V7 Puzzles: find_mates, base validée moteur, CLI puzzle/solve, API+MCP, web",
+          "id": "v7",
+          "priority": "high",
+          "status": "in_progress"
+        },
+        {
+          "content": "V8 Abandon/nulle/reprise + niveaux nommés (moteur, CLI, API, web)",
+          "id": "v8",
+          "priority": "high",
+          "status": "pending"
+        },
+        {
+          "content": "V9 Revue de partie + ouvertures ECO + indice (moteur, CLI, API, MCP, web)",
+          "id": "v9",
+          "priority": "high",
+          "status": "pending"
+        },
+        {
+          "content": "V10 Interactions plateau (flèches, prémouvements, survol, raccourcis, animations)",
+          "id": "v10",
+          "priority": "medium",
+          "status": "pending"
+        },
+        {
+          "content": "V11 Réglages + archive parties + éditeur de position",
+          "id": "v11",
+          "priority": "medium",
+          "status": "pending"
+        },
+        {
+          "content": "V12 Chess960 (optionnel) — ou revert si perft casse",
+          "id": "v12",
+          "priority": "low",
+          "status": "pending"
+        },
+        {
+          "content": "V13 Aide agent + cohérence + report.md",
+          "id": "v13",
+          "priority": "high",
+          "status": "pending"
+        },
+        {
+          "content": "Markdown final doc (versions, fonctionnalités, démarrage/utilisation) + commits AGENTS/events",
+          "id": "final",
+          "priority": "high",
+          "status": "pending"
+        }
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "message": "Updated 8 todos",
+      "todos": [
+        {
+          "content": "V7 Puzzles: find_mates, base validée moteur, CLI puzzle/solve, API+MCP, web",
+          "id": "v7",
+          "priority": "high",
+          "status": "in_progress"
+        },
+        {
+          "content": "V8 Abandon/nulle/reprise + niveaux nommés (moteur, CLI, API, web)",
+          "id": "v8",
+          "priority": "high",
+          "status": "pending"
+        },
+        {
+          "content": "V9 Revue de partie + ouvertures ECO + indice (moteur, CLI, API, MCP, web)",
+          "id": "v9",
+          "priority": "high",
+          "status": "pending"
+        },
+        {
+          "content": "V10 Interactions plateau (flèches, prémouvements, survol, raccourcis, animations)",
+          "id": "v10",
+          "priority": "medium",
+          "status": "pending"
+        },
+        {
+          "content": "V11 Réglages + archive parties + éditeur de position",
+          "id": "v11",
+          "priority": "medium",
+          "status": "pending"
+        },
+        {
+          "content": "V12 Chess960 (optionnel) — ou revert si perft casse",
+          "id": "v12",
+          "priority": "low",
+          "status": "pending"
+        },
+        {
+          "content": "V13 Aide agent + cohérence + report.md",
+          "id": "v13",
+          "priority": "high",
+          "status": "pending"
+        },
+        {
+          "content": "Markdown final doc (versions, fonctionnalités, démarrage/utilisation) + commits AGENTS/events",
+          "id": "final",
+          "priority": "high",
+          "status": "pending"
+        }
+      ],
+      "total_count": 8,
+      "verb": "Updated"
+    },
+    "tool_error": null,
+    "duration_ms": 99
+  }
+}

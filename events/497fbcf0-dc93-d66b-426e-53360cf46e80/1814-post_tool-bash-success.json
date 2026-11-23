@@ -1,0 +1,59 @@
+{
+  "seq": 1814,
+  "received_at": "2026-11-23T22:29:38.961456+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "4It6ZkDkW",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && sed -n 263,290p web/index.html"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && sed -n 263,290p web/index.html",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "  <!-- Aide agent (V13) : CLI, serveur MCP, skill -->",
+        "  <div id=\"help-modal\" class=\"modal hidden\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"help-title\">",
+        "    <div class=\"modal-box help-box\">",
+        "      <h3 id=\"help-title\">🤖 Aide agent — jouer sans navigateur</h3>",
+        "      <p class=\"muted\">Trois façons de piloter une partie (état partagé dans <code>.chess_game.json</code>, suivi live dans ce navigateur) :</p>",
+        "      <h4>1. CLI <code>chess … --json</code></h4>",
+        "      <pre class=\"cmd\">chess new --json",
+        "chess moves --json            # coups légaux (UCI + SAN)",
+        "chess move e2e4 --json        # ou en SAN : chess move Nf3 --json",
+        "chess status --json           # turn, result, version, opening…",
+        "chess ai-move --level club --json",
+        "chess wait --color w --timeout 60 --json   # bloque jusqu'au tour des Blancs",
+        "chess puzzle --level 2 --json &amp;&amp; chess solve d8h4 --json",
+        "chess analyze --json · chess games --json · chess pgn</pre>",
+        "      <h4>2. Serveur MCP (JSON-RPC stdio)</h4>",
+        "      <pre class=\"cmd\">python -m chess.mcp</pre>",
+        "      <p class=\"muted\">Outils : <code>new_game</code>, <code>get_board</code>, <code>get_status</code>, <code>legal_moves</code>,",
+        "      <code>play_move</code>, <code>ai_move</code>, <code>analyze_position</code>, <code>get_pgn</code>,",
+        "      <code>puzzle</code>, <code>solve</code>, <code>analyze_game</code>.",
+        "      Déclaration : <code>vibe mcp add chess --transport stdio --command .venv/bin/python --arg -m --arg chess.mcp</code> (voir README).</p>",
+        "      <h4>3. Skill</h4>",
+        "      <p class=\"muted\"><code>skills/chess-cli/SKILL.md</code> — contrat <code>--json</code> complet, boucle de jeu,",
+        "      gestion des erreurs (rc 1 + liste des coups légaux), agent vs agent avec <code>wait</code>.</p>",
+        "      <div class=\"btn-row\">",
+        "        <button id=\"btn-close-help\" class=\"btn\">Fermer</button>",
+        "      </div>",
+        "    </div>",
+        "  </div>",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 101
+  }
+}

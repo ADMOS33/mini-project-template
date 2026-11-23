@@ -1,0 +1,29 @@
+{
+  "seq": 1379,
+  "received_at": "2026-11-23T20:57:11.063895+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "24wJdA3Ik",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/state.js",
+      "old_string": [
+        "state.analysis = null; // rapport /api/analyze (V9)",
+        "state.hint = null; // {from, to} meilleur coup (bouton Indice)"
+      ],
+      "new_string": [
+        "state.analysis = null; // rapport /api/analyze (V9)",
+        "state.hint = null; // {from, to} meilleur coup (bouton Indice)",
+        "// V10 : dessins (flèches/cercles), prémouvement, aperçu au survol",
+        "state.drawings = []; // [{type:\"arrow\",from,to,color} | {type:\"circle\",sq,color}]",
+        "state.premove = null; // {from, to} en attente pendant que l'ordinateur réfléchit",
+        "state.previewPly = null; // aperçu de position au survol d'un coup"
+      ]
+    }
+  }
+}

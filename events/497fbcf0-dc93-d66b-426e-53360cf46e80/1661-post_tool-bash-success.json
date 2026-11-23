@@ -1,0 +1,42 @@
+{
+  "seq": 1661,
+  "received_at": "2026-11-23T21:42:58.046703+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "tNftQBKfu",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -rn \"TODO\\|FIXME\" web/ chess/ --include=\"*.js\" --include=\"*.py\" --include=\"*.html\" | grep -v events | head; echo ---; grep -rniE \">[A-Za-z ]{4,}<|placeholder=\\\"[A-Z]\" web/index.html | grep -viE \"aria|href\" | head"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -rn \"TODO\\|FIXME\" web/ chess/ --include=\"*.js\" --include=\"*.py\" --include=\"*.html\" | grep -v events | head; echo ---; grep -rniE \">[A-Za-z ]{4,}<|placeholder=\\\"[A-Z]\" web/index.html | grep -viE \"aria|href\" | head",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "---",
+        "web/index.html:32:      <button id=\"btn-new\" class=\"btn\">Nouvelle partie</button>",
+        "web/index.html:41:            <span class=\"pname\" id=\"pname-top\">Noirs</span>",
+        "web/index.html:55:            <span class=\"pname\" id=\"pname-bottom\">Blancs</span>",
+        "web/index.html:74:            <h2>Adversaire</h2>",
+        "web/index.html:76:              <button id=\"seg-human\" class=\"seg\" role=\"tab\">Deux joueurs</button>",
+        "web/index.html:86:            <h2>Actions</h2>",
+        "web/index.html:88:              <button id=\"btn-undo\" class=\"btn-secondary\">Annuler</button>",
+        "web/index.html:93:              <button id=\"btn-takeback\" class=\"btn-secondary\" title=\"Annuler mon coup et la réponse de l'ordinateur\">Reprendre</button>",
+        "web/index.html:94:              <button id=\"btn-offer-draw\" class=\"btn-secondary\">Proposer nulle</button>",
+        "web/index.html:95:              <button id=\"btn-resign\" class=\"btn-secondary danger\">Abandonner</button>",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 197
+  }
+}

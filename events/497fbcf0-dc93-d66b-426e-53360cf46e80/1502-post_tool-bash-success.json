@@ -1,0 +1,62 @@
+{
+  "seq": 1502,
+  "received_at": "2026-11-23T21:15:39.567208+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "l1svZ8JUK",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"## Décisions\" -A 30 README.md | head -40"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"## Décisions\" -A 30 README.md | head -40",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "281:## Décisions",
+        "282-",
+        "283-- README en français ; **code, docstrings et commits en anglais**.",
+        "284-- État de la partie persisté dans `.chess_game.json` à la racine (gitignoré :",
+        "285-  c'est de l'état runtime, pas du code).",
+        "286-- Packaging via `pyproject.toml` (console script `chess` + `python -m chess`).",
+        "287-- venv local `.venv` gitignoré ; dépendances strictement limitées à",
+        "288-  `fastapi`, `uvicorn`, `pytest`.",
+        "289-- Aucune bibliothèque d'échecs externe : tout le moteur est écrit à la main.",
+        "290-- Le fichier d'état `.chess_game.json` vit dans le **cwd** (racine du projet en",
+        "291-  pratique) et est partagé entre CLI et API ; `--state PATH` (option globale,",
+        "292-  avant la sous-commande) et `CHESS_STATE_FILE` (env var serveur) permettent de",
+        "293-  le déplacer.",
+        "294-- L'API est testée via le serveur live + `curl` (et non `TestClient`) car",
+        "295-  `httpx` ne fait pas partie des dépendances autorisées.",
+        "296-- Le serveur sert `web/` à la racine (`/`) ; les routes `/api/*` et `/docs`",
+        "297-  sont enregistrées avant le mount statique pour prendre la priorité.",
+        "298-- Slice moteur actuel : coups normaux de toutes les pièces, promotion, roque",
+        "299-  (petit/grand, toutes conditions), prise en passant, filtre « roi pas en",
+        "300-  échec », échec/mat/pat, triple répétition, règle des 50 coups, matériel",
+        "301-  insuffisant, FEN (+ validation), persistance JSON, perft au vert sur les 4",
+        "302-  positions de référence. SAN (`chess/engine/san.py`) et PGN",
+        "303-  (`chess/engine/pgn.py`) vivent dans le moteur ; la couche API ne contient",
+        "304-  plus aucune logique d'échecs.",
+        "305-- **Nulles automatiques** : triple répétition, règle des 50 coups et matériel",
+        "306-  insuffisant sont détectées automatiquement (pas de réclamation à la FIDE) —",
+        "307-  `result` vaut `draw_threefold` / `draw_fifty_move` /",
+        "308-  `draw_insufficient_material` et `winner` vaut `null` dans `Game.status()`.",
+        "309-- **Perte au temps = défaite** : le camp au clock à 0 perd (résultat",
+        "310-  `flag` + `winner`), enregistré par l'API via `POST /api/flag` et persisté",
+        "311-  dans l'état ; plus aucun coup n'est accepté ensuite.",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 113
+  }
+}

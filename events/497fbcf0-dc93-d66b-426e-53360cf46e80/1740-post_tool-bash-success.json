@@ -1,0 +1,32 @@
+{
+  "seq": 1740,
+  "received_at": "2026-11-23T22:08:04.367945+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "HiMix5mr3",
+    "tool_input": {
+      "timeout": 120,
+      "command": "pkill -f gen9.py; sleep 1; echo ok"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "pkill -f gen9.py; sleep 1; echo ok",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "ok",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 1153
+  }
+}

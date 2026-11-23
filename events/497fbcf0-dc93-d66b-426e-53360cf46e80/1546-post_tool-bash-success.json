@@ -1,0 +1,44 @@
+{
+  "seq": 1546,
+  "received_at": "2026-11-23T21:24:37.992621+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "iyGap3uh5",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cat /Users/rafiq/.vibe/scratchpad/gen5.log 2>/dev/null | tail -20; echo ---; ls -la /Users/rafiq/.vibe/scratchpad/ | grep -i \"gen\\|puzzle\""
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cat /Users/rafiq/.vibe/scratchpad/gen5.log 2>/dev/null | tail -20; echo ---; ls -la /Users/rafiq/.vibe/scratchpad/ | grep -i \"gen\\|puzzle\"",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "resume with 12",
+        "---",
+        "-rw-------@  1 rafiq  staff  4458 Nov 23 21:09 gen_puzzles.py",
+        "-rw-r--r--@  1 rafiq  staff  1001 Nov 23 21:10 gen.log",
+        "-rw-r--r--@  1 rafiq  staff     0 Nov 23 21:13 gen2.log",
+        "-rw-------@  1 rafiq  staff  3437 Nov 23 21:12 gen2.py",
+        "-rw-r--r--@  1 rafiq  staff   774 Nov 23 21:44 gen3.log",
+        "-rw-------@  1 rafiq  staff  3652 Nov 23 21:43 gen3.py",
+        "-rw-r--r--@  1 rafiq  staff   830 Nov 23 22:19 gen4.log",
+        "-rw-------@  1 rafiq  staff  3990 Nov 23 22:00 gen4.py",
+        "-rw-r--r--@  1 rafiq  staff    15 Nov 23 22:14 gen5.log",
+        "-rw-------@  1 rafiq  staff  3759 Nov 23 22:14 gen5.py",
+        "-rw-r--r--@  1 rafiq  staff  1509 Nov 23 22:19 puzzles_raw.json",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 111
+  }
+}

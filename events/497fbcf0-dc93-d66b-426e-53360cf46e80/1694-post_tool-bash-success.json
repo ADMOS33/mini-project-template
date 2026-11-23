@@ -1,0 +1,34 @@
+{
+  "seq": 1694,
+  "received_at": "2026-11-23T21:53:57.667678+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "ddCSVOINs",
+    "tool_input": {
+      "timeout": 120,
+      "command": "grep \"^n=\\|TOTAL\" /Users/rafiq/.vibe/scratchpad/gen8.log | tail -6; grep -c Traceback /Users/rafiq/.vibe/scratchpad/gen8.log; ps aux | grep gen8 | grep -v grep | awk '{print $10}'"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "grep \"^n=\\|TOTAL\" /Users/rafiq/.vibe/scratchpad/gen8.log | tail -6; grep -c Traceback /Users/rafiq/.vibe/scratchpad/gen8.log; ps aux | grep gen8 | grep -v grep | awk '{print $10}'",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "0",
+        "0:50.45",
+        "0:00.78",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 508
+  }
+}

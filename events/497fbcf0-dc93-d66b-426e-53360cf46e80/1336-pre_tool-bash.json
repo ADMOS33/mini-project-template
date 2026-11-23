@@ -1,0 +1,18 @@
+{
+  "seq": 1336,
+  "received_at": "2026-11-23T20:49:26.716019+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "4bA4N6cxe",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"import\" web/js/panels.js | head -5 && grep -n \"renderAll\\|export function render\" web/js/board-view.js | head && grep -n \"lastMove\\|classList.add\" web/js/board-view.js | head -12"
+    }
+  }
+}

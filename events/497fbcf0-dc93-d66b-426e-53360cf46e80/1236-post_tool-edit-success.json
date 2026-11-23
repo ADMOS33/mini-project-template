@@ -1,0 +1,50 @@
+{
+  "seq": 1236,
+  "received_at": "2026-11-23T20:39:14.461791+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "Ln5qt8bFm",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/api/server.py",
+      "new_string": [
+        "from chess.api.schemas import (",
+        "    AiMoveRequest,",
+        "    AnalyzeRequest,",
+        "    FlagRequest,",
+        "    LoadRequest,",
+        "    MoveRequest,",
+        "    OfferDrawRequest,",
+        "    PgnRequest,",
+        "    PuzzleRequest,",
+        "    SolveRequest,",
+        ")"
+      ],
+      "old_string": [
+        "from chess.api.schemas import (",
+        "    AiMoveRequest,",
+        "    FlagRequest,",
+        "    LoadRequest,",
+        "    MoveRequest,",
+        "    OfferDrawRequest,",
+        "    PgnRequest,",
+        "    PuzzleRequest,",
+        "    SolveRequest,",
+        ")"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/api/server.py",
+      "lines_changed": 11,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 170
+  }
+}

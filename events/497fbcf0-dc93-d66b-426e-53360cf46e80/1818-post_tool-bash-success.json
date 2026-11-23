@@ -1,0 +1,49 @@
+{
+  "seq": 1818,
+  "received_at": "2026-11-23T22:31:00.733047+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "CRxqWb9CC",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && printf '%s\\n' '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"smoke\",\"version\":\"0\"}}}' '{\"jsonrpc\":\"2.0\",\"method\":\"notifications/initialized\"}' '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\"}' '{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/call\",\"params\":{\"name\":\"new_game\",\"arguments\":{}}}' '{\"jsonrpc\":\"2.0\",\"id\":4,\"method\":\"tools/call\",\"params\":{\"name\":\"play_move\",\"arguments\":{\"move\":\"e2e4\"}}}' '{\"jsonrpc\":\"2.0\",\"id\":5,\"method\":\"tools/call\",\"params\":{\"name\":\"get_status\",\"arguments\":{}}}' | CHESS_STATE_FILE=/tmp/mcp-smoke.json timeout 20 .venv/bin/python -m chess.mcp 2>/dev/null | python3 -c \"",
+        "import json,sys",
+        "for line in sys.stdin:",
+        "    d=json.loads(line)",
+        "    if d.get('id')==2: print('tools:', [t['name'] for t in d['result']['tools']])",
+        "    elif d.get('id')==4: print('play_move:', json.dumps(d['result'])[:120])",
+        "    elif d.get('id')==5: print('status result:', d['result']['content'][0]['text'][:100])",
+        "    else: print(d.get('id'), 'ok' if 'result' in d else d)",
+        "\""
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && printf '%s\\n' '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"smoke\",\"version\":\"0\"}}}' '{\"jsonrpc\":\"2.0\",\"method\":\"notifications/initialized\"}' '{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\"}' '{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/call\",\"params\":{\"name\":\"new_game\",\"arguments\":{}}}' '{\"jsonrpc\":\"2.0\",\"id\":4,\"method\":\"tools/call\",\"params\":{\"name\":\"play_move\",\"arguments\":{\"move\":\"e2e4\"}}}' '{\"jsonrpc\":\"2.0\",\"id\":5,\"method\":\"tools/call\",\"params\":{\"name\":\"get_status\",\"arguments\":{}}}' | CHESS_STATE_FILE=/tmp/mcp-smoke.json timeout 20 .venv/bin/python -m chess.mcp 2>/dev/null | python3 -c \"",
+        "import json,sys",
+        "for line in sys.stdin:",
+        "    d=json.loads(line)",
+        "    if d.get('id')==2: print('tools:', [t['name'] for t in d['result']['tools']])",
+        "    elif d.get('id')==4: print('play_move:', json.dumps(d['result'])[:120])",
+        "    elif d.get('id')==5: print('status result:', d['result']['content'][0]['text'][:100])",
+        "    else: print(d.get('id'), 'ok' if 'result' in d else d)",
+        "\""
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "",
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 166
+  }
+}

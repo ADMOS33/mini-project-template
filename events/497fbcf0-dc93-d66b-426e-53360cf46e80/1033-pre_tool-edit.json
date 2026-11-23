@@ -1,0 +1,28 @@
+{
+  "seq": 1033,
+  "received_at": "2026-11-23T19:55:27.999232+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "gzzaOcWwd",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/game.py",
+      "old_string": [
+        "            \"external_result\": self.external_result,",
+        "            \"version\": self.version,",
+        "        }"
+      ],
+      "new_string": [
+        "            \"external_result\": self.external_result,",
+        "            \"version\": self.version,",
+        "            \"meta\": self.meta,",
+        "        }"
+      ]
+    }
+  }
+}

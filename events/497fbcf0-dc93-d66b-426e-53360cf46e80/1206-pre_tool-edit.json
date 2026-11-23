@@ -1,0 +1,53 @@
+{
+  "seq": 1206,
+  "received_at": "2026-11-23T20:36:54.119799+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "FWQK9nxIM",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/cli/main.py",
+      "old_string": [
+        "    game = _load_game(state_file)",
+        "    if cmd == \"board\":"
+      ],
+      "new_string": [
+        "    if cmd == \"puzzle\":",
+        "        from chess.ai.puzzles import get_puzzle, load_puzzle",
+        "",
+        "        try:",
+        "            puzzle = get_puzzle(args.level, args.index, args.seed)",
+        "        except ValueError as exc:",
+        "            raise CliError(str(exc)) from exc",
+        "        game = Game.from_fen(puzzle[\"fen\"])",
+        "        game.version = next_version(state_file)",
+        "        load_puzzle(game, puzzle)",
+        "        game.save(state_file)",
+        "        meta = game.meta[\"puzzle\"]",
+        "        return (",
+        "            {",
+        "                \"ok\": True,",
+        "                \"puzzle\": {",
+        "                    \"level\": meta[\"level\"],",
+        "                    \"n\": meta[\"n\"],",
+        "                    \"theme\": meta[\"theme\"],",
+        "                    \"turn\": game.status()[\"turn\"],",
+        "                    \"fen\": meta[\"fen\"],",
+        "                },",
+        "                \"status\": game.status(),",
+        "            },",
+        "            f\"Puzzle loaded: mate in {meta['n']} ({meta['theme']}), \"",
+        "            f\"{game.status()['turn']} to move.\\n{meta['fen']}\",",
+        "        )",
+        "",
+        "    game = _load_game(state_file)",
+        "    if cmd == \"board\":"
+      ]
+    }
+  }
+}

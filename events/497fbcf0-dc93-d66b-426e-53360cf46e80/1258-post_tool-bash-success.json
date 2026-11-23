@@ -1,0 +1,43 @@
+{
+  "seq": 1258,
+  "received_at": "2026-11-23T20:41:32.491110+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "iyHksAcwu",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && set -o pipefail && .venv/bin/python -m pytest tests/test_analysis.py::test_brilliant_label_on_queen_sacrifice tests/test_analysis.py::test_api_analyze_and_status_opening -q 2>&1 | grep -B 6 \"Error\\|assert\" | head -40"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && set -o pipefail && .venv/bin/python -m pytest tests/test_analysis.py::test_brilliant_label_on_queen_sacrifice tests/test_analysis.py::test_api_analyze_and_status_opening -q 2>&1 | grep -B 6 \"Error\\|assert\" | head -40",
+      "returncode": 1,
+      "stderr": "",
+      "stdout": [
+        "        full = import_pgn(OPERA_PGN)",
+        "        fens = full.position_fens()",
+        "        game = Game.from_fen(fens[-4])  # after 15...Nxd7, White to move, Q on b3",
+        "        game.play_uci(\"b3b8\")  # Qb8+",
+        "        report = analyze_game(game, depth=4)",
+        "        ply = report[\"plies\"][0]",
+        ">       assert ply[\"sacrifice\"] is True",
+        "E       assert False is True",
+        "",
+        "tests/test_analysis.py:93: AssertionError",
+        "=========================== short test summary info ============================",
+        "FAILED tests/test_analysis.py::test_brilliant_label_on_queen_sacrifice - assert False is True",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 3093
+  }
+}

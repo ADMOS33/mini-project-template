@@ -1,0 +1,18 @@
+{
+  "seq": 1093,
+  "received_at": "2026-11-23T20:11:20.850377+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "j1qpfPNM4",
+    "tool_input": {
+      "timeout": 120,
+      "command": "sleep 60; tail -4 /Users/rafiq/.vibe/scratchpad/gen.log; grep -c \"n=2 #\\|n=3 #\" /Users/rafiq/.vibe/scratchpad/gen.log; ls /Users/rafiq/.vibe/scratchpad/puzzles_raw.json 2>/dev/null || echo running"
+    }
+  }
+}

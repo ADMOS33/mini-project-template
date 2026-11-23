@@ -1,0 +1,53 @@
+{
+  "seq": 1523,
+  "received_at": "2026-11-23T21:22:03.243821+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "izyB8i0oA",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && wc -l chess/engine/*.py && grep -n \"castling\" chess/engine/fen.py | head -30"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && wc -l chess/engine/*.py && grep -n \"castling\" chess/engine/fen.py | head -30",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "       1 chess/engine/__init__.py",
+        "     119 chess/engine/board.py",
+        "      81 chess/engine/chess960.py",
+        "     121 chess/engine/fen.py",
+        "     191 chess/engine/game.py",
+        "      52 chess/engine/move.py",
+        "     255 chess/engine/movegen.py",
+        "      87 chess/engine/openings.py",
+        "      36 chess/engine/perft.py",
+        "     102 chess/engine/pgn.py",
+        "      78 chess/engine/pieces.py",
+        "     103 chess/engine/rules.py",
+        "     138 chess/engine/san.py",
+        "    1364 total",
+        "48:    placement, side, castling, ep, halfmove, fullmove = parts",
+        "76:    if castling == \"-\":",
+        "77:        board.castling = set()",
+        "79:        if any(ch not in _CASTLING_CHARS for ch in castling):",
+        "80:            raise ValueError(f\"invalid FEN castling field: {castling!r}\")",
+        "81:        board.castling = set(castling)",
+        "116:    castling = \"\".join(ch for ch in _CASTLING_CHARS if ch in board.castling) or \"-\"",
+        "119:        f\"{placement} {side} {castling} {ep} \"",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 232
+  }
+}

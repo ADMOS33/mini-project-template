@@ -1,0 +1,62 @@
+{
+  "seq": 1555,
+  "received_at": "2026-11-23T21:26:33.016397+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "YLoFCf5Ze",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/movegen.py",
+      "old_string": [
+        "# (rook square, castling right letter) used to update rights on rook moves/captures.",
+        "_ROOK_RIGHTS = (",
+        "    (square(0, 0), \"Q\"),",
+        "    (square(7, 0), \"K\"),",
+        "    (square(0, 7), \"q\"),",
+        "    (square(7, 7), \"k\"),",
+        ")"
+      ],
+      "new_string": [
+        "def rook_file_for_right(letter: str) -> int:",
+        "    \"\"\"Rook file targeted by a castling-right letter (X-FEN aware).",
+        "",
+        "    Standard letters ``K``/``Q`` (and ``k``/``q``) map to the h/a files;",
+        "    Chess960 X-FEN letters are the rook's own file (``A``-``H`` / ``a``-``h``).",
+        "    \"\"\"",
+        "    if letter in (\"K\", \"H\", \"k\", \"h\"):",
+        "        return 7",
+        "    if letter in (\"Q\", \"A\", \"q\", \"a\"):",
+        "        return 0",
+        "    return FILES.index(letter.lower())",
+        "",
+        "",
+        "def is_castling_move(board: Board, move: Move) -> bool:",
+        "    \"\"\"True if ``move`` is a castling move of the king in ``board``.",
+        "",
+        "    Standard castling is king two files away on its home rank (e1g1/e1c1);",
+        "    in Chess960 the king moves onto its own rook's square (\"the king takes",
+        "    its rook\", e.g. f1h1).",
+        "    \"\"\"",
+        "    piece = board.piece_at(move.from_sq)",
+        "    if piece is None or piece.type is not PieceType.KING:",
+        "        return False",
+        "    if square_rank(move.from_sq) not in (0, 7):",
+        "        return False",
+        "    kf = square_file(move.from_sq)",
+        "    target = board.piece_at(move.to_sq)",
+        "    if (",
+        "        target is not None",
+        "        and target.type is PieceType.ROOK",
+        "        and target.color is piece.color",
+        "    ):",
+        "        return True",
+        "    return abs(square_file(move.to_sq) - kf) == 2"
+      ]
+    }
+  }
+}

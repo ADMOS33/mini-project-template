@@ -1,0 +1,61 @@
+{
+  "seq": 1407,
+  "received_at": "2026-11-23T20:59:13.748980+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "AitOJHAQO",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/main.js",
+      "old_string": [
+        "// --- V10 : le prémouvement part dès que c'est à nous de jouer ------------------------",
+        "async function firePremove(status) {",
+        "  if (!state.premove || state.thinking) return;",
+        "  if (status.result !== \"ongoing\") { state.premove = null; return; }",
+        "  const myColor = state.vs",
+        "    ? state.colorChoice === \"random\" ? state.actualColor : state.colorChoice",
+        "    : null;",
+        "  if (!myColor || status.turn !== myColor) return;",
+        "  const pm = state.premove;",
+        "  state.premove = null;",
+        "  render();",
+        "  await tryMoveSilent(pm.from, pm.to);",
+        "}",
+        "",
+        "// Essaie le prémouvement sans toast d'erreur (annulé silencieusement si refusé).",
+        "import { tryMove } from \"./interactions.js\";",
+        "async function tryMoveSilent(from, to) {",
+        "  try {",
+        "    await tryMove(from, to, refresh, true);",
+        "  } catch { /* prémouvement annulé sans message */ }",
+        "}",
+        "",
+        "initSound();"
+      ],
+      "new_string": [
+        "// --- V10 : le prémouvement part dès que c'est à nous de jouer ------------------------",
+        "async function firePremove(status) {",
+        "  if (!state.premove || state.thinking) return;",
+        "  if (status.result !== \"ongoing\") { state.premove = null; return; }",
+        "  const myColor = state.vs",
+        "    ? state.colorChoice === \"random\" ? state.actualColor : state.colorChoice",
+        "    : null;",
+        "  if (!myColor || status.turn !== myColor) return;",
+        "  const pm = state.premove;",
+        "  state.premove = null;",
+        "  render();",
+        "  try {",
+        "    await tryMove(pm.from, pm.to, refresh, true); // refusé -> annulé sans message",
+        "  } catch { /* annulé silencieusement */ }",
+        "}",
+        "",
+        "initSound();"
+      ]
+    }
+  }
+}

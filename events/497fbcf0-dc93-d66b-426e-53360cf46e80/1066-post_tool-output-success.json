@@ -1,0 +1,33 @@
+{
+  "seq": 1066,
+  "received_at": "2026-11-23T20:06:32.864376+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "process.output",
+    "tool_call_id": "typescript:292:mAXMSZIKS:0:tool:0",
+    "tool_input": {
+      "maxBytes": 4000,
+      "processId": "process-255310fd016a-53e5cb533bbab58b212c14be",
+      "waitMs": 30000
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "bytesAvailable": 0,
+      "exitCode": null,
+      "hasMore": false,
+      "nextCursor": 0,
+      "output": "",
+      "outputStartCursor": 0,
+      "processId": "process-255310fd016a-53e5cb533bbab58b212c14be",
+      "status": "running",
+      "truncatedBefore": false
+    },
+    "tool_error": null,
+    "duration_ms": 30046
+  }
+}

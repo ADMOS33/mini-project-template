@@ -1,0 +1,51 @@
+{
+  "seq": 1470,
+  "received_at": "2026-11-23T21:07:54.813634+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "YbwI8RR1x",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/board-view.js",
+      "old_string": [
+        "      const sym = symAt(name);",
+        "      if (sym) {",
+        "        const src = pieceSrc(sym);",
+        "        const span = document.createElement(\"span\");",
+        "        span.className = \"piece\";",
+        "        const img = document.createElement(\"img\");",
+        "        if (src) img.src = src;",
+        "        img.alt = sym;",
+        "        img.draggable = false;",
+        "        span.appendChild(img);",
+        "        sq.appendChild(span);",
+        "      }"
+      ],
+      "new_string": [
+        "      const sym = symAt(name);",
+        "      if (sym) {",
+        "        const span = document.createElement(\"span\");",
+        "        span.className = \"piece\";",
+        "        if (state.pieceSet === \"unicode\") {",
+        "          // Jeu de pièces alternatif : glyphe Unicode (un seul jeu en plus, V11)",
+        "          span.classList.add(\"unicode\");",
+        "          span.textContent = UNICODE_GLYPH[sym] || sym;",
+        "        } else {",
+        "          const src = pieceSrc(sym);",
+        "          const img = document.createElement(\"img\");",
+        "          if (src) img.src = src;",
+        "          img.alt = sym;",
+        "          img.draggable = false;",
+        "          span.appendChild(img);",
+        "        }",
+        "        sq.appendChild(span);",
+        "      }"
+      ]
+    }
+  }
+}

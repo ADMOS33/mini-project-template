@@ -1,0 +1,74 @@
+{
+  "seq": 1172,
+  "received_at": "2026-11-23T20:24:05.251280+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "XjU4hoUQk",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -c \"",
+        "import sys; sys.path.insert(0, '.')",
+        "from chess.engine.fen import board_from_fen, board_to_fen",
+        "from chess.engine.move import Move",
+        "from chess.engine.movegen import apply_move, legal_moves",
+        "from chess.ai.search import negamax, _INF, _ordered_moves",
+        "b = board_from_fen('7k/8/6K1/8/8/8/8/R7 w - - 0 1')",
+        "m = Move.from_uci('a1a8')",
+        "print('legal?', m.to_uci() in [x.to_uci() for x in legal_moves(b)])",
+        "c = apply_move(b, m)",
+        "print('child fen:', board_to_fen(c), 'turn', c.turn)",
+        "print('child moves:', len(legal_moves(c)))",
+        "print('negamax child depth1:', negamax(c, 1, -_INF, _INF))",
+        "print('ordered root first 5:', [x.to_uci() for x in _ordered_moves(b)[:5]])",
+        "print('negamax root depth2:', negamax(b, 2, -_INF, _INF))",
+        "print('negamax root depth3:', negamax(b, 3, -_INF, _INF))",
+        "\""
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -c \"",
+        "import sys; sys.path.insert(0, '.')",
+        "from chess.engine.fen import board_from_fen, board_to_fen",
+        "from chess.engine.move import Move",
+        "from chess.engine.movegen import apply_move, legal_moves",
+        "from chess.ai.search import negamax, _INF, _ordered_moves",
+        "b = board_from_fen('7k/8/6K1/8/8/8/8/R7 w - - 0 1')",
+        "m = Move.from_uci('a1a8')",
+        "print('legal?', m.to_uci() in [x.to_uci() for x in legal_moves(b)])",
+        "c = apply_move(b, m)",
+        "print('child fen:', board_to_fen(c), 'turn', c.turn)",
+        "print('child moves:', len(legal_moves(c)))",
+        "print('negamax child depth1:', negamax(c, 1, -_INF, _INF))",
+        "print('ordered root first 5:', [x.to_uci() for x in _ordered_moves(b)[:5]])",
+        "print('negamax root depth2:', negamax(b, 2, -_INF, _INF))",
+        "print('negamax root depth3:', negamax(b, 3, -_INF, _INF))",
+        "\""
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "legal? True",
+        "child fen: R6k/8/6K1/8/8/8/8/8 b - - 1 1 turn b",
+        "child moves: 0",
+        "negamax child depth1: (-100001, 1)",
+        "ordered root first 5: ['a1b1', 'a1c1', 'a1d1', 'a1e1', 'a1f1']",
+        "negamax root depth2: (530, 40)",
+        "negamax root depth3: (-480, 542)",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 157
+  }
+}

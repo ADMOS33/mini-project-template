@@ -1,0 +1,40 @@
+{
+  "seq": 1261,
+  "received_at": "2026-11-23T20:41:49.564234+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "FcJr2R5vJ",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_analysis.py",
+      "old_string": [
+        "def test_api_analyze_and_status_opening(state) -> None:",
+        "    import chess.api.server as server",
+        "    from chess.api.schemas import AnalyzeRequest, MoveRequest",
+        "",
+        "    server.post_new()"
+      ],
+      "new_string": [
+        "@pytest.fixture()",
+        "def state(tmp_path, monkeypatch):",
+        "    import chess.api.server as server",
+        "",
+        "    path = tmp_path / \".chess_game.json\"",
+        "    monkeypatch.setattr(server, \"STATE_FILE\", path)",
+        "    return path",
+        "",
+        "",
+        "def test_api_analyze_and_status_opening(state) -> None:",
+        "    import chess.api.server as server",
+        "    from chess.api.schemas import AnalyzeRequest, MoveRequest",
+        "",
+        "    server.post_new()"
+      ]
+    }
+  }
+}

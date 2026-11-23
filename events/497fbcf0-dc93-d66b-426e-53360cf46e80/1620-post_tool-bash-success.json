@@ -1,0 +1,42 @@
+{
+  "seq": 1620,
+  "received_at": "2026-11-23T21:33:40.960711+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "DSEQUYqWf",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && sed -n 50,60p web/js/state.js"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && sed -n 50,60p web/js/state.js",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "state.sound = ls(\"chess.sound\", \"1\") === \"1\";",
+        "state.clockMode = ls(\"chess.clock\", \"none\");",
+        "state.autoFlip = ls(\"chess.autoflip\", \"0\") === \"1\";",
+        "// Mode spectateur (V5) : le navigateur n'accepte aucun coup et ne lance pas l'IA.",
+        "state.spectator = ls(\"chess.spectator\", \"0\") === \"1\";",
+        "// Niveaux nommés de l'ordinateur (V8) + problème en cours (V7) + revue (V9).",
+        "state.level = ls(\"chess.level\", \"club\");",
+        "state.puzzleMode = false;",
+        "state.puzzle = null; // {level, n, theme, fen, solution} renvoyé par /api/puzzle",
+        "state.puzzleLevel = ls(\"chess.puzzleLevel\", \"1\");",
+        "state.puzzleScore = parseInt(ls(\"chess.puzzleScore\", \"0\"), 10) || 0;",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 190
+  }
+}

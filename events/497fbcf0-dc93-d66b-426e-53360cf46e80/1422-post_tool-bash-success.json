@@ -1,0 +1,38 @@
+{
+  "seq": 1422,
+  "received_at": "2026-11-23T20:59:53.892597+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "jxaQoUqML",
+    "tool_input": {
+      "timeout": 120,
+      "command": "grep \"n=\" /Users/rafiq/.vibe/scratchpad/gen4.log | awk '{print $1}' | sort | uniq -c; tail -3 /Users/rafiq/.vibe/scratchpad/gen4.log"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "grep \"n=\" /Users/rafiq/.vibe/scratchpad/gen4.log | awk '{print $1}' | sort | uniq -c; tail -3 /Users/rafiq/.vibe/scratchpad/gen4.log",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "  12 n=1",
+        "   1 n=1...",
+        "   1 n=2...",
+        "   1 n=3...",
+        "n=1 #12 (69 tries, 0s): 7B/1R6/8/8/8/8/5K1k/8 w - - 0 1 sol=b7h7",
+        "n=2...",
+        "n=3...",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 108
+  }
+}

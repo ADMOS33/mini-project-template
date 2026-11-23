@@ -1,0 +1,44 @@
+{
+  "seq": 1337,
+  "received_at": "2026-11-23T20:49:27.080589+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "KyWN7Xn8l",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/panels.js",
+      "new_string": [
+        "  const ms = document.getElementById(\"mode-spectator\");",
+        "  if (ms) ms.setAttribute(\"aria-pressed\", String(state.spectator));",
+        "  const mp = document.getElementById(\"mode-puzzle\");",
+        "  if (mp) mp.setAttribute(\"aria-pressed\", String(state.puzzleMode));",
+        "}"
+      ],
+      "old_string": [
+        "  const ms = document.getElementById(\"mode-spectator\");",
+        "  if (ms) ms.setAttribute(\"aria-pressed\", String(state.spectator));",
+        "}"
+      ]
+    },
+    "tool_status": "failure",
+    "tool_output": null,
+    "tool_output_text": [
+      "old_string not found in /Users/rafiq/3A/projet-AI/mini-project-template/web/js/panels.js; the closest match (71% similar) starts at line 217:",
+      "  const ms = document.getElementById(\"mode-spectator\");",
+      "  if (mh && mc) {",
+      "    mh.setAttribute(\"aria-pressed\", String(!state.vs && !state.spectator));"
+    ],
+    "tool_error": [
+      "old_string not found in /Users/rafiq/3A/projet-AI/mini-project-template/web/js/panels.js; the closest match (71% similar) starts at line 217:",
+      "  const ms = document.getElementById(\"mode-spectator\");",
+      "  if (mh && mc) {",
+      "    mh.setAttribute(\"aria-pressed\", String(!state.vs && !state.spectator));"
+    ],
+    "duration_ms": 201
+  }
+}

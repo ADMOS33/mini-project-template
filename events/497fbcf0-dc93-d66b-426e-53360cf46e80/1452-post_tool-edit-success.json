@@ -1,0 +1,36 @@
+{
+  "seq": 1452,
+  "received_at": "2026-11-23T21:06:17.208522+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "RYp7HyOUN",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "new_string": [
+        "          <button class=\"tab\" id=\"tab-partie\" role=\"tab\" aria-selected=\"true\" aria-controls=\"tabpanel-partie\" data-tab=\"partie\">Partie</button>",
+        "          <button class=\"tab\" id=\"tab-outils\" role=\"tab\" aria-selected=\"false\" aria-controls=\"tabpanel-outils\" data-tab=\"outils\">Outils</button>",
+        "          <button class=\"tab\" id=\"tab-parties\" role=\"tab\" aria-selected=\"false\" aria-controls=\"tabpanel-parties\" data-tab=\"parties\">Parties</button>",
+        "        </div>"
+      ],
+      "old_string": [
+        "          <button class=\"tab\" id=\"tab-partie\" role=\"tab\" aria-selected=\"true\" aria-controls=\"tabpanel-partie\" data-tab=\"partie\">Partie</button>",
+        "          <button class=\"tab\" id=\"tab-outils\" role=\"tab\" aria-selected=\"false\" aria-controls=\"tabpanel-outils\" data-tab=\"outils\">Outils</button>",
+        "        </div>"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "lines_changed": 4,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 471
+  }
+}

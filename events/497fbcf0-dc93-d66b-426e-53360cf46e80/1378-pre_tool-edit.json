@@ -1,0 +1,46 @@
+{
+  "seq": 1378,
+  "received_at": "2026-11-23T20:57:11.033766+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "M31FP9Whl",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "old_string": [
+        "  <!-- Toasts (erreurs) -->",
+        "  <div id=\"toasts\" class=\"toasts\" aria-live=\"polite\"></div>"
+      ],
+      "new_string": [
+        "  <!-- Aide raccourcis clavier (?) -->",
+        "  <div id=\"shortcuts-overlay\" class=\"modal hidden\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"shortcuts-title\">",
+        "    <div class=\"modal-box\">",
+        "      <h3 id=\"shortcuts-title\">Raccourcis clavier</h3>",
+        "      <table class=\"shortcuts-table\">",
+        "        <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>coup précédent / suivant (revue)</td></tr>",
+        "        <tr><td><kbd>Début</kbd> <kbd>Fin</kbd></td><td>début / position actuelle</td></tr>",
+        "        <tr><td><kbd>f</kbd></td><td>retourner l'échiquier</td></tr>",
+        "        <tr><td><kbd>n</kbd></td><td>nouvelle partie</td></tr>",
+        "        <tr><td><kbd>u</kbd></td><td>annuler le dernier coup</td></tr>",
+        "        <tr><td><kbd>?</kbd></td><td>cette aide</td></tr>",
+        "        <tr><td>clic droit glissé</td><td>flèche</td></tr>",
+        "        <tr><td>clic droit simple</td><td>cercle (Maj/Alt = autres couleurs)</td></tr>",
+        "        <tr><td>clic gauche</td><td>efface les dessins</td></tr>",
+        "      </table>",
+        "      <div class=\"btn-row\">",
+        "        <button id=\"btn-close-shortcuts\" class=\"btn\">Fermer</button>",
+        "      </div>",
+        "    </div>",
+        "  </div>",
+        "",
+        "  <!-- Toasts (erreurs) -->",
+        "  <div id=\"toasts\" class=\"toasts\" aria-live=\"polite\"></div>"
+      ]
+    }
+  }
+}

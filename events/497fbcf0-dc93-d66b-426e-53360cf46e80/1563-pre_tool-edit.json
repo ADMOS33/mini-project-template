@@ -1,0 +1,27 @@
+{
+  "seq": 1563,
+  "received_at": "2026-11-23T21:28:09.991268+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "iMAR14urN",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/fen.py",
+      "old_string": "    castling = \"\".join(ch for ch in _CASTLING_CHARS if ch in board.castling) or \"-\"",
+      "new_string": [
+        "    # Standard letters keep their canonical KQkq order; X-FEN file letters",
+        "    # follow, uppercase (white) then lowercase (black), in file order.",
+        "    letters = sorted(",
+        "        (ch for ch in board.castling if ch not in \"KQkq\"),",
+        "        key=lambda c: _CASTLING_CHARS.index(c),",
+        "    )",
+        "    castling = \"\".join(ch for ch in \"KQkq\" if ch in board.castling) + \"\".join(letters) or \"-\""
+      ]
+    }
+  }
+}

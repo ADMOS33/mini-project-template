@@ -1,0 +1,45 @@
+{
+  "seq": 1592,
+  "received_at": "2026-11-23T21:31:48.216701+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "LhvCRFFSg",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/chess960.py",
+      "new_string": [
+        "    rook_files = sorted(f for f in range(8) if rank[f] is PieceType.ROOK)",
+        "    if rook_files == [0, 7]:",
+        "        # Standard placement: canonical KQkq letters (SPN 518 == START_FEN).",
+        "        rights = {\"K\", \"Q\", \"k\", \"q\"}",
+        "    else:",
+        "        rights = {",
+        "            \"ABCDEFGH\"[rook_files[1]], \"ABCDEFGH\"[rook_files[0]],",
+        "            \"ABCDEFGH\"[rook_files[1]].lower(), \"ABCDEFGH\"[rook_files[0]].lower(),",
+        "        }",
+        "    return Board(squares=squares, turn=Color.WHITE, castling=rights)"
+      ],
+      "old_string": [
+        "    rook_files = sorted(f for f in range(8) if rank[f] is PieceType.ROOK)",
+        "    rights = {",
+        "        \"ABCDEFGH\"[rook_files[1]], \"ABCDEFGH\"[rook_files[0]],",
+        "        \"ABCDEFGH\"[rook_files[1]].lower(), \"ABCDEFGH\"[rook_files[0]].lower(),",
+        "    }",
+        "    return Board(squares=squares, turn=Color.WHITE, castling=rights)"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/chess960.py",
+      "lines_changed": 10,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 99
+  }
+}

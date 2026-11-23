@@ -1,0 +1,62 @@
+{
+  "seq": 1009,
+  "received_at": "2026-11-23T19:44:51.893310+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "N4bSYboRt",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/ai/mate.py",
+      "old_string": [
+        "def best_defense(board: Board, max_n: int = 4) -> Move:",
+        "    \"\"\"The reply that delays the mate as long as possible (ties: first legal).",
+        "",
+        "    Used by the puzzle mode: after the solver's move, the computer plays the",
+        "    best defense among the legal replies.",
+        "    \"\"\"",
+        "    from chess.ai.search import best_move",
+        "",
+        "    replies = legal_moves(board)",
+        "    if not replies:",
+        "        raise ValueError(\"no legal move available\")",
+        "    best_reply: Move | None = None",
+        "    best_dist: int | None = None",
+        "    for reply in replies:",
+        "        dist = mate_distance(apply_move(board, reply), max_n)",
+        "        if best_dist is None or (dist is not None and dist > best_dist) or (",
+        "            dist is None and best_dist is not None",
+        "        ):",
+        "            # None = not mated within max_n -> the best defense if any exists",
+        "            if dist is None or best_dist is None or dist >= best_dist:",
+        "                best_dist = dist if dist is not None else max_n + 1",
+        "                best_reply = reply",
+        "    if best_reply is None:",
+        "        best_reply = best_move(board, 1)[0]",
+        "    return best_reply"
+      ],
+      "new_string": [
+        "def best_defense(board: Board, max_n: int = 4) -> Move:",
+        "    \"\"\"The reply that delays the mate as long as possible (ties: first legal).",
+        "",
+        "    Used by the puzzle mode: after the solver's move, the computer plays the",
+        "    best defense among the legal replies. A reply not mated within ``max_n``",
+        "    counts as distance ``max_n + 1`` (the best possible defense).",
+        "    \"\"\"",
+        "    replies = legal_moves(board)",
+        "    if not replies:",
+        "        raise ValueError(\"no legal move available\")",
+        "",
+        "    def distance(reply: Move) -> int:",
+        "        dist = mate_distance(apply_move(board, reply), max_n)",
+        "        return max_n + 1 if dist is None else dist",
+        "",
+        "    return max(replies, key=distance)"
+      ]
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "seq": 1201,
+  "received_at": "2026-11-23T20:35:59.269554+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "Zsh88BFcq",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -c \"",
+        "import json",
+        "puzzles = json.load(open('/Users/rafiq/.vibe/scratchpad/puzzles_raw.json'))",
+        "lines = []",
+        "for p in puzzles:",
+        "    lines.append('    {\\\"fen\\\": %r, \\\"solution\\\": %r, \\\"level\\\": %d, \\\"theme\\\": %r},' % (p['fen'], p['solution'], p['level'], p['theme']))",
+        "body = '\\n'.join(lines)",
+        "src = open('chess/ai/puzzles.py').read()",
+        "src = src.replace('# Filled below (generated + engine-verified, see tests/test_puzzles.py).\\nPUZZLES: list[dict] = []',",
+        "                  '# Engine-verified (tests/test_puzzles.py): solution is the UNIQUE mate in n.\\nPUZZLES: list[dict] = [\\n' + body + '\\n]')",
+        "open('chess/ai/puzzles.py', 'w').write(src)",
+        "print('frozen', len(puzzles))",
+        "\" && set -o pipefail && .venv/bin/python -m pytest tests/test_puzzles.py -q -m \"not slow\" 2>&1 | tail -2"
+      ]
+    }
+  }
+}

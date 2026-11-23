@@ -1,0 +1,62 @@
+{
+  "seq": 1496,
+  "received_at": "2026-11-23T21:15:14.909132+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "NUhockQ4v",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && sed -n '118,145p' tests/test_web.py && set -o pipefail && .venv/bin/python -m pytest tests/test_web.py -q 2>&1 | tail -3"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && sed -n '118,145p' tests/test_web.py && set -o pipefail && .venv/bin/python -m pytest tests/test_web.py -q 2>&1 | tail -3",
+      "returncode": 1,
+      "stderr": "",
+      "stdout": [
+        "",
+        "# Mots anglais d'UI à bannir des textes visibles (texte HTML, attributs",
+        "# aria-label/title/placeholder/alt, littéraux de chaînes JS avec espace).",
+        "ENGLISH_UI_WORDS = [",
+        "    \"loading\", \"game over\", \"new game\", \"undo\", \"checkmate\", \"stalemate\",",
+        "    \"white\", \"black\", \"moves\", \"play\", \"sound\", \"error\", \"failed\", \"retry\",",
+        "    \"cancel\", \"close\", \"import\", \"export\", \"copy\", \"save\", \"settings\",",
+        "    \"options\", \"easy\", \"hard\", \"player\", \"computer\", \"clock\", \"history\",",
+        "    \"board\", \"turn\", \"draw\",",
+        "]",
+        "",
+        "",
+        "def test_no_english_text_in_the_ui() -> None:",
+        "    def hits(text: str) -> list[str]:",
+        "        return [",
+        "            w for w in ENGLISH_UI_WORDS",
+        "            if re.search(rf\"\\b{re.escape(w)}\\b\", text, re.IGNORECASE)",
+        "        ]",
+        "",
+        "    # Textes visibles + attributs accessibles de index.html",
+        "    visible = re.findall(r\">([^<>]+)<\", INDEX_HTML)",
+        "    visible += re.findall(r'(?:aria-label|title|placeholder|alt)=\"([^\"]*)\"', INDEX_HTML)",
+        "    bad_html = [(t.strip()[:40], hits(t)) for t in visible if t.strip() and hits(t)]",
+        "    assert not bad_html, f\"texte anglais dans index.html: {bad_html}\"",
+        "",
+        "    # Littéraux de chaînes JS contenant un espace (messages utilisateur)",
+        "    bad_js = []",
+        "    for p in JS_FILES:",
+        "FAILED tests/test_web.py::test_no_english_text_in_the_ui - AssertionError: texte anglais dans index.html: [('chess new --json\\nchess moves --json     ', ['moves', 'turn'])]",
+        "assert not [('chess new --json\\nchess moves --json     ', ['moves', 'turn'])]",
+        "1 failed, 5 passed in 0.98s",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 1576
+  }
+}

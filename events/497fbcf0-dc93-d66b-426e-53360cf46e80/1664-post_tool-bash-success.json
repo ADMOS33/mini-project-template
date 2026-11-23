@@ -1,0 +1,42 @@
+{
+  "seq": 1664,
+  "received_at": "2026-11-23T21:43:15.691224+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "OKdEZIFKe",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"scripts\\|chess =\" pyproject.toml && .venv/bin/chess new --state /tmp/puz-state.json --json | head -c 200; echo; .venv/bin/chess puzzle --level 1 --state /tmp/puz-state.json --json | head -c 500"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"scripts\\|chess =\" pyproject.toml && .venv/bin/chess new --state /tmp/puz-state.json --json | head -c 200; echo; .venv/bin/chess puzzle --level 1 --state /tmp/puz-state.json --json | head -c 500",
+      "returncode": 0,
+      "stderr": [
+        "usage: chess [-h] [--state STATE]",
+        "             {new,board,moves,move,status,undo,fen,load,pgn,load-pgn,ai-move,resign,offer-draw,takeback,history,wait,puzzle,solve,games,analyze} ...",
+        "chess: error: unrecognized arguments: --state /tmp/puz-state.json",
+        "usage: chess [-h] [--state STATE]",
+        "             {new,board,moves,move,status,undo,fen,load,pgn,load-pgn,ai-move,resign,offer-draw,takeback,history,wait,puzzle,solve,games,analyze} ...",
+        "chess: error: unrecognized arguments: --state /tmp/puz-state.json",
+        ""
+      ],
+      "stdout": [
+        "22:[project.scripts]",
+        "23:chess = \"chess.cli.main:main\"",
+        "",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 388
+  }
+}

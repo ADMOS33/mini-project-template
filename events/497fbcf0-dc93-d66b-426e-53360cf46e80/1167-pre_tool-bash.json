@@ -1,0 +1,41 @@
+{
+  "seq": 1167,
+  "received_at": "2026-11-23T20:23:30.841100+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "W67h3ed7n",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -c \"",
+        "import sys; sys.path.insert(0, '.')",
+        "exec(open('/Users/rafiq/.vibe/scratchpad/gen3.py').read().split('out = {}')[0])",
+        "import time",
+        "t0=time.time()",
+        "legal=quick1=mate1=0",
+        "for i in range(1500):",
+        "    fen = sample(['Q'], 'w')",
+        "    if fen is None: continue",
+        "    try:",
+        "        b = board_from_fen(fen)",
+        "    except ValueError:",
+        "        continue",
+        "    legal += 1",
+        "    if quick(b,1):",
+        "        quick1 += 1",
+        "        ms = find_mates(b,1)",
+        "        if len(ms)==1:",
+        "            mate1 += 1",
+        "            if mate1 <= 3: print('MATE1', board_to_fen(b), ms[0].to_uci())",
+        "print(f'1500 tries: legal={legal} quick={quick1} unique-mate={mate1} in {time.time()-t0:.1f}s')",
+        "\" 2>&1 | tail -6"
+      ]
+    }
+  }
+}

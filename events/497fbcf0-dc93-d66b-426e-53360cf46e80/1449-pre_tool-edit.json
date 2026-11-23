@@ -1,0 +1,63 @@
+{
+  "seq": 1449,
+  "received_at": "2026-11-23T21:06:16.124840+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "kFe9d74bT",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "old_string": [
+        "            <div class=\"btn-row\">",
+        "              <button id=\"btn-copy-fen\" class=\"btn-secondary\">Copier la FEN</button>",
+        "              <button id=\"btn-copy-pgn\" class=\"btn-secondary\">Copier le PGN</button>",
+        "            </div>",
+        "          </details>",
+        "        </div>",
+        "      </aside>",
+        "    </div>",
+        "  </main>"
+      ],
+      "new_string": [
+        "            <div class=\"btn-row\">",
+        "              <button id=\"btn-copy-fen\" class=\"btn-secondary\">Copier la FEN</button>",
+        "              <button id=\"btn-copy-pgn\" class=\"btn-secondary\">Copier le PGN</button>",
+        "            </div>",
+        "          </details>",
+        "          <section class=\"block\">",
+        "            <h2>Éditeur</h2>",
+        "            <div class=\"btn-row\">",
+        "              <button id=\"btn-editor\" class=\"btn-secondary\">Éditeur de position</button>",
+        "            </div>",
+        "          </section>",
+        "        </div>",
+        "",
+        "        <div class=\"tabpanel hidden\" id=\"tabpanel-parties\" role=\"tabpanel\" aria-labelledby=\"tab-parties\">",
+        "          <section class=\"block grow\">",
+        "            <h2>Parties archivées</h2>",
+        "            <div id=\"games-stats\" class=\"muted\"></div>",
+        "            <div class=\"moves-scroll\">",
+        "              <table class=\"moves-table\">",
+        "                <thead><tr><th>#</th><th>Date</th><th>Résultat</th><th>Coups</th></tr></thead>",
+        "                <tbody id=\"games-body\">",
+        "                  <tr class=\"empty-row\"><td colspan=\"4\">Aucune partie archivée</td></tr>",
+        "                </tbody>",
+        "              </table>",
+        "            </div>",
+        "            <div class=\"btn-row\">",
+        "              <button id=\"btn-games-refresh\" class=\"btn-secondary\">Rafraîchir</button>",
+        "            </div>",
+        "          </section>",
+        "        </div>",
+        "      </aside>",
+        "    </div>",
+        "  </main>"
+      ]
+    }
+  }
+}

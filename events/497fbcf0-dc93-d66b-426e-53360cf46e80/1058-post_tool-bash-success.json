@@ -1,0 +1,34 @@
+{
+  "seq": 1058,
+  "received_at": "2026-11-23T20:01:38.860657+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "DA0yiMYLX",
+    "tool_input": {
+      "timeout": 120,
+      "command": "tail -6 /Users/rafiq/.vibe/scratchpad/gen.log 2>/dev/null; echo \"---\"; ls -la /Users/rafiq/.vibe/scratchpad/puzzles_raw.json 2>/dev/null || echo \"not yet\""
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "tail -6 /Users/rafiq/.vibe/scratchpad/gen.log 2>/dev/null; echo \"---\"; ls -la /Users/rafiq/.vibe/scratchpad/puzzles_raw.json 2>/dev/null || echo \"not yet\"",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "mate-in-1...",
+        "---",
+        "not yet",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 101
+  }
+}

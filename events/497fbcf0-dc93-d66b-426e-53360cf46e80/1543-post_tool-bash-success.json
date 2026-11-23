@@ -1,0 +1,41 @@
+{
+  "seq": 1543,
+  "received_at": "2026-11-23T21:24:33.520514+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "pxicBNKnP",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"^import\\|^from\" chess/cli/main.py | head"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"^import\\|^from\" chess/cli/main.py | head",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "11:from __future__ import annotations",
+        "13:import argparse",
+        "14:import json",
+        "15:import sys",
+        "16:import time",
+        "17:from pathlib import Path",
+        "19:from chess.ai.search import best_move",
+        "20:from chess.engine.fen import board_from_fen, board_to_fen",
+        "21:from chess.archive import archive_current, load_archive, save_game",
+        "22:from chess.engine.game import Game, next_version",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 226
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "seq": 1300,
+  "received_at": "2026-11-23T20:47:00.937182+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "EHGYoGMy9",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "new_string": [
+        "          <section class=\"block\">",
+        "            <h2>Actions</h2>",
+        "            <div class=\"btn-row\">",
+        "              <button id=\"btn-undo\" class=\"btn-secondary\">Annuler</button>",
+        "              <button id=\"btn-flip\" class=\"btn-secondary\" title=\"Retourner l'échiquier\">",
+        "                <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 4h10v3l4-4-4-4v3H5v6h2V4zm10 16H7v-3l-4 4 4 4v-3h12v-6h-2v4z\"/></svg>",
+        "                Retourner",
+        "              </button>",
+        "              <button id=\"btn-takeback\" class=\"btn-secondary\" title=\"Annuler mon coup et la réponse de l'ordinateur\">Reprendre</button>",
+        "              <button id=\"btn-offer-draw\" class=\"btn-secondary\">Proposer nulle</button>",
+        "              <button id=\"btn-resign\" class=\"btn-secondary danger\">Abandonner</button>",
+        "            </div>",
+        "          </section>",
+        "          <section class=\"block hidden\" id=\"puzzle-block\">",
+        "            <h2>Problème</h2>",
+        "            <div id=\"puzzle-score\" class=\"muted\">Score : 0 · Série : 0</div>",
+        "            <div class=\"btn-row\">",
+        "              <button id=\"btn-puzzle-solution\" class=\"btn-secondary\">Solution</button>",
+        "            </div>",
+        "          </section>",
+        "          <section class=\"block grow\">",
+        "            <h2>Coups</h2>",
+        "            <div id=\"opening-label\" class=\"muted opening-label\"></div>"
+      ],
+      "old_string": [
+        "          <section class=\"block\">",
+        "            <h2>Actions</h2>",
+        "            <div class=\"btn-row\">",
+        "              <button id=\"btn-undo\" class=\"btn-secondary\">Annuler</button>",
+        "              <button id=\"btn-flip\" class=\"btn-secondary\" title=\"Retourner l'échiquier\">",
+        "                <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 4h10v3l4-4-4-4v3H5v6h2V4zm10 16H7v-3l-4 4 4 4v-3h12v-6h-2v4z\"/></svg>",
+        "                Retourner",
+        "              </button>",
+        "            </div>",
+        "          </section>",
+        "          <section class=\"block grow\">",
+        "            <h2>Coups</h2>"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "lines_changed": 23,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 327
+  }
+}
