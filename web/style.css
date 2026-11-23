@@ -191,7 +191,7 @@ input {
 
 .layout {
   display: grid;
-  grid-template-columns: 260px minmax(320px, 640px) 300px;
+  grid-template-columns: minmax(320px, 640px) minmax(260px, 320px);
   gap: var(--s5);
   align-items: start;
   justify-content: center;
@@ -885,4 +885,21 @@ button {
   background: rgba(255, 255, 255, 0.06);
   color: var(--text);
   border-color: transparent;
+}
+
+/* --- V4 : cartes joueurs autour du plateau (style lichess) --- */
+
+.board-col .player-card {
+  width: 100%;
+}
+
+.board-col .player-card .clock {
+  margin-left: auto;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.board-col .player-card .avatar img {
+  width: 34px;
+  height: 34px;
 }
