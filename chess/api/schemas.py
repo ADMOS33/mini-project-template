@@ -31,3 +31,9 @@ class AiMoveRequest(BaseModel):
     """Body of ``POST /api/ai-move``."""
 
     depth: int = Field(3, ge=1, le=6, description="Search depth (1-4 in the UI)")
+
+
+class FlagRequest(BaseModel):
+    """Body of ``POST /api/flag``: the given color loses on time."""
+
+    color: str = Field(..., pattern="^[wb]$", examples=["w"])

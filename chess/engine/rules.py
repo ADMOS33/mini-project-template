@@ -15,6 +15,7 @@ from chess.engine.movegen import is_square_attacked, legal_moves
 from chess.engine.pieces import Color, Piece, PieceType
 
 #: Possible values of ``result`` in :func:`game_result` / ``Game.status()``.
+#: "flag" is never returned by game_result: it is set externally (clock fall).
 RESULTS = (
     "ongoing",
     "checkmate",
@@ -22,6 +23,7 @@ RESULTS = (
     "draw_threefold",
     "draw_fifty_move",
     "draw_insufficient_material",
+    "flag",
 )
 
 

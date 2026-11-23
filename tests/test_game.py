@@ -121,6 +121,22 @@ def test_from_dict_without_positions_but_with_moves_is_rejected() -> None:
         Game.from_dict(data)
 
 
+def test_external_result_blocks_moves_and_persists(tmp_path) -> None:
+    game = Game()
+    game.play_uci("e2e4")
+    game.set_external_result("flag", "b")
+    status = game.status()
+    assert status["result"] == "flag"
+    assert status["winner"] == "b"
+    with pytest.raises(ValueError, match="game is over"):
+        game.play_uci("e7e5")
+    path = tmp_path / "g.json"
+    game.save(path)
+    loaded = Game.load(path)
+    assert loaded.status()["result"] == "flag"
+    assert loaded.status()["winner"] == "b"
+
+
 def test_persistence_roundtrip(tmp_path) -> None:
     game = Game()
     game.play_uci("e2e4")

@@ -25,7 +25,7 @@ from fastapi.staticfiles import StaticFiles
 
 from chess.ai.evaluation import evaluate
 from chess.ai.search import best_move
-from chess.api.schemas import AiMoveRequest, LoadRequest, MoveRequest, PgnRequest
+from chess.api.schemas import AiMoveRequest, FlagRequest, LoadRequest, MoveRequest, PgnRequest
 from chess.engine.board import square_name
 from chess.engine.fen import board_from_fen, board_to_fen
 from chess.engine.game import Game
@@ -141,6 +141,18 @@ def post_undo() -> dict:
         raise HTTPException(status_code=400, detail="no moves to undo")
     _save(game)
     return {"ok": True, "undone": move.to_uci(), "status": game.status()}
+
+
+@app.post("/api/flag")
+def post_flag(req: FlagRequest) -> dict:
+    """Record a flag fall: the given color loses on time (result "flag")."""
+    game = _load()
+    if game.status()["result"] != "ongoing":
+        raise HTTPException(status_code=400, detail="game is over")
+    winner = "b" if req.color == "w" else "w"
+    game.set_external_result("flag", winner)
+    _save(game)
+    return {"ok": True, "status": game.status()}
 
 
 @app.get("/api/history")

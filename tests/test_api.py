@@ -12,7 +12,7 @@ import pytest
 from fastapi import HTTPException
 
 import chess.api.server as server
-from chess.api.schemas import AiMoveRequest, LoadRequest, MoveRequest, PgnRequest
+from chess.api.schemas import AiMoveRequest, FlagRequest, LoadRequest, MoveRequest, PgnRequest
 
 
 @pytest.fixture()
@@ -166,6 +166,23 @@ def test_undo_endpoint(state) -> None:
     assert r["undone"] == "e2e4"
     with pytest.raises(HTTPException):
         server.post_undo()
+
+
+def test_flag_endpoint_records_loss_on_time(state) -> None:
+    server.post_new()
+    server.post_move(MoveRequest(move="e2e4"))
+    r = server.post_flag(FlagRequest(color="b"))
+    assert r["ok"]
+    st = server.get_status()
+    assert st["result"] == "flag"
+    assert st["winner"] == "w"
+    # persisted across reloads and blocks further moves
+    assert server._load().status()["result"] == "flag"
+    with pytest.raises(HTTPException) as exc:
+        server.post_move(MoveRequest(move="e7e5"))
+    assert "game is over" in exc.value.detail
+    with pytest.raises(HTTPException):
+        server.post_flag(FlagRequest(color="w"))  # already over
 
 
 def test_missing_state_file_starts_a_fresh_game(state) -> None:

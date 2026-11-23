@@ -23,6 +23,13 @@ class Game:
         self.moves: list[Move] = []
         # FEN of the position before each ply, so undo is a simple pop.
         self._positions: list[str] = [board_to_fen(self.board)]
+        # External end of game (not a chess rule, e.g. clock fall):
+        # {"result": "flag", "winner": "b"} — blocks further moves.
+        self.external_result: dict | None = None
+
+    def set_external_result(self, result: str, winner: str | None = None) -> None:
+        """Record an externally-decided end of game (e.g. flag fall)."""
+        self.external_result = {"result": result, "winner": winner}
 
     @classmethod
     def from_fen(cls, fen: str) -> Game:
@@ -35,6 +42,8 @@ class Game:
 
     def play_uci(self, uci: str) -> Move:
         """Play a UCI move. Raises ValueError listing legal moves if illegal."""
+        if self.external_result is not None:
+            raise ValueError(f"game is over ({self.external_result['result']})")
         move = Move.from_uci(uci)  # ValueError on malformed input
         legal = {m.to_uci(): m for m in self.legal_moves()}
         if move.to_uci() not in legal:
@@ -84,6 +93,9 @@ class Game:
         # current position: counting all of them gives the repetition counts.
         repetitions = Counter(position_key(board_from_fen(fen)) for fen in self._positions)
         result, winner = game_result(self.board, repetitions)
+        if self.external_result is not None:
+            result = self.external_result["result"]
+            winner = self.external_result.get("winner")
         return {
             "result": result,
             "winner": winner,
@@ -101,6 +113,7 @@ class Game:
             "fen": board_to_fen(self.board),
             "moves": [m.to_uci() for m in self.moves],
             "positions": list(self._positions),
+            "external_result": self.external_result,
         }
 
     @classmethod
@@ -124,6 +137,8 @@ class Game:
             game.play_uci(move.to_uci())
         if board_to_fen(game.board) != data["fen"]:
             raise ValueError("corrupted game state: FEN does not match the move list")
+        # Set after the replay so play_uci does not reject the stored moves.
+        game.external_result = data.get("external_result")
         return game
 
     def save(self, path: str | Path) -> None:
