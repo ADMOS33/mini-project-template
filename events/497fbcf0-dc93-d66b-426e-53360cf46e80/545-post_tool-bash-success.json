@@ -1,0 +1,41 @@
+{
+  "seq": 545,
+  "received_at": "2026-11-23T18:22:23.397704+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "jMjvyFT4s",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -m pytest tests/test_web.py -q 2>&1 | grep -B2 -A8 'FAILED\\|AssertionError' | head -25"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python -m pytest tests/test_web.py -q 2>&1 | grep -B2 -A8 'FAILED\\|AssertionError' | head -25",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "            f\"nouveau getElementById dynamique à whitelister dans KNOWN_DYNAMIC_CALLS: {unknown_dynamic}\"",
+        "        )",
+        "E       AssertionError: nouveau getElementById dynamique à whitelister dans KNOWN_DYNAMIC_CALLS: ['id', 'id']",
+        "E       assert not ['id', 'id']",
+        "",
+        "tests/test_web.py:76: AssertionError",
+        "=========================== short test summary info ============================",
+        "FAILED tests/test_web.py::test_all_js_ids_exist_in_index_html - AssertionError: nouveau getElementById dynamique à whitelister dans KNOWN_DYNAMIC_CALLS: ['id', 'id']",
+        "assert not ['id', 'id']",
+        "1 failed, 4 passed in 0.57s",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 959
+  }
+}

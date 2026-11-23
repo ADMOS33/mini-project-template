@@ -1,0 +1,18 @@
+{
+  "seq": 584,
+  "received_at": "2026-11-23T18:29:16.638335+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "cbguXSP9h",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && echo '=== HTML (texte visible + attributs aria/title/placeholder/alt) ===' && grep -noE '>[^<{}]*[A-Za-z]{3,}[^<{}]*<|aria-label=\"[^\"]*\"|title=\"[^\"]*\"|placeholder=\"[^\"]*\"|alt=\"[^\"]*\"' web/index.html | grep -viE 'aria-hidden|svg|path' | head -30 ; echo '=== JS (littéraux de chaînes) ===' && grep -noE '\"[^\"]*[A-Za-z]{4,}[^\"]*\"|`[^`]*[A-Za-z]{4,}[^`]*`' web/js/*.js | grep -viE 'pieces/|/api/|chess\\.|role=|gridcell|click|pointer|Arrow|Home|End|INPUT|TEXTAREA|SELECT|data-|error|unhandled|transition|opacity|remove|hidden|ease-out|translate|load|POST|Content-Type|application/json|localStorage|getItem|setItem|AudioContext|webkitAudio|module' | head -30"
+    }
+  }
+}

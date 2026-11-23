@@ -1,0 +1,61 @@
+{
+  "seq": 557,
+  "received_at": "2026-11-23T18:26:43.802191+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "NlKJY2TOP",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && for l in 465 470 485 570 575 735 755 795; do sed -n \"${l},$((l+4))p\" web/style.css | head -6; echo '---'; done 2>/dev/null | grep -B4 'mono' | head -40 && grep -n -- '--mono:' web/style.css"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && for l in 465 470 485 570 575 735 755 795; do sed -n \"${l},$((l+4))p\" web/style.css | head -6; echo '---'; done 2>/dev/null | grep -B4 'mono' | head -40 && grep -n -- '--mono:' web/style.css",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        ".captured .adv {",
+        "  font-size: 0.78rem;",
+        "---",
+        "  color: var(--accent-hover);",
+        "  font-family: var(--mono);",
+        "--",
+        "/* Tableau des coups : n° | Blancs | Noirs */",
+        ".moves-table {",
+        "  width: 100%;",
+        "  border-collapse: collapse;",
+        "  font-family: var(--mono);",
+        "--",
+        "  font-size: 0.9rem;",
+        "}",
+        "",
+        "#review-label {",
+        "  font-family: var(--mono);",
+        "--",
+        "  transition: width 300ms ease;",
+        "}",
+        "",
+        "#evalbar-label {",
+        "  font-family: var(--mono);",
+        "--",
+        "textarea {",
+        "---",
+        "  border-radius: 8px;",
+        "  padding: 0.6rem 0.8rem;",
+        "  font-family: ui-monospace, SFMono-Regular, monospace;",
+        "45:  --mono: ui-monospace, \"SF Mono\", SFMono-Regular, Menlo, Consolas, monospace;",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 161050
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "seq": 520,
+  "received_at": "2026-11-23T18:21:03.742298+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "jnr5afY3l",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "old_string": [
+        "          <select id=\"opt-clock\" aria-label=\"Horloge\">",
+        "            <option value=\"none\" selected>Sans horloge</option>",
+        "            <option value=\"300\">5 min</option>",
+        "            <option value=\"600\">10 min</option>",
+        "            <option value=\"182\">3 min + 2 s</option>",
+        "          </select>"
+      ],
+      "new_string": [
+        "          <div class=\"seg-group\" id=\"opt-clock\" role=\"group\" aria-label=\"Horloge\">",
+        "            <button type=\"button\" class=\"chip\" data-value=\"none\" aria-pressed=\"true\">Sans horloge</button>",
+        "            <button type=\"button\" class=\"chip\" data-value=\"300\" aria-pressed=\"false\">5 min</button>",
+        "            <button type=\"button\" class=\"chip\" data-value=\"600\" aria-pressed=\"false\">10 min</button>",
+        "            <button type=\"button\" class=\"chip\" data-value=\"182\" aria-pressed=\"false\">3+2</button>",
+        "          </div>"
+      ]
+    }
+  }
+}

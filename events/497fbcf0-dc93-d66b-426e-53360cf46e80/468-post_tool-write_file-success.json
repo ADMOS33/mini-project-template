@@ -1,0 +1,61 @@
+{
+  "seq": 468,
+  "received_at": "2026-11-23T18:12:37.829761+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.write_file",
+    "tool_call_id": "QSCBZRhHy",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/toasts.js",
+      "content": [
+        "// Toasts : toute erreur visible passe par ici (jamais de alert(), et la",
+        "// barre de statut n'affiche jamais d'erreur brute — règle front-end).",
+        "",
+        "export function toast(message, kind = \"error\") {",
+        "  const box = document.getElementById(\"toasts\");",
+        "  const el = document.createElement(\"div\");",
+        "  el.className = \"toast\" + (kind === \"info\" ? \" info\" : \"\");",
+        "  el.textContent = message;",
+        "  box.appendChild(el);",
+        "  setTimeout(() => {",
+        "    el.style.transition = \"opacity var(--tr)\";",
+        "    el.style.opacity = \"0\";",
+        "    setTimeout(() => el.remove(), 200);",
+        "  }, 4000);",
+        "}",
+        "",
+        "// Les erreurs API passent par un toast ; la barre de statut garde son texte.",
+        "export function reportError(prefix, err) {",
+        "  console.error(prefix, err);",
+        "  const msg = err && err.message ? err.message : String(err);",
+        "  toast(`${prefix} : ${msg}`);",
+        "}",
+        "",
+        "// Toute erreur non interceptée (synchrone ou promesse) -> toast + console.",
+        "window.addEventListener(\"error\", (e) => {",
+        "  console.error(e.error || e.message);",
+        "  toast(\"Erreur inattendue : \" + (e.message || \"inconnue\"));",
+        "});",
+        "window.addEventListener(\"unhandledrejection\", (e) => {",
+        "  console.error(e.reason);",
+        "  const msg = e.reason && e.reason.message ? e.reason.message : String(e.reason || \"inconnue\");",
+        "  toast(\"Erreur inattendue : \" + msg);",
+        "});",
+        ""
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "bytes_written": 1244,
+      "file_existed": false,
+      "path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/toasts.js"
+    },
+    "tool_error": null,
+    "duration_ms": 75
+  }
+}

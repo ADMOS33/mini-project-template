@@ -1,0 +1,40 @@
+{
+  "seq": 630,
+  "received_at": "2026-11-23T18:38:23.838189+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "kdAgd21ji",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/game.py",
+      "new_string": [
+        "        return {",
+        "            \"fen\": board_to_fen(self.board),",
+        "            \"moves\": [m.to_uci() for m in self.moves],",
+        "            \"positions\": list(self._positions),",
+        "            \"external_result\": self.external_result,",
+        "        }"
+      ],
+      "old_string": [
+        "        return {",
+        "            \"fen\": board_to_fen(self.board),",
+        "            \"moves\": [m.to_uci() for m in self.moves],",
+        "            \"positions\": list(self._positions),",
+        "        }"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/game.py",
+      "lines_changed": 6,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 195
+  }
+}

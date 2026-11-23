@@ -1,0 +1,60 @@
+{
+  "seq": 700,
+  "received_at": "2026-11-23T18:57:13.601593+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.read_file",
+    "tool_call_id": "zC9k2gEHR",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/panels.js",
+      "limit": 25,
+      "offset": 125
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "content": [
+        "}",
+        "",
+        "// --- Contrôles vs ordinateur ------------------------------------------------------",
+        "",
+        "export function renderVsControls() {",
+        "  document.getElementById(\"seg-human\").setAttribute(\"aria-selected\", String(!state.vs));",
+        "  document.getElementById(\"seg-computer\").setAttribute(\"aria-selected\", String(state.vs));",
+        "  document.getElementById(\"vs-options\").classList.toggle(\"hidden\", !state.vs);",
+        "  for (const [id, val] of [[\"opt-color\", state.colorChoice], [\"opt-depth\", String(state.depth)]]) {",
+        "    const group = document.getElementById(id);",
+        "    if (group) {",
+        "      group.querySelectorAll(\".chip\").forEach((b) =>",
+        "        b.setAttribute(\"aria-pressed\", String(b.dataset.value === val))",
+        "      );",
+        "    }",
+        "  }",
+        "}",
+        "",
+        "// --- Barre d'évaluation animée (score /api/eval, perspective camp au trait) -------",
+        "",
+        "export async function renderEval() {",
+        "  try {",
+        "    const ev = await ChessAPI.eval();",
+        "    // score du point de vue du camp au trait -> pourcentage pour les Blancs",
+        "    let s = ev.score;",
+        ""
+      ],
+      "file_size_bytes": 5956,
+      "lines_read": 25,
+      "next_offset": 150,
+      "offset": 125,
+      "path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/panels.js",
+      "returned_bytes": 969,
+      "total_lines": 156,
+      "was_truncated": true
+    },
+    "tool_error": null,
+    "duration_ms": 109
+  }
+}

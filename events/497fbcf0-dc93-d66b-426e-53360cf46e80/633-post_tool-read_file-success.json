@@ -1,0 +1,49 @@
+{
+  "seq": 633,
+  "received_at": "2026-11-23T18:38:42.395925+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.read_file",
+    "tool_call_id": "XBVTWfcDp",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/rules.py",
+      "limit": 14,
+      "offset": 14
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "content": [
+        "from chess.engine.pieces import Color, Piece, PieceType",
+        "",
+        "#: Possible values of ``result`` in :func:`game_result` / ``Game.status()``.",
+        "RESULTS = (",
+        "    \"ongoing\",",
+        "    \"checkmate\",",
+        "    \"stalemate\",",
+        "    \"draw_threefold\",",
+        "    \"draw_fifty_move\",",
+        "    \"draw_insufficient_material\",",
+        ")",
+        "",
+        "",
+        "def _ep_capture_playable(board: Board) -> bool:",
+        ""
+      ],
+      "file_size_bytes": 3838,
+      "lines_read": 14,
+      "next_offset": 28,
+      "offset": 14,
+      "path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/rules.py",
+      "returned_bytes": 326,
+      "total_lines": 99,
+      "was_truncated": true
+    },
+    "tool_error": null,
+    "duration_ms": 25
+  }
+}

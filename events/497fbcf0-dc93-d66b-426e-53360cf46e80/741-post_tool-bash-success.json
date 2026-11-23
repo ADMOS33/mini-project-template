@@ -1,0 +1,34 @@
+{
+  "seq": 741,
+  "received_at": "2026-11-23T19:00:28.784149+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "jJvjKXnnd",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"V4\\|État d'avancement\" AGENTS.md | head"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"V4\\|État d'avancement\" AGENTS.md | head",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "93:À la fin de **chaque phase** : mettre à jour le tableau « État d'avancement\"",
+        "97:## État d'avancement",
+        "120:| V4 | Mise en page façon lichess | 🚧 |",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 82
+  }
+}

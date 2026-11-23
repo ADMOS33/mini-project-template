@@ -1,0 +1,16 @@
+{
+  "seq": 508,
+  "received_at": "2026-11-23T18:18:15.777828+00:00",
+  "hook_event_name": "notification",
+  "event": {
+    "hook_event_name": "notification",
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "notification_type": "approval_requested",
+    "message": "Vibe needs your approval to run file_system.bash",
+    "agent_name": "default",
+    "tool_name": "file_system.bash"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "seq": 591,
+  "received_at": "2026-11-23T18:30:36.640857+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "z1jg7ITzv",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_web.py",
+      "new_string": [
+        "# Mots anglais d'UI à bannir des textes visibles (texte HTML, attributs",
+        "# aria-label/title/placeholder/alt, littéraux de chaînes JS avec espace).",
+        "ENGLISH_UI_WORDS = [",
+        "    \"loading\", \"game over\", \"new game\", \"undo\", \"checkmate\", \"stalemate\",",
+        "    \"white\", \"black\", \"moves\", \"play\", \"sound\", \"error\", \"failed\", \"retry\",",
+        "    \"cancel\", \"close\", \"import\", \"export\", \"copy\", \"save\", \"settings\",",
+        "    \"options\", \"easy\", \"hard\", \"player\", \"computer\", \"clock\", \"history\",",
+        "    \"board\", \"turn\", \"draw\",",
+        "]",
+        "",
+        "",
+        "def test_no_english_text_in_the_ui() -> None:",
+        "    def hits(text: str) -> list[str]:",
+        "        return [",
+        "            w for w in ENGLISH_UI_WORDS",
+        "            if re.search(rf\"\\b{re.escape(w)}\\b\", text, re.IGNORECASE)",
+        "        ]",
+        "",
+        "    # Textes visibles + attributs accessibles de index.html",
+        "    visible = re.findall(r\">([^<>]+)<\", INDEX_HTML)",
+        "    visible += re.findall(r'(?:aria-label|title|placeholder|alt)=\"([^\"]*)\"', INDEX_HTML)",
+        "    bad_html = [(t.strip()[:40], hits(t)) for t in visible if t.strip() and hits(t)]",
+        "    assert not bad_html, f\"texte anglais dans index.html: {bad_html}\"",
+        "",
+        "    # Littéraux de chaînes JS contenant un espace (messages utilisateur)",
+        "    bad_js = []",
+        "    for p in JS_FILES:",
+        "        for m in re.finditer(r'\"([^\"\\n]+)\"|`([^`]+)`', p.read_text(encoding=\"utf-8\")):",
+        "            s = m.group(1) or m.group(2) or \"\"",
+        "            if \" \" in s and hits(s):",
+        "                bad_js.append((p.name, s[:60], hits(s)))",
+        "    assert not bad_js, f\"texte anglais dans les chaînes JS: {bad_js}\"",
+        "",
+        "",
+        "def test_piece_svg_set_is_complete() -> None:"
+      ],
+      "old_string": "def test_piece_svg_set_is_complete() -> None:"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_web.py",
+      "lines_changed": 35,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 52
+  }
+}

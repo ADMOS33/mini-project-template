@@ -1,0 +1,18 @@
+{
+  "seq": 555,
+  "received_at": "2026-11-23T18:24:02.584376+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "NlKJY2TOP",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && for l in 465 470 485 570 575 735 755 795; do sed -n \"${l},$((l+4))p\" web/style.css | head -6; echo '---'; done 2>/dev/null | grep -B4 'mono' | head -40 && grep -n -- '--mono:' web/style.css"
+    }
+  }
+}

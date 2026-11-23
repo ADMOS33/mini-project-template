@@ -1,0 +1,31 @@
+{
+  "seq": 489,
+  "received_at": "2026-11-23T18:15:35.473659+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "N3R8tABGm",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_web.py",
+      "old_string": "def test_piece_svg_set_is_complete() -> None:",
+      "new_string": [
+        "def test_js_modules_live_under_web_js() -> None:",
+        "    \"\"\"Le découpage en modules ES doit vivre dans web/js/.\"\"\"",
+        "    names = {p.name for p in WEB.rglob(\"*.js\")}",
+        "    expected = {",
+        "        \"api.js\", \"state.js\", \"toasts.js\", \"board-view.js\", \"panels.js\",",
+        "        \"clock.js\", \"sound.js\", \"interactions.js\", \"main.js\",",
+        "    }",
+        "    assert expected <= names, f\"modules manquants dans web/js/: {sorted(expected - names)}\"",
+        "",
+        "",
+        "def test_piece_svg_set_is_complete() -> None:"
+      ]
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "seq": 577,
+  "received_at": "2026-11-23T18:28:42.944862+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "L9rSA1COp",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/style.css",
+      "new_string": [
+        ".moves-table {",
+        "  width: 100%;",
+        "  border-collapse: collapse;",
+        "  font-family: var(--font);",
+        "  font-size: 0.88rem;",
+        "  font-variant-numeric: tabular-nums;",
+        "}"
+      ],
+      "old_string": [
+        ".moves-table {",
+        "  width: 100%;",
+        "  border-collapse: collapse;",
+        "  font-family: var(--mono);",
+        "  font-size: 0.88rem;",
+        "  font-variant-numeric: tabular-nums;",
+        "}"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/web/style.css",
+      "lines_changed": 7,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 138
+  }
+}

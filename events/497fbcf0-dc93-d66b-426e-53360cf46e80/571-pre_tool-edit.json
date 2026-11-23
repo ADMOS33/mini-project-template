@@ -1,0 +1,50 @@
+{
+  "seq": 571,
+  "received_at": "2026-11-23T18:28:42.584923+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "Ee2BX0OrX",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/style.css",
+      "old_string": [
+        ".captured .adv {",
+        "  font-size: 0.78rem;",
+        "  color: var(--accent-hover);",
+        "  font-family: var(--mono);",
+        "  margin-left: var(--s2);",
+        "}",
+        "",
+        ".clock {",
+        "  font-family: var(--mono);",
+        "  font-variant-numeric: tabular-nums;",
+        "  font-weight: 600;",
+        "  color: var(--muted);",
+        "  font-size: 1.05rem;",
+        "}"
+      ],
+      "new_string": [
+        ".captured .adv {",
+        "  font-size: 0.78rem;",
+        "  color: var(--accent-hover);",
+        "  font-family: var(--font);",
+        "  font-variant-numeric: tabular-nums;",
+        "  margin-left: var(--s2);",
+        "}",
+        "",
+        ".clock {",
+        "  font-family: var(--font);",
+        "  font-variant-numeric: tabular-nums;",
+        "  font-weight: 600;",
+        "  color: var(--muted);",
+        "  font-size: 1.05rem;",
+        "}"
+      ]
+    }
+  }
+}

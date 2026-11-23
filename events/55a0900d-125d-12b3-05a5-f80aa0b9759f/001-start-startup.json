@@ -1,0 +1,15 @@
+{
+  "seq": 1,
+  "received_at": "2026-11-23T18:17:38.432386+00:00",
+  "hook_event_name": "session_start",
+  "event": {
+    "hook_event_name": "session_start",
+    "session_id": "55a0900d-125d-12b3-05a5-f80aa0b9759f",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/55a0900d-125d-12b3-05a5-f80aa0b9759f",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "source": "startup",
+    "agent_name": "default",
+    "model": "mistral-large-4-0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "seq": 461,
+  "received_at": "2026-11-23T18:10:04.780687+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "WXjrTVXMG",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -nE '^(async )?function |^const |^let |^window\\.|^document\\.|^setInterval|^state\\.' web/board.js && wc -l web/board.js web/api.js"
+    }
+  }
+}

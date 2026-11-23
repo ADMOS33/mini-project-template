@@ -1,0 +1,22 @@
+{
+  "seq": 701,
+  "received_at": "2026-11-23T18:57:27.015455+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "vXcIOm4JH",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/state.js",
+      "old_string": "state.clockMode = ls(\"chess.clock\", \"none\");",
+      "new_string": [
+        "state.clockMode = ls(\"chess.clock\", \"none\");",
+        "state.autoFlip = ls(\"chess.autoflip\", \"0\") === \"1\";"
+      ]
+    }
+  }
+}

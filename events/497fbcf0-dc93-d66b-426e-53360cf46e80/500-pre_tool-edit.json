@@ -1,0 +1,57 @@
+{
+  "seq": 500,
+  "received_at": "2026-11-23T18:16:57.687053+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "6j6tzXfEt",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_web.py",
+      "old_string": [
+        "def test_referenced_local_files_exist() -> None:",
+        "    refs: set[str] = set()",
+        "    for attr in re.findall(r'(?:src|href)=\"([^\"]+)\"', INDEX_HTML):",
+        "        if attr.startswith((\"http://\", \"https://\", \"#\", \"mailto:\")):",
+        "            continue",
+        "        refs.add(\"index.html\" if attr == \"/\" else attr.lstrip(\"/\"))",
+        "    refs |= set(re.findall(r'[\"\\'`]([\\w./-]+\\.(?:svg|css|js|png|html|ico))[\"\\'`]', JS_SOURCE))",
+        "    refs |= set(re.findall(r'url\\(\\s*[\"\\']?([\\w./-]+\\.(?:svg|png))[\"\\']?\\s*\\)', CSS_SOURCE))",
+        "    # chemins de pièces construits dynamiquement : pieces/{w|b}{P,N,B,R,Q,K}.svg",
+        "    for color in \"wb\":",
+        "        for t in PIECE_TYPES:",
+        "            refs.add(f\"pieces/{color}{t}.svg\")",
+        "    missing = sorted(r for r in refs if not (WEB / r).is_file())",
+        "    assert not missing, f\"fichiers référencés mais absents de web/: {missing}\""
+      ],
+      "new_string": [
+        "def test_referenced_local_files_exist() -> None:",
+        "    refs: set[Path] = set()",
+        "    # <script src>, <link href> dans index.html (relatifs à web/)",
+        "    for attr in re.findall(r'(?:src|href)=\"([^\"]+)\"', INDEX_HTML):",
+        "        if attr.startswith((\"http://\", \"https://\", \"#\", \"mailto:\")):",
+        "            continue",
+        "        refs.add(WEB / (\"index.html\" if attr == \"/\" else attr.lstrip(\"/\")))",
+        "    # littéraux dans les modules JS : \"./x.js\" est relatif au module,",
+        "    # \"pieces/…\" est relatif à la page (racine web/)",
+        "    for p in JS_FILES:",
+        "        src = p.read_text(encoding=\"utf-8\")",
+        "        for m in re.findall(r'[\"\\'`]([\\w./-]+\\.(?:svg|css|js|png|html|ico))[\"\\'`]', src):",
+        "            refs.add(p.parent / m if m.startswith((\"./\", \"../\")) else WEB / m)",
+        "    # url(...) dans le CSS (relatif à web/)",
+        "    for m in re.findall(r'url\\(\\s*[\"\\']?([\\w./-]+\\.(?:svg|png))[\"\\']?\\s*\\)', CSS_SOURCE):",
+        "        refs.add(WEB / m)",
+        "    # chemins de pièces construits dynamiquement : pieces/{w|b}{P,N,B,R,Q,K}.svg",
+        "    for color in \"wb\":",
+        "        for t in PIECE_TYPES:",
+        "            refs.add(WEB / \"pieces\" / f\"{color}{t}.svg\")",
+        "    missing = sorted(str(r) for r in refs if not r.is_file())",
+        "    assert not missing, f\"fichiers référencés mais absents de web/: {missing}\""
+      ]
+    }
+  }
+}

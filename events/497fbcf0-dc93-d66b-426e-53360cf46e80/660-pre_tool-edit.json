@@ -1,0 +1,35 @@
+{
+  "seq": 660,
+  "received_at": "2026-11-23T18:39:55.465343+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "MmhyosLmw",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/clock.js",
+      "old_string": [
+        "function fmtClock(sec) {",
+        "  const s = Math.max(0, Math.ceil(sec));",
+        "  return Math.floor(s / 60) + \":\" + String(s % 60).padStart(2, \"0\");",
+        "}"
+      ],
+      "new_string": [
+        "function fmtClock(sec) {",
+        "  const s = Math.max(0, sec);",
+        "  const m = Math.floor(s / 60);",
+        "  const whole = Math.floor(s % 60);",
+        "  if (s < 10) {",
+        "    // sous 10 s : dixièmes affichés",
+        "    return `${m}:${String(whole).padStart(2, \"0\")}.${Math.floor((s % 1) * 10)}`;",
+        "  }",
+        "  return `${m}:${String(whole).padStart(2, \"0\")}`;",
+        "}"
+      ]
+    }
+  }
+}

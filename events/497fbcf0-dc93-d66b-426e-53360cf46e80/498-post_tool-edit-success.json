@@ -1,0 +1,30 @@
+{
+  "seq": 498,
+  "received_at": "2026-11-23T18:16:16.707604+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "qp4s2Hfom",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "new_string": "  <script type=\"module\" src=\"js/main.js\"></script>",
+      "old_string": [
+        "  <script src=\"api.js\"></script>",
+        "  <script src=\"board.js\"></script>"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "lines_changed": 2,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 54
+  }
+}

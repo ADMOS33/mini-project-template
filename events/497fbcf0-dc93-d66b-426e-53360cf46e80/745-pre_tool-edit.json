@@ -1,0 +1,19 @@
+{
+  "seq": 745,
+  "received_at": "2026-11-23T19:00:39.286660+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "rECfqpwWu",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/AGENTS.md",
+      "old_string": "| Web `web/` | **refonte pro 100 % FR** : design system CSS (variables, Inter, boutons SVG, focus clavier), plateau carré responsive cases #ebecd0/#739552 + pièces SVG maison (`web/pieces/`) animées ~180 ms, coups légaux (point/anneau), dernier coup surligné, roi en échec en dégradé rouge, **drag&drop + promotion superposée façon lichess**, layout 3 col (<900 px → 1 col) avec cartes joueurs (captures, +N, bordure au trait) + table SAN n°\\|Blancs\\|Noirs + barre de statut FR, **navigation historique ⏮◀▶⏭ + clavier** avec bandeau « position passée », **mode vs ordinateur** (couleur, difficulté 1–4, spinner), **modale fin de partie + toasts**, section repliable **FEN/PGN** + **barre d'évaluation** (`/api/eval`), **sons Web Audio + muet**, **horloge optionnelle** (5 min, 10 min, 3+2 s), Annuler/Retourner — le JS ne fait qu'afficher l'API ✅ | — |",
+      "new_string": "| Web `web/` | **refonte pro 100 % FR** : design system CSS (variables, Inter, boutons SVG, focus clavier), plateau carré responsive cases #ebecd0/#739552 + pièces SVG maison (`web/pieces/`) animées ~180 ms, coups légaux (point/anneau), dernier coup surligné, roi en échec en dégradé rouge, **drag&drop + promotion superposée façon lichess**, **layout lichess 2 col** : cartes joueurs au-dessus/d-dessous du plateau (avatar, captures, +N, horloge), panneau droit à **onglets Partie/Outils** (liste des coups défilante + navigation ⏮◀▶⏭, FEN/PGN, barre d'évaluation), **modale « Nouvelle partie » façon chess.com** (cartes 2 joueurs/contre l'ordinateur, couleur, niveau, cadences Sans/1+0/3+2/5+0/10+0, retour auto du plateau en 2 joueurs), **mobile < 700 px** (plateau pleine largeur, barre d'actions fixe en bas), barre de statut FR, **mode vs ordinateur** (spinner « réfléchit… »), **modale fin de partie + toasts**, **horloge** (rouge < 20 s, dixièmes < 10 s, **perte au temps = défaite via `POST /api/flag`**), Annuler/Retourner — le JS ne fait qu'afficher l'API ✅ | — |"
+    }
+  }
+}

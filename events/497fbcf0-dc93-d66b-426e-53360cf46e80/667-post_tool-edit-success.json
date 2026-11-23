@@ -1,0 +1,57 @@
+{
+  "seq": 667,
+  "received_at": "2026-11-23T18:39:55.975608+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "qQlnYLKoZ",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/clock.js",
+      "new_string": [
+        "      if (c[c.active] <= 0) {",
+        "        const loser = c.active;",
+        "        c.active = null;",
+        "        c[loser] = 0;",
+        "        renderClocks();",
+        "        // La perte au temps est enregistrée par l'API (résultat \"flag\").",
+        "        try {",
+        "          const r = await ChessAPI.flag(loser);",
+        "          showGameOver(\"Temps écoulé\", statusText(r.status));",
+        "        } catch {",
+        "          showGameOver(",
+        "            \"Temps écoulé\",",
+        "            `${loser === \"w\" ? \"Les Blancs\" : \"Les Noirs\"} perdent au temps — ${loser === \"w\" ? \"les Noirs\" : \"les Blancs\"} gagnent.`",
+        "          );",
+        "        }",
+        "        return;",
+        "      }"
+      ],
+      "old_string": [
+        "      if (c[c.active] <= 0) {",
+        "        const loser = c.active;",
+        "        c.active = null;",
+        "        c[loser] = 0;",
+        "        renderClocks();",
+        "        showGameOver(",
+        "          \"Temps écoulé\",",
+        "          `${loser === \"w\" ? \"Les Blancs\" : \"Les Noirs\"} perdent au temps — ${loser === \"w\" ? \"les Noirs\" : \"les Blancs\"} gagnent.`",
+        "        );",
+        "        return;",
+        "      }"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/clock.js",
+      "lines_changed": 17,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 178
+  }
+}

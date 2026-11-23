@@ -1,0 +1,47 @@
+{
+  "seq": 679,
+  "received_at": "2026-11-23T18:41:28.407957+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "exXsr1qNO",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "new_string": [
+        "        <div id=\"review-banner\" class=\"review-banner hidden\">Position passée — lecture seule</div>",
+        "        <div id=\"status\" class=\"status\" role=\"status\">chargement…</div>",
+        "      </section>"
+      ],
+      "old_string": [
+        "        <div id=\"review-banner\" class=\"review-banner hidden\">Position passée — lecture seule</div>",
+        "        <div id=\"review-bar\" class=\"review-bar hidden\">",
+        "          <button class=\"btn-icon\" data-review=\"first\" title=\"Début (Début)\" aria-label=\"Début\">⏮</button>",
+        "          <button class=\"btn-icon\" data-review=\"prev\" title=\"Coup précédent (←)\" aria-label=\"Précédent\">◀</button>",
+        "          <span id=\"review-label\"></span>",
+        "          <button class=\"btn-icon\" data-review=\"next\" title=\"Coup suivant (→)\" aria-label=\"Suivant\">▶</button>",
+        "          <button class=\"btn-icon\" data-review=\"last\" title=\"Position actuelle (Fin)\" aria-label=\"Dernier\">⏭</button>",
+        "          <button id=\"btn-exit-review\" class=\"btn-secondary\">▶ Jouer</button>",
+        "        </div>",
+        "        <div id=\"status\" class=\"status\" role=\"status\">chargement…</div>",
+        "        <div class=\"evalbar-wrap\" title=\"Évaluation statique (centipions)\">",
+        "          <div class=\"evalbar\"><div id=\"evalbar-fill\"></div></div>",
+        "          <span id=\"evalbar-label\" class=\"muted\">0.0</span>",
+        "        </div>",
+        "      </section>"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "lines_changed": 15,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 54
+  }
+}

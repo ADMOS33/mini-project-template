@@ -1,0 +1,41 @@
+{
+  "seq": 527,
+  "received_at": "2026-11-23T18:21:03.867065+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "GQwAN0Orp",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/main.js",
+      "old_string": [
+        "document.getElementById(\"opt-color\").addEventListener(\"change\", (e) => {",
+        "  state.colorChoice = e.target.value;",
+        "  lsSet(\"chess.color\", state.colorChoice);",
+        "  if (state.colorChoice === \"random\") state.actualColor = Math.random() < 0.5 ? \"w\" : \"b\";",
+        "  renderPlayers();",
+        "});",
+        "document.getElementById(\"opt-depth\").addEventListener(\"change\", (e) => {",
+        "  state.depth = parseInt(e.target.value, 10);",
+        "  lsSet(\"chess.depth\", e.target.value);",
+        "});"
+      ],
+      "new_string": [
+        "wireChips(\"opt-color\", (v) => {",
+        "  state.colorChoice = v;",
+        "  lsSet(\"chess.color\", v);",
+        "  if (v === \"random\") state.actualColor = Math.random() < 0.5 ? \"w\" : \"b\";",
+        "  renderPlayers();",
+        "}, state.colorChoice);",
+        "wireChips(\"opt-depth\", (v) => {",
+        "  state.depth = parseInt(v, 10);",
+        "  lsSet(\"chess.depth\", v);",
+        "}, String(state.depth));"
+      ]
+    }
+  }
+}

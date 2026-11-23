@@ -1,0 +1,41 @@
+{
+  "seq": 523,
+  "received_at": "2026-11-23T18:21:03.785804+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "jTD6Okhnm",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/panels.js",
+      "old_string": [
+        "export function renderVsControls() {",
+        "  document.getElementById(\"seg-human\").setAttribute(\"aria-selected\", String(!state.vs));",
+        "  document.getElementById(\"seg-computer\").setAttribute(\"aria-selected\", String(state.vs));",
+        "  document.getElementById(\"vs-options\").classList.toggle(\"hidden\", !state.vs);",
+        "  document.getElementById(\"opt-color\").value = state.colorChoice;",
+        "  document.getElementById(\"opt-depth\").value = String(state.depth);",
+        "}"
+      ],
+      "new_string": [
+        "export function renderVsControls() {",
+        "  document.getElementById(\"seg-human\").setAttribute(\"aria-selected\", String(!state.vs));",
+        "  document.getElementById(\"seg-computer\").setAttribute(\"aria-selected\", String(state.vs));",
+        "  document.getElementById(\"vs-options\").classList.toggle(\"hidden\", !state.vs);",
+        "  for (const [id, val] of [[\"opt-color\", state.colorChoice], [\"opt-depth\", String(state.depth)]]) {",
+        "    const group = document.getElementById(id);",
+        "    if (group) {",
+        "      group.querySelectorAll(\".chip\").forEach((b) =>",
+        "        b.setAttribute(\"aria-pressed\", String(b.dataset.value === val))",
+        "      );",
+        "    }",
+        "  }",
+        "}"
+      ]
+    }
+  }
+}

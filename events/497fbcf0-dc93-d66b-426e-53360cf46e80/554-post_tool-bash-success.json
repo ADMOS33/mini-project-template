@@ -1,0 +1,47 @@
+{
+  "seq": 554,
+  "received_at": "2026-11-23T18:23:49.608080+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "uJpFuSsSW",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n 'font-family\\|font-variant' web/style.css && grep -n 'Inter' web/index.html web/style.css | head -5"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n 'font-family\\|font-variant' web/style.css && grep -n 'Inter' web/index.html web/style.css | head -5",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "58:  font-family: var(--font);",
+        "59:  font-variant-numeric: tabular-nums;",
+        "309:  font-variant-numeric: tabular-nums;",
+        "471:  font-family: var(--mono);",
+        "476:  font-family: var(--mono);",
+        "477:  font-variant-numeric: tabular-nums;",
+        "489:  font-family: var(--mono);",
+        "491:  font-variant-numeric: tabular-nums;",
+        "574:  font-family: var(--mono);",
+        "579:  font-variant-numeric: tabular-nums;",
+        "739:  font-family: var(--mono);",
+        "761:  font-family: var(--mono);",
+        "797:  font-family: ui-monospace, SFMono-Regular, monospace;",
+        "web/index.html:10:    href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap\"",
+        "web/style.css:3:   Palette sombre, police Inter (repli system-ui), chiffres tabulaires.",
+        "web/style.css:44:  --font: \"Inter\", system-ui, -apple-system, \"Segoe UI\", sans-serif;",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 52
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "seq": 521,
+  "received_at": "2026-11-23T18:21:03.747258+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "upC8qXCuL",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/index.html",
+      "old_string": [
+        "          <div id=\"vs-options\" class=\"hidden\">",
+        "            <select id=\"opt-color\" aria-label=\"Votre couleur\">",
+        "              <option value=\"w\">Je joue les Blancs</option>",
+        "              <option value=\"b\">Je joue les Noirs</option>",
+        "              <option value=\"random\">Couleur aléatoire</option>",
+        "            </select>",
+        "            <select id=\"opt-depth\" aria-label=\"Difficulté\">",
+        "              <option value=\"1\">Débutant (profondeur 1)</option>",
+        "              <option value=\"2\">Facile (profondeur 2)</option>",
+        "              <option value=\"3\" selected>Normal (profondeur 3)</option>",
+        "              <option value=\"4\">Difficile (profondeur 4)</option>",
+        "            </select>"
+      ],
+      "new_string": [
+        "          <div id=\"vs-options\" class=\"hidden\">",
+        "            <div class=\"seg-group\" id=\"opt-color\" role=\"group\" aria-label=\"Votre couleur\">",
+        "              <button type=\"button\" class=\"chip\" data-value=\"w\" aria-pressed=\"true\">Blancs</button>",
+        "              <button type=\"button\" class=\"chip\" data-value=\"b\" aria-pressed=\"false\">Noirs</button>",
+        "              <button type=\"button\" class=\"chip\" data-value=\"random\" aria-pressed=\"false\">Aléatoire</button>",
+        "            </div>",
+        "            <div class=\"seg-group\" id=\"opt-depth\" role=\"group\" aria-label=\"Difficulté\">",
+        "              <button type=\"button\" class=\"chip\" data-value=\"1\" aria-pressed=\"false\">Débutant · 1</button>",
+        "              <button type=\"button\" class=\"chip\" data-value=\"2\" aria-pressed=\"false\">Facile · 2</button>",
+        "              <button type=\"button\" class=\"chip\" data-value=\"3\" aria-pressed=\"true\">Normal · 3</button>",
+        "              <button type=\"button\" class=\"chip\" data-value=\"4\" aria-pressed=\"false\">Difficile · 4</button>",
+        "            </div>"
+      ]
+    }
+  }
+}

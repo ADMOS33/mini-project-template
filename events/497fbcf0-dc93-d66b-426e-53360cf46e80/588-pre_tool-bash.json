@@ -1,0 +1,38 @@
+{
+  "seq": 588,
+  "received_at": "2026-11-23T18:30:28.265382+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "BR5UIeR7c",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && .venv/bin/python - <<'EOF'",
+        "import re",
+        "from pathlib import Path",
+        "web = Path(\"web\")",
+        "EN = [\"loading\",\"game over\",\"new game\",\"undo\",\"checkmate\",\"stalemate\",\"white to\",\"black to\",\"moves\",\"play\",\"sound\",\"error\",\"failed\",\"retry\",\"cancel\",\"close\",\"import\",\"export\",\"copy\",\"save\",\"settings\",\"options\",\"easy\",\"hard\",\"player\",\"computer\",\"clock\",\"history\",\"board\",\"turn\",\"draw\",\"check\"]",
+        "def hits(text):",
+        "    return [w for w in EN if re.search(rf\"\\b{re.escape(w)}\\b\", text, re.I)]",
+        "html = (web/\"index.html\").read_text(encoding=\"utf-8\")",
+        "texts = re.findall(r'>([^<>]+)<', html) + re.findall(r'(?:aria-label|title|placeholder|alt)=\"([^\"]*)\"', html)",
+        "bad = [(t, hits(t)) for t in texts if t.strip() and hits(t)]",
+        "print(\"HTML visible/attrs with English:\", bad if bad else \"NONE\")",
+        "jsbad = []",
+        "for p in sorted(web.rglob(\"*.js\")):",
+        "    for m in re.finditer(r'\"([^\"\\n]+)\"|`([^`]+)`', p.read_text(encoding=\"utf-8\")):",
+        "        s = (m.group(1) or m.group(2) or \"\")",
+        "        if \" \" in s and hits(s):",
+        "            jsbad.append((p.name, s[:60], hits(s)))",
+        "print(\"JS string literals with English:\", jsbad if jsbad else \"NONE\")",
+        "EOF"
+      ]
+    }
+  }
+}

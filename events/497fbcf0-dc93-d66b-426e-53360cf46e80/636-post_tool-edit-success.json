@@ -1,0 +1,49 @@
+{
+  "seq": 636,
+  "received_at": "2026-11-23T18:38:47.831607+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "A468UlzXo",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/rules.py",
+      "new_string": [
+        "#: Possible values of ``result`` in :func:`game_result` / ``Game.status()``.",
+        "#: \"flag\" is never returned by game_result: it is set externally (clock fall).",
+        "RESULTS = (",
+        "    \"ongoing\",",
+        "    \"checkmate\",",
+        "    \"stalemate\",",
+        "    \"draw_threefold\",",
+        "    \"draw_fifty_move\",",
+        "    \"draw_insufficient_material\",",
+        "    \"flag\",",
+        ")"
+      ],
+      "old_string": [
+        "#: Possible values of ``result`` in :func:`game_result` / ``Game.status()``.",
+        "RESULTS = (",
+        "    \"ongoing\",",
+        "    \"checkmate\",",
+        "    \"stalemate\",",
+        "    \"draw_threefold\",",
+        "    \"draw_fifty_move\",",
+        "    \"draw_insufficient_material\",",
+        ")"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/rules.py",
+      "lines_changed": 11,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 51
+  }
+}
