@@ -2,7 +2,7 @@
 // barre d'évaluation, contrôles vs ordinateur, modale de fin de partie.
 
 import { ChessAPI } from "./api.js";
-import { renderAll } from "./board-view.js";
+import { previewPly, renderAll } from "./board-view.js";
 import {
   START_COUNTS,
   VALUES,
@@ -90,11 +90,32 @@ export function renderMovesTable() {
   body.scrollTop = body.scrollHeight;
 }
 
+const LABEL_CLASS = {
+  "meilleur": "lbl-best",
+  "excellent": "lbl-good",
+  "bon": "lbl-good",
+  "imprécision ?!": "lbl-inaccuracy",
+  "erreur ?": "lbl-error",
+  "gaffe ??": "lbl-blunder",
+  "brillant !!": "lbl-brilliant",
+};
+
 function moveCell(entry, lastPly) {
   const td = document.createElement("td");
   td.className = "move";
   td.textContent = entry.san || entry.uci;
   td.title = entry.uci;
+  // Revue de partie (V9) : étiquette colorée à côté du coup
+  if (state.analysis) {
+    const ply = state.analysis.plies.find((p) => p.ply === entry.ply);
+    if (ply) {
+      const badge = document.createElement("span");
+      badge.className = "lbl " + (LABEL_CLASS[ply.label] || "lbl-good");
+      badge.textContent = ply.label;
+      badge.title = `perte ${ply.loss} cp — meilleur : ${ply.best_move}`;
+      td.appendChild(badge);
+    }
+  }
   if (state.reviewPly === entry.ply || (state.reviewPly === null && entry.ply === lastPly)) {
     td.classList.add("current");
   }
@@ -103,7 +124,70 @@ function moveCell(entry, lastPly) {
     state.selected = null;
     renderAll();
   });
+  // V10 : survol d'un coup -> aperçu de la position après ce demi-coup
+  td.addEventListener("mouseenter", () => previewPly(entry.ply));
+  td.addEventListener("mouseleave", () => previewPly(null));
   return td;
+}
+
+// --- Bloc « Problème » (V7) : score / série + bouton Solution ----------------------
+
+export function renderPuzzleBlock() {
+  const block = document.getElementById("puzzle-block");
+  if (!block) return;
+  block.classList.toggle("hidden", !state.puzzle);
+  const score = document.getElementById("puzzle-score");
+  if (score && state.puzzle) {
+    score.textContent = `Mat en ${state.puzzle.n} — ${state.puzzle.theme} · Score : ${state.puzzleScore} · Série : ${state.puzzleStreak}`;
+  }
+}
+
+// --- Revue de partie (V9) : précision par joueur + courbe d'évaluation SVG ---------
+
+export function renderReviewResults() {
+  const box = document.getElementById("review-results");
+  if (!box || !state.analysis) return;
+  box.classList.remove("hidden");
+  const acc = state.analysis.accuracy;
+  document.getElementById("review-accuracy").textContent =
+    `Précision — Blancs : ${acc.w}% · Noirs : ${acc.b}%`;
+  const svg = document.getElementById("eval-curve");
+  const plies = state.analysis.plies;
+  const W = 300, H = 80;
+  svg.innerHTML = "";
+  if (!plies.length) return;
+  // score du point de vue des Blancs, lissé sur [-1000, 1000] cp
+  const pts = plies.map((p, i) => {
+    const whiteEval = p.color === "w" ? p.eval_after : -p.eval_after;
+    const clamped = Math.max(-1000, Math.min(1000, whiteEval));
+    return [(i / Math.max(1, plies.length - 1)) * W, H - ((clamped + 1000) / 2000) * H];
+  });
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", "M" + pts.map((p) => p.join(",")).join(" L"));
+  path.setAttribute("fill", "none");
+  path.setAttribute("stroke", "var(--accent)");
+  path.setAttribute("stroke-width", "2");
+  svg.appendChild(path);
+  // axe médian (0.0)
+  const mid = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  mid.setAttribute("x1", 0); mid.setAttribute("x2", W);
+  mid.setAttribute("y1", H / 2); mid.setAttribute("y2", H / 2);
+  mid.setAttribute("stroke", "var(--border)");
+  mid.setAttribute("stroke-dasharray", "3 3");
+  svg.appendChild(mid);
+  // clic sur la courbe -> affiche la position après ce demi-coup
+  pts.forEach((p, i) => {
+    const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    c.setAttribute("cx", p[0]); c.setAttribute("cy", p[1]); c.setAttribute("r", 6);
+    c.setAttribute("fill", "transparent");
+    c.style.cursor = "pointer";
+    c.addEventListener("click", () => {
+      state.reviewPly = plies[i].ply;
+      state.selected = null;
+      renderAll();
+    });
+    svg.appendChild(c);
+  });
 }
 
 // --- Modale de fin de partie -----------------------------------------------------
@@ -139,7 +223,9 @@ export function renderVsControls() {
     mc.setAttribute("aria-pressed", String(state.vs && !state.spectator));
   }
   if (ms) ms.setAttribute("aria-pressed", String(state.spectator));
-  for (const [id, val] of [["opt-color", state.colorChoice], ["opt-depth", String(state.depth)]]) {
+  const mp = document.getElementById("mode-puzzle");
+  if (mp) mp.setAttribute("aria-pressed", String(state.puzzleMode));
+  for (const [id, val] of [["opt-color", state.colorChoice], ["opt-depth", state.level]]) {
     const group = document.getElementById(id);
     if (group) {
       group.querySelectorAll(".chip").forEach((b) =>

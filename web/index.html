@@ -27,6 +27,8 @@
       <button id="btn-sound" class="btn-icon" title="Activer / couper le son" aria-label="Son" aria-pressed="true">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>
       </button>
+      <button id="btn-settings" class="btn-icon" title="Réglages" aria-label="Réglages">⚙</button>
+      <button id="btn-help" class="btn-icon" title="Aide agent (CLI, MCP, skill)" aria-label="Aide agent">?</button>
       <button id="btn-new" class="btn">Nouvelle partie</button>
     </header>
 
@@ -43,6 +45,7 @@
         </div>
         <div class="board-wrap">
           <div id="board" class="board" role="grid" aria-label="Échiquier"></div>
+          <svg id="draw-layer" class="draw-layer" aria-hidden="true"></svg>
           <div id="promo-overlay" class="promo-overlay hidden" role="dialog" aria-label="Promotion"></div>
           <div id="board-loading" class="board-loading">Chargement de la partie…</div>
         </div>
@@ -63,6 +66,7 @@
         <div class="tabs" role="tablist" aria-label="Panneau droit">
           <button class="tab" id="tab-partie" role="tab" aria-selected="true" aria-controls="tabpanel-partie" data-tab="partie">Partie</button>
           <button class="tab" id="tab-outils" role="tab" aria-selected="false" aria-controls="tabpanel-outils" data-tab="outils">Outils</button>
+          <button class="tab" id="tab-parties" role="tab" aria-selected="false" aria-controls="tabpanel-parties" data-tab="parties">Parties</button>
         </div>
 
         <div class="tabpanel" id="tabpanel-partie" role="tabpanel" aria-labelledby="tab-partie">
@@ -86,10 +90,21 @@
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v3l4-4-4-4v3H5v6h2V4zm10 16H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
                 Retourner
               </button>
+              <button id="btn-takeback" class="btn-secondary" title="Annuler mon coup et la réponse de l'ordinateur">Reprendre</button>
+              <button id="btn-offer-draw" class="btn-secondary">Proposer nulle</button>
+              <button id="btn-resign" class="btn-secondary danger">Abandonner</button>
+            </div>
+          </section>
+          <section class="block hidden" id="puzzle-block">
+            <h2>Problème</h2>
+            <div id="puzzle-score" class="muted">Score : 0 · Série : 0</div>
+            <div class="btn-row">
+              <button id="btn-puzzle-solution" class="btn-secondary">Solution</button>
             </div>
           </section>
           <section class="block grow">
             <h2>Coups</h2>
+            <div id="opening-label" class="muted opening-label"></div>
             <div class="moves-scroll">
               <table class="moves-table">
                 <thead>
@@ -118,6 +133,14 @@
               <div class="evalbar"><div id="evalbar-fill"></div></div>
               <span id="evalbar-label" class="muted">0.0</span>
             </div>
+            <div class="btn-row">
+              <button id="btn-hint" class="btn-secondary" title="Meilleur coup selon l'API (n)">💡 Indice</button>
+              <button id="btn-review" class="btn-secondary" title="Revue de partie : étiquettes par coup + courbe d'évaluation">Revue de partie</button>
+            </div>
+            <div id="review-results" class="hidden">
+              <div id="review-accuracy" class="muted"></div>
+              <svg id="eval-curve" viewBox="0 0 300 80" preserveAspectRatio="none" role="img" aria-label="Courbe d'évaluation"></svg>
+            </div>
           </section>
           <details class="block io-block">
             <summary>FEN / PGN</summary>
@@ -131,6 +154,30 @@
               <button id="btn-copy-pgn" class="btn-secondary">Copier le PGN</button>
             </div>
           </details>
+          <section class="block">
+            <h2>Éditeur</h2>
+            <div class="btn-row">
+              <button id="btn-editor" class="btn-secondary">Éditeur de position</button>
+            </div>
+          </section>
+        </div>
+
+        <div class="tabpanel hidden" id="tabpanel-parties" role="tabpanel" aria-labelledby="tab-parties">
+          <section class="block grow">
+            <h2>Parties archivées</h2>
+            <div id="games-stats" class="muted"></div>
+            <div class="moves-scroll">
+              <table class="moves-table">
+                <thead><tr><th>#</th><th>Date</th><th>Résultat</th><th>Coups</th></tr></thead>
+                <tbody id="games-body">
+                  <tr class="empty-row"><td colspan="4">Aucune partie archivée</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="btn-row">
+              <button id="btn-games-refresh" class="btn-secondary">Rafraîchir</button>
+            </div>
+          </section>
         </div>
       </aside>
     </div>
@@ -153,6 +200,23 @@
           <strong>Spectateur</strong>
           <span>suivre la partie en direct (CLI / agent)</span>
         </button>
+        <button type="button" class="mode-card" id="mode-puzzle" aria-pressed="false">
+          <strong>Problèmes</strong>
+          <span>mat forcé en 1, 2 ou 3 coups</span>
+        </button>
+        <button type="button" class="mode-card" id="mode-chess960" aria-pressed="false">
+          <strong>Chess960</strong>
+          <span>position de départ n° 0–959</span>
+        </button>
+      </div>
+      <div id="newgame-chess960-opts" class="hidden">
+        <h4>Position de départ n°</h4>
+        <div class="chess960-row">
+          <input type="number" id="opt-chess960-index" min="0" max="959" step="1" value="518"
+                 aria-label="Numéro de position Chess960 (0 à 959)">
+          <button type="button" class="chip" id="btn-chess960-random">Aléatoire</button>
+          <span class="chess960-hint">518 = position standard</span>
+        </div>
       </div>
       <div id="newgame-computer-opts" class="hidden">
         <h4>Ta couleur</h4>
@@ -162,11 +226,20 @@
           <button type="button" class="chip" data-value="random" aria-pressed="false">Aléatoire</button>
         </div>
         <h4>Niveau</h4>
-        <div class="seg-group" id="opt-depth" role="group" aria-label="Difficulté">
-          <button type="button" class="chip" data-value="1" aria-pressed="false">Débutant · 1</button>
-          <button type="button" class="chip" data-value="2" aria-pressed="false">Facile · 2</button>
-          <button type="button" class="chip" data-value="3" aria-pressed="true">Normal · 3</button>
-          <button type="button" class="chip" data-value="4" aria-pressed="false">Difficile · 4</button>
+        <div class="seg-group" id="opt-depth" role="group" aria-label="Niveau de l'ordinateur">
+          <button type="button" class="chip" data-value="debutant" aria-pressed="false">Débutant · ~600</button>
+          <button type="button" class="chip" data-value="novice" aria-pressed="false">Novice · ~900</button>
+          <button type="button" class="chip" data-value="club" aria-pressed="true">Club · ~1200</button>
+          <button type="button" class="chip" data-value="confirme" aria-pressed="false">Confirmé · ~1500</button>
+          <button type="button" class="chip" data-value="expert" aria-pressed="false">Expert · ~1800</button>
+        </div>
+      </div>
+      <div id="newgame-puzzle-opts" class="hidden">
+        <h4>Problème — mat en</h4>
+        <div class="seg-group" id="opt-puzzle-level" role="group" aria-label="Niveau du problème">
+          <button type="button" class="chip" data-value="1" aria-pressed="true">1 coup</button>
+          <button type="button" class="chip" data-value="2" aria-pressed="false">2 coups</button>
+          <button type="button" class="chip" data-value="3" aria-pressed="false">3 coups</button>
         </div>
       </div>
       <div id="newgame-autoflip">
@@ -183,6 +256,107 @@
       <div class="btn-row">
         <button id="btn-start-game" class="btn">Jouer</button>
         <button id="btn-cancel-newgame" class="btn-ghost">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Aide agent (V13) : CLI, serveur MCP, skill -->
+  <div id="help-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <div class="modal-box help-box">
+      <h3 id="help-title">🤖 Aide agent — jouer sans navigateur</h3>
+      <p class="muted">Trois façons de piloter une partie (état partagé dans <code>.chess_game.json</code>, suivi live dans ce navigateur) :</p>
+      <h4>1. CLI <code>chess … --json</code></h4>
+      <pre class="cmd">chess new --json
+chess moves --json            # coups légaux (UCI + SAN)
+chess move e2e4 --json        # ou en SAN : chess move Nf3 --json
+chess status --json           # turn, result, version, opening…
+chess ai-move --level club --json
+chess wait --color w --timeout 60 --json   # bloque jusqu'au tour des Blancs
+chess puzzle --level 2 --json &amp;&amp; chess solve d8h4 --json
+chess analyze --json · chess games --json · chess pgn</pre>
+      <h4>2. Serveur MCP (JSON-RPC stdio)</h4>
+      <pre class="cmd">python -m chess.mcp</pre>
+      <p class="muted">Outils : <code>new_game</code>, <code>get_board</code>, <code>get_status</code>, <code>legal_moves</code>,
+      <code>play_move</code>, <code>ai_move</code>, <code>analyze_position</code>, <code>get_pgn</code>,
+      <code>puzzle</code>, <code>solve</code>, <code>analyze_game</code>.
+      Déclaration : <code>vibe mcp add chess --transport stdio --command .venv/bin/python --arg -m --arg chess.mcp</code> (voir README).</p>
+      <h4>3. Skill</h4>
+      <p class="muted"><code>skills/chess-cli/SKILL.md</code> — contrat <code>--json</code> complet, boucle de jeu,
+      gestion des erreurs (rc 1 + liste des coups légaux), agent vs agent avec <code>wait</code>.</p>
+      <div class="btn-row">
+        <button id="btn-close-help" class="btn">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Réglages (V11) : thèmes, mode clair/sombre, son, jeu de pièces -->
+  <div id="settings-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+    <div class="modal-box">
+      <h3 id="settings-title">Réglages</h3>
+      <h4>Thème du plateau</h4>
+      <div class="seg-group" id="opt-theme" role="group" aria-label="Thème du plateau">
+        <button type="button" class="chip" data-value="vert" aria-pressed="true">Vert</button>
+        <button type="button" class="chip" data-value="bois" aria-pressed="false">Bois</button>
+        <button type="button" class="chip" data-value="bleu" aria-pressed="false">Bleu</button>
+        <button type="button" class="chip" data-value="gris" aria-pressed="false">Gris</button>
+      </div>
+      <h4>Apparence</h4>
+      <div class="seg-group" id="opt-mode" role="group" aria-label="Mode clair ou sombre">
+        <button type="button" class="chip" data-value="dark" aria-pressed="true">Sombre</button>
+        <button type="button" class="chip" data-value="light" aria-pressed="false">Clair</button>
+      </div>
+      <h4>Pièces</h4>
+      <div class="seg-group" id="opt-pieces" role="group" aria-label="Jeu de pièces">
+        <button type="button" class="chip" data-value="svg" aria-pressed="true">Classique (SVG)</button>
+        <button type="button" class="chip" data-value="unicode" aria-pressed="false">Unicode</button>
+      </div>
+      <div class="btn-row">
+        <button id="btn-close-settings" class="btn">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Éditeur de position (V11) -->
+  <div id="editor-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-box editor-box">
+      <h3 id="editor-title">Éditeur de position</h3>
+      <div class="editor-main">
+        <div id="editor-board" class="board editor-board" aria-label="Éditeur de position"></div>
+        <div class="editor-side">
+          <div id="editor-palette" class="editor-palette" aria-label="Palette de pièces"></div>
+          <h4>Trait</h4>
+          <div class="seg-group" id="editor-turn" role="group" aria-label="Trait">
+            <button type="button" class="chip" data-value="w" aria-pressed="true">Blancs</button>
+            <button type="button" class="chip" data-value="b" aria-pressed="false">Noirs</button>
+          </div>
+          <h4>Roques</h4>
+          <div class="seg-group" id="editor-castling" role="group" aria-label="Droits de roque">
+            <button type="button" class="chip" data-value="K" aria-pressed="true">Blancs O-O</button>
+            <button type="button" class="chip" data-value="Q" aria-pressed="true">Blancs O-O-O</button>
+            <button type="button" class="chip" data-value="k" aria-pressed="true">Noirs O-O</button>
+            <button type="button" class="chip" data-value="q" aria-pressed="true">Noirs O-O-O</button>
+          </div>
+          <div class="btn-row">
+            <button id="btn-editor-start" class="btn">Jouer depuis cette position</button>
+            <button id="btn-editor-reset" class="btn-secondary">Position initiale</button>
+            <button id="btn-editor-clear" class="btn-ghost">Vider</button>
+          </div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button id="btn-close-editor" class="btn-ghost">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Petite modale de confirmation (jamais de confirm() natif) -->
+  <div id="confirm-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="modal-box">
+      <h3 id="confirm-title">Confirmation</h3>
+      <p id="confirm-text" class="muted"></p>
+      <div class="btn-row">
+        <button id="btn-confirm-yes" class="btn">Confirmer</button>
+        <button id="btn-confirm-no" class="btn-ghost">Annuler</button>
       </div>
     </div>
   </div>
@@ -206,6 +380,27 @@
       <p class="muted">Le serveur FastAPI ne répond pas. Depuis la racine du projet, lance :</p>
       <pre class="cmd">.venv/bin/python -m uvicorn chess.api.server:app --reload --host 127.0.0.1 --port 8000</pre>
       <p class="muted">puis ouvre <code>http://localhost:8000/</code>.<br>Nouvel essai automatique toutes les 3 s…</p>
+    </div>
+  </div>
+
+  <!-- Aide raccourcis clavier (?) -->
+  <div id="shortcuts-overlay" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="shortcuts-title">
+    <div class="modal-box">
+      <h3 id="shortcuts-title">Raccourcis clavier</h3>
+      <table class="shortcuts-table">
+        <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>coup précédent / suivant (revue)</td></tr>
+        <tr><td><kbd>Début</kbd> <kbd>Fin</kbd></td><td>début / position actuelle</td></tr>
+        <tr><td><kbd>f</kbd></td><td>retourner l'échiquier</td></tr>
+        <tr><td><kbd>n</kbd></td><td>nouvelle partie</td></tr>
+        <tr><td><kbd>u</kbd></td><td>annuler le dernier coup</td></tr>
+        <tr><td><kbd>?</kbd></td><td>cette aide</td></tr>
+        <tr><td>clic droit glissé</td><td>flèche</td></tr>
+        <tr><td>clic droit simple</td><td>cercle (Maj/Alt = autres couleurs)</td></tr>
+        <tr><td>clic gauche</td><td>efface les dessins</td></tr>
+      </table>
+      <div class="btn-row">
+        <button id="btn-close-shortcuts" class="btn">Fermer</button>
+      </div>
     </div>
   </div>
 

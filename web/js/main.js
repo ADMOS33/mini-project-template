@@ -3,14 +3,17 @@
 // overlay API injoignable. Le JS n'implémente aucune règle d'échecs.
 
 import { ChessAPI } from "./api.js";
-import { renderAll, renderReviewBar, reviewStep, safeRender, render } from "./board-view.js";
+import { boardEl, renderAll, renderReviewBar, reviewStep, safeRender, render } from "./board-view.js";
 import { initClock, renderClocks, resetClock } from "./clock.js";
-import { initInteractions } from "./interactions.js";
+import { initInteractions, tryMove } from "./interactions.js";
+import { initSettings, renderGames } from "./settings.js";
 import {
   maybeShowGameOver,
   renderEval,
   renderMovesTable,
   renderPlayers,
+  renderPuzzleBlock,
+  renderReviewResults,
   renderVsControls,
 } from "./panels.js";
 import { playMoveSound, initSound } from "./sound.js";
@@ -80,6 +83,8 @@ async function refresh() {
     safeRender("coups", renderMovesTable);
     safeRender("évaluation", renderEval);
     safeRender("horloge", renderClocks);
+    safeRender("problème", renderPuzzleBlock);
+    if (state.analysis) safeRender("revue", renderReviewResults);
     if (loadingEl) loadingEl.classList.add("hidden");
     // horloge : incrément pour le camp qui vient de jouer
     if (prevTurn && prevTurn !== status.turn && state.clockMode !== "none") {
@@ -93,14 +98,24 @@ async function refresh() {
       if (state.reviewPly === null) playMoveSound(lastEntry.san, status.result);
     }
     if (state.reviewPly === null) {
-      setStatus(
-        state.spectator
-          ? "👁 Mode spectateur — la partie est suivie en direct (coups joués par CLI/agent)"
-          : statusText(status)
-      );
+      if (state.spectator) {
+        setStatus("👁 Mode spectateur — la partie est suivie en direct (coups joués par CLI/agent)");
+      } else if (state.puzzle) {
+        const p = state.puzzle;
+        setStatus(`🧩 Problème — mat en ${p.n} (${p.theme}). À vous de trouver le premier coup !`);
+      } else {
+        setStatus(statusText(status));
+      }
     }
+    // Ouverture reconnue (V9) affichée au-dessus de la liste des coups
+    safeRender("ouverture", () => {
+      const el = document.getElementById("opening-label");
+      if (el) el.textContent = status.opening ? `${status.opening.code} — ${status.opening.name}` : "";
+    });
+    boardEl.classList.toggle("checkmate", status.result === "checkmate");
     maybeShowGameOver(status);
     maybeAiMove(status);
+    firePremove(status).catch(() => {}); // V10 : prémouvement en attente
   } catch (err) {
     if (isNetworkError(err)) setApiDown(true);
     else reportError("Erreur API", err);
@@ -143,7 +158,7 @@ async function maybeAiMove(status) {
   state.thinking = true;
   document.getElementById("thinking").classList.remove("hidden");
   try {
-    await ChessAPI.aiMove(state.depth);
+    await ChessAPI.aiMove({ level: state.level });
   } catch (err) {
     reportError("IA", err);
   }
@@ -157,11 +172,24 @@ async function maybeAiMove(status) {
 async function newGame() {
   state.selected = null;
   state.reviewPly = null;
+  state.puzzle = null;
+  state.analysis = null;
+  state.hint = null;
   if (state.vs && state.colorChoice === "random") {
     state.actualColor = Math.random() < 0.5 ? "w" : "b";
   }
   try {
-    await ChessAPI.newGame();
+    const body = {};
+    if (state.vs) {
+      body.mode = "computer";
+      body.level = state.level;
+    } else if (state.chess960Mode) {
+      body.mode = "human";
+      body.chess960 = chess960Index();
+    } else {
+      body.mode = "human";
+    }
+    await ChessAPI.newGame(body);
   } catch (err) {
     reportError("Nouvelle partie", err);
   }
@@ -175,27 +203,45 @@ async function newGame() {
 
 // --- Modale « Nouvelle partie » -------------------------------------------------
 
+function chess960Index() {
+  const el = document.getElementById("opt-chess960-index");
+  const n = parseInt(el && el.value, 10);
+  return Number.isInteger(n) && n >= 0 && n <= 959 ? n : 518;
+}
+
+function syncNewGameOpts() {
+  document.getElementById("newgame-computer-opts").classList.toggle("hidden", !state.vs);
+  document.getElementById("newgame-puzzle-opts").classList.toggle("hidden", !state.puzzleMode);
+  document.getElementById("newgame-chess960-opts").classList.toggle("hidden", !state.chess960Mode);
+  document.getElementById("newgame-autoflip").classList.toggle(
+    "hidden", state.vs || state.spectator || state.puzzleMode || state.chess960Mode
+  );
+}
+
 function openNewGameModal() {
   const modal = document.getElementById("newgame-modal");
-  document.getElementById("newgame-computer-opts").classList.toggle("hidden", !state.vs);
-  document.getElementById("newgame-autoflip").classList.toggle("hidden", state.vs);
+  syncNewGameOpts();
   document.getElementById("chip-autoflip").setAttribute("aria-pressed", String(state.autoFlip));
   renderVsControls();
   modal.classList.remove("hidden");
 }
 
 document.getElementById("btn-new").addEventListener("click", openNewGameModal);
-for (const id of ["mode-human", "mode-computer", "mode-spectator"]) {
+for (const id of ["mode-human", "mode-computer", "mode-spectator", "mode-puzzle", "mode-chess960"]) {
   document.getElementById(id).addEventListener("click", () => {
     state.spectator = id === "mode-spectator";
     state.vs = id === "mode-computer";
+    state.puzzleMode = id === "mode-puzzle";
+    state.chess960Mode = id === "mode-chess960";
     lsSet("chess.spectator", state.spectator ? "1" : "0");
     lsSet("chess.vs", state.vs ? "1" : "0");
-    document.getElementById("newgame-computer-opts").classList.toggle("hidden", !state.vs);
-    document.getElementById("newgame-autoflip").classList.toggle("hidden", state.vs || state.spectator);
+    syncNewGameOpts();
     renderVsControls();
   });
 }
+document.getElementById("btn-chess960-random").addEventListener("click", () => {
+  document.getElementById("opt-chess960-index").value = String(Math.floor(Math.random() * 960));
+});
 document.getElementById("chip-autoflip").addEventListener("click", () => {
   state.autoFlip = !state.autoFlip;
   lsSet("chess.autoflip", state.autoFlip ? "1" : "0");
@@ -206,6 +252,23 @@ document.getElementById("btn-start-game").addEventListener("click", async () => 
   if (state.spectator) {
     // Spectateur : on ne touche PAS à la partie persistée, on la suit juste.
     await refresh();
+    return;
+  }
+  if (state.puzzleMode) {
+    // Problème (V7) : charge un mat-en-n dans l'état partagé.
+    state.selected = null;
+    state.reviewPly = null;
+    state.analysis = null;
+    state.puzzle = null;
+    try {
+      const r = await ChessAPI.puzzle(parseInt(state.puzzleLevel, 10));
+      state.puzzle = r.puzzle;
+      toast(`Problème chargé — mat en ${r.puzzle.n} (${r.puzzle.theme}).`, "info");
+    } catch (err) {
+      reportError("Problème", err);
+    }
+    await refresh();
+    resetClock();
     return;
   }
   newGame();
@@ -288,9 +351,13 @@ wireChips("opt-color", (v) => {
   renderPlayers();
 }, state.colorChoice);
 wireChips("opt-depth", (v) => {
-  state.depth = parseInt(v, 10);
-  lsSet("chess.depth", v);
-}, String(state.depth));
+  state.level = v;
+  lsSet("chess.level", v);
+}, state.level);
+wireChips("opt-puzzle-level", (v) => {
+  state.puzzleLevel = v;
+  lsSet("chess.puzzleLevel", v);
+}, state.puzzleLevel);
 
 // --- Section repliable FEN / PGN : importer + copier ---------------------------------
 
@@ -346,14 +413,144 @@ document.querySelectorAll(".tabs .tab").forEach((tab) => {
     );
     document.getElementById("tabpanel-partie").classList.toggle("hidden", tab.dataset.tab !== "partie");
     document.getElementById("tabpanel-outils").classList.toggle("hidden", tab.dataset.tab !== "outils");
+    document.getElementById("tabpanel-parties").classList.toggle("hidden", tab.dataset.tab !== "parties");
+    if (tab.dataset.tab === "parties") renderGames();
   });
 });
 
 // --- Init ------------------------------------------------------------------------
 
+// --- V8 : Abandonner / Proposer nulle / Reprendre (modale de confirmation) -------
+
+function askConfirm(text) {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("confirm-modal");
+    document.getElementById("confirm-text").textContent = text;
+    modal.classList.remove("hidden");
+    const yes = document.getElementById("btn-confirm-yes");
+    const no = document.getElementById("btn-confirm-no");
+    const onYes = () => done(true);
+    const onNo = () => done(false);
+    function done(val) {
+      modal.classList.add("hidden");
+      yes.removeEventListener("click", onYes);
+      no.removeEventListener("click", onNo);
+      resolve(val);
+    }
+    yes.addEventListener("click", onYes);
+    no.addEventListener("click", onNo);
+  });
+}
+
+document.getElementById("btn-resign").addEventListener("click", async () => {
+  if (!(await askConfirm("Abandonner la partie ? Le camp au trait perd la partie."))) return;
+  try {
+    await ChessAPI.resign();
+    toast("Abandon enregistré.", "info");
+  } catch (err) {
+    reportError("Abandon", err);
+  }
+  await refresh();
+});
+document.getElementById("btn-offer-draw").addEventListener("click", async () => {
+  if (!(await askConfirm("Proposer une nulle ?"))) return;
+  try {
+    const r = await ChessAPI.offerDraw(!state.vs); // acceptée d'office en mode 2 joueurs
+    toast(r.accepted ? "Nulle acceptée — partie nulle." : "Nulle refusée par l'ordinateur (évaluation défavorable).", "info");
+  } catch (err) {
+    reportError("Nulle", err);
+  }
+  await refresh();
+});
+document.getElementById("btn-takeback").addEventListener("click", async () => {
+  if (!(await askConfirm("Reprendre le dernier échange (votre coup + la réponse de l'ordinateur) ?"))) return;
+  try {
+    const r = await ChessAPI.takeback();
+    toast(`Échange repris : ${r.undone.join(", ")}.`, "info");
+  } catch (err) {
+    reportError("Reprendre", err);
+  }
+  await refresh();
+});
+
+// --- V7 : bouton « Solution » du problème ------------------------------------------
+document.getElementById("btn-puzzle-solution").addEventListener("click", () => {
+  if (state.puzzle) toast(`Solution : ${state.puzzle.solution}`, "info");
+});
+
+// --- V9 : Indice (meilleur coup) + Revue de partie ---------------------------------
+document.getElementById("btn-hint").addEventListener("click", async () => {
+  try {
+    const r = await ChessAPI.analyzePosition(3);
+    state.hint = { from: r.best_move.slice(0, 2), to: r.best_move.slice(2, 4) };
+    render();
+    toast(`Meilleur coup : ${r.san} (score ${r.score} cp).`, "info");
+  } catch (err) {
+    reportError("Indice", err);
+  }
+});
+document.getElementById("btn-review").addEventListener("click", async () => {
+  try {
+    state.analysis = await ChessAPI.analyze(2);
+    safeRender("revue", renderReviewResults);
+    renderMovesTable();
+    toast("Revue prête : étiquettes sur les coups + courbe d'évaluation.", "info");
+  } catch (err) {
+    reportError("Revue", err);
+  }
+});
+
+// --- V10 : raccourcis clavier (désactivés dans les champs texte) --------------------
+document.addEventListener("keydown", (e) => {
+  const tag = (e.target && e.target.tagName) || "";
+  if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+  if (e.key === "?") {
+    e.preventDefault();
+    document.getElementById("shortcuts-overlay").classList.toggle("hidden");
+    return;
+  }
+  if (!document.getElementById("shortcuts-overlay").classList.contains("hidden")) return;
+  switch (e.key) {
+    case "ArrowLeft": e.preventDefault(); reviewStep("prev"); break;
+    case "ArrowRight": e.preventDefault(); reviewStep("next"); break;
+    case "Home": e.preventDefault(); reviewStep("first"); break;
+    case "End": e.preventDefault(); reviewStep("last"); break;
+    case "f": document.getElementById("btn-flip").click(); break;
+    case "n": openNewGameModal(); break;
+    case "u": document.getElementById("btn-undo").click(); break;
+  }
+});
+document.getElementById("btn-close-shortcuts").addEventListener("click", () => {
+  document.getElementById("shortcuts-overlay").classList.add("hidden");
+});
+
+// --- V10 : le prémouvement part dès que c'est à nous de jouer ------------------------
+async function firePremove(status) {
+  if (!state.premove || state.thinking) return;
+  if (status.result !== "ongoing") { state.premove = null; return; }
+  const myColor = state.vs
+    ? state.colorChoice === "random" ? state.actualColor : state.colorChoice
+    : null;
+  if (!myColor || status.turn !== myColor) return;
+  const pm = state.premove;
+  state.premove = null;
+  render();
+  try {
+    await tryMove(pm.from, pm.to, refresh, true); // refusé -> annulé sans message
+  } catch { /* annulé silencieusement */ }
+}
+
+document.getElementById("btn-help").addEventListener("click", () => {
+  document.getElementById("help-modal").classList.remove("hidden");
+});
+document.getElementById("btn-close-help").addEventListener("click", () => {
+  document.getElementById("help-modal").classList.add("hidden");
+});
+
 initSound();
 initClock();
 initInteractions({ refresh });
+initSettings();
 renderVsControls();
 renderReviewBar();
 resetClock();

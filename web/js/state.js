@@ -52,6 +52,31 @@ state.clockMode = ls("chess.clock", "none");
 state.autoFlip = ls("chess.autoflip", "0") === "1";
 // Mode spectateur (V5) : le navigateur n'accepte aucun coup et ne lance pas l'IA.
 state.spectator = ls("chess.spectator", "0") === "1";
+// Niveaux nommés de l'ordinateur (V8) + problème en cours (V7) + revue (V9).
+state.level = ls("chess.level", "club");
+state.puzzleMode = false;
+// Chess960 (V12) : mode + numéro de position choisi dans la modale.
+state.chess960Mode = false;
+state.puzzle = null; // {level, n, theme, fen, solution} renvoyé par /api/puzzle
+state.puzzleLevel = ls("chess.puzzleLevel", "1");
+state.puzzleScore = parseInt(ls("chess.puzzleScore", "0"), 10) || 0;
+state.puzzleStreak = parseInt(ls("chess.puzzleStreak", "0"), 10) || 0;
+state.analysis = null; // rapport /api/analyze (V9)
+state.hint = null; // {from, to} meilleur coup (bouton Indice)
+// V10 : dessins (flèches/cercles), prémouvement, aperçu au survol
+state.drawings = []; // [{type:"arrow",from,to,color} | {type:"circle",sq,color}]
+state.premove = null; // {from, to} en attente pendant que l'ordinateur réfléchit
+state.previewPly = null; // aperçu de position au survol d'un coup
+// Préférences (V11) — toujours lues/écrites dans un try/catch (ls/lsSet)
+state.theme = ls("chess.theme", "vert");
+state.appearance = ls("chess.appearance", "dark");
+state.pieceSet = ls("chess.pieces", "svg");
+
+// Glyphe Unicode par symbole ("K" -> "♔", "k" -> "♚") pour le jeu de pièces alternatif.
+export const UNICODE_GLYPH = {
+  K: "♔", Q: "♕", R: "♖", B: "♗", N: "♘", P: "♙",
+  k: "♚", q: "♛", r: "♜", b: "♝", n: "♞", p: "♟",
+};
 // Synchro live (V5) : dernière version vue de l'état persisté + garde-fou
 // pour ne pas lancer deux refresh() en parallèle.
 state.lastVersion = null;

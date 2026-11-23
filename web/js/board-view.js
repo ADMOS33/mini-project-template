@@ -12,6 +12,7 @@ import {
   squareName,
   state,
   symAt,
+  UNICODE_GLYPH,
 } from "./state.js";
 
 export const boardEl = document.getElementById("board");
@@ -62,6 +63,10 @@ export function render() {
         sq.appendChild(c);
       }
       if (name === lastFrom || name === lastTo) sq.classList.add("last-move");
+      if (state.hint && (name === state.hint.from || name === state.hint.to)) sq.classList.add("hint-best");
+      if (state.premove && (name === state.premove.from || name === state.premove.to)) {
+        sq.classList.add("premove");
+      }
       if (name === checkSq) sq.classList.add("in-check");
       if (name === state.selected) sq.classList.add("selected");
       if (hintTargets.has(name)) {
@@ -69,20 +74,116 @@ export function render() {
       }
       const sym = symAt(name);
       if (sym) {
-        const src = pieceSrc(sym);
         const span = document.createElement("span");
         span.className = "piece";
-        const img = document.createElement("img");
-        if (src) img.src = src;
-        img.alt = sym;
-        img.draggable = false;
-        span.appendChild(img);
+        if (state.pieceSet === "unicode") {
+          // Jeu de pièces alternatif : glyphe Unicode (un seul jeu en plus, V11)
+          span.classList.add("unicode");
+          span.textContent = UNICODE_GLYPH[sym] || sym;
+        } else {
+          const src = pieceSrc(sym);
+          const img = document.createElement("img");
+          if (src) img.src = src;
+          img.alt = sym;
+          img.draggable = false;
+          span.appendChild(img);
+        }
         sq.appendChild(span);
       }
       boardEl.appendChild(sq);
     }
   }
+  renderDraw();
   animateLastMove();
+}
+
+// --- Dessins (flèches / cercles) en SVG par-dessus le plateau (V10) ---------------
+
+const DRAW_COLORS = { default: "#7fa650", shift: "#e05a4e", alt: "#4e8fe0" };
+
+function squareCenter(name) {
+  const el = boardEl.querySelector(`[data-square="${name}"]`);
+  if (!el) return null;
+  return { x: el.offsetLeft + el.offsetWidth / 2, y: el.offsetTop + el.offsetHeight / 2 };
+}
+
+export function renderDraw() {
+  const svg = document.getElementById("draw-layer");
+  if (!svg) return;
+  const w = boardEl.clientWidth || 512;
+  svg.setAttribute("viewBox", `0 0 ${w} ${w}`);
+  svg.innerHTML = "";
+  // pointe de flèche réutilisable
+  const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+  const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
+  marker.setAttribute("id", "arrowhead");
+  marker.setAttribute("markerWidth", "6");
+  marker.setAttribute("markerHeight", "6");
+  marker.setAttribute("refX", "5");
+  marker.setAttribute("refY", "3");
+  marker.setAttribute("orient", "auto");
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", "M0,0 L6,3 L0,6 Z");
+  path.setAttribute("fill", "context-stroke");
+  marker.appendChild(path);
+  defs.appendChild(marker);
+  svg.appendChild(defs);
+  for (const d of state.drawings) {
+    const color = DRAW_COLORS[d.color] || DRAW_COLORS.default;
+    if (d.type === "circle") {
+      const c = squareCenter(d.sq);
+      if (!c) continue;
+      const el = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      el.setAttribute("cx", c.x);
+      el.setAttribute("cy", c.y);
+      el.setAttribute("r", w / 8 / 2 - 4);
+      el.setAttribute("fill", "none");
+      el.setAttribute("stroke", color);
+      el.setAttribute("stroke-width", 4);
+      svg.appendChild(el);
+    } else {
+      const a = squareCenter(d.from);
+      const b = squareCenter(d.to);
+      if (!a || !b) continue;
+      const el = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      el.setAttribute("x1", a.x); el.setAttribute("y1", a.y);
+      el.setAttribute("x2", b.x); el.setAttribute("y2", b.y);
+      el.setAttribute("stroke", color);
+      el.setAttribute("stroke-width", 5);
+      el.setAttribute("stroke-linecap", "round");
+      el.setAttribute("marker-end", "url(#arrowhead)");
+      svg.appendChild(el);
+    }
+  }
+}
+
+// --- Aperçu de position au survol d'un coup de l'historique (V10) -------------------
+
+export function previewPly(ply) {
+  state.previewPly = ply;
+  if (ply === null) {
+    if (state.reviewPly === null && state.boardData) {
+      state.symbols = state.boardData.squares || {};
+    }
+    render();
+    return;
+  }
+  const entry = state.history[ply];
+  if (!entry || !entry.fen) return;
+  const rows = entry.fen.split(" ")[0].split("/");
+  const symbols = {};
+  for (let r = 0; r < 8; r++) {
+    let f = 0;
+    for (const ch of rows[r]) {
+      if (/\d/.test(ch)) f += parseInt(ch, 10);
+      else {
+        symbols[FILES[f] + (8 - r)] = ch;
+        f++;
+      }
+    }
+  }
+  state.symbols = symbols;
+  render();
 }
 
 // Animation du dernier coup (~180 ms).

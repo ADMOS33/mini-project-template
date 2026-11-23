@@ -135,7 +135,10 @@ def test_no_english_text_in_the_ui() -> None:
         ]
 
     # Textes visibles + attributs accessibles de index.html
-    visible = re.findall(r">([^<>]+)<", INDEX_HTML)
+    # (on exclut le contenu de <pre>/<code> : ce sont des commandes/lignes de
+    # code affichées telles quelles, pas des libellés d'UI)
+    html_no_code = re.sub(r"<(pre|code)\b[^>]*>.*?</\1>", "", INDEX_HTML, flags=re.S)
+    visible = re.findall(r">([^<>]+)<", html_no_code)
     visible += re.findall(r'(?:aria-label|title|placeholder|alt)="([^"]*)"', INDEX_HTML)
     bad_html = [(t.strip()[:40], hits(t)) for t in visible if t.strip() and hits(t)]
     assert not bad_html, f"texte anglais dans index.html: {bad_html}"

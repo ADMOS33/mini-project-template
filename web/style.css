@@ -1054,3 +1054,141 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+/* --- V7/V8/V9 : étiquettes de revue, indice, ouverture, bloc problème --- */
+.opening-label { min-height: 1.2em; font-size: 0.85rem; }
+.lbl {
+  margin-left: 4px;
+  padding: 0 5px;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.lbl-best { background: rgba(127, 166, 80, 0.25); color: #a5d17a; }
+.lbl-good { background: rgba(90, 160, 220, 0.18); color: #7db8e8; }
+.lbl-inaccuracy { background: rgba(230, 200, 90, 0.2); color: #e8c85a; }
+.lbl-error { background: rgba(230, 140, 60, 0.25); color: #f0a050; }
+.lbl-blunder { background: rgba(217, 83, 79, 0.3); color: #ff8a85; }
+.lbl-brilliant { background: rgba(190, 120, 230, 0.28); color: #d9a5f5; }
+.square.hint-best { box-shadow: inset 0 0 0 3px var(--accent); }
+.btn-secondary.danger { color: #ff8a85; border-color: rgba(217, 83, 79, 0.5); }
+#eval-curve {
+  width: 100%;
+  height: 80px;
+  background: var(--bg-raise);
+  border: 1px solid var(--border);
+  border-radius: var(--r8);
+}
+#review-accuracy { font-size: 0.85rem; margin-bottom: 4px; }
+
+/* --- V10 : dessins, prémouvement, animations, raccourcis --- */
+.draw-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+.square.premove { box-shadow: inset 0 0 0 3px rgba(78, 143, 224, 0.9); }
+@keyframes check-pulse {
+  0%, 100% { box-shadow: inset 0 0 0 3px rgba(217, 83, 79, 0.9); }
+  50% { box-shadow: inset 0 0 0 6px rgba(217, 83, 79, 0.45); }
+}
+.square.in-check { animation: check-pulse 1.1s ease-in-out infinite; }
+@keyframes mate-flash {
+  0% { filter: brightness(1); }
+  40% { filter: brightness(1.7) saturate(1.4); }
+  100% { filter: brightness(1); }
+}
+.board.checkmate { animation: mate-flash 0.9s ease-in-out 2; }
+@keyframes flip-in {
+  from { transform: rotateX(90deg); opacity: 0.4; }
+  to { transform: rotateX(0); opacity: 1; }
+}
+.board.flipping { animation: flip-in 240ms ease-out; }
+.shortcuts-table { border-collapse: collapse; width: 100%; }
+.shortcuts-table td { padding: 4px 8px; font-size: 0.9rem; }
+.shortcuts-table td:first-child { white-space: nowrap; color: var(--text-dim); }
+kbd {
+  background: var(--bg-raise);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .square.in-check, .board.checkmate, .board.flipping { animation: none; }
+  .piece { transition: none !important; }
+}
+
+/* --- V11 : thèmes de plateau, mode clair, pièces unicode, éditeur, archive --- */
+:root[data-theme="vert"] { --sq-light: #ebecd0; --sq-dark: #739552; }
+:root[data-theme="bois"] { --sq-light: #f0d9b5; --sq-dark: #b58863; }
+:root[data-theme="bleu"] { --sq-light: #dee3e6; --sq-dark: #8ca2ad; }
+:root[data-theme="gris"] { --sq-light: #d8d8d8; --sq-dark: #a0a0a0; }
+:root[data-mode="light"] {
+  --bg: #f4f2ee; --surface: #ffffff; --elevated: #f0ede8; --border: #d8d4cc;
+  --text: #26241f; --muted: #6b675f; --text-dim: #6b675f;
+  --bg-raise: #faf9f6;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.12);
+  --shadow-2: 0 4px 14px rgba(0, 0, 0, 0.14);
+  --shadow-3: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+.piece.unicode {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: calc(var(--sq, 56px) * 0.78);
+  line-height: 1;
+  color: #f5f5f5;
+  text-shadow: 0 0 3px #000, 0 1px 2px #000;
+}
+.square.dark .piece.unicode { color: #1a1a1a; text-shadow: 0 0 3px #ddd, 0 1px 2px rgba(255,255,255,0.6); }
+.editor-box { width: min(720px, calc(100vw - 2rem)); }
+.editor-main { display: flex; gap: var(--s4); flex-wrap: wrap; }
+.editor-board { width: min(320px, 80vw); flex: 0 0 auto; border-radius: var(--r8); box-shadow: var(--shadow-2); }
+.editor-piece { cursor: grab; }
+.editor-side { display: flex; flex-direction: column; gap: var(--s2); flex: 1; min-width: 200px; }
+.editor-side h4 { margin: 0.3rem 0 0.1rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.editor-palette { display: flex; flex-wrap: wrap; gap: 4px; }
+.editor-palette-item { font-size: 1.3rem; padding: 4px 8px; }
+.game-row { cursor: pointer; }
+.game-row:hover td { background: var(--bg-raise); }
+.modal-box h4 {
+  margin: 0.4rem 0 0.15rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+
+/* --- V13 : aide agent --- */
+.help-box { width: min(640px, calc(100vw - 2rem)); max-height: 80vh; overflow-y: auto; }
+.help-box h4 { margin: 0.6rem 0 0.2rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); }
+.help-box pre.cmd {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r8);
+  padding: var(--s3);
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  white-space: pre;
+}
+
+/* Chess960 (V12) */
+.chess960-row { display: flex; align-items: center; gap: 8px; }
+.chess960-row input[type="number"] {
+  width: 90px; padding: 6px 8px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--bg-input); color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.chess960-hint { font-size: 12px; color: var(--text-dim); }

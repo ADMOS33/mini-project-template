@@ -19,7 +19,12 @@ export const ChessAPI = {
   eval: () => ChessAPI._req("/api/eval"),
   history: () => ChessAPI._req("/api/history"),
   pgn: () => ChessAPI._req("/api/pgn"),
-  newGame: () => ChessAPI._req("/api/new", { method: "POST" }),
+  newGame: (body) =>
+    ChessAPI._req("/api/new", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body || {}),
+    }),
   move: (uci) =>
     ChessAPI._req("/api/move", {
       method: "POST",
@@ -38,12 +43,20 @@ export const ChessAPI = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ pgn }),
     }),
-  aiMove: (depth) =>
-    ChessAPI._req("/api/ai-move", {
+  post: (path, body) =>
+    ChessAPI._req(path, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ depth }),
+      body: JSON.stringify(body ?? {}),
     }),
+  aiMove: (body) => ChessAPI.post("/api/ai-move", body), // {depth} or {level}
+  resign: () => ChessAPI.post("/api/resign"),
+  offerDraw: (force) => ChessAPI.post("/api/offer-draw", { force }),
+  takeback: () => ChessAPI.post("/api/takeback"),
+  puzzle: (level, extra) => ChessAPI.post("/api/puzzle", { level, ...(extra || {}) }),
+  solve: (move) => ChessAPI.post("/api/solve", { move }),
+  analyze: (depth) => ChessAPI.post("/api/analyze", { depth }),
+  analyzePosition: (depth) => ChessAPI.post("/api/analyze-position", { depth }),
   undo: () => ChessAPI._req("/api/undo", { method: "POST" }),
   flag: (color) =>
     ChessAPI._req("/api/flag", {
