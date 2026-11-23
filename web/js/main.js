@@ -63,7 +63,7 @@ async function refresh() {
     state.turn = status.turn;
     if (typeof status.version === "number") state.lastVersion = status.version;
     // Retour automatique du plateau en mode 2 joueurs : on voit toujours son camp en bas
-    if (state.autoFlip && !state.vs) state.flipped = status.turn === "b";
+    if (state.autoFlip && !state.vs && !state.spectator) state.flipped = status.turn === "b";
     state.inCheck = status.in_check;
     state.history = hist.entries || [];
     state.lastMove = status.last_move
@@ -93,7 +93,11 @@ async function refresh() {
       if (state.reviewPly === null) playMoveSound(lastEntry.san, status.result);
     }
     if (state.reviewPly === null) {
-      setStatus(statusText(status));
+      setStatus(
+        state.spectator
+          ? "👁 Mode spectateur — la partie est suivie en direct (coups joués par CLI/agent)"
+          : statusText(status)
+      );
     }
     maybeShowGameOver(status);
     maybeAiMove(status);
@@ -128,6 +132,7 @@ setInterval(pollStatus, 1000);
 // --- Mode « Contre l'ordinateur » -----------------------------------------------
 
 async function maybeAiMove(status) {
+  if (state.spectator) return; // jamais d'IA en mode spectateur
   const cc = state.vs
     ? state.colorChoice === "random"
       ? state.actualColor
@@ -180,12 +185,14 @@ function openNewGameModal() {
 }
 
 document.getElementById("btn-new").addEventListener("click", openNewGameModal);
-for (const id of ["mode-human", "mode-computer"]) {
+for (const id of ["mode-human", "mode-computer", "mode-spectator"]) {
   document.getElementById(id).addEventListener("click", () => {
+    state.spectator = id === "mode-spectator";
     state.vs = id === "mode-computer";
+    lsSet("chess.spectator", state.spectator ? "1" : "0");
     lsSet("chess.vs", state.vs ? "1" : "0");
     document.getElementById("newgame-computer-opts").classList.toggle("hidden", !state.vs);
-    document.getElementById("newgame-autoflip").classList.toggle("hidden", state.vs);
+    document.getElementById("newgame-autoflip").classList.toggle("hidden", state.vs || state.spectator);
     renderVsControls();
   });
 }
@@ -194,8 +201,13 @@ document.getElementById("chip-autoflip").addEventListener("click", () => {
   lsSet("chess.autoflip", state.autoFlip ? "1" : "0");
   document.getElementById("chip-autoflip").setAttribute("aria-pressed", String(state.autoFlip));
 });
-document.getElementById("btn-start-game").addEventListener("click", () => {
+document.getElementById("btn-start-game").addEventListener("click", async () => {
   document.getElementById("newgame-modal").classList.add("hidden");
+  if (state.spectator) {
+    // Spectateur : on ne touche PAS à la partie persistée, on la suit juste.
+    await refresh();
+    return;
+  }
   newGame();
 });
 document.getElementById("btn-cancel-newgame").addEventListener("click", () => {
@@ -220,7 +232,11 @@ document.getElementById("btn-flip").addEventListener("click", () => {
 document.getElementById("btn-gameover-new").addEventListener("click", () => {
   document.getElementById("gameover-modal").classList.add("hidden");
   state.gameOverShownFor = null;
-  newGame();
+  if (state.spectator) {
+    refresh(); // spectateur : on ne réinitialise jamais la partie suivie
+  } else {
+    openNewGameModal();
+  }
 });
 document.getElementById("btn-gameover-review").addEventListener("click", () => {
   document.getElementById("gameover-modal").classList.add("hidden");

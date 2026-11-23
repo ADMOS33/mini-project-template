@@ -133,10 +133,12 @@ export function renderVsControls() {
   document.getElementById("vs-options").classList.toggle("hidden", !state.vs);
   const mh = document.getElementById("mode-human");
   const mc = document.getElementById("mode-computer");
+  const ms = document.getElementById("mode-spectator");
   if (mh && mc) {
-    mh.setAttribute("aria-pressed", String(!state.vs));
-    mc.setAttribute("aria-pressed", String(state.vs));
+    mh.setAttribute("aria-pressed", String(!state.vs && !state.spectator));
+    mc.setAttribute("aria-pressed", String(state.vs && !state.spectator));
   }
+  if (ms) ms.setAttribute("aria-pressed", String(state.spectator));
   for (const [id, val] of [["opt-color", state.colorChoice], ["opt-depth", String(state.depth)]]) {
     const group = document.getElementById(id);
     if (group) {

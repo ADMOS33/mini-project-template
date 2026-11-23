@@ -3,7 +3,7 @@
 
 import { ChessAPI } from "./api.js";
 import { boardEl, render, renderAll } from "./board-view.js";
-import { reportError } from "./toasts.js";
+import { reportError, toast } from "./toasts.js";
 import { FILES, myPieceAt, pieceSrc, setStatus, state, symAt } from "./state.js";
 
 function squareFromEvent(e) {
@@ -56,6 +56,7 @@ function askPromotion(from, to, color) {
 }
 
 async function tryMove(from, to, refresh) {
+  if (state.spectator) return; // aucun coup depuis le navigateur en mode spectateur
   const candidates = state.legalMoves.filter((m) => m.startsWith(from + to));
   if (candidates.length === 0) {
     setStatus(`Case ${to} non atteignable depuis ${from}.`);
@@ -85,6 +86,10 @@ async function tryMove(from, to, refresh) {
 export function initInteractions({ refresh }) {
   boardEl.addEventListener("pointerdown", (e) => {
     if (state.reviewPly !== null) return;
+    if (state.spectator) {
+      toast("Mode spectateur : les coups se jouent hors du navigateur (CLI)", "info");
+      return;
+    }
     const name = squareFromEvent(e);
     if (!name) return;
     state.drag = { from: name, startX: e.clientX, startY: e.clientY, ghost: null, moved: false };
