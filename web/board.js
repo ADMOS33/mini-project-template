@@ -271,11 +271,24 @@ function toast(message, kind = "error") {
   }, 4000);
 }
 
-// Les erreurs API passent par un toast (plus de alert()).
+// Les erreurs visibles passent UNIQUEMENT par un toast : la barre de statut
+// garde son texte normal (règle front-end AGENTS.md).
 function reportError(prefix, err) {
-  setStatus(prefix + " : " + err.message);
-  toast(prefix + " : " + err.message);
+  console.error(prefix, err);
+  const msg = err && err.message ? err.message : String(err);
+  toast(`${prefix} : ${msg}`);
 }
+
+// Toute erreur non interceptée (synchrone ou promesse) -> toast + console.
+window.addEventListener("error", (e) => {
+  console.error(e.error || e.message);
+  toast("Erreur inattendue : " + (e.message || "inconnue"));
+});
+window.addEventListener("unhandledrejection", (e) => {
+  console.error(e.reason);
+  const msg = e.reason && e.reason.message ? e.reason.message : String(e.reason || "inconnue");
+  toast("Erreur inattendue : " + msg);
+});
 
 // Barre de statut, 100 % en français.
 function statusText(status) {
