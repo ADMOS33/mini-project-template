@@ -1,0 +1,26 @@
+{
+  "seq": 334,
+  "received_at": "2026-11-23T13:04:30.673961+00:00",
+  "hook_event_name": "pre_agent",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_agent",
+    "agent_name": "default",
+    "turn_id": "turn-e426312af67b275726944d5eb59fa5e0",
+    "prompt": [
+      "Lis AGENTS.md. Prépare la phase « v2 » : modifie uniquement AGENTS.md, un commit docs:.",
+      "1. Ajoute une section « Règles front-end » :",
+      "   - le JS n'implémente aucune règle d'échecs : légalité, SAN, fin de partie et évaluation viennent de l'API ;",
+      "   - web/ en modules ES natifs (<script type=\"module\">), sans build, sans framework, sans JS depuis un CDN ;",
+      "   - toute erreur visible passe par un toast ; la barre de statut n'affiche jamais d'erreur brute ;",
+      "   - chaque fonction de rendu est isolée : une exception dans l'une n'empêche pas les autres de s'afficher ;",
+      "   - préférences (thème, son, pièces) dans localStorage, toujours entouré de try/catch ;",
+      "   - chaque prompt front se termine par une liste « À tester dans le navigateur » avec des étapes précises.",
+      "2. Ajoute un tableau « Plan v2 » (statut 🚧, à cocher au fil des sessions) :",
+      "   V1 bugs + robustesse · V2 modules JS · V3 design · V4 mise en page lichess · V5 synchro live + agent · V6 serveur MCP · V7 problèmes · V8 actions de partie + niveaux · V9 analyse + ouvertures · V10 interactions plateau · V11 personnalisation + archive · V12 Chess960 (optionnel) · V13 finitions + report.md"
+    ]
+  }
+}

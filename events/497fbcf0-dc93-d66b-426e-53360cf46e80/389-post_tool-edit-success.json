@@ -1,0 +1,37 @@
+{
+  "seq": 389,
+  "received_at": "2026-11-23T14:40:40.334270+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "DrRgV2981",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/board.js",
+      "new_string": [
+        "function computeCaptured(symbols) {",
+        "  const counts = { w: { p: 0, n: 0, b: 0, r: 0, q: 0 }, b: { p: 0, n: 0, b: 0, r: 0, q: 0 } };",
+        "  for (const sym of Object.values(symbols || {})) {",
+        "    if (!sym) continue;"
+      ],
+      "old_string": [
+        "function computeCaptured(symbols) {",
+        "  const counts = { w: { p: 0, n: 0, b: 0, r: 0, q: 0 }, b: { p: 0, n: 0, b: 0, r: 0, q: 0 } };",
+        "  for (const sym of Object.values(symbols)) {",
+        "    if (!sym) continue;"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/web/board.js",
+      "lines_changed": 4,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 249
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "seq": 385,
+  "received_at": "2026-11-23T14:40:40.177622+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "xirytiyUX",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/board.js",
+      "new_string": [
+        "// Accès sûr à state.symbols : jamais null/undefined, toujours une chaîne.",
+        "function symAt(name) {",
+        "  return (state.symbols && state.symbols[name]) || \"\";",
+        "}",
+        "",
+        "function pieceSrc(sym) {",
+        "  // sym est une lettre FEN : \"P\" = pion blanc, \"k\" = roi noir...",
+        "  // Sûr face à null/undefined : renvoie \"\" (l'appelant ignore alors l'image).",
+        "  if (!sym || typeof sym !== \"string\") return \"\";",
+        "  const color = sym === sym.toUpperCase() ? \"w\" : \"b\";",
+        "  return `pieces/${color}${sym.toUpperCase()}.svg`;",
+        "}",
+        "",
+        "// Vrai si from->to est une prise en passant (case vide = case ep du FEN).",
+        "function isEpCapture(from, to) {",
+        "  const sym = symAt(from);"
+      ],
+      "old_string": [
+        "function pieceSrc(sym) {",
+        "  // sym est une lettre FEN : \"P\" = pion blanc, \"k\" = roi noir...",
+        "  const color = sym === sym.toUpperCase() ? \"w\" : \"b\";",
+        "  return `pieces/${color}${sym.toUpperCase()}.svg`;",
+        "}",
+        "",
+        "// Vrai si from->to est une prise en passant (case vide = case ep du FEN).",
+        "function isEpCapture(from, to) {",
+        "  const sym = state.symbols[from] || \"\";"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/web/board.js",
+      "lines_changed": 16,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 210
+  }
+}

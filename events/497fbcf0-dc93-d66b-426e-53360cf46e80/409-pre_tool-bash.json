@@ -1,0 +1,49 @@
+{
+  "seq": 409,
+  "received_at": "2026-11-23T18:01:25.555331+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "zI0g8lWPQ",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && cat >> web/style.css <<'EOF'",
+        "",
+        "/* --- État de chargement du plateau + commande de l'overlay API-down --- */",
+        "",
+        ".board-loading {",
+        "  position: absolute;",
+        "  inset: 0;",
+        "  display: flex;",
+        "  align-items: center;",
+        "  justify-content: center;",
+        "  background: rgba(27, 26, 23, 0.72);",
+        "  border-radius: 10px;",
+        "  color: var(--muted, #a8a29e);",
+        "  font-size: 0.95rem;",
+        "  z-index: 5;",
+        "}",
+        "",
+        ".cmd {",
+        "  background: #1b1a17;",
+        "  border: 1px solid var(--panel-border, #3a3733);",
+        "  border-radius: 8px;",
+        "  padding: 0.6rem 0.8rem;",
+        "  font-family: ui-monospace, SFMono-Regular, monospace;",
+        "  font-size: 0.78rem;",
+        "  overflow-x: auto;",
+        "  white-space: pre;",
+        "  text-align: left;",
+        "}",
+        "EOF",
+        "echo 'CSS appended'"
+      ]
+    }
+  }
+}

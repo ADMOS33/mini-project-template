@@ -1,0 +1,37 @@
+{
+  "seq": 377,
+  "received_at": "2026-11-23T14:40:39.734727+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "kuWquSBgn",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/board.js",
+      "old_string": [
+        "function myPieceAt(name) {",
+        "  const sym = state.symbols[name];",
+        "  if (!sym) return false;",
+        "  return state.turn === \"w\" ? sym === sym.toUpperCase() : sym === sym.toLowerCase();",
+        "}",
+        "",
+        "function kingSquareOf(color) {",
+        "  for (const [name, sym] of Object.entries(state.symbols)) {"
+      ],
+      "new_string": [
+        "function myPieceAt(name) {",
+        "  const sym = symAt(name);",
+        "  if (!sym) return false;",
+        "  return state.turn === \"w\" ? sym === sym.toUpperCase() : sym === sym.toLowerCase();",
+        "}",
+        "",
+        "function kingSquareOf(color) {",
+        "  for (const [name, sym] of Object.entries(state.symbols || {})) {"
+      ]
+    }
+  }
+}

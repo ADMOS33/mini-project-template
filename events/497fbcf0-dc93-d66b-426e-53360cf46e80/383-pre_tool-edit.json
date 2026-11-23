@@ -1,0 +1,31 @@
+{
+  "seq": 383,
+  "received_at": "2026-11-23T14:40:39.844820+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "DWU4gf1qC",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/board.js",
+      "old_string": [
+        "  let uci = candidates[0];",
+        "  if (candidates.length > 1) {",
+        "    // promotion : plusieurs variantes (q/r/b/n)",
+        "    const sym = state.symbols[from] || \"\";",
+        "    const color = sym === sym.toUpperCase() ? \"w\" : \"b\";"
+      ],
+      "new_string": [
+        "  let uci = candidates[0];",
+        "  if (candidates.length > 1) {",
+        "    // promotion : plusieurs variantes (q/r/b/n)",
+        "    const sym = symAt(from);",
+        "    const color = sym === sym.toUpperCase() ? \"w\" : \"b\";"
+      ]
+    }
+  }
+}

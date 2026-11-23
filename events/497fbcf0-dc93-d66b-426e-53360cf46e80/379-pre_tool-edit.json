@@ -1,0 +1,29 @@
+{
+  "seq": 379,
+  "received_at": "2026-11-23T14:40:39.758464+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "DrRgV2981",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/board.js",
+      "old_string": [
+        "function computeCaptured(symbols) {",
+        "  const counts = { w: { p: 0, n: 0, b: 0, r: 0, q: 0 }, b: { p: 0, n: 0, b: 0, r: 0, q: 0 } };",
+        "  for (const sym of Object.values(symbols)) {",
+        "    if (!sym) continue;"
+      ],
+      "new_string": [
+        "function computeCaptured(symbols) {",
+        "  const counts = { w: { p: 0, n: 0, b: 0, r: 0, q: 0 }, b: { p: 0, n: 0, b: 0, r: 0, q: 0 } };",
+        "  for (const sym of Object.values(symbols || {})) {",
+        "    if (!sym) continue;"
+      ]
+    }
+  }
+}

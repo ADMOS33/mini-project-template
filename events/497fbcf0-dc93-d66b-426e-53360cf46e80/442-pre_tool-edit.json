@@ -1,0 +1,35 @@
+{
+  "seq": 442,
+  "received_at": "2026-11-23T18:06:32.458204+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "oIsiFEImB",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/api/server.py",
+      "old_string": [
+        "# Serve the web UI last so the /api/* routes above take precedence.",
+        "app.mount(\"/\", StaticFiles(directory=WEB_DIR, html=True), name=\"web\")"
+      ],
+      "new_string": [
+        "class NoCacheStaticFiles(StaticFiles):",
+        "    \"\"\"Static files served with ``Cache-Control: no-cache`` so a browser",
+        "    reload never shows a stale version of the web UI.\"\"\"",
+        "",
+        "    async def get_response(self, path: str, scope) -> Response:",
+        "        response = await super().get_response(path, scope)",
+        "        response.headers[\"Cache-Control\"] = \"no-cache\"",
+        "        return response",
+        "",
+        "",
+        "# Serve the web UI last so the /api/* routes above take precedence.",
+        "app.mount(\"/\", NoCacheStaticFiles(directory=WEB_DIR, html=True), name=\"web\")"
+      ]
+    }
+  }
+}

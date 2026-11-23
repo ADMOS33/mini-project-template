@@ -1,0 +1,46 @@
+{
+  "seq": 381,
+  "received_at": "2026-11-23T14:40:39.810330+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "VIpRWNqBM",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/board.js",
+      "old_string": [
+        "// --- Rafraîchissement depuis l'API -------------------------------------------",
+        "",
+        "function setStatus(text) {",
+        "  statusEl.textContent = text;",
+        "}"
+      ],
+      "new_string": [
+        "// --- Rafraîchissement depuis l'API -------------------------------------------",
+        "",
+        "function setStatus(text) {",
+        "  statusEl.textContent = text;",
+        "}",
+        "",
+        "// Rendu isolé : log console + toast, les autres rendus continuent.",
+        "function renderFail(name, err) {",
+        "  console.error(`[render:${name}]`, err);",
+        "  toast(`Erreur d'affichage « ${name} » — le reste est intact.`);",
+        "}",
+        "",
+        "function safeRender(name, fn) {",
+        "  try {",
+        "    const r = fn();",
+        "    if (r && typeof r.catch === \"function\") r.catch((err) => renderFail(name, err));",
+        "  } catch (err) {",
+        "    renderFail(name, err);",
+        "  }",
+        "}"
+      ]
+    }
+  }
+}

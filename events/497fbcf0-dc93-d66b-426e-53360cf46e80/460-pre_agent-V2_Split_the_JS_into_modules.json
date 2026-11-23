@@ -1,0 +1,26 @@
+{
+  "seq": 460,
+  "received_at": "2026-11-23T18:07:50.071206+00:00",
+  "hook_event_name": "pre_agent",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_agent",
+    "agent_name": "default",
+    "turn_id": "turn-18192c156c561b431d9ebb3e8ca355c6",
+    "prompt": [
+      "V2 — Split the JS into modules (no visible change)",
+      "Lis AGENTS.md. Lot V2 : refactor sans changement de comportement. web/board.js fait environ 900 lignes : découpe-le en modules ES dans web/js/ (api.js, state.js, board-view.js, interactions.js pour clic + glisser-déposer + promotion, panels.js, clock.js, sound.js, toasts.js, main.js). index.html ne charge que main.js en type=\"module\". Mêmes ids, mêmes classes, même comportement. Adapte tests/test_web.py pour scanner web/js/. Un commit refactor: par module extrait, pytest vert à chaque fois. Fin : liste « À tester » de non-régression complète.",
+      "",
+      "V3 — Finish the design",
+      "Lis AGENTS.md. Lot V3 : finir le design system (sombre, inspiré de lichess / chess.com). Un commit par point.",
+      "1. Plus aucun contrôle natif : remplace les <select> (couleur, difficulté, horloge) et toute case à cocher par des contrôles segmentés et des chips stylés, utilisables au clavier (role, aria-pressed, focus visible).",
+      "2. Hiérarchie des boutons : primaire (une seule action principale par zone), secondaire, fantôme, icône ; états hover / active / disabled.",
+      "3. Typographie : Inter partout, monospace seulement pour FEN/PGN, chiffres tabulaires pour les horloges et la liste des coups.",
+      "4. Vérifie qu'il ne reste aucun texte anglais dans l'interface (grep sur web/).",
+      "Fin : liste « À tester »."
+    ]
+  }
+}

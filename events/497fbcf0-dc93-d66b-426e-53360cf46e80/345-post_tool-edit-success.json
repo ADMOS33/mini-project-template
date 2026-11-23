@@ -1,0 +1,49 @@
+{
+  "seq": 345,
+  "received_at": "2026-11-23T13:07:07.867380+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "9mq1rshF5",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/AGENTS.md",
+      "new_string": [
+        "## Plan v2",
+        "",
+        "Feuille de route — statut à cocher (✅) au fil des sessions.",
+        "",
+        "| Version | Sujet | Statut |",
+        "|---------|-------|--------|",
+        "| V1 | Bugs visuels + robustesse (toasts, rendus isolés, statut sans erreur brute) | 🚧 |",
+        "| V2 | `web/` en modules ES natifs (`<script type=\"module\">`) | 🚧 |",
+        "| V3 | Design (thème, polish, accessibilité) | 🚧 |",
+        "| V4 | Mise en page façon lichess | 🚧 |",
+        "| V5 | Synchro live + agent (coups de l'adversaire en temps réel) | 🚧 |",
+        "| V6 | Serveur MCP | 🚧 |",
+        "| V7 | Problèmes (puzzles) | 🚧 |",
+        "| V8 | Actions de partie + niveaux de difficulté | 🚧 |",
+        "| V9 | Analyse de partie + ouvertures | 🚧 |",
+        "| V10 | Interactions plateau (drag & drop, indices avancés) | 🚧 |",
+        "| V11 | Personnalisation (thème, son, pièces) + archive des parties | 🚧 |",
+        "| V12 | Chess960 (optionnel) | 🚧 |",
+        "| V13 | Finitions + `report.md` | 🚧 |",
+        "",
+        "## Architecture cible"
+      ],
+      "old_string": "## Architecture cible"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/AGENTS.md",
+      "lines_changed": 21,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 54
+  }
+}

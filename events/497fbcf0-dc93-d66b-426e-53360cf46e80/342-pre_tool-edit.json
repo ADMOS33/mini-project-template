@@ -1,0 +1,38 @@
+{
+  "seq": 342,
+  "received_at": "2026-11-23T13:07:07.683717+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "8SB5DAORh",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/AGENTS.md",
+      "old_string": "## Workflow — test d'abord",
+      "new_string": [
+        "## Règles front-end (web/)",
+        "",
+        "- **Le JS n'implémente aucune règle d'échecs** : légalité des coups, SAN,",
+        "  fin de partie et évaluation viennent exclusivement de l'API (`/api/*`) —",
+        "  le front ne fait qu'afficher et relayer.",
+        "- **`web/` en modules ES natifs** (`<script type=\"module\">`) : pas de build,",
+        "  pas de framework, pas de JS depuis un CDN.",
+        "- **Toute erreur visible passe par un toast** ; la barre de statut",
+        "  n'affiche jamais d'erreur brute (message lisible uniquement).",
+        "- **Rendus isolés** : chaque fonction de rendu est isolée (try/catch ou",
+        "  wrapper) — une exception dans l'une n'empêche pas les autres de",
+        "  s'afficher.",
+        "- **Préférences** (thème, son, jeux de pièces) dans `localStorage`, toujours",
+        "  entourées de `try/catch`.",
+        "- **Chaque prompt front se termine par une liste « À tester dans le",
+        "  navigateur »** avec des étapes précises.",
+        "",
+        "## Workflow — test d'abord"
+      ]
+    }
+  }
+}

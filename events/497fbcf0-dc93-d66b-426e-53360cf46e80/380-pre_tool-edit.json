@@ -1,0 +1,57 @@
+{
+  "seq": 380,
+  "received_at": "2026-11-23T14:40:39.784384+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "oo2grdp0q",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/board.js",
+      "old_string": [
+        "    const prevTurn = state.turn;",
+        "    state.boardData = board;",
+        "    state.turn = status.turn;",
+        "    state.inCheck = status.in_check;",
+        "    state.history = hist.entries;",
+        "    state.lastMove = status.last_move",
+        "      ? { from: status.last_move.slice(0, 2), to: status.last_move.slice(2, 4), uci: status.last_move }",
+        "      : null;",
+        "    state.legalMoves = moves.moves;",
+        "    if (state.reviewPly === null) {",
+        "      state.symbols = board.squares;",
+        "    }",
+        "    render();",
+        "    renderPlayers();",
+        "    renderMovesTable();",
+        "    renderEval();",
+        "    renderClocks();"
+      ],
+      "new_string": [
+        "    const prevTurn = state.turn;",
+        "    state.boardData = board;",
+        "    state.turn = status.turn;",
+        "    state.inCheck = status.in_check;",
+        "    state.history = hist.entries || [];",
+        "    state.lastMove = status.last_move",
+        "      ? { from: status.last_move.slice(0, 2), to: status.last_move.slice(2, 4), uci: status.last_move }",
+        "      : null;",
+        "    state.legalMoves = moves.moves || [];",
+        "    if (state.reviewPly === null) {",
+        "      state.symbols = board.squares || {};",
+        "    }",
+        "    // Chaque rendu est isolé : une exception dans l'un est loguée + toastée",
+        "    // et n'empêche pas les autres de s'afficher.",
+        "    safeRender(\"plateau\", render);",
+        "    safeRender(\"joueurs\", renderPlayers);",
+        "    safeRender(\"coups\", renderMovesTable);",
+        "    safeRender(\"évaluation\", renderEval);",
+        "    safeRender(\"horloge\", renderClocks);"
+      ]
+    }
+  }
+}

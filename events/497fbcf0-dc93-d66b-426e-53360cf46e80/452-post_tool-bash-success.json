@@ -1,0 +1,41 @@
+{
+  "seq": 452,
+  "received_at": "2026-11-23T18:06:48.995619+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "oU3orzb4h",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && set -o pipefail && .venv/bin/python -m pytest tests/test_web.py -v 2>&1 | tail -8 && .venv/bin/python -m pytest -q 2>&1 | tail -2"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && set -o pipefail && .venv/bin/python -m pytest tests/test_web.py -v 2>&1 | tail -8 && .venv/bin/python -m pytest -q 2>&1 | tail -2",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "collecting ... collected 4 items",
+        "",
+        "tests/test_web.py::test_all_js_ids_exist_in_index_html PASSED            [ 25%]",
+        "tests/test_web.py::test_referenced_local_files_exist PASSED              [ 50%]",
+        "tests/test_web.py::test_piece_svg_set_is_complete PASSED                 [ 75%]",
+        "tests/test_web.py::test_web_files_served_with_no_cache PASSED            [100%]",
+        "",
+        "============================== 4 passed in 0.59s ===============================",
+        ".................                                                        [100%]",
+        "161 passed in 5.22s",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 6412
+  }
+}

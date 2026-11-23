@@ -1,0 +1,24 @@
+{
+  "seq": 351,
+  "received_at": "2026-11-23T13:28:44.636316+00:00",
+  "hook_event_name": "pre_agent",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_agent",
+    "agent_name": "default",
+    "turn_id": "turn-98bfd4f152a0e5c3e7e90440d54f83ed",
+    "prompt": [
+      "Lis AGENTS.md. Lot V1 : bugs et robustesse du front. Un commit par point.",
+      "Avant tout : ces remarques ont été faites sur une ancienne version restée en cache. Reproduis chaque bug sur le code ACTUEL (partie de test : b2b4 b7b5 c2c3 c8a6). S'il n'existe plus, dis-le et passe au suivant.",
+      "1. Crash « Cannot read properties of null (reading 'toUpperCase') » après c8a6 : il bloquait la liste des coups (« aucun coup ») et la carte « Blancs ». Rends pieceSrc() et tous les accès à state.symbols sûrs face à null. Dans refresh(), isole chaque rendu (render, renderPlayers, renderMovesTable, renderEval, renderClocks) : une erreur est loguée en console + toast, les autres rendus s'affichent quand même.",
+      "2. reportError() n'écrit plus dans la barre de statut : toast uniquement, la barre garde son texte normal. Ajoute window.onerror et unhandledrejection → toast.",
+      "3. Écran « API injoignable » quand fetch échoue (avec la commande uvicorn à lancer + réessai automatique toutes les 3 s). États de chargement et états vides partout.",
+      "4. tests/test_web.py (pytest, sans dépendance) : chaque id utilisé par getElementById / querySelector(\"#…\") dans web/ existe dans index.html, et chaque fichier référencé (scripts, CSS, pieces/*.svg) existe.",
+      "5. Le serveur envoie Cache-Control: no-cache pour les fichiers de web/ : un rechargement ne doit jamais montrer une ancienne version.",
+      "Fin : liste « À tester », y compris la vérification à la main des points de coups légaux."
+    ]
+  }
+}

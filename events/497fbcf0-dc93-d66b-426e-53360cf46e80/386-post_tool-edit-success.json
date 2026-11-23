@@ -1,0 +1,27 @@
+{
+  "seq": 386,
+  "received_at": "2026-11-23T14:40:40.213587+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "2neA3WLLh",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/board.js",
+      "new_string": "        hintTargets.set(to, hintTargets.get(to) || Boolean(symAt(to)) || isEpCapture(state.selected, to));",
+      "old_string": "        hintTargets.set(to, hintTargets.get(to) || Boolean(state.symbols[to]) || isEpCapture(state.selected, to));"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/web/board.js",
+      "lines_changed": 1,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 204
+  }
+}

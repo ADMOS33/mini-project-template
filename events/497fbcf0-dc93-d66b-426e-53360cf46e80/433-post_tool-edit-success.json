@@ -1,0 +1,41 @@
+{
+  "seq": 433,
+  "received_at": "2026-11-23T18:04:13.976536+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "Jqt3AFkt6",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_web.py",
+      "new_string": [
+        "# Expressions dynamiques connues de getElementById(...) ; toute nouvelle",
+        "# expression dynamique doit être ajoutée ici (le test échoue sinon).",
+        "# \"pname-\" + … est un préfixe concaténé (ids pname-top / pname-bottom).",
+        "KNOWN_DYNAMIC_CALLS = {\"avId\", \"capId\", \"cardId\", \"elId\"}",
+        "KNOWN_DYNAMIC_PREFIXES = ('\"pname-\"',)",
+        "",
+        "",
+        "def _is_known_dynamic(call: str) -> bool:",
+        "    return call in KNOWN_DYNAMIC_CALLS or call.startswith(KNOWN_DYNAMIC_PREFIXES)"
+      ],
+      "old_string": [
+        "# Expressions dynamiques connues de getElementById(...) ; toute nouvelle",
+        "# expression dynamique doit être ajoutée ici (le test échoue sinon).",
+        "KNOWN_DYNAMIC_CALLS = {\"avId\", \"capId\", \"cardId\", \"elId\", '\"pname-\" + cardId.split(\"-\")[1]'}"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/tests/test_web.py",
+      "lines_changed": 9,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 46
+  }
+}
