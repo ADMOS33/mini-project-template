@@ -126,6 +126,9 @@ def _resolve_move(game: Game, text: str) -> Move:
     Raises ValueError (mentioning the legal moves) if the move is illegal or
     the game is over.
     """
+    status = game.status()
+    if status["result"] != "ongoing":
+        raise ValueError(f"game is over ({status['result']})")
     try:
         candidate = Move.from_uci(text)
     except ValueError:
