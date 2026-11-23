@@ -252,4 +252,7 @@ sous-commandes.
   insuffisant sont détectées automatiquement (pas de réclamation à la FIDE) —
   `result` vaut `draw_threefold` / `draw_fifty_move` /
   `draw_insufficient_material` et `winner` vaut `null` dans `Game.status()`.
+- **Perte au temps = défaite** : le camp au clock à 0 perd (résultat
+  `flag` + `winner`), enregistré par l'API via `POST /api/flag` et persisté
+  dans l'état ; plus aucun coup n'est accepté ensuite.
 - Règle d'ambiguïté : choisir l'option la plus simple et l'ajouter ici.

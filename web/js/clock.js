@@ -1,7 +1,8 @@
 // Horloge optionnelle (5 min, 10 min, 3 min + 2 s) avec perte au temps.
 
+import { ChessAPI } from "./api.js";
 import { showGameOver } from "./panels.js";
-import { lsSet, state, wireChips } from "./state.js";
+import { lsSet, state, statusText, wireChips } from "./state.js";
 
 function clockBase() {
   const m = state.clockMode;
@@ -19,8 +20,14 @@ export function resetClock() {
 }
 
 function fmtClock(sec) {
-  const s = Math.max(0, Math.ceil(sec));
-  return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+  const s = Math.max(0, sec);
+  const m = Math.floor(s / 60);
+  const whole = Math.floor(s % 60);
+  if (s < 10) {
+    // sous 10 s : dixièmes affichés
+    return `${m}:${String(whole).padStart(2, "0")}.${Math.floor((s % 1) * 10)}`;
+  }
+  return `${m}:${String(whole).padStart(2, "0")}`;
 }
 
 export function renderClocks() {
@@ -36,12 +43,12 @@ export function renderClocks() {
       el.classList.remove("low");
     } else {
       el.textContent = fmtClock(state.clock[color]);
-      el.classList.toggle("low", state.clock[color] <= 30);
+      el.classList.toggle("low", state.clock[color] < 20); // rouge sous 20 s
     }
   }
 }
 
-function tickClock() {
+async function tickClock() {
   if (state.clockMode === "none" || state.reviewPly !== null) return;
   const now = performance.now();
   const c = state.clock;
@@ -53,10 +60,16 @@ function tickClock() {
         c.active = null;
         c[loser] = 0;
         renderClocks();
-        showGameOver(
-          "Temps écoulé",
-          `${loser === "w" ? "Les Blancs" : "Les Noirs"} perdent au temps — ${loser === "w" ? "les Noirs" : "les Blancs"} gagnent.`
-        );
+        // La perte au temps est enregistrée par l'API (résultat "flag").
+        try {
+          const r = await ChessAPI.flag(loser);
+          showGameOver("Temps écoulé", statusText(r.status));
+        } catch {
+          showGameOver(
+            "Temps écoulé",
+            `${loser === "w" ? "Les Blancs" : "Les Noirs"} perdent au temps — ${loser === "w" ? "les Noirs" : "les Blancs"} gagnent.`
+          );
+        }
         return;
       }
     }

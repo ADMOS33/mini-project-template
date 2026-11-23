@@ -138,6 +138,11 @@ export function statusText(status) {
       ? "Échec et mat — les Blancs gagnent."
       : "Échec et mat — les Noirs gagnent.";
   }
+  if (status.result === "flag") {
+    return status.winner === "w"
+      ? "Temps écoulé — les Blancs gagnent."
+      : "Temps écoulé — les Noirs gagnent.";
+  }
   if (status.result === "stalemate") return "Pat — partie nulle.";
   if (status.result === "draw_fifty_move") return "Nulle — règle des 50 coups.";
   if (status.result === "draw_threefold") return "Nulle — triple répétition.";

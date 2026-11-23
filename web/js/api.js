@@ -45,4 +45,10 @@ export const ChessAPI = {
       body: JSON.stringify({ depth }),
     }),
   undo: () => ChessAPI._req("/api/undo", { method: "POST" }),
+  flag: (color) =>
+    ChessAPI._req("/api/flag", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ color }),
+    }),
 };
