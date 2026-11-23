@@ -263,6 +263,18 @@ document.getElementById("btn-copy-pgn").addEventListener("click", async () => {
   await copyText((await ChessAPI.pgn()).pgn, "PGN");
 });
 
+// --- Onglets du panneau droit (Partie / Outils) -----------------------------------
+
+document.querySelectorAll(".tabs .tab").forEach((tab) => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".tabs .tab").forEach((t) =>
+      t.setAttribute("aria-selected", String(t === tab))
+    );
+    document.getElementById("tabpanel-partie").classList.toggle("hidden", tab.dataset.tab !== "partie");
+    document.getElementById("tabpanel-outils").classList.toggle("hidden", tab.dataset.tab !== "outils");
+  });
+});
+
 // --- Init ------------------------------------------------------------------------
 
 initSound();

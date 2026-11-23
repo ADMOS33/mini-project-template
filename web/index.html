@@ -55,88 +55,103 @@
           <span class="clock" id="clock-bottom"></span>
         </div>
         <div id="review-banner" class="review-banner hidden">Position passée — lecture seule</div>
-        <div id="review-bar" class="review-bar hidden">
-          <button class="btn-icon" data-review="first" title="Début (Début)" aria-label="Début">⏮</button>
-          <button class="btn-icon" data-review="prev" title="Coup précédent (←)" aria-label="Précédent">◀</button>
-          <span id="review-label"></span>
-          <button class="btn-icon" data-review="next" title="Coup suivant (→)" aria-label="Suivant">▶</button>
-          <button class="btn-icon" data-review="last" title="Position actuelle (Fin)" aria-label="Dernier">⏭</button>
-          <button id="btn-exit-review" class="btn-secondary">▶ Jouer</button>
-        </div>
         <div id="status" class="status" role="status">chargement…</div>
-        <div class="evalbar-wrap" title="Évaluation statique (centipions)">
-          <div class="evalbar"><div id="evalbar-fill"></div></div>
-          <span id="evalbar-label" class="muted">0.0</span>
-        </div>
       </section>
 
-      <!-- Colonne droite : actions + coups -->
-      <aside class="panel panel-right" aria-label="Partie">
-        <section class="block">
-          <h2>Partie</h2>
-          <div class="btn-row">
-            <button id="btn-undo" class="btn-secondary">Annuler</button>
-            <button id="btn-flip" class="btn-secondary" title="Retourner l'échiquier">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v3l4-4-4-4v3H5v6h2V4zm10 16H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
-              Retourner
-            </button>
-          </div>
-        </section>
-        <section class="block">
-          <h2>Adversaire</h2>
-          <div class="segmented" role="tablist" aria-label="Adversaire">
-            <button id="seg-human" class="seg" role="tab">Deux joueurs</button>
-            <button id="seg-computer" class="seg" role="tab">Contre l'ordinateur</button>
-          </div>
-          <div id="vs-options" class="hidden">
-            <div class="seg-group" id="opt-color" role="group" aria-label="Votre couleur">
-              <button type="button" class="chip" data-value="w" aria-pressed="true">Blancs</button>
-              <button type="button" class="chip" data-value="b" aria-pressed="false">Noirs</button>
-              <button type="button" class="chip" data-value="random" aria-pressed="false">Aléatoire</button>
+      <!-- Panneau droit à onglets : Partie / Outils -->
+      <aside class="panel panel-right" aria-label="Panneau droit">
+        <div class="tabs" role="tablist" aria-label="Panneau droit">
+          <button class="tab" id="tab-partie" role="tab" aria-selected="true" aria-controls="tabpanel-partie" data-tab="partie">Partie</button>
+          <button class="tab" id="tab-outils" role="tab" aria-selected="false" aria-controls="tabpanel-outils" data-tab="outils">Outils</button>
+        </div>
+
+        <div class="tabpanel" id="tabpanel-partie" role="tabpanel" aria-labelledby="tab-partie">
+          <section class="block">
+            <h2>Adversaire</h2>
+            <div class="segmented" role="tablist" aria-label="Adversaire">
+              <button id="seg-human" class="seg" role="tab">Deux joueurs</button>
+              <button id="seg-computer" class="seg" role="tab">Contre l'ordinateur</button>
             </div>
-            <div class="seg-group" id="opt-depth" role="group" aria-label="Difficulté">
-              <button type="button" class="chip" data-value="1" aria-pressed="false">Débutant · 1</button>
-              <button type="button" class="chip" data-value="2" aria-pressed="false">Facile · 2</button>
-              <button type="button" class="chip" data-value="3" aria-pressed="true">Normal · 3</button>
-              <button type="button" class="chip" data-value="4" aria-pressed="false">Difficile · 4</button>
+            <div id="vs-options" class="hidden">
+              <div class="seg-group" id="opt-color" role="group" aria-label="Votre couleur">
+                <button type="button" class="chip" data-value="w" aria-pressed="true">Blancs</button>
+                <button type="button" class="chip" data-value="b" aria-pressed="false">Noirs</button>
+                <button type="button" class="chip" data-value="random" aria-pressed="false">Aléatoire</button>
+              </div>
+              <div class="seg-group" id="opt-depth" role="group" aria-label="Difficulté">
+                <button type="button" class="chip" data-value="1" aria-pressed="false">Débutant · 1</button>
+                <button type="button" class="chip" data-value="2" aria-pressed="false">Facile · 2</button>
+                <button type="button" class="chip" data-value="3" aria-pressed="true">Normal · 3</button>
+                <button type="button" class="chip" data-value="4" aria-pressed="false">Difficile · 4</button>
+              </div>
+              <span id="thinking" class="thinking hidden">
+                <span class="spinner" aria-hidden="true"></span> l'ordinateur réfléchit…
+              </span>
             </div>
-            <span id="thinking" class="thinking hidden">
-              <span class="spinner" aria-hidden="true"></span> l'ordinateur réfléchit…
-            </span>
-          </div>
-        </section>
-        <section class="block grow">
-          <h2>Coups</h2>
-          <table class="moves-table">
-            <thead>
-              <tr><th class="num">n°</th><th>Blancs</th><th>Noirs</th></tr>
-            </thead>
-            <tbody id="moves-body">
-              <tr class="empty-row"><td colspan="3">Aucun coup pour l'instant</td></tr>
-            </tbody>
-          </table>
-        </section>
-        <section class="block">
-          <h2>Horloge</h2>
-          <div class="seg-group" id="opt-clock" role="group" aria-label="Horloge">
-            <button type="button" class="chip" data-value="none" aria-pressed="true">Sans horloge</button>
-            <button type="button" class="chip" data-value="300" aria-pressed="false">5 min</button>
-            <button type="button" class="chip" data-value="600" aria-pressed="false">10 min</button>
-            <button type="button" class="chip" data-value="182" aria-pressed="false">3+2</button>
-          </div>
-        </section>
-        <details class="block io-block">
-          <summary>FEN / PGN</summary>
-          <textarea id="io-text" rows="4" placeholder="Colle une FEN ou un PGN ici…"></textarea>
-          <div class="btn-row">
-            <button id="btn-load-fen" class="btn-secondary">Charger la FEN</button>
-            <button id="btn-load-pgn" class="btn-secondary">Charger le PGN</button>
-          </div>
-          <div class="btn-row">
-            <button id="btn-copy-fen" class="btn-secondary">Copier la FEN</button>
-            <button id="btn-copy-pgn" class="btn-secondary">Copier le PGN</button>
-          </div>
-        </details>
+          </section>
+          <section class="block">
+            <h2>Actions</h2>
+            <div class="btn-row">
+              <button id="btn-undo" class="btn-secondary">Annuler</button>
+              <button id="btn-flip" class="btn-secondary" title="Retourner l'échiquier">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v3l4-4-4-4v3H5v6h2V4zm10 16H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
+                Retourner
+              </button>
+            </div>
+          </section>
+          <section class="block">
+            <h2>Horloge</h2>
+            <div class="seg-group" id="opt-clock" role="group" aria-label="Horloge">
+              <button type="button" class="chip" data-value="none" aria-pressed="true">Sans horloge</button>
+              <button type="button" class="chip" data-value="300" aria-pressed="false">5 min</button>
+              <button type="button" class="chip" data-value="600" aria-pressed="false">10 min</button>
+              <button type="button" class="chip" data-value="182" aria-pressed="false">3+2</button>
+            </div>
+          </section>
+          <section class="block grow">
+            <h2>Coups</h2>
+            <div class="moves-scroll">
+              <table class="moves-table">
+                <thead>
+                  <tr><th class="num">n°</th><th>Blancs</th><th>Noirs</th></tr>
+                </thead>
+                <tbody id="moves-body">
+                  <tr class="empty-row"><td colspan="3">Aucun coup pour l'instant</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div id="review-bar" class="review-bar hidden">
+              <button class="btn-icon" data-review="first" title="Début (Début)" aria-label="Début">⏮</button>
+              <button class="btn-icon" data-review="prev" title="Coup précédent (←)" aria-label="Précédent">◀</button>
+              <span id="review-label"></span>
+              <button class="btn-icon" data-review="next" title="Coup suivant (→)" aria-label="Suivant">▶</button>
+              <button class="btn-icon" data-review="last" title="Position actuelle (Fin)" aria-label="Dernier">⏭</button>
+              <button id="btn-exit-review" class="btn-secondary">▶ Jouer</button>
+            </div>
+          </section>
+        </div>
+
+        <div class="tabpanel hidden" id="tabpanel-outils" role="tabpanel" aria-labelledby="tab-outils">
+          <section class="block">
+            <h2>Évaluation</h2>
+            <div class="evalbar-wrap" title="Évaluation statique (centipions)">
+              <div class="evalbar"><div id="evalbar-fill"></div></div>
+              <span id="evalbar-label" class="muted">0.0</span>
+            </div>
+          </section>
+          <details class="block io-block">
+            <summary>FEN / PGN</summary>
+            <textarea id="io-text" rows="4" placeholder="Colle une FEN ou un PGN ici…"></textarea>
+            <div class="btn-row">
+              <button id="btn-load-fen" class="btn-secondary">Charger la FEN</button>
+              <button id="btn-load-pgn" class="btn-secondary">Charger le PGN</button>
+            </div>
+            <div class="btn-row">
+              <button id="btn-copy-fen" class="btn-secondary">Copier la FEN</button>
+              <button id="btn-copy-pgn" class="btn-secondary">Copier le PGN</button>
+            </div>
+          </details>
+        </div>
       </aside>
     </div>
   </main>
