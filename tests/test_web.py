@@ -116,6 +116,40 @@ def test_js_modules_live_under_web_js() -> None:
     assert expected <= names, f"modules manquants dans web/js/: {sorted(expected - names)}"
 
 
+# Mots anglais d'UI à bannir des textes visibles (texte HTML, attributs
+# aria-label/title/placeholder/alt, littéraux de chaînes JS avec espace).
+ENGLISH_UI_WORDS = [
+    "loading", "game over", "new game", "undo", "checkmate", "stalemate",
+    "white", "black", "moves", "play", "sound", "error", "failed", "retry",
+    "cancel", "close", "import", "export", "copy", "save", "settings",
+    "options", "easy", "hard", "player", "computer", "clock", "history",
+    "board", "turn", "draw",
+]
+
+
+def test_no_english_text_in_the_ui() -> None:
+    def hits(text: str) -> list[str]:
+        return [
+            w for w in ENGLISH_UI_WORDS
+            if re.search(rf"\b{re.escape(w)}\b", text, re.IGNORECASE)
+        ]
+
+    # Textes visibles + attributs accessibles de index.html
+    visible = re.findall(r">([^<>]+)<", INDEX_HTML)
+    visible += re.findall(r'(?:aria-label|title|placeholder|alt)="([^"]*)"', INDEX_HTML)
+    bad_html = [(t.strip()[:40], hits(t)) for t in visible if t.strip() and hits(t)]
+    assert not bad_html, f"texte anglais dans index.html: {bad_html}"
+
+    # Littéraux de chaînes JS contenant un espace (messages utilisateur)
+    bad_js = []
+    for p in JS_FILES:
+        for m in re.finditer(r'"([^"\n]+)"|`([^`]+)`', p.read_text(encoding="utf-8")):
+            s = m.group(1) or m.group(2) or ""
+            if " " in s and hits(s):
+                bad_js.append((p.name, s[:60], hits(s)))
+    assert not bad_js, f"texte anglais dans les chaînes JS: {bad_js}"
+
+
 def test_piece_svg_set_is_complete() -> None:
     for color in "wb":
         for t in PIECE_TYPES:
