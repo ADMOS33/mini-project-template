@@ -29,6 +29,7 @@ All chess rules live in the Python engine — the CLI is only a thin wrapper, so
 | `chess load-pgn <file>` | load a game from a PGN file | `{"ok": true, "status": {...}}` |
 | `chess ai-move [--depth N]` | let the computer play (minimax + alpha-beta) | `move`, `san`, `score` (centipawns), `nodes`, `time_ms`, `depth`, `status` |
 | `chess history` | moves played so far | `moves` (UCI) + `details` (`[{"uci","san"}, …]`) |
+| `chess wait --color w\|b [--timeout S]` | block until it is this side's turn or the game ends (multi-agent sync) | `{"ok": true, "timeout": bool, "status": {...}}` |
 
 Moves can be given in **UCI** (`e2e4`, `e7e8q` for promotion) **or SAN**
 (`Nf3`, `exd5`, `O-O`). In JSON, `moves` stays the plain UCI list and
@@ -65,9 +66,12 @@ Loop: `status --json` → if `result != "ongoing"`, **stop** (see below) →
 `status --json` returns:
 
 - `result`: one of `ongoing`, `checkmate`, `stalemate`, `draw_threefold`,
-  `draw_fifty_move`, `draw_insufficient_material`
+  `draw_fifty_move`, `draw_insufficient_material`, `flag` (loss on time)
 - `winner`: `"w"`, `"b"` or `null`
 - `in_check`: whether the side to move is in check
+- `version`: monotonic counter bumped on **every** state change (move, undo,
+  new, load, ai-move). Poll `status --json` and compare it to detect moves
+  played by another client (web UI in spectator mode, another agent…).
 
 **Stop the loop as soon as `result != "ongoing"`** and report the result and
 winner (e.g. `checkmate` + `winner: "b"` → "checkmate, Black wins").
@@ -86,3 +90,41 @@ calculation.
 - Use a dedicated `--state` file per game so parallel games do not collide.
 - `chess pgn` gives you a PGN you can save or hand to `load-pgn` later.
 - A full worked example is in `example_game.pgn` next to this file.
+
+## Playing against the computer (or watching it play)
+
+```bash
+chess new --json
+chess moves --json                 # your legal moves (you are White)
+chess move e2e4 --json             # your move
+chess ai-move --depth 3 --json     # computer answers as Black
+# loop: status --json → moves --json → move <uci> --json → ai-move --json
+```
+
+Open `http://localhost:8000/` and pick **Spectateur** in the new-game modal:
+the browser follows the game **live** (it polls `status` every second and
+refreshes whenever `version` changes) without ever playing a move itself —
+a move you play here appears in the browser in under 2 s.
+
+## Playing against a human or another agent (two-sided sync with `wait`)
+
+The state file is shared, so two agents can play the same game — one per
+color — without ever playing the opponent's side:
+
+```bash
+# Agent playing White (in its own session):
+chess wait --color w --timeout 300 --json   # blocks until White to move / game over
+chess status --json                         # result != "ongoing"? stop
+chess moves --json                          # choose ONE legal move
+chess move <uci> --json                     # play it, then loop back to wait
+
+# Agent playing Black: same loop with --color b.
+```
+
+- `wait` re-reads the state file every 0.1 s, so it wakes up as soon as the
+  other side has moved. `--json` adds `"timeout": true` if the deadline hit
+  first (treat it as "not my turn yet / still playing", never as an error).
+- **Never** call `move` when `status.turn` is not your color, never use
+  `ai-move` or `undo` in a two-agent game.
+- End of game: when `status.result != "ongoing"`, stop looping and print
+  `chess pgn` to export the game.

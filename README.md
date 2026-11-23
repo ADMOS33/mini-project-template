@@ -164,6 +164,16 @@ fait qu'afficher ce que renvoie l'API, aucune règle d'échecs en JS :
 - **Sons optionnels** (Web Audio API) avec bouton muet, **horloge optionnelle**
   (5 min, 10 min, 3 min + 2 s, perte au temps) ; préférences persistées en
   `localStorage`. Boutons « Annuler le coup » et « Retourner l'échiquier ».
+- **Mise en page façon lichess** : cartes joueurs au-dessus/d-dessous du
+  plateau, panneau droit à onglets (Partie / Outils), modale « Nouvelle
+  partie » (2 joueurs, contre l'ordinateur, **spectateur**), mobile < 700 px
+  avec barre d'actions en bas.
+- **Synchro live** : le navigateur interroge `/api/status` chaque seconde et
+  se rafraîchit dès que le compteur `version` change — un coup joué via la
+  CLI (`chess move …`) apparaît dans le navigateur en moins de 2 s. En mode
+  **Spectateur**, le navigateur n'accepte aucun coup et ne lance jamais l'IA.
+  Côté agent : `chess wait --color w|b [--timeout S] --json` bloque jusqu'au
+  tour de cette couleur (ou la fin de partie) — voir `skills/chess-cli/SKILL.md`.
 
 ## Lancer en local
 
