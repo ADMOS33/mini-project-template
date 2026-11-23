@@ -90,6 +90,43 @@ TOOLS: list[dict] = [
         "description": "Export the current game as PGN.",
         "inputSchema": {"type": "object", "properties": {}, "additionalProperties": False},
     },
+    {
+        "name": "puzzle",
+        "description": "Load a mate-in-n puzzle into the shared state (V7). "
+        "The CLI does not return the solution; this tool does not either.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "level": {"type": "integer", "enum": [1, 2, 3], "default": 1,
+                          "description": "mate in n"},
+                "index": {"type": "integer", "description": "deterministic pick within the level"},
+                "seed": {"type": "integer", "description": "random pick with this seed"},
+            },
+            "additionalProperties": False,
+        },
+    },
+    {
+        "name": "solve",
+        "description": "Play one solver move in the current puzzle (V7). The first move must "
+        "be the solution; afterwards any move keeping a forced mate is accepted and the "
+        "computer plays the best defense. Illegal/rejected -> isError with legal moves.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {"move": {"type": "string", "description": "UCI or SAN"}},
+            "required": ["move"],
+            "additionalProperties": False,
+        },
+    },
+    {
+        "name": "analyze_game",
+        "description": "Game review (V9): per-ply evaluation, centipawn loss and label "
+        "(meilleur/excellent/bon/imprécision/erreur/gaffe/brillant), accuracy per player.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {"depth": _DEPTH_SCHEMA},
+            "additionalProperties": False,
+        },
+    },
 ]
 
 
@@ -240,5 +277,63 @@ def call_tool(name: str, arguments: dict) -> dict:
     if name == "get_pgn":
         game = _load()
         return _text({"pgn": export_pgn(game)})
+
+    if name == "puzzle":
+        from chess.ai.puzzles import get_puzzle, load_puzzle
+
+        level = arguments.get("level", 1)
+        if isinstance(level, bool) or not isinstance(level, int) or level not in (1, 2, 3):
+            raise ValueError(f"level must be 1, 2 or 3, got {level!r}")
+        try:
+            puzzle = get_puzzle(level, arguments.get("index"), arguments.get("seed"))
+        except ValueError as exc:
+            raise ValueError(str(exc)) from exc
+        game = Game.from_fen(puzzle["fen"])
+        game.version = next_version(STATE_FILE)
+        load_puzzle(game, puzzle)
+        game.save(STATE_FILE)
+        meta = game.meta["puzzle"]
+        return _text(
+            {
+                "ok": True,
+                "puzzle": {
+                    "level": meta["level"],
+                    "n": meta["n"],
+                    "theme": meta["theme"],
+                    "turn": game.status()["turn"],
+                    "fen": meta["fen"],
+                },
+                "status": game.status(),
+            }
+        )
+
+    if name == "solve":
+        from chess.ai.puzzles import solve_move
+
+        move_text = arguments.get("move")
+        if not isinstance(move_text, str) or not move_text.strip():
+            raise ValueError("solve expects a non-empty 'move' string")
+        game = _load()
+        if game.meta.get("puzzle") is None:
+            return _text({"error": "no puzzle loaded — call puzzle first"}, is_error=True)
+        try:
+            result = solve_move(game, move_text)
+        except ValueError as exc:
+            return _text(
+                {
+                    "error": str(exc),
+                    "legal_moves": sorted(m.to_uci() for m in game.legal_moves()),
+                },
+                is_error=True,
+            )
+        game.save(STATE_FILE)
+        return _text(result)
+
+    if name == "analyze_game":
+        from chess.ai.analysis import analyze_game
+
+        depth = _depth(arguments)
+        game = _load()
+        return _text(analyze_game(game, depth))
 
     raise ValueError(f"unknown tool: {name!r}")

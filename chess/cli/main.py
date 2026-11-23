@@ -89,6 +89,8 @@ def _build_parser() -> argparse.ArgumentParser:
     p_puz.add_argument("--seed", type=int, default=None, help="random pick with this seed")
     p_solve = add("solve", "play a move in the current puzzle (first move must be the solution)")
     p_solve.add_argument("move", help="move in UCI or SAN notation")
+    p_an = add("analyze", "game review: per-ply evaluation, loss and label (V9)")
+    p_an.add_argument("--depth", type=int, default=2, help="search depth for the review")
     return parser
 
 
@@ -231,6 +233,34 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
             f"Loaded PGN from {args.file} ({len(game.moves)} plies).\n{status['fen']}",
         )
 
+    if cmd == "puzzle":
+        from chess.ai.puzzles import get_puzzle, load_puzzle
+
+        try:
+            puzzle = get_puzzle(args.level, args.index, args.seed)
+        except ValueError as exc:
+            raise CliError(str(exc)) from exc
+        game = Game.from_fen(puzzle["fen"])
+        game.version = next_version(state_file)
+        load_puzzle(game, puzzle)
+        game.save(state_file)
+        meta = game.meta["puzzle"]
+        return (
+            {
+                "ok": True,
+                "puzzle": {
+                    "level": meta["level"],
+                    "n": meta["n"],
+                    "theme": meta["theme"],
+                    "turn": game.status()["turn"],
+                    "fen": meta["fen"],
+                },
+                "status": game.status(),
+            },
+            f"Puzzle loaded: mate in {meta['n']} ({meta['theme']}), "
+            f"{game.status()['turn']} to move.\n{meta['fen']}",
+        )
+
     game = _load_game(state_file)
     if cmd == "board":
         return (
@@ -330,33 +360,6 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
         else:
             text = f"wait: condition met for color {args.color}.\n{text}"
         return {"ok": True, "timeout": timed_out, "status": status}, text
-    if cmd == "puzzle":
-        from chess.ai.puzzles import get_puzzle, load_puzzle
-
-        try:
-            puzzle = get_puzzle(args.level, args.index, args.seed)
-        except ValueError as exc:
-            raise CliError(str(exc)) from exc
-        game = Game.from_fen(puzzle["fen"])
-        game.version = next_version(state_file)
-        load_puzzle(game, puzzle)
-        game.save(state_file)
-        meta = game.meta["puzzle"]
-        return (
-            {
-                "ok": True,
-                "puzzle": {
-                    "level": meta["level"],
-                    "n": meta["n"],
-                    "theme": meta["theme"],
-                    "turn": game.status()["turn"],
-                    "fen": meta["fen"],
-                },
-                "status": game.status(),
-            },
-            f"Puzzle loaded: mate in {meta['n']} ({meta['theme']}), "
-            f"{game.status()['turn']} to move.\n{meta['fen']}",
-        )
     if cmd == "solve":
         from chess.ai.puzzles import solve_move
 
@@ -375,6 +378,21 @@ def _dispatch(args: argparse.Namespace, state_file: Path) -> tuple[dict, str]:
             + f".\n{_status_text(result['status'])}"
         )
         return result, text
+    if cmd == "analyze":
+        from chess.ai.analysis import analyze_game
+
+        depth = max(1, min(args.depth, 4))
+        report = analyze_game(game, depth)
+        lines = [
+            f"{p['ply']:>3}. {p['san']:<8} loss={p['loss']:>4}cp  {p['label']}"
+            for p in report["plies"]
+        ]
+        text = "\n".join(lines) or "no moves yet"
+        text += (
+            f"\naccuracy: white {report['accuracy']['w']}% — "
+            f"black {report['accuracy']['b']}%"
+        )
+        return report, text
     raise CliError(f"unknown command: {cmd}")  # pragma: no cover
 
 

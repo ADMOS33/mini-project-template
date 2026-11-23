@@ -65,3 +65,9 @@ class SolveRequest(BaseModel):
     """Body of ``POST /api/solve``."""
 
     move: str = Field(..., examples=["d8h4", "Qh4#"], description="Move in UCI or SAN")
+
+
+class AnalyzeRequest(BaseModel):
+    """Body of ``POST /api/analyze`` (V9 game review)."""
+
+    depth: int = Field(2, ge=1, le=4, description="Search depth for the review")

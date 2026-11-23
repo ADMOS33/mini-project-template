@@ -27,6 +27,7 @@ from chess.ai.evaluation import evaluate
 from chess.ai.search import best_move
 from chess.api.schemas import (
     AiMoveRequest,
+    AnalyzeRequest,
     FlagRequest,
     LoadRequest,
     MoveRequest,
@@ -71,10 +72,13 @@ def _save(game: Game) -> None:
 
 @app.get("/api/status")
 def get_status() -> dict:
-    """Game status: side to move, check, result, FEN and last move (UCI)."""
+    """Game status: side to move, check, result, FEN, last move, opening (V9)."""
+    from chess.engine.openings import lookup_opening
+
     game = _load()
     status = game.status()
     status["last_move"] = game.moves[-1].to_uci() if game.moves else None
+    status["opening"] = lookup_opening([m.to_uci() for m in game.moves])
     return status
 
 
@@ -353,6 +357,15 @@ def post_solve(req: SolveRequest) -> dict:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     _save(game)
     return result
+
+
+@app.post("/api/analyze")
+def post_analyze(req: AnalyzeRequest) -> dict:
+    """Game review (V9): per-ply evaluation, centipawn loss and label."""
+    from chess.ai.analysis import analyze_game
+
+    game = _load()
+    return analyze_game(game, req.depth)
 
 
 class NoCacheStaticFiles(StaticFiles):

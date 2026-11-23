@@ -11,11 +11,12 @@ import json
 
 import pytest
 
-from chess.ai.mate import find_mates
+from chess.ai.mate import can_mate_in, find_mates
 from chess.ai.puzzles import PUZZLES, get_puzzle, load_puzzle, puzzles_by_level, solve_move
 from chess.cli.main import main
 from chess.engine.fen import board_from_fen
 from chess.engine.game import Game
+from chess.engine.movegen import legal_moves
 
 
 def run_cli(capsys, *argv: str):
@@ -39,6 +40,11 @@ def _assert_unique_mate(p: dict) -> None:
     assert [m.to_uci() for m in mates] == [p["solution"]], (
         f"puzzle {p['fen']!r}: expected only {p['solution']}, got {[m.to_uci() for m in mates]}"
     )
+    # the mate must be EXACTLY in n moves, not fewer
+    if p["level"] > 1:
+        assert not can_mate_in(board, p["level"] - 1), (
+            f"puzzle {p['fen']!r} is actually mate in less than {p['level']}"
+        )
 
 
 @pytest.mark.parametrize(
@@ -83,7 +89,7 @@ def test_solve_move_rejects_wrong_first_move() -> None:
     game = Game.from_fen(p["fen"])
     load_puzzle(game, p)
     board = board_from_fen(p["fen"])
-    wrong = next(m.to_uci() for m in board.legal_moves() if m.to_uci() != p["solution"])
+    wrong = next(m.to_uci() for m in legal_moves(board) if m.to_uci() != p["solution"])
     with pytest.raises(ValueError, match="first move must be the solution"):
         solve_move(game, wrong)
 

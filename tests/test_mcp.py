@@ -25,6 +25,9 @@ EXPECTED_TOOLS = {
     "ai_move",
     "analyze_position",
     "get_pgn",
+    "puzzle",
+    "solve",
+    "analyze_game",
 }
 
 
@@ -192,3 +195,19 @@ def test_ai_move_on_finished_game_is_an_error(mcp) -> None:
     assert err and "game is over" in payload["error"]
     status, _ = mcp.payload("get_status")
     assert status["result"] == "checkmate" and status["winner"] == "b"
+
+
+def test_puzzle_solve_and_analyze_game_tools(mcp) -> None:
+    from chess.ai.puzzles import get_puzzle
+
+    mcp.send("initialize", {"protocolVersion": "2024-11-05"})
+    payload, err = mcp.payload("puzzle", {"level": 1, "index": 0})
+    assert not err and payload["puzzle"]["n"] == 1
+    assert "solution" not in payload["puzzle"]  # MCP does not leak the solution
+    sol = get_puzzle(1, 0)["solution"]
+    payload, err = mcp.payload("solve", {"move": "a1a1"})
+    assert err and "legal_moves" in payload
+    payload, err = mcp.payload("solve", {"move": sol})
+    assert not err and payload["accepted"] and payload["puzzle"]["solved"]
+    payload, err = mcp.payload("analyze_game", {"depth": 1})
+    assert not err and "plies" in payload and "accuracy" in payload

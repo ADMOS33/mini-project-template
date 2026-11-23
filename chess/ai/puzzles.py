@@ -22,8 +22,41 @@ from chess.engine.move import Move
 from chess.engine.movegen import apply_move
 from chess.engine.san import move_to_san, san_to_move
 
-# Filled below (generated + engine-verified, see tests/test_puzzles.py).
-PUZZLES: list[dict] = []
+# Engine-verified (tests/test_puzzles.py): solution is the UNIQUE mate in n.
+PUZZLES: list[dict] = [
+    {"fen": '6Q1/8/8/8/1N5k/5K2/8/8 w - - 0 1', "solution": 'g8g4', "level": 1, "theme": 'Mat à la dame'},
+    {"fen": 'R7/7k/8/6K1/8/4R3/8/8 w - - 0 1', "solution": 'e3e7', "level": 1, "theme": 'Mat à la tour'},
+    {"fen": '8/8/8/8/8/8/2K3Q1/k7 w - - 0 1', "solution": 'g2a8', "level": 1, "theme": 'Mat à la dame'},
+    {"fen": '8/8/8/K1k5/3r4/8/8/7r b - - 0 1', "solution": 'h1a1', "level": 1, "theme": 'Mat à la tour'},
+    {"fen": '1K6/8/2k1r3/8/8/8/8/r7 b - - 0 1', "solution": 'e6e8', "level": 1, "theme": 'Mat à la tour'},
+    {"fen": '7K/4b3/7k/8/5r2/8/8/8 b - - 0 1', "solution": 'f4f8', "level": 1, "theme": 'Mat à la tour'},
+    {"fen": '8/8/2q5/8/8/b4k2/8/4K3 b - - 0 1', "solution": 'c6c1', "level": 1, "theme": 'Mat à la dame'},
+    {"fen": '6K1/q7/7k/8/8/7b/8/8 b - - 0 1', "solution": 'a7g7', "level": 1, "theme": 'Mat à la dame'},
+    {"fen": '8/8/7K/5k2/8/5r2/1b6/8 b - - 0 1', "solution": 'f3h3', "level": 1, "theme": 'Mat à la tour'},
+    {"fen": '8/8/8/1q6/8/5b2/8/2k1K3 b - - 0 1', "solution": 'b5e2', "level": 1, "theme": 'Mat à la dame'},
+    {"fen": '8/Q7/8/8/8/5P1k/5K2/8 w - - 0 1', "solution": 'a7h7', "level": 1, "theme": 'Mat à la dame'},
+    {"fen": '5k2/R7/6K1/8/8/8/4R3/8 w - - 0 1', "solution": 'a7a8', "level": 1, "theme": 'Mat à la tour'},
+    {"fen": '8/8/8/6Q1/8/8/k1K5/7R w - - 0 1', "solution": 'g5a5', "level": 2, "theme": 'Mat à la dame'},
+    {"fen": '8/7Q/8/8/8/3K4/8/3k4 w - - 0 1', "solution": 'h7h1', "level": 2, "theme": 'Mat à la dame'},
+    {"fen": '7k/8/6K1/R5R1/8/8/8/8 w - - 0 1', "solution": 'a5a8', "level": 2, "theme": 'Mat à la tour'},
+    {"fen": '8/5k1K/8/8/8/8/8/2q5 b - - 0 1', "solution": 'c1h1', "level": 2, "theme": 'Mat à la dame'},
+    {"fen": '8/7r/8/8/8/q7/8/1K1k4 b - - 0 1', "solution": 'h7b7', "level": 2, "theme": 'Mat à la tour'},
+    {"fen": '7K/8/7k/4Q3/8/8/8/3R4 w - - 0 1', "solution": 'd1d6', "level": 2, "theme": 'Mat à la tour'},
+    {"fen": '2K1k3/2Q5/7R/8/8/8/8/8 w - - 0 1', "solution": 'h6h8', "level": 2, "theme": 'Mat à la tour'},
+    {"fen": '8/8/8/Q7/8/8/5K2/7k w - - 0 1', "solution": 'a5h5', "level": 2, "theme": 'Mat à la dame'},
+    {"fen": '8/8/8/6R1/4Q3/2K5/k7/8 w - - 0 1', "solution": 'g5a5', "level": 2, "theme": 'Mat à la tour'},
+    {"fen": '8/6QR/8/8/8/k1K5/8/8 w - - 0 1', "solution": 'g7a7', "level": 2, "theme": 'Mat à la dame'},
+    {"fen": '1n6/7K/5k2/6q1/8/8/8/8 b - - 0 1', "solution": 'g5g7', "level": 2, "theme": 'Mat à la dame'},
+    {"fen": 'k1K5/8/3r4/8/8/7r/8/8 b - - 0 1', "solution": 'h3c3', "level": 2, "theme": 'Mat à la tour'},
+    {"fen": '7r/8/8/8/8/6r1/8/3k1K2 b - - 0 1', "solution": 'h8f8', "level": 3, "theme": 'Mat à la tour'},
+    {"fen": '8/8/2K5/8/k7/1R6/3R4/8 w - - 0 1', "solution": 'd2b2', "level": 3, "theme": 'Mat à la tour'},
+    {"fen": '1k6/3K3B/8/7B/8/8/5Q2/8 w - - 0 1', "solution": 'f2b6', "level": 3, "theme": 'Mat à la dame'},
+    {"fen": '8/5k2/b6K/8/8/1q6/8/1b6 b - - 0 1', "solution": 'f7f6', "level": 3, "theme": 'Mat aidé'},
+    {"fen": '3R4/8/8/5R2/8/3K4/8/1k6 w - - 0 1', "solution": 'd8b8', "level": 3, "theme": 'Mat à la tour'},
+    {"fen": '2K5/8/1q2k3/8/8/8/8/8 b - - 0 1', "solution": 'b6a7', "level": 3, "theme": 'Mat à la dame'},
+    {"fen": '8/8/8/8/k7/8/2K5/6Q1 w - - 0 1', "solution": 'g1b6', "level": 3, "theme": 'Mat à la dame'},
+    {"fen": '2K1k3/8/8/2Q5/8/5B2/1B6/8 w - - 0 1', "solution": 'f3h5', "level": 3, "theme": 'Mat du fou'},
+]
 
 
 def puzzles_by_level(level: int) -> list[dict]:
