@@ -63,14 +63,14 @@ interface web vanilla, serveur MCP, IA minimax), mené en équipe de 3
 
 ## Chiffres
 
-- **Commits** : ~140 (Conventional Commits, tests verts avant chaque commit).
-- **Tests** : ~220 tests pytest, tous au vert, dont les perft de référence.
+- **Commits** : 141 (Conventional Commits, tests verts avant chaque commit).
+- **Tests** : 256 tests pytest, tous au vert, dont les perft de référence.
 - **Couverture moteur** : perft initial profondeur 4 = 197 281 nœuds, Kiwipete
   profondeur 3 = 97 862 nœuds, tous exacts.
 - **Sessions Vibe** : voir `events/` (3 sessions, ~2 600 événements journalisés,
   ~12 Mo — conservés et committés comme demandé).
-- **Base de problèmes** : 12 mats en 1, 12 mats en 2, mats en 3 (slow) — chaque
-  entrée vérifiée par le moteur (solution unique, mat exact en n).
+- **Base de problèmes** : 30 problèmes — 12 mats en 1, 12 mats en 2, 6 mats en 3
+  (tests `slow`) — chaque entrée vérifiée par le moteur (solution unique, mat exact en n).
 - **Ouvertures** : ~56 lignes ECO, rejouées légalement dans les tests.
 
 ## Expérience agent contre agent
