@@ -53,13 +53,15 @@ def negamax(board: Board, depth: int, alpha: int, beta: int) -> tuple[int, int]:
     stalemate scores 0.
     """
     nodes = 1
-    if depth == 0:
-        return evaluate(board), nodes
     moves = _ordered_moves(board)
     if not moves:
+        # Terminal nodes are exact at any depth (including depth 0): a mate on
+        # the horizon must score MATE_SCORE, not a static evaluation.
         if is_square_attacked(board, board.king_square(board.turn), board.turn.opposite):
             return -MATE_SCORE - depth, nodes  # checkmated
         return 0, nodes  # stalemate
+    if depth == 0:
+        return evaluate(board), nodes
     best = -_INF
     for move in moves:
         child_score, child_nodes = negamax(apply_move(board, move), depth - 1, -beta, -alpha)

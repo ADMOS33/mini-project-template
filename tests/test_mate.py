@@ -5,7 +5,7 @@ from __future__ import annotations
 from chess.ai.mate import best_defense, can_mate_in, find_mates, mate_distance
 from chess.engine.board import Board
 from chess.engine.fen import board_from_fen
-from chess.engine.movegen import legal_moves
+from chess.engine.movegen import apply_move, legal_moves
 from chess.engine.pgn import import_pgn
 
 OPERA_PGN = """[Event "Opera"]
@@ -52,3 +52,22 @@ def test_best_defense_returns_a_legal_move() -> None:
     board = board_from_fen("rnbqkbnr/pppp1ppp/8/4p3/6P1/5P2/PPPPP2P/RNBQKBNR b KQkq - 0 2")
     defense = best_defense(board, max_n=1)
     assert defense.to_uci() in {m.to_uci() for m in legal_moves(board)}
+
+
+def test_mate_on_the_horizon_is_detected_at_depth_zero() -> None:
+    """Regression: negamax used to return the static eval at depth 0 before
+    checking terminal nodes, so a mate delivered exactly on the last ply of
+    the horizon was scored as a normal evaluation instead of MATE_SCORE."""
+    from chess.ai.evaluation import MATE_SCORE
+    from chess.ai.search import _INF, negamax
+
+    # White mates in 2 (not in 1): 1.Kg6 (only ...Kg8) 2.Qd8#.
+    board = board_from_fen("7k/8/5K2/8/8/3Q4/8/8 w - - 0 1")
+    assert not can_mate_in(board, 1)
+    assert can_mate_in(board, 2)
+    assert "f6g6" in {m.to_uci() for m in find_mates(board, 2)}
+    # After 1.Kg6, a depth-2 search from the child must see the forced mate
+    # (...Kg8 2.Qd8# lands exactly on the depth-0 horizon).
+    child = apply_move(board, next(m for m in legal_moves(board) if m.to_uci() == "f6g6"))
+    score, _ = negamax(child, 2, -_INF, _INF)  # black to move, forced ...Kg8, then Qd8#
+    assert score <= -MATE_SCORE
