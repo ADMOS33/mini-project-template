@@ -17,7 +17,9 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / "web"
 INDEX_HTML = (WEB / "index.html").read_text(encoding="utf-8")
-JS_SOURCE = "\n".join(p.read_text(encoding="utf-8") for p in sorted(WEB.glob("*.js")))
+# Tous les modules JS, y compris web/js/ (modules ES natifs).
+JS_FILES = sorted(WEB.rglob("*.js"))
+JS_SOURCE = "\n".join(p.read_text(encoding="utf-8") for p in JS_FILES)
 CSS_SOURCE = (WEB / "style.css").read_text(encoding="utf-8")
 
 # Ids construits dynamiquement dans board.js, ex.:
@@ -79,19 +81,37 @@ def test_all_js_ids_exist_in_index_html() -> None:
 
 
 def test_referenced_local_files_exist() -> None:
-    refs: set[str] = set()
+    refs: set[Path] = set()
+    # <script src>, <link href> dans index.html (relatifs à web/)
     for attr in re.findall(r'(?:src|href)="([^"]+)"', INDEX_HTML):
         if attr.startswith(("http://", "https://", "#", "mailto:")):
             continue
-        refs.add("index.html" if attr == "/" else attr.lstrip("/"))
-    refs |= set(re.findall(r'["\'`]([\w./-]+\.(?:svg|css|js|png|html|ico))["\'`]', JS_SOURCE))
-    refs |= set(re.findall(r'url\(\s*["\']?([\w./-]+\.(?:svg|png))["\']?\s*\)', CSS_SOURCE))
+        refs.add(WEB / ("index.html" if attr == "/" else attr.lstrip("/")))
+    # littéraux dans les modules JS : "./x.js" est relatif au module,
+    # "pieces/…" est relatif à la page (racine web/)
+    for p in JS_FILES:
+        src = p.read_text(encoding="utf-8")
+        for m in re.findall(r'["\'`]([\w./-]+\.(?:svg|css|js|png|html|ico))["\'`]', src):
+            refs.add(p.parent / m if m.startswith(("./", "../")) else WEB / m)
+    # url(...) dans le CSS (relatif à web/)
+    for m in re.findall(r'url\(\s*["\']?([\w./-]+\.(?:svg|png))["\']?\s*\)', CSS_SOURCE):
+        refs.add(WEB / m)
     # chemins de pièces construits dynamiquement : pieces/{w|b}{P,N,B,R,Q,K}.svg
     for color in "wb":
         for t in PIECE_TYPES:
-            refs.add(f"pieces/{color}{t}.svg")
-    missing = sorted(r for r in refs if not (WEB / r).is_file())
+            refs.add(WEB / "pieces" / f"{color}{t}.svg")
+    missing = sorted(str(r) for r in refs if not r.is_file())
     assert not missing, f"fichiers référencés mais absents de web/: {missing}"
+
+
+def test_js_modules_live_under_web_js() -> None:
+    """Le découpage en modules ES doit vivre dans web/js/."""
+    names = {p.name for p in WEB.rglob("*.js")}
+    expected = {
+        "api.js", "state.js", "toasts.js", "board-view.js", "panels.js",
+        "clock.js", "sound.js", "interactions.js", "main.js",
+    }
+    assert expected <= names, f"modules manquants dans web/js/: {sorted(expected - names)}"
 
 
 def test_piece_svg_set_is_complete() -> None:
