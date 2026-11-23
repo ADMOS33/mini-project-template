@@ -155,7 +155,11 @@ def test_web_files_served_with_no_cache(tmp_path) -> None:
                 time.sleep(0.1)
         else:
             raise RuntimeError("uvicorn did not start")
-        for path in ("/", "/index.html", "/style.css", "/board.js", "/api.js", "/pieces/wK.svg"):
+        for path in (
+            "/", "/index.html", "/style.css",
+            "/js/main.js", "/js/api.js", "/js/state.js", "/js/board-view.js",
+            "/pieces/wK.svg",
+        ):
             with urllib.request.urlopen(base + path, timeout=5) as resp:
                 cc = resp.headers.get("Cache-Control", "")
                 assert "no-cache" in cc, f"{path}: Cache-Control={cc!r} (no-cache attendu)"
