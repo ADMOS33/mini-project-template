@@ -1,0 +1,32 @@
+{
+  "seq": 909,
+  "received_at": "2026-11-23T19:20:52.771320+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "LE5kfvc1U",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"156 tests\\|0 xfail\" AGENTS.md | head -3"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"156 tests\\|0 xfail\" AGENTS.md | head -3",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "106:| Tests | **156 tests** verts, **0 xfail** (+ **3 tests `slow`** : perft profonds + intégration live uvicorn en sous-processus via urllib) ; perft 100 % au vert : initiale p1–p4 (20/400/8902/197281), Kiwipete p1–p3 (48/2039/97862), pos3 p1–p3 (14/191/2812), pos4 p1–p3 (6/264/9467) ; `test_rules.py`, `test_san.py`, `test_pgn.py` (Opéra de Morphy), `test_ai.py` (mat en 1, dame, pièce gratuite, depth 3 < 5 s), `test_api.py` (routes en direct + 400 + live) | — |",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 59
+  }
+}

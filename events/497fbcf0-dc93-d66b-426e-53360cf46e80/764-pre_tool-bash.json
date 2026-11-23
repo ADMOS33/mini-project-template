@@ -1,0 +1,18 @@
+{
+  "seq": 764,
+  "received_at": "2026-11-23T19:04:00.935612+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "eeeMoqPth",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && tail -30 tests/test_game.py && grep -n \"def test\\|run_cli\\|main(\" tests/test_cli.py | head -20 && grep -n \"def test\\|get_status\\|def call\" tests/test_api.py | head -25"
+    }
+  }
+}

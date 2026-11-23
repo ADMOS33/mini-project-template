@@ -1,0 +1,19 @@
+{
+  "seq": 902,
+  "received_at": "2026-11-23T19:20:50.138092+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "90xw0CEs8",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/AGENTS.md",
+      "old_string": "| API `chess/api/` | `status`, `board`, `moves`, `fen`, `eval` (évaluation statique), `new`, `move`, `load`, `undo`, `history` (SAN), `pgn`/`load-pgn` (via `engine/pgn.py`), `ai-move` (move/san/score/nodes/time_ms), **`_load()` : état corrompu → erreur 500 claire** — aucune logique d'échecs dans l'API ✅ | — |",
+      "new_string": "| API `chess/api/` | `status` (avec **`version`** ✅), `board`, `moves`, `fen`, `eval` (évaluation statique), `new`, `move`, `load`, `undo`, `history` (SAN), `pgn`/`load-pgn` (via `engine/pgn.py`), `ai-move` (move/san/score/nodes/time_ms), **`_load()` : état corrompu → erreur 500 claire** — aucune logique d'échecs dans l'API ✅ | — |"
+    }
+  }
+}

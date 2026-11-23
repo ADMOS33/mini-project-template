@@ -1,0 +1,34 @@
+{
+  "seq": 884,
+  "received_at": "2026-11-23T19:19:53.815077+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "HZVY67Q8f",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/skills/chess-cli/SKILL.md",
+      "new_string": [
+        "| `chess ai-move [--depth N]` | let the computer play (minimax + alpha-beta) | `move`, `san`, `score` (centipawns), `nodes`, `time_ms`, `depth`, `status` |",
+        "| `chess history` | moves played so far | `moves` (UCI) + `details` (`[{\"uci\",\"san\"}, …]`) |",
+        "| `chess wait --color w\\|b [--timeout S]` | block until it is this side's turn or the game ends (multi-agent sync) | `{\"ok\": true, \"timeout\": bool, \"status\": {...}}` |"
+      ],
+      "old_string": [
+        "| `chess ai-move [--depth N]` | let the computer play (minimax + alpha-beta) | `move`, `san`, `score` (centipawns), `nodes`, `time_ms`, `depth`, `status` |",
+        "| `chess history` | moves played so far | `moves` (UCI) + `details` (`[{\"uci\",\"san\"}, …]`) |"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/skills/chess-cli/SKILL.md",
+      "lines_changed": 3,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 118
+  }
+}

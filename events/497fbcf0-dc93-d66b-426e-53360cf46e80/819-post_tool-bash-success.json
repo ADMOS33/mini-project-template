@@ -1,0 +1,34 @@
+{
+  "seq": 819,
+  "received_at": "2026-11-23T19:08:55.725665+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "VCICJKewJ",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"status\\|static\\|async\" web/js/api.js | head -20 && grep -n \"state.lastVersion\\|state.refreshing\\|state.spectator\" web/js/*.js"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"status\\|static\\|async\" web/js/api.js | head -20 && grep -n \"state.lastVersion\\|state.refreshing\\|state.spectator\" web/js/*.js",
+      "returncode": 1,
+      "stderr": "",
+      "stdout": [
+        "6:  async _req(path, options) {",
+        "10:      throw new Error(typeof data.detail === \"string\" ? data.detail : res.statusText);",
+        "15:  status: () => ChessAPI._req(\"/api/status\"),",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 117
+  }
+}

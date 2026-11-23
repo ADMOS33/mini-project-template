@@ -1,0 +1,53 @@
+{
+  "seq": 888,
+  "received_at": "2026-11-23T19:20:05.052169+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "p9kV6qQcB",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && set -o pipefail && .venv/bin/python -m pytest -q 2>&1 | tail -2 && grep -n \"Interface web\" -A 12 README.md | head -20"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && set -o pipefail && .venv/bin/python -m pytest -q 2>&1 | tail -2 && grep -n \"Interface web\" -A 12 README.md | head -20",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "...............................                                          [100%]",
+        "175 passed in 6.55s",
+        "21:| **Agent (Vibe)** | Interface web — `web/` (développée par l'agent, relue par l'équipe) |",
+        "22-",
+        "23-## Fonctionnalités",
+        "24-",
+        "25-> Légende : ✅ implémenté et testé · 🚧 prévu mais pas encore fait.",
+        "26-",
+        "27-- **Règles du moteur** (`chess/engine/`) :",
+        "28-  - ✅ déplacements de toutes les pièces, coups légaux (le roi ne peut jamais",
+        "29-    rester en échec), échec, échec et mat, pat, promotion avec choix de la",
+        "30-    pièce, règle des 50 coups ;",
+        "31-  - ✅ petit et grand roque, deux camps (droit présent, tour en place, cases",
+        "32-    intermédiaires vides, roi ni en échec ni en transit/arrivée sur case",
+        "33-    attaquée — la tour bouge aussi, UCI `e1g1`/`e1c1`) ;",
+        "--",
+        "57:- **Interface web** ✅ avec échiquier jouable en HTML/CSS/JS vanilla (voir",
+        "58-  ci-dessous).",
+        "59-- **IA classique** ✅ : évaluation statique en centipions **du point de vue du",
+        "60-  camp au trait** (matériel + tables pièce-case, `MATE_SCORE = ±100000` ajusté",
+        "61-  par la profondeur) + **negamax alpha-beta** avec tri des coups (captures",
+        "62-  MVV-LVA, promotions) renvoyant `(move, score, nodes)` ; dispo en CLI",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 7031
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "seq": 898,
+  "received_at": "2026-11-23T19:20:41.739030+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "qkPbgt6SS",
+    "tool_input": {
+      "timeout": 120,
+      "command": [
+        "cd /Users/rafiq/3A/projet-AI/mini-project-template && python3 - <<'EOF'",
+        "import re",
+        "p = \"AGENTS.md\"",
+        "s = open(p).read()",
+        "s = s.replace(\"| V5 | Synchro live + agent (coups de l'adversaire en temps réel) | 🚧 |\",",
+        "              \"| V5 | Synchro live + agent (coups de l'adversaire en temps réel) | ✅ |\")",
+        "open(p, \"w\").write(s)",
+        "print(\"ok\")",
+        "EOF",
+        "grep -n \"V5\" AGENTS.md | head -3"
+      ]
+    }
+  }
+}

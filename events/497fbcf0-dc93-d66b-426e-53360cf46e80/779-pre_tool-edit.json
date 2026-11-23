@@ -1,0 +1,43 @@
+{
+  "seq": 779,
+  "received_at": "2026-11-23T19:07:31.114362+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "e7PvwYyAd",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/game.py",
+      "old_string": [
+        "    @classmethod",
+        "    def load(cls, path: str | Path) -> Game:",
+        "        \"\"\"Load a game previously saved with :meth:`save`.\"\"\"",
+        "        return cls.from_dict(json.loads(Path(path).read_text(encoding=\"utf-8\")))"
+      ],
+      "new_string": [
+        "    @classmethod",
+        "    def load(cls, path: str | Path) -> Game:",
+        "        \"\"\"Load a game previously saved with :meth:`save`.\"\"\"",
+        "        return cls.from_dict(json.loads(Path(path).read_text(encoding=\"utf-8\")))",
+        "",
+        "",
+        "def next_version(state_file: str | Path) -> int:",
+        "    \"\"\"Version number for a brand-new game persisted at ``state_file``.",
+        "",
+        "    Reads the previous state file (if any) so the counter keeps increasing",
+        "    across ``new`` / ``load`` commands — live watchers can rely on any change",
+        "    of the value, including resets of the board itself. Returns 1 when no",
+        "    previous state exists.",
+        "    \"\"\"",
+        "    try:",
+        "        return Game.load(state_file).version + 1",
+        "    except Exception:",
+        "        return 1"
+      ]
+    }
+  }
+}

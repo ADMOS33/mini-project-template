@@ -1,0 +1,27 @@
+{
+  "seq": 905,
+  "received_at": "2026-11-23T19:20:50.494493+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "WgJJWaD6Z",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/AGENTS.md",
+      "new_string": "| CLI `chess/cli/` | `new`, `board`, `moves`, `move` (**UCI ou SAN** ✅), `status`, `undo`, `fen`, `load` (erreur « invalid FEN » propre, rc 1), `history`, `pgn`, `load-pgn <fichier>`, **`ai-move [--depth N]`** ✅ (JSON : move, san, score, nodes, time_ms), **`wait --color w|b [--timeout S]`** ✅ (bloque jusqu'au tour de la couleur ou fin de partie, JSON : `timeout` + `status`), `--json` ; `moves`/`history` affichent **UCI + SAN** (JSON : `moves` + `details`) ; **`status` expose `version`** (compteur incrémenté à chaque mutation, persistant) ✅ | — (CLI complet) |",
+      "old_string": "| CLI `chess/cli/` | `new`, `board`, `moves`, `move` (**UCI ou SAN** ✅), `status`, `undo`, `fen`, `load` (erreur « invalid FEN » propre, rc 1), `history`, `pgn`, `load-pgn <fichier>`, **`ai-move [--depth N]`** ✅ (JSON : move, san, score, nodes, time_ms), `--json` ; `moves`/`history` affichent **UCI + SAN** (JSON : `moves` + `details`) ✅ | — (CLI complet) |"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/AGENTS.md",
+      "lines_changed": 1,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 145
+  }
+}

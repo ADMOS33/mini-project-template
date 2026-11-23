@@ -1,0 +1,24 @@
+{
+  "seq": 753,
+  "received_at": "2026-11-23T19:02:32.987148+00:00",
+  "hook_event_name": "pre_agent",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_agent",
+    "agent_name": "default",
+    "turn_id": "turn-f0183ad7ac32c287010a55b267dc99e4",
+    "prompt": [
+      "V5 — The agent plays and the browser follows live (the strongest demo)",
+      "Lis AGENTS.md. Lot V5 : un agent joue via la CLI et le navigateur suit en direct. Tests d'abord, un commit par point.",
+      "1. Ajoute un compteur `version` à l'état persisté, incrémenté à chaque modification (coup, undo, new, load, ai-move), exposé dans status (CLI --json et API).",
+      "2. Web : interroge /api/status toutes les secondes ; si `version` change, rafraîchis tout. Un coup joué en CLI apparaît dans le navigateur en moins de 2 s.",
+      "3. Mode « Spectateur » dans la modale Nouvelle partie : le navigateur n'accepte aucun coup et ne déclenche jamais l'IA.",
+      "4. CLI : `chess wait --color w|b [--timeout S] --json` attend que ce soit au tour de cette couleur ou que la partie soit finie, puis renvoie le status. Tests avec un timeout court.",
+      "5. Mets à jour skills/chess-cli/SKILL.md : jouer contre l'ordinateur, et contre un humain ou un autre agent avec `wait`.",
+      "Fin : donne-moi la séquence exacte de la démo « Vibe joue contre l'ordinateur pendant que je regarde le navigateur »."
+    ]
+  }
+}

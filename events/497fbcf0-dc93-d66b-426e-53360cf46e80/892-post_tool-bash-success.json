@@ -1,0 +1,56 @@
+{
+  "seq": 892,
+  "received_at": "2026-11-23T19:20:16.247641+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "O4BvjHfrO",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && sed -n '161,185p' README.md"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && sed -n '161,185p' README.md",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "  « Rejouer » / « Revoir la partie ») ; **toasts** pour les erreurs.",
+        "- **FEN / PGN** : section repliable (charger, copier) ; **barre d'évaluation",
+        "  animée** alimentée par `/api/eval`.",
+        "- **Sons optionnels** (Web Audio API) avec bouton muet, **horloge optionnelle**",
+        "  (5 min, 10 min, 3 min + 2 s, perte au temps) ; préférences persistées en",
+        "  `localStorage`. Boutons « Annuler le coup » et « Retourner l'échiquier ».",
+        "",
+        "## Lancer en local",
+        "",
+        "```bash",
+        "# 1. Environnement virtuel + dépendances (fastapi, uvicorn, pytest)",
+        "python3 -m venv .venv",
+        ".venv/bin/pip install -e '.[dev]'",
+        "",
+        "# 2. Tous les tests (pytest)",
+        ".venv/bin/python -m pytest",
+        "",
+        "# 3. Serveur API + interface web, en arrière-plan ou terminal dédié",
+        ".venv/bin/python -m uvicorn chess.api.server:app --reload --host 127.0.0.1 --port 8000",
+        "#   → interface web :  http://localhost:8000/",
+        "#   → docs API Swagger : http://localhost:8000/docs",
+        "#   → API JSON :        http://localhost:8000/api/status",
+        "",
+        "# 4. CLI (console script installé par pip ; sinon `python3 -m chess ...`)",
+        ".venv/bin/chess new                 # démarre une partie (persistée dans .chess_game.json)",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 61
+  }
+}

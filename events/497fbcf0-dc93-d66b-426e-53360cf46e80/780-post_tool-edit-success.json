@@ -1,0 +1,48 @@
+{
+  "seq": 780,
+  "received_at": "2026-11-23T19:07:31.489479+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "07G716fUU",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/game.py",
+      "new_string": [
+        "        # External end of game (not a chess rule, e.g. clock fall):",
+        "        # {\"result\": \"flag\", \"winner\": \"b\"} — blocks further moves.",
+        "        self.external_result: dict | None = None",
+        "        # Monotonic counter bumped on every state mutation (move, undo,",
+        "        # external result, new/load via :func:`next_version`). Live watchers",
+        "        # (web polling) detect any change by comparing this value.",
+        "        self.version = 0",
+        "",
+        "    def set_external_result(self, result: str, winner: str | None = None) -> None:",
+        "        \"\"\"Record an externally-decided end of game (e.g. flag fall).\"\"\"",
+        "        self.external_result = {\"result\": result, \"winner\": winner}",
+        "        self.version += 1"
+      ],
+      "old_string": [
+        "        # External end of game (not a chess rule, e.g. clock fall):",
+        "        # {\"result\": \"flag\", \"winner\": \"b\"} — blocks further moves.",
+        "        self.external_result: dict | None = None",
+        "",
+        "    def set_external_result(self, result: str, winner: str | None = None) -> None:",
+        "        \"\"\"Record an externally-decided end of game (e.g. flag fall).\"\"\"",
+        "        self.external_result = {\"result\": result, \"winner\": winner}"
+      ]
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "file": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/engine/game.py",
+      "lines_changed": 12,
+      "warnings": []
+    },
+    "tool_error": null,
+    "duration_ms": 207
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "seq": 852,
+  "received_at": "2026-11-23T19:11:50.591162+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "cbUT1AvZY",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/web/js/main.js",
+      "old_string": [
+        "for (const id of [\"mode-human\", \"mode-computer\"]) {",
+        "  document.getElementById(id).addEventListener(\"click\", () => {",
+        "    state.vs = id === \"mode-computer\";",
+        "    lsSet(\"chess.vs\", state.vs ? \"1\" : \"0\");",
+        "    document.getElementById(\"newgame-computer-opts\").classList.toggle(\"hidden\", !state.vs);",
+        "    document.getElementById(\"newgame-autoflip\").classList.toggle(\"hidden\", state.vs);",
+        "    renderVsControls();",
+        "  });",
+        "}"
+      ],
+      "new_string": [
+        "for (const id of [\"mode-human\", \"mode-computer\", \"mode-spectator\"]) {",
+        "  document.getElementById(id).addEventListener(\"click\", () => {",
+        "    state.spectator = id === \"mode-spectator\";",
+        "    state.vs = id === \"mode-computer\";",
+        "    lsSet(\"chess.spectator\", state.spectator ? \"1\" : \"0\");",
+        "    lsSet(\"chess.vs\", state.vs ? \"1\" : \"0\");",
+        "    document.getElementById(\"newgame-computer-opts\").classList.toggle(\"hidden\", !state.vs);",
+        "    document.getElementById(\"newgame-autoflip\").classList.toggle(\"hidden\", state.vs || state.spectator);",
+        "    renderVsControls();",
+        "  });",
+        "}"
+      ]
+    }
+  }
+}

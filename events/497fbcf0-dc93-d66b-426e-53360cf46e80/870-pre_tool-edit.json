@@ -1,0 +1,55 @@
+{
+  "seq": 870,
+  "received_at": "2026-11-23T19:17:43.401062+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "3IaPEUkGA",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/chess/cli/main.py",
+      "old_string": [
+        "    if cmd == \"history\":",
+        "        details = _history_details(game)",
+        "        text = (",
+        "            \"\\n\".join(f\"{i + 1}. {d['uci']} ({d['san']})\" for i, d in enumerate(details))",
+        "            or \"no moves yet\"",
+        "        )",
+        "        return {\"moves\": [d[\"uci\"] for d in details], \"details\": details}, text"
+      ],
+      "new_string": [
+        "    if cmd == \"history\":",
+        "        details = _history_details(game)",
+        "        text = (",
+        "            \"\\n\".join(f\"{i + 1}. {d['uci']} ({d['san']})\" for i, d in enumerate(details))",
+        "            or \"no moves yet\"",
+        "        )",
+        "        return {\"moves\": [d[\"uci\"] for d in details], \"details\": details}, text",
+        "    if cmd == \"wait\":",
+        "        # Re-read the state file on every poll: another process (agent, web",
+        "        # client) may have played a move meanwhile.",
+        "        deadline = time.monotonic() + max(0.0, args.timeout)",
+        "        status = game.status()",
+        "        while (",
+        "            status[\"result\"] == \"ongoing\"",
+        "            and status[\"turn\"] != args.color",
+        "            and time.monotonic() < deadline",
+        "        ):",
+        "            time.sleep(0.1)",
+        "            game = _load_game(state_file)",
+        "            status = game.status()",
+        "        timed_out = status[\"result\"] == \"ongoing\" and status[\"turn\"] != args.color",
+        "        text = _status_text(status)",
+        "        if timed_out:",
+        "            text = f\"wait: timed out after {args.timeout:g}s.\\n{text}\"",
+        "        else:",
+        "            text = f\"wait: condition met for color {args.color}.\\n{text}\"",
+        "        return {\"ok\": True, \"timeout\": timed_out, \"status\": status}, text"
+      ]
+    }
+  }
+}

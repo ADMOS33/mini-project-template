@@ -1,0 +1,44 @@
+{
+  "seq": 788,
+  "received_at": "2026-11-23T19:07:42.046955+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "kqnW4zXkR",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"post_load_pgn\" -A 12 chess/api/server.py | head -18"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"post_load_pgn\" -A 12 chess/api/server.py | head -18",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "183:def post_load_pgn(req: PgnRequest) -> dict:",
+        "184-    \"\"\"Load a game from a PGN string. 400 naming the move number if invalid.\"\"\"",
+        "185-    try:",
+        "186-        game = import_pgn(req.pgn)",
+        "187-    except ValueError as exc:",
+        "188-        raise HTTPException(status_code=400, detail=str(exc)) from exc",
+        "189-    _save(game)",
+        "190-    return {",
+        "191-        \"ok\": True,",
+        "192-        \"moves\": [m.to_uci() for m in game.moves],",
+        "193-        \"status\": game.status(),",
+        "194-    }",
+        "195-",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 65
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "seq": 756,
+  "received_at": "2026-11-23T19:02:38.475009+00:00",
+  "hook_event_name": "post_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "post_tool",
+    "tool_name": "file_system.bash",
+    "tool_call_id": "Ki8oj76Ns",
+    "tool_input": {
+      "timeout": 120,
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"def \\|version\" chess/engine/game.py | head -40"
+    },
+    "tool_status": "success",
+    "tool_output": {
+      "command": "cd /Users/rafiq/3A/projet-AI/mini-project-template && grep -n \"def \\|version\" chess/engine/game.py | head -40",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": [
+        "21:    def __init__(self, board: Board | None = None) -> None:",
+        "30:    def set_external_result(self, result: str, winner: str | None = None) -> None:",
+        "35:    def from_fen(cls, fen: str) -> Game:",
+        "39:    def legal_moves(self) -> list[Move]:",
+        "43:    def play_uci(self, uci: str) -> Move:",
+        "60:    def undo(self) -> Move | None:",
+        "69:    def position_fens(self) -> list[str]:",
+        "73:    def in_check(self) -> bool:",
+        "81:    def status(self) -> dict:",
+        "110:    def to_dict(self) -> dict:",
+        "120:    def from_dict(cls, data: dict) -> Game:",
+        "144:    def save(self, path: str | Path) -> None:",
+        "149:    def load(cls, path: str | Path) -> Game:",
+        ""
+      ],
+      "timed_out": false,
+      "was_truncated": false
+    },
+    "tool_error": null,
+    "duration_ms": 94
+  }
+}

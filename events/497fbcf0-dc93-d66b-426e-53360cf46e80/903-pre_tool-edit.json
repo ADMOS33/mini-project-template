@@ -1,0 +1,19 @@
+{
+  "seq": 903,
+  "received_at": "2026-11-23T19:20:50.166005+00:00",
+  "hook_event_name": "pre_tool",
+  "event": {
+    "session_id": "497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "transcript_path": "/Users/rafiq/.vibe/logs/session/unified/497fbcf0-dc93-d66b-426e-53360cf46e80",
+    "cwd": "/Users/rafiq/3A/projet-AI/mini-project-template",
+    "parent_session_id": null,
+    "hook_event_name": "pre_tool",
+    "tool_name": "file_system.edit",
+    "tool_call_id": "cGqQ0HfJN",
+    "tool_input": {
+      "file_path": "/Users/rafiq/3A/projet-AI/mini-project-template/AGENTS.md",
+      "old_string": "perte au temps = défaite via `POST /api/flag`**), Annuler/Retourner — le JS ne fait qu'afficher l'API ✅ | — |",
+      "new_string": "perte au temps = défaite via `POST /api/flag`**), Annuler/Retourner, **synchro live** (poll `/api/status` 1 s, refresh si `version` change — coup CLI visible < 2 s), **mode Spectateur** (aucun coup, aucune IA, ne reset jamais la partie) — le JS ne fait qu'afficher l'API ✅ | — |"
+    }
+  }
+}
