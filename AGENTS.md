@@ -121,13 +121,13 @@ Feuille de route — statut à cocher (✅) au fil des sessions.
 | V4 | Mise en page façon lichess | ✅ |
 | V5 | Synchro live + agent (coups de l'adversaire en temps réel) | ✅ |
 | V6 | Serveur MCP | ✅ |
-| V7 | Problèmes (puzzles) | 🚧 |
-| V8 | Actions de partie + niveaux de difficulté | 🚧 |
-| V9 | Analyse de partie + ouvertures | 🚧 |
-| V10 | Interactions plateau (drag & drop, indices avancés) | 🚧 |
-| V11 | Personnalisation (thème, son, pièces) + archive des parties | 🚧 |
-| V12 | Chess960 (optionnel) | 🚧 |
-| V13 | Finitions + `report.md` | 🚧 |
+| V7 | Problèmes (puzzles) | ✅ |
+| V8 | Actions de partie + niveaux de difficulté | ✅ |
+| V9 | Analyse de partie + ouvertures | ✅ |
+| V10 | Interactions plateau (flèches, prémouvements, aperçu, raccourcis, animations) | ✅ |
+| V11 | Personnalisation (thèmes, son, pièces) + archive + éditeur de position | ✅ |
+| V12 | Chess960 (960 positions SPN, roque X-FEN) | ✅ |
+| V13 | Finitions + `report.md` | 🚧 (en cours) |
 
 ## Architecture cible
 
